@@ -46,8 +46,8 @@ export const theme = createTheme({
     borderRadius: 4,
   },
   typography: {
-    fontFamily: ["Gibson", "sans-serif"].join(","),
-    fontSize: 14,
+    // fontFamily: ["Gibson", "sans-serif"].join(","),
+    fontSize: 18,
     h6: {
       fontSize: "29px",
       lineHeight: "29px",
@@ -67,6 +67,11 @@ export const theme = createTheme({
     caption: {
       fontSize: "12px",
       lineHeight: "15px",
+    },
+    subtitle1: {
+      fontSize: "18px",
+      lineHeight: "18px",
+      color: "#808495",
     },
   },
   breakpoints: {
@@ -141,6 +146,7 @@ export const theme = createTheme({
         h6: "h2",
         body1: "p",
         body2: "p",
+        subtitle1: "p",
       },
     },
   },

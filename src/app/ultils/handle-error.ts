@@ -22,8 +22,6 @@ const handleErrorUtil = (response: AxiosResponse<any>) => {
     default:
       return response;
   }
-
-  return response;
 };
 
 export default handleErrorUtil;

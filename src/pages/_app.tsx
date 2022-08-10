@@ -2,7 +2,7 @@ import { ThemeProvider } from "@material-ui/core";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../store";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import { theme } from "../Theme";
 
 function MyApp({ Component, pageProps }: AppProps) {

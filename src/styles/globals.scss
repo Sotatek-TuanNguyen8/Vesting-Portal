@@ -1,0 +1,36 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+// use color: var(--text-gray-color);
+:root {
+  --button-blue: #3fbce9;
+  --base-font: Poppins, Segoe UI, Roboto, sans-serif;
+  --background-color: #ffffff;
+  --color-gradient: linear-gradient(142.72deg, #f3e8ff 5.19%, #7afbfd 101.68%);
+  --text-blue: #0a208f;
+  --text-blue-light: ##051c42;
+  --text-gray-color: #676767;
+}
