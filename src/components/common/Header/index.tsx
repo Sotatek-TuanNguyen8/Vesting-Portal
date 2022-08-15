@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 import UserNav from "./UserNav";
 type Props = {};
 
-export default function Header({}: Props) {
+ const Header = ({}: Props) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -31,7 +31,7 @@ export default function Header({}: Props) {
 
   return (
     <div className={styles.header}>
-      <Logo width={200} height={69}  />
+      <Logo width={200} height={69} />
       {isMobile ? (
         <MenuMobile onClick={openNavMobile} />
       ) : (
@@ -63,4 +63,5 @@ export default function Header({}: Props) {
       {/* <Button>Login</Button> */}
     </div>
   );
-}
+};
+export default Header;

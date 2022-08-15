@@ -1,14 +1,15 @@
 import React from "react";
-import DefaultLayout from "../common/DefaultLayout";
+import { InvestorLayout } from "@/components";
 import styles from "./styles.module.scss";
+import { LogoLend } from "@/svgs";
 type Props = {};
 
 export default function LendPage({}: Props) {
   return (
-    <DefaultLayout>
+    <InvestorLayout>
       <div className={styles.container}>
         <div className={styles.title}>
-          <img src="/images/logo_lend.svg" alt="logo" />
+          <LogoLend />
           <p>LEND</p>
         </div>
         <p className={styles.coming}>COMING SOON</p>
@@ -31,6 +32,6 @@ export default function LendPage({}: Props) {
           </p>
         </div>
       </div>
-    </DefaultLayout>
+    </InvestorLayout>
   );
 }

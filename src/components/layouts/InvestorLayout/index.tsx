@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Header from "../../common/Header";
+import {Header} from "@/components";
 import styles from "./styles.module.scss";
 
 type Props = {
