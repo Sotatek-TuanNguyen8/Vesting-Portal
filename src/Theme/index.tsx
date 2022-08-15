@@ -55,14 +55,15 @@ export const theme = createTheme({
     h5: {
       fontSize: "28px",
       lineHeight: "28px",
+      fontWeight: 500,
     },
     body1: {
       fontSize: "18px",
-      lineHeight: "23.4px",
+      lineHeight: "23px",
     },
     body2: {
       fontSize: "22px",
-      lineHeight: "28.6px",
+      lineHeight: "28px",
     },
     caption: {
       fontSize: "12px",

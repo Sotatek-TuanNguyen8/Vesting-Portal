@@ -1,0 +1,101 @@
+@import "../../../styles/mixins";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    :global {
+        .MuiButton-containedSizeSmall {
+            height: 62px;
+            border-radius: 100px;
+            @include mobile {
+                height: 50px;
+            }
+        }
+    }
+    .inputForm {
+        margin-bottom: 32px;
+        width: 440px;
+
+        @include mobile {
+            width: 100%;
+        }
+
+        :global {
+            .MuiFilledInput-root {
+                width: 100%;
+                background-color: transparent;
+                padding: 0px;
+            }
+            .MuiFilledInput-input {
+                padding: 8px 0px;
+            }
+        }
+
+        .inputError {
+            margin: 0;
+            color: red;
+        }
+    }
+    .boxAction {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 440px;
+        @include mobile {
+            width: 100%;
+        }
+        .remember {
+            display: flex;
+            align-items: center;
+            p {
+                margin-left: 20px;
+                font-size: 16px;
+                line-height: 20px;
+                color: #4d4f5c;
+                @include mobile {
+                    margin-left: 10px;
+                    font-size: 14px;
+                    line-height: 18px;
+                }
+            }
+        }
+        .forgot {
+            font-size: 16px;
+            line-height: 21px;
+            color: #949494;
+            cursor: pointer;
+            @include mobile {
+                font-size: 14px;
+                line-height: 18px;
+            }
+        }
+        .checkbox {
+            width: 26px;
+            height: 26px;
+            margin: 0px;
+            @include mobile {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        .checkbox:checked {
+            background-color: #3fbce9;
+        }
+    }
+
+    .btnLogin {
+        margin-top: 18px !important;
+        margin-bottom: 50px !important;
+        @include mobile {
+            margin-top: 193px !important;
+            margin-bottom: 32px !important;
+        }
+    }
+
+    .textSignUp {
+        color: var(--main-blue);
+        cursor: pointer;
+    }
+}

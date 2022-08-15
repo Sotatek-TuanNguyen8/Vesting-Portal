@@ -1,0 +1,50 @@
+@import "../../../styles/mixins";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 250px;
+
+    @include tablet {
+        margin-top: 110px;
+        :global {
+            .MuiTypography-h5 {
+                text-align: center;
+            }
+        }
+    }
+
+    @include mobile {
+        margin-top: 108px;
+        :global {
+            .MuiTypography-h5 {
+                width: 175px;
+                text-align: center;
+            }
+        }
+    }
+
+    :global {
+        .MuiButtonBase-root {
+            font-weight: 600;
+            width: 275px;
+            border-radius: 9999px;
+            padding: 16px 0px;
+        }
+    }
+
+    .content {
+        max-width: 393px;
+        text-align: center;
+        font-size: 18px;
+        margin: 36px 0px 36px 0px;
+        @include mobile {
+            margin: 16px 0px 40px 0px;
+        }
+    }
+
+    .btnResend {
+        text-transform: uppercase !important;
+    }
+}

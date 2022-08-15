@@ -1,21 +1,57 @@
 import { Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import clsx from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { ReactNode } from "react";
+import styles from "./styles.module.scss";
 
-type Props = {};
+type Props = {
+  isTab?: boolean;
+  children?: ReactNode;
+};
 
-export default function Auth({}: Props) {
-  const [tab, setTab] = useState("signUp");
+export default function AuthLayout({ isTab = true, children }: Props) {
+  const router = useRouter();
+  const { pathname } = router;
+
   return (
-    <div>
-      <div>
-        <div className="logo">
+    <div className={styles.container}>
+      <div className={styles.boxContainer}>
+        <div className={styles.logo}>
+          <img src="/images/logo.svg" alt="logo" />
           <Typography variant="body1">
             LIQUIDITY AGGREGATION, TRANSFORMED
           </Typography>
         </div>
-        <div className="tab">
-          <div className="signUp">SIGN UP</div>
-          <div className="login">LOGIN</div>
+        <div className={styles.content}>
+          {isTab && (
+            <div className={styles.box}>
+              <div className={styles.tab}>
+                <Link href="/sign-up">
+                  <div
+                    className={clsx(
+                      styles.btnTab,
+                      pathname === "/sign-up" && styles.activeTab
+                    )}
+                  >
+                    SIGN UP
+                  </div>
+                </Link>
+
+                <Link href="/login">
+                  <div
+                    className={clsx(
+                      styles.btnTab,
+                      pathname === "/login" && styles.activeTab
+                    )}
+                  >
+                    LOGIN
+                  </div>
+                </Link>
+              </div>
+            </div>
+          )}
+          {children}
         </div>
       </div>
     </div>

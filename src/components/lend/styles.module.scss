@@ -1,0 +1,105 @@
+@import "../../styles/mixins";
+.container {
+    padding: 28px 46px 85px 46px;
+    border-radius: 12px;
+    background-color: var(--background-color);
+    opacity: 0.8;
+    color: #051c42;
+    filter: drop-shadow(0px 10px 6px rgba(0, 0, 0, 0.2));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1409px;
+    margin: 0px auto;
+    margin-top: 156px;
+    @include media-breakpoint-below(1620px) {
+        padding: 26px;
+        width: 100%;
+        margin-top: 156px;
+    }
+    @include tablet {
+        margin-top: 56px;
+    }
+    @include mobile {
+        padding: 26px 38px;
+    }
+    .title {
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        @include tablet {
+            img {
+                width: 170px;
+            }
+        }
+        @include mobile {
+            img {
+                width: 140px;
+            }
+        }
+        p {
+            margin: 0px;
+            font-weight: 500;
+            font-size: 89px;
+            line-height: 89px;
+            margin-left: 54px;
+            @include tablet {
+                font-size: 47px;
+                line-height: 47px;
+                margin-left: 20px;
+            }
+            @include mobile {
+                font-size: 39px;
+                line-height: 39px;
+                margin-left: 12px;
+            }
+        }
+    }
+
+    .coming {
+        font-weight: 500;
+        font-size: 42px;
+        line-height: 42px;
+        margin-top: 24px;
+        margin-bottom: 0px;
+        @include tablet {
+            font-size: 31px;
+            line-height: 31px;
+        }
+        @include mobile {
+            font-size: 23px;
+            line-height: 23px;
+        }
+    }
+
+    .desc {
+        margin-top: 30px;
+        font-size: 24px;
+        line-height: 24px;
+        text-align: center;
+        @include tablet {
+            font-weight: 400;
+            font-size: 20px;
+            text-align: left;
+            margin-top: 30px;
+        }
+        @include mobile {
+            font-weight: 300;
+            font-size: 18px;
+            text-align: left;
+            margin-top: 25px;
+        }
+        p {
+            margin-top: 30px;
+            font-weight: 300;
+        }
+        p:first-child {
+            margin-top: 0px;
+        }
+
+        span {
+            font-weight: 500;
+            color: #051c42;
+        }
+    }
+}

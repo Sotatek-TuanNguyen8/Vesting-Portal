@@ -1,7 +1,71 @@
-.inputForm {
-  margin-bottom: 32px;
-}
-.inputError {
-  margin: 0;
-  color: "red";
+@import "../../../styles/mixins";
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  :global {
+    .MuiButton-containedSizeSmall {
+      height: 62px;
+      border-radius: 100px;
+      @include mobile {
+        height: 50px;
+      }
+    }
+  }
+  .inputForm {
+    margin-bottom: 32px;
+    width: 440px;
+    @include mobile {
+      width: 100%;
+    }
+    .inputError {
+      margin: 0;
+      color: red;
+    }
+    .passwordLength {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 10px;
+      .weak,
+      .medium,
+      .strong {
+        width: 100%;
+        .line {
+          height: 6px;
+        }
+        span {
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+      .weak {
+        .line {
+          background: #e10a0a;
+        }
+      }
+      .medium {
+        .line {
+          background: #e18b0a;
+        }
+      }
+      .strong {
+        text-align: right;
+        .line {
+          background: #0c9434;
+        }
+      }
+    }
+  }
+
+  .btnSingUp {
+    margin-top: 18px !important;
+    margin-bottom: 50px !important;
+  }
+
+  .textSignUp {
+    color: var(--main-blue);
+    cursor: pointer;
+  }
 }

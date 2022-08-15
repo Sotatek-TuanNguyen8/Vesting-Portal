@@ -1,6 +1,6 @@
 @import "./variables";
 
-// use @import "../styles/mixins";
+// use @import "../styles/_mixins";
 // @include tablet {
 //     flex: none !important;
 // }
@@ -24,7 +24,7 @@
 }
 
 @mixin mobile {
-    @media (max-width: 375px) {
+    @media (max-width: 415px) {
         @content;
     }
 }

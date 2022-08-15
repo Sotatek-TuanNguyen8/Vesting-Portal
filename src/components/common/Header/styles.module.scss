@@ -1,0 +1,53 @@
+@import "../../../styles/mixins";
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 45px 0px;
+    :global {
+        .MuiButtonBase-root {
+            padding: 22px 37px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 18px;
+            background-color: var(--main-blue);
+            border-radius: 52px;
+            width: 227px;
+        }
+    }
+    > div:last-child {
+        display: none;
+    }
+    @include mobile {
+        padding: 20px 0px;
+    }
+    .logo {
+        @include mobile {
+            width: 127px;
+        }
+    }
+    .nav {
+        display: flex;
+        align-items: center;
+        width: 543px;
+        justify-content: space-between;
+        padding: 20px 33px 12px;
+        background-color: var(--background-color);
+        font-size: 18px;
+        line-height: 23px;
+        color: #051c42;
+        border-radius: 22px;
+
+        .item {
+            padding-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .active {
+            border-bottom: 2px solid var(--main-blue);
+            font-weight: 600;
+            color: #051c42;
+        }
+    }
+}

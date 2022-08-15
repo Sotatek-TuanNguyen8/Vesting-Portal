@@ -26,11 +26,16 @@ button:focus {
 
 // use color: var(--text-gray-color);
 :root {
-  --button-blue: #3fbce9;
+  --main-blue: #3fbce9;
   --base-font: Poppins, Segoe UI, Roboto, sans-serif;
   --background-color: #ffffff;
   --color-gradient: linear-gradient(142.72deg, #f3e8ff 5.19%, #7afbfd 101.68%);
   --text-blue: #0a208f;
-  --text-blue-light: ##051c42;
+  --text-blue-light: #051c42;
   --text-gray-color: #676767;
+  --border-blue-color: #051c42;
+}
+
+.MuiFormControl-root {
+  width: 100%;
 }

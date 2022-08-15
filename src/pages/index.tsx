@@ -1,11 +1,11 @@
-import { Button } from "@material-ui/core";
 import type { NextPage } from "next";
-import SignUp from "../components/Auth/sign-up";
+import { useEffect } from "react";
+import DefaultLayout from "../components/common/DefaultLayout";
 
 const Home: NextPage = () => {
   return (
     <>
-      <SignUp />
+      <DefaultLayout />
     </>
   );
 };
