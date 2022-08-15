@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import styles from "./styles.module.scss";
-
+import { Logo } from "@/svgs";
 type Props = {
   isTab?: boolean;
   children?: ReactNode;
@@ -18,7 +18,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
     <div className={styles.container}>
       <div className={styles.boxContainer}>
         <div className={styles.logo}>
-          <img src="/images/logo.svg" alt="logo" />
+          <Logo />
           <Typography variant="body1">
             LIQUIDITY AGGREGATION, TRANSFORMED
           </Typography>
@@ -31,7 +31,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
                   <div
                     className={clsx(
                       styles.btnTab,
-                      pathname === "/sign-up" && styles.activeTab
+                      pathname === "/sign-up" && styles.activeTab,
                     )}
                   >
                     SIGN UP
@@ -42,7 +42,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
                   <div
                     className={clsx(
                       styles.btnTab,
-                      pathname === "/login" && styles.activeTab
+                      pathname === "/login" && styles.activeTab,
                     )}
                   >
                     LOGIN

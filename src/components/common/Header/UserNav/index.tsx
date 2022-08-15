@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import styles from "./styles.module.scss";
-
+import { ArrowDown, Profile, Setting, Disconnect, Logout } from "@/svgs";
 type Props = {};
 
 export default function UserNav({}: Props) {
@@ -24,17 +24,13 @@ export default function UserNav({}: Props) {
 
   return (
     <div className={styles.container}>
-      <img className={styles.avatar} />
+      {/* <img className={styles.avatar} /> */}
       <div onClick={handleClick} className={styles.dropMenu}>
         <div className={styles.info}>
           <p>Matias</p>
           <span>FWRF134...526</span>
         </div>
-        <img
-          className={styles.iconArrow}
-          src="/images/icons/arrow_down.svg"
-          alt=""
-        />
+        <ArrowDown />
       </div>
       <Menu
         id="customized-menu"
@@ -57,25 +53,25 @@ export default function UserNav({}: Props) {
       >
         <MenuItem>
           <ListItemIcon>
-            <img src="images/icons/profile.svg" alt="profile" />
+            <Profile />
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <img src="images/icons/setting.svg" alt="setting" />
+            <Setting />
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <img src="images/icons/disconnect.svg" alt="disconnect" />
+            <Disconnect />
           </ListItemIcon>
           <ListItemText primary="Disconnect wallet" />
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <img src="images/icons/log_out.svg" alt="log_out" />
+            <Logout />
           </ListItemIcon>
           <ListItemText primary="Log out" />
         </MenuItem>

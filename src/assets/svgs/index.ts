@@ -1,0 +1,9 @@
+export { default as Close } from "./close.svg";
+export { default as Disconnect } from "./disconnect.svg";
+export { default as Logout } from "./log_out.svg";
+export { default as ArrowDown } from "./arrow_down.svg";
+export { default as LogoLend } from "./logo_lend.svg";
+export { default as Logo } from "./logo.svg";
+export { default as MenuMobile } from "./menu_mobile.svg";
+export { default as Profile } from "./profile.svg";
+export { default as Setting } from "./setting.svg";

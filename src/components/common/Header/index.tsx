@@ -1,4 +1,5 @@
 import { Button, useMediaQuery } from "@material-ui/core";
+import { Logo, MenuMobile } from "@/svgs";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -30,14 +31,9 @@ export default function Header({}: Props) {
 
   return (
     <div className={styles.header}>
-      <img src="/images/logo.svg" alt="logo" className={styles.logo} />
+      <Logo width={200} height={69}  />
       {isMobile ? (
-        <img
-          src="/images/icons/menu_mobile.svg"
-          alt="icon_menu"
-          onClick={openNavMobile}
-          style={{ cursor: "pointer" }}
-        />
+        <MenuMobile onClick={openNavMobile} />
       ) : (
         <>
           <div className={styles.nav}>

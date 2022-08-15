@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import { useEffect } from "react";
-import DefaultLayout from "../components/common/DefaultLayout";
+import { InvestorLayout} from "@/components"
 
 const Home: NextPage = () => {
   return (
     <>
-      <DefaultLayout />
+      <InvestorLayout />
     </>
   );
 };
