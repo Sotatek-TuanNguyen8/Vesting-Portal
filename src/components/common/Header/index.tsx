@@ -1,12 +1,13 @@
 import { Button, useMediaQuery } from "@material-ui/core";
-import { Logo, MenuMobile } from "@/svgs";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import NavMobile from "./NavMobile";
 import styles from "./styles.module.scss";
 import UserNav from "./UserNav";
+import NavMobile from "./NavMobile";
+import { Logo, MenuMobile } from "@/assets/svgs";
+import useMetaMask from "@/utils/hooks/useMetaMask";
 type Props = {};
 
 export const Header = ({}: Props) => {
@@ -60,7 +61,7 @@ export const Header = ({}: Props) => {
       {navMobile && isMobile && (
         <NavMobile open={navMobile} handleClose={closeNavMobile} />
       )}
-      {/* <Button>Login</Button> */}
+      <Button onClick={connect}>Connect Wallet</Button>
     </div>
   );
 };

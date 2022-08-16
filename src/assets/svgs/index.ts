@@ -7,3 +7,6 @@ export { default as Logo } from "./logo.svg";
 export { default as MenuMobile } from "./menu_mobile.svg";
 export { default as Profile } from "./profile.svg";
 export { default as Setting } from "./setting.svg";
+export { default as Visibility } from "./visibility.svg";
+export { default as VisibilityOff } from "./visibility_off.svg";
+export { default as ToolTipIcon } from "./tool_tip.svg";

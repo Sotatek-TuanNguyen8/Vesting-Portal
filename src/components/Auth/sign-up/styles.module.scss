@@ -18,9 +18,32 @@
     @include mobile {
       width: 100%;
     }
+    :global {
+      .MuiFilledInput-root {
+        width: 100%;
+        background-color: transparent;
+        padding: 0px;
+      }
+      .MuiFilledInput-input {
+        padding: 8px 0px;
+      }
+      .MuiInputBase-input {
+        padding: 3px 0px;
+      }
+      .MuiInputLabel-shrink {
+        transform: translate(0, 1.5px) scale(0.75) !important;
+      }
+      .MuiInputLabel-formControl {
+        transform: translate(0, 0) scale(1);
+      }
+    }
     .inputError {
       margin: 0;
       color: red;
+      font-weight: 250;
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 7px;
     }
     .passwordLength {
       width: 100%;
@@ -29,8 +52,9 @@
       gap: 30px;
       margin-top: 10px;
       .weak,
-      .medium,
-      .strong {
+      .normal,
+      .strong,
+      .default {
         width: 100%;
         .line {
           height: 6px;
@@ -40,12 +64,17 @@
           line-height: 18px;
         }
       }
+      .default {
+        .line {
+          background: #bbbbbb;
+        }
+      }
       .weak {
         .line {
           background: #e10a0a;
         }
       }
-      .medium {
+      .normal {
         .line {
           background: #e18b0a;
         }

@@ -1,20 +1,16 @@
+import { Visibility, VisibilityOff } from "@/assets/svgs";
 import {
   Button,
-  Checkbox,
-  FilledInput,
   InputAdornment,
-  OutlinedInput,
   TextField,
   Typography,
 } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AuthLayout from "..";
 import styles from "./styles.module.scss";
-import IconButton from "@mui/material/IconButton";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-
 type Props = {};
 
 interface LoginForm {
@@ -42,16 +38,17 @@ export default function LoginPage({}: Props) {
       <form
         onSubmit={handleSubmit((data) => {
           console.log(data);
+          // document.cookie = `email=${data.email}; path=/`;
+          // document.cookie = `pw=${data.password}; path=/`;
         })}
         className={styles.form}
       >
         <div className={styles.inputForm}>
-          <Typography variant="subtitle1">Email</Typography>
           <Controller
             control={control}
             name="email"
             rules={{
-              required: "This field cannot be empty.",
+              required: "This field is required",
             }}
             render={({
               field: { value, onChange, ref },
@@ -65,6 +62,7 @@ export default function LoginPage({}: Props) {
                     inputRef={ref}
                     value={value}
                     error={!!error?.message}
+                    label="Email"
                   />
                   {error && error.message && (
                     <p className={styles.inputError}>{error.message}</p>
@@ -75,12 +73,11 @@ export default function LoginPage({}: Props) {
           />
         </div>
         <div className={styles.inputForm}>
-          <Typography variant="subtitle1">Password</Typography>
           <Controller
             control={control}
             name="password"
             rules={{
-              required: "This field cannot be empty.",
+              required: "This field is required",
             }}
             render={({
               field: { value, onChange, ref },
@@ -88,25 +85,25 @@ export default function LoginPage({}: Props) {
             }) => {
               return (
                 <>
-                  <FilledInput
-                    id="filled-adornment-password"
+                  <TextField
+                    id="standard-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    onChange={onChange}
                     value={value}
-                    inputRef={ref}
+                    onChange={onChange}
+                    label="Password"
                     error={!!error?.message}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={() => setShowPassword((prev) => !prev)}
-                          // onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle confirm password visibility"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   {error && error.message && (
                     <p className={styles.inputError}>{error.message}</p>

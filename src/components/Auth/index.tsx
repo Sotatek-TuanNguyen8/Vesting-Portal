@@ -31,7 +31,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
                   <div
                     className={clsx(
                       styles.btnTab,
-                      pathname === "/sign-up" && styles.activeTab,
+                      pathname === "/sign-up" && styles.activeTab
                     )}
                   >
                     SIGN UP
@@ -42,7 +42,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
                   <div
                     className={clsx(
                       styles.btnTab,
-                      pathname === "/login" && styles.activeTab,
+                      pathname === "/login" && styles.activeTab
                     )}
                   >
                     LOGIN
