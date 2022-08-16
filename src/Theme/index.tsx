@@ -131,6 +131,16 @@ export const theme = createTheme({
         width: 227,
       },
     },
+    MuiTooltip: {
+      tooltip: {
+        backgroundColor: "#7AFBFD",
+        color: "#0A208F",
+        padding: 12,
+        fontSize: 14,
+        lineHeight: "14px",
+        fontWeight: 250,
+      },
+    },
   },
   props: {
     MuiButtonBase: {

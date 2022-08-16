@@ -30,11 +30,24 @@
             .MuiFilledInput-input {
                 padding: 8px 0px;
             }
+            .MuiInputBase-input {
+                padding: 3px 0px;
+            }
+            .MuiInputLabel-shrink {
+                transform: translate(0, 1.5px) scale(0.75) !important;
+            }
+            .MuiInputLabel-formControl {
+                transform: translate(0, 0) scale(1);
+            }
         }
 
         .inputError {
             margin: 0;
             color: red;
+            font-weight: 250;
+            font-size: 14px;
+            line-height: 14px;
+            padding-top: 7px;
         }
     }
     .boxAction {
