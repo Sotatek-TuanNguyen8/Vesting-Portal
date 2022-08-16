@@ -18,6 +18,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@/svgs": ["src/assets/svgs/index.ts"],
+      "@/styles":["src/styles"],
       // "@/img": ["src/assets/images/img/index.ts"],
       "@/components": ["src/components/index.ts"]
     }

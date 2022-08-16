@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 import UserNav from "./UserNav";
 type Props = {};
 
- const Header = ({}: Props) => {
+export const Header = ({}: Props) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -64,4 +64,3 @@ type Props = {};
     </div>
   );
 };
-export default Header;

@@ -1,2 +1,3 @@
-export {default as InvestorLayout} from "./layouts/InvestorLayout";
-export {default as Header} from "./common/Header";
+export * from "./layouts/InvestorLayout";
+export * from "./common/Header";
+export * from "./common/ComingSoon";
