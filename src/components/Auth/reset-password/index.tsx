@@ -43,14 +43,14 @@ export default function ResetPasswordPage({}: Props) {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const emailParams = params.get("email");
-    const tokenParams = params.get("token");
-    if (!emailParams || !tokenParams) {
-      navigate("/login");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const emailParams = params.get("email");
+  //   const tokenParams = params.get("token");
+  //   if (!emailParams || !tokenParams) {
+  //     navigate("/sign-in");
+  //   }
+  // }, [navigate]);
 
   useEffect(() => {
     setStylePassWord(validatePassWord(watchPassword));

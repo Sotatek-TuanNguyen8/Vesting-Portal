@@ -1,7 +1,6 @@
 import {
   confirmEmailBody,
   forgotPWBody,
-  getInfo,
   loginBody,
   resendEmailBody,
   resetPWBody,
@@ -65,7 +64,11 @@ export const updateWalletAuth = async (body: updateWallet) => {
   return data;
 };
 
-export const getInfoUser = async (body: getInfo) => {
-  const { data } = await Request.post(`${serverEndpoint}/users/wallet`, body);
+export const getInfoUser = async (access_token: string) => {
+  const { data } = await Request.get(
+    `${serverEndpoint}/users/me`,
+    {},
+    access_token
+  );
   return data;
 };

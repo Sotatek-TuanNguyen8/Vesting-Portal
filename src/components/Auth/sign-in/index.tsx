@@ -81,24 +81,28 @@ export default function SignInPage({}: Props) {
             })
           );
         }
-        setLocalStorage("access_token", res?.data.accessToken);
-        setLocalStorage("refresh_token", res?.data.refreshToken);
+        setLocalStorage("access_token", res?.data?.accessToken);
+        setLocalStorage("refresh_token", res?.data?.refreshToken);
         dispatch(
           setUser({
-            id: res?.data.user.id,
-            fullName: res?.data.user.full_name,
-            email: res?.data.user.email,
-            verifyAt: res?.data.user.send_verify_at,
-            isVerify: res?.data.user.is_verified,
-            metamaskAdress: res?.data.user.wallet ?? "",
+            id: res?.data?.user?.id,
+            fullName: res?.data?.user?.full_name,
+            email: res?.data?.user?.email,
+            verifyAt: res?.data?.user?.send_verify_at,
+            isVerify: res?.data?.user?.is_verified,
+            metamaskAddress: res?.data?.user?.wallet ?? "",
+            role: res?.data?.user?.role,
           })
         );
 
-        if (res?.data.user.is_verified) {
+        if (res?.data?.user?.is_verified !== false) {
           navigate("/connect-wallet");
         } else {
           dispatch(
-            loginResendSuccess({ email: res?.data.user.email, type: "sign-in" })
+            loginResendSuccess({
+              email: res?.data?.user?.email,
+              type: "sign-in",
+            })
           );
           navigate("/resend-email");
         }

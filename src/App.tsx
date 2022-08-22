@@ -18,7 +18,6 @@ const App = () => {
           return el === pathname;
         }) !== -1
       ) {
-        console.log("13123123");
       }
     });
     windowObj?.ethereum?.on("networkChanged", (chainId: string) => {});

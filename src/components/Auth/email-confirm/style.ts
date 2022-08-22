@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme: Theme) => {
       },
       "& .MuiButtonBase-root": {
         fontWeight: 600,
-        width: 275,
+        width: 161,
         borderRadius: 9999,
         padding: "16px 0px",
+        height: 62,
       },
       "& .MuiButton-label ": {
         fontWeight: 600,
@@ -45,10 +46,6 @@ const useStyles = makeStyles((theme: Theme) => {
       [mobile]: {
         margin: "16px 0px 40px 0px",
       },
-    },
-    btnLogin: {
-      width: 161,
-      height: 62,
     },
   };
 });

@@ -1,11 +1,13 @@
 import { Button, Typography } from "@material-ui/core";
 import moment from "moment";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { resendEmailAuth } from "../../../service";
+import { AppDispatch } from "../../../store";
+import { fetchInfoUser } from "../../../store/action";
 import useStyles from "./style";
 type Props = {};
 
@@ -18,12 +20,24 @@ export default function ResendEmailPage({}: Props) {
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
   const { email, type } = useSelector((state: any) => state.resendEmail);
+  const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    if (userData && userData?.isVerify) {
-      navigate("/");
-    }
-  }, [navigate, userData]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const item = localStorage.getItem("access_token");
+  //     if (!item) {
+  //       navigate("/sign-in");
+  //     } else {
+  //       await dispatch(fetchInfoUser(item));
+  //     }
+  //   })();
+  // }, [dispatch, navigate, localStorage.getItem("access_token")]);
+
+  // useEffect(() => {
+  //   if (userData?.isVerify) {
+  //     navigate("/");
+  //   }
+  // }, [navigate, userData]);
 
   useEffect(() => {
     if (!userData?.verifyAt) {
@@ -53,11 +67,11 @@ export default function ResendEmailPage({}: Props) {
     };
   }, [counter]);
 
-  useEffect(() => {
-    if (!email) {
-      navigate("/sign-in");
-    }
-  }, [navigate, email]);
+  // useEffect(() => {
+  //   if (!email) {
+  //     navigate("/sign-in");
+  //   }
+  // }, [navigate, email]);
 
   const handleResendEmail = async () => {
     setIsClickFirst(true);
