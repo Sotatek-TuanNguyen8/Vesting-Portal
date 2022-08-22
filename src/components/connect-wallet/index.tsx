@@ -19,15 +19,6 @@ export default function ConnectWalletPage({}: Props) {
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch();
 
-  const checkWatch = () => {
-    if (!userData.metamaskAdress) return false;
-    if (userData.metamaskAdress !== account) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   //   useEffect(() => {
   //     const item = localStorage.getItem("access_token");
   //     if (!item) {
@@ -113,7 +104,6 @@ export default function ConnectWalletPage({}: Props) {
                 key={type}
                 // @ts-ignore
                 onClick={handleConnectWallet}
-                disabled={checkWatch()}
               >
                 <Typography
                   variant="body1"
