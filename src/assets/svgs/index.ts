@@ -1,0 +1,14 @@
+export { ReactComponent as Close } from "./close.svg";
+export { ReactComponent as Disconnect } from "./disconnect.svg";
+export { ReactComponent as Logout } from "./log_out.svg";
+export { ReactComponent as ArrowDown } from "./arrow_down.svg";
+export { ReactComponent as LogoLend } from "./logo_lend.svg";
+export { ReactComponent as Logo } from "./logo.svg";
+export { ReactComponent as MenuMobile } from "./menu_mobile.svg";
+export { ReactComponent as Profile } from "./profile.svg";
+export { ReactComponent as Setting } from "./setting.svg";
+export { ReactComponent as Visibility } from "./visibility.svg";
+export { ReactComponent as VisibilityOff } from "./visibility_off.svg";
+export { ReactComponent as ToolTipIcon } from "./tool_tip.svg";
+export { ReactComponent as RoundCancelIcon } from "./round_cancel.svg";
+export { ReactComponent as Error } from "./error.svg";
