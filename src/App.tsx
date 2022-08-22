@@ -18,6 +18,8 @@ const App = () => {
           return el === pathname;
         }) !== -1
       ) {
+        localStorage.removeItem("access_token");
+        navigate("/sign-in");
       }
     });
     windowObj?.ethereum?.on("networkChanged", (chainId: string) => {});

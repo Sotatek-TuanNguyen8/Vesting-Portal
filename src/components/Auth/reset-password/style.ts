@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme: Theme) => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: 30,
-        "& .btnBack": {
+        "& .MuiButtonBase-root": {
           width: 146,
           height: 45,
           background: "#3fbce9",

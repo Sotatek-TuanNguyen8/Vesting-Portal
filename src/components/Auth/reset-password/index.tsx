@@ -1,4 +1,5 @@
 import {
+  Button,
   IconButton,
   InputAdornment,
   TextField,
@@ -10,7 +11,6 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
-// import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { resetPWlAuth } from "../../../service";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import { LayoutPass } from "../../layouts/LayoutPass";
@@ -25,7 +25,7 @@ interface ResetPasswordForm {
 export default function ResetPasswordPage({}: Props) {
   const classes = useStyles();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const { control, handleSubmit, watch, setError } = useForm({
+  const { control, handleSubmit, watch, setError, setValue } = useForm({
     defaultValues: {
       password: "",
       confirm_password: "",
@@ -78,6 +78,18 @@ export default function ResetPasswordPage({}: Props) {
     }
   };
 
+  const onChangePassWork = (e: any) => {
+    if (!/\s+/g.test(e.target.value)) {
+      setValue("password", e.target.value);
+    }
+  };
+
+  const onChangeConfirmPassWork = (e: any) => {
+    if (!/\s+/g.test(e.target.value)) {
+      setValue("confirm_password", e.target.value);
+    }
+  };
+
   return (
     <LayoutPass>
       <div className={classes.reset}>
@@ -92,8 +104,8 @@ export default function ResetPasswordPage({}: Props) {
               <span>Your password has been changed successfully</span>
             </div>
             <div className="actionBack">
-              <Link to="/sign-in" className="btnBack">
-                Back To Login
+              <Link to="/sign-in">
+                <Button>Back To Login</Button>
               </Link>
             </div>
           </div>
@@ -122,9 +134,9 @@ export default function ResetPasswordPage({}: Props) {
                       <TextField
                         id="adornment-password"
                         type={showPassword ? "text" : "password"}
-                        value={removeMark(value.trim().replaceAll(/\s/g, ""))}
+                        value={removeMark(value)}
                         autoComplete="off"
-                        onChange={onChange}
+                        onChange={onChangePassWork}
                         label="Password"
                         error={!!error?.message}
                         InputProps={{
@@ -210,8 +222,8 @@ number and special character."
                       <TextField
                         id="adornment-confirm-password"
                         type={showPassword ? "text" : "password"}
-                        value={removeMark(value.trim().replaceAll(/\s/g, ""))}
-                        onChange={onChange}
+                        value={removeMark(value)}
+                        onChange={onChangeConfirmPassWork}
                         label="Confirm Password"
                         error={!!error?.message}
                         InputProps={{
