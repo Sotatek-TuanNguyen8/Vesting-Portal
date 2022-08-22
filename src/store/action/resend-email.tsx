@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IResendEmail {
   email: string;
+  type: string;
 }
 
 const initialState: IResendEmail = {
   email: "",
+  type: "",
 };
 
 const ResendEmailSlice = createSlice({
@@ -13,10 +15,12 @@ const ResendEmailSlice = createSlice({
   initialState,
   reducers: {
     signUpResendSuccess: (state, action) => {
-      state.email = action.payload;
+      state.email = action.payload.email;
+      state.type = action.payload.type;
     },
     loginResendSuccess: (state, action) => {
-      state.email = action.payload;
+      state.email = action.payload.email;
+      state.type = action.payload.type;
     },
   },
 });

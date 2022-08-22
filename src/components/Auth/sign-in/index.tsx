@@ -5,10 +5,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { Visibility, VisibilityOff } from "../../../assets/svgs";
 import { loginAuth } from "../../../service";
@@ -40,6 +41,14 @@ export default function SignInPage({}: Props) {
     },
   });
 
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (item) {
+      navigate("/connect-wallet");
+      return;
+    }
+  }, [navigate]);
+
   const [{ loading }, doSubmit] = useThrowableAsyncFn(
     async (body: LoginForm) => {
       const res = await loginAuth({
@@ -49,13 +58,18 @@ export default function SignInPage({}: Props) {
 
       if (!res) throw new Error("Something goes wrong, please try again");
       if (res?.error) {
-        if (res?.error?.statusCode === 409) {
+        if (res?.error?.statusCode === 404) {
           setError("email", {
             type: "conflict",
-            message: "Email has already been taken",
+            message: "The email address isn't connected to an account.",
+          });
+        } else if (res?.error?.statusCode === 406) {
+          setError("password", {
+            type: "conflict",
+            message: "The password that you've entered is incorrect.",
           });
         } else {
-          // toast.error(response?.error?.message);
+          toast.error(res?.error?.message);
         }
       } else {
         if (rememberMe) {
@@ -83,7 +97,9 @@ export default function SignInPage({}: Props) {
         if (res?.data.user.is_verified) {
           navigate("/connect-wallet");
         } else {
-          dispatch(loginResendSuccess(res?.data.user.email));
+          dispatch(
+            loginResendSuccess({ email: res?.data.user.email, type: "sign-in" })
+          );
           navigate("/resend-email");
         }
       }

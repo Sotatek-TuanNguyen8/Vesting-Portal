@@ -11,13 +11,21 @@ interface userLogin {
     metamaskAdress: string;
   };
   loading: boolean;
-  error: string;
+  error: any;
 }
 
-const fetchInfoUser = createAsyncThunk(
+export const fetchInfoUser = createAsyncThunk(
   "user/fetchInfoUser",
-  async (userId: number, { dispatch, getState }) => {
+  async (userId: number, { rejectWithValue }) => {
     const response = await getInfoUser({});
+
+    // Nếu bị lỗi thì reject
+    if (response.status < 200 || response.status >= 300) {
+      return rejectWithValue(response.error);
+    }
+
+    // Còn không thì trả về dữ liệu
+    return response.data;
   }
 );
 
@@ -41,19 +49,19 @@ const authAction = createSlice({
     setUser: (state, action) => {
       state.data = action.payload;
     },
-    fetchInfo: (state, action) => {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchInfoUser.pending, (state) => {
       state.loading = true;
-      state.data = action.payload;
-      state.error = "";
-    },
-    fetchInfoSuccess: (state, action) => {
+    });
+    builder.addCase(fetchInfoUser.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
-    },
-    fetchInfoFail: (state, action) => {
+    });
+    builder.addCase(fetchInfoUser.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
-    },
+    });
   },
 });
 

@@ -12,7 +12,7 @@ export const AppRouter = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/resend-emil" element={<ResendEmailPage />} />
+      <Route path="/resend-email" element={<ResendEmailPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/email-confirm" element={<EmailConfirmPage />} />
       <Route path="/connect-wallet" element={<ConnectWalletPage />} />

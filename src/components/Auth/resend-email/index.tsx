@@ -17,7 +17,7 @@ export default function ResendEmailPage({}: Props) {
   const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
-  const { email } = useSelector((state: any) => state.resendEmail);
+  const { email, type } = useSelector((state: any) => state.resendEmail);
 
   useEffect(() => {
     if (userData && userData?.isVerify) {
@@ -91,7 +91,11 @@ export default function ResendEmailPage({}: Props) {
         </div>
       ) : (
         <div className={classes.container}>
-          <Typography variant="h5">Thank you for registering.</Typography>
+          <Typography variant="h5">
+            {type === "sign-up"
+              ? "Thank you for registering."
+              : "Email has not been verified."}
+          </Typography>
           <p className={classes.content}>
             An email has been sent to activate your account. Please click the
             link to activate your account.

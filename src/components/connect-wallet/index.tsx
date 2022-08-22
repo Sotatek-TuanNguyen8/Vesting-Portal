@@ -1,11 +1,11 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Error } from "../../assets/svgs";
 import { updateWalletAuth } from "../../service";
-import { setUser } from "../../store/action";
+import { AppDispatch } from "../../store";
+import { fetchInfoUser, setUser } from "../../store/action";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import InvestorLayout from "../layouts/InvestorLayout";
 import useStyles from "./style";
@@ -17,26 +17,21 @@ export default function ConnectWalletPage({}: Props) {
   const { getSignature, connect, account, library } = useMetaMask();
   const userData = useSelector((s: any) => s.authAction.data);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
 
-  const checkWatch = () => {
-    if (!userData.metamaskAdress) return false;
-    if (userData.metamaskAdress !== account) {
-      return true;
-    } else {
-      return false;
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (!item) {
+      navigate("/sign-in");
+      return;
     }
-  };
+  }, [navigate]);
 
-  //   useEffect(() => {
-  //     const item = localStorage.getItem("access_token");
-  //     if (!item) {
-  //       navigate("/sign-in");
-  //       return;
-  //     }
-  //   }, [navigate]);
+  console.log(userData.metamaskAdress);
 
   const handleConnectWallet = async () => {
+    setErrorCheckAddress("");
     if (!account) {
       connect();
     }
@@ -50,17 +45,31 @@ export default function ConnectWalletPage({}: Props) {
         setErrorCheckAddress(res?.error.message);
       } else {
         dispatch(setUser({ ...userData, metamaskAdress: account }));
+        navigate("/");
       }
     } else {
       if (account === userData.metamaskAdress) {
         navigate("/");
       } else {
         setErrorCheckAddress(
-          "Wallet Address in Metamask did not match your address. Please switch wallet address!"
+          "This wallet has been connected to another account"
         );
       }
     }
   };
+
+  console.log(userData, userData.email);
+
+  // useEffect(() => {
+  //   dispatch(fetchInfoUser(1));
+  //   setCheckFetchData(true);
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (checkFetchData) {
+  //     console.log("123123");
+  //   }
+  // }, [checkFetchData]);
 
   return (
     <InvestorLayout isNav={false}>
@@ -113,7 +122,6 @@ export default function ConnectWalletPage({}: Props) {
                 key={type}
                 // @ts-ignore
                 onClick={handleConnectWallet}
-                disabled={checkWatch()}
               >
                 <Typography
                   variant="body1"
