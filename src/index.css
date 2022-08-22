@@ -50,9 +50,9 @@ button:focus {
 
 .MuiTooltip-arrow {
   color: #7afbfd !important;
-  left: 30px !important;
+  /* left: 30px !important; */
 }
 
-.MuiTooltip-popper {
+/* .MuiTooltip-popper {
   transform: translate3d(118px, 664px, 0px) !important;
-}
+} */

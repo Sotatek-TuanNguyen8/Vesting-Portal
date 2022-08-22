@@ -42,3 +42,11 @@ export const validatePassWord = (value: string) => {
     return 1;
   }
 };
+
+export const scrollIntoView = (element: React.RefObject<HTMLInputElement>) => {
+  if (!element?.current) return;
+  element?.current?.scrollIntoView({
+    behavior: "smooth",
+    inline: "nearest",
+  });
+};

@@ -14,6 +14,7 @@ const handleErrorUtil = (response: AxiosResponse<any>) => {
       clearTimeout(timeoutFlag);
       timeoutFlag = setTimeout(UnauthorizedCallback, 1500);
       localStorage.removeItem("access_token");
+      window.location.href = "/sign-in";
       return;
     case 500:
       toast.error("Server error");

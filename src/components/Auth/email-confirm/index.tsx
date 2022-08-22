@@ -70,7 +70,7 @@ export default function EmailConfirmPage({}: Props) {
         </div>
       ) : (
         <>
-          {isNotEmailVerified ? (
+          {!isNotEmailVerified ? (
             <div className={classes.container}>
               <Typography variant="h5">
                 Email has already been verified
