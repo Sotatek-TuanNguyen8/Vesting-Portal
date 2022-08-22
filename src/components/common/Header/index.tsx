@@ -1,7 +1,6 @@
 import { useMediaQuery } from "@material-ui/core";
 import clsx from "clsx";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Logo, MenuMobile } from "../../../assets/svgs";
 import NavMobile from "./NavMobile";
@@ -16,8 +15,6 @@ export const Header = ({ isNav = false }: Props) => {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
-
-  const userData = useSelector((s: any) => s.authAction.data);
   const [navMobile, setNavMobile] = useState<boolean>(false);
 
   const isActive = (value: string) => {
@@ -45,26 +42,23 @@ export const Header = ({ isNav = false }: Props) => {
             </div>
           ) : (
             <>
-              {userData && userData?.metamaskAdress && (
-                <div className={classes.nav}>
-                  <Link to="/" className={clsx(isActive("/"), "item")}>
-                    STAKING/LP
-                  </Link>
-                  <Link to="/" className={clsx(isActive("/2"), "item")}>
-                    CLAIMING
-                  </Link>
-                  <Link to="/" className={clsx(isActive("/3"), "item")}>
-                    ADD LIQUIDITY
-                  </Link>
-                  <Link
-                    to="/lend"
-                    className={clsx(isActive("/lend"), clsx("item"))}
-                  >
-                    LEND
-                  </Link>
-                </div>
-              )}
-
+              <div className={classes.nav}>
+                <Link to="/" className={clsx(isActive("/"), "item")}>
+                  STAKING/LP
+                </Link>
+                <Link to="/" className={clsx(isActive("/2"), "item")}>
+                  CLAIMING
+                </Link>
+                <Link to="/" className={clsx(isActive("/3"), "item")}>
+                  ADD LIQUIDITY
+                </Link>
+                <Link
+                  to="/lend"
+                  className={clsx(isActive("/lend"), clsx("item"))}
+                >
+                  LEND
+                </Link>
+              </div>
               <UserNav />
             </>
           )}

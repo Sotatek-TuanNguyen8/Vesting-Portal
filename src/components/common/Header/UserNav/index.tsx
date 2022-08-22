@@ -44,7 +44,7 @@ export default function UserNav({}: Props) {
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>Matias</p>
-          {userData && userData?.metamaskAdress && <span>FWRF134...526</span>}
+          {userData && userData?.metamaskAddress && <span>FWRF134...526</span>}
         </div>
         <ArrowDown />
       </div>

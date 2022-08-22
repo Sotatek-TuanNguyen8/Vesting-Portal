@@ -1,6 +1,7 @@
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { confirmEmailAuth } from "../../../service";
 import useStyles from "./style";
@@ -16,13 +17,14 @@ export default function EmailConfirmPage({}: Props) {
 
   const [isVerified, setIsVerified] = useState<boolean>(false);
   const [isNotEmailVerified, setIsNotEmailVerified] = useState<boolean>(false);
+  const [notUser, setNotUser] = useState<boolean>(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const emailParams = params.get("email");
     const codeParams = params.get("code");
     if (!emailParams || !codeParams) {
-      navigate("/login");
+      navigate("/sign-in");
     }
   }, [navigate]);
 
@@ -32,12 +34,17 @@ export default function EmailConfirmPage({}: Props) {
       email: email as string,
       code: code as string,
     });
+    setNotUser(false);
     if (res?.error) {
       setIsVerified(false);
       if (res?.error.statusCode === 400) {
         setIsNotEmailVerified(true);
-      } else {
+      } else if (res?.error.statusCode === 406) {
         setIsNotEmailVerified(false);
+        return;
+      } else {
+        toast.error(res?.error.message);
+        setNotUser(true);
       }
     } else {
       setIsVerified(true);
@@ -50,15 +57,15 @@ export default function EmailConfirmPage({}: Props) {
 
   return (
     <AuthLayout isTab={false}>
-      {isVerified ? (
+      {!notUser && isVerified ? (
         <div className={classes.container}>
           <Typography variant="h5">Thank you for registering</Typography>
           <p className={classes.content}>
             Congratulations, your account has been successfully created. Please
             login to continue.
           </p>
-          <Link to="/sign-in" className={classes.btnLogin}>
-            LOG IN
+          <Link to="/sign-in">
+            <Button>LOG IN</Button>
           </Link>
         </div>
       ) : (
@@ -72,8 +79,8 @@ export default function EmailConfirmPage({}: Props) {
                 The email address has already been verified successfully. Click
                 the button below to login
               </p>
-              <Link to="/sign-in" className={classes.btnLogin}>
-                LOG IN
+              <Link to="/sign-in">
+                <Button>LOG IN</Button>
               </Link>
             </div>
           ) : (
@@ -81,7 +88,7 @@ export default function EmailConfirmPage({}: Props) {
               <Typography variant="h5">Confirmation Link Expired</Typography>
               <p className={classes.content}>
                 The verification link has expired. To verify your email address,
-                click the button below to resend confirmation email
+                please find the latest verification email in your mailbox.
               </p>
             </div>
           )}

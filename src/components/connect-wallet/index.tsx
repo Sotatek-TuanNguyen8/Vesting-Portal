@@ -14,28 +14,26 @@ type Props = {};
 export default function ConnectWalletPage({}: Props) {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { getSignature, connect, account, library } = useMetaMask();
+  const { getSignature, connect, account } = useMetaMask();
   const userData = useSelector((s: any) => s.authAction.data);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
 
   useEffect(() => {
     const item = localStorage.getItem("access_token");
     if (!item) {
       navigate("/sign-in");
-      return;
+    } else {
+      dispatch(fetchInfoUser(item));
     }
-  }, [navigate]);
-
-  console.log(userData.metamaskAdress);
+  }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
     if (!account) {
       connect();
     }
-    if (!userData.metamaskAdress) {
+    if (!userData?.metamaskAddress) {
       const signature = await getSignature("ConnectWallet");
       const res = await updateWalletAuth({
         signature: signature,
@@ -44,11 +42,11 @@ export default function ConnectWalletPage({}: Props) {
       if (res?.error) {
         setErrorCheckAddress(res?.error.message);
       } else {
-        dispatch(setUser({ ...userData, metamaskAdress: account }));
+        dispatch(setUser({ ...userData, metamaskAddress: account }));
         navigate("/");
       }
     } else {
-      if (account === userData.metamaskAdress) {
+      if (account === userData?.metamaskAddress) {
         navigate("/");
       } else {
         setErrorCheckAddress(
@@ -57,19 +55,6 @@ export default function ConnectWalletPage({}: Props) {
       }
     }
   };
-
-  console.log(userData, userData.email);
-
-  // useEffect(() => {
-  //   dispatch(fetchInfoUser(1));
-  //   setCheckFetchData(true);
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (checkFetchData) {
-  //     console.log("123123");
-  //   }
-  // }, [checkFetchData]);
 
   return (
     <InvestorLayout isNav={false}>
