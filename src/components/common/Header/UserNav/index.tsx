@@ -8,13 +8,7 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  ArrowDown,
-  Disconnect,
-  Logout,
-  Profile,
-  Setting,
-} from "../../../../assets/svgs";
+import { ArrowDown, Disconnect, Logout } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
@@ -46,7 +40,7 @@ export default function UserNav({}: Props) {
 
   return (
     <div className={classes.container}>
-      {/* <img className={styles.avatar} /> */}
+      <div className={classes.avatar}></div>
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>Matias</p>
@@ -77,18 +71,6 @@ export default function UserNav({}: Props) {
           <>
             <MenuItem>
               <ListItemIcon>
-                <Profile />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <Setting />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
                 <Disconnect />
               </ListItemIcon>
               <ListItemText primary="Disconnect wallet" />
@@ -107,6 +89,7 @@ export default function UserNav({}: Props) {
             primary="Log out"
             onClick={() => {
               localStorage.removeItem("access_token");
+              navigate("/sign-in");
             }}
           />
         </MenuItem>

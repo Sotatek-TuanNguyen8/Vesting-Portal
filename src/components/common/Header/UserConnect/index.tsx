@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
 import useStyles from "./style";
 type Props = {};
@@ -15,6 +16,7 @@ export default function UserConnect({}: Props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);
+  const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -58,6 +60,7 @@ export default function UserConnect({}: Props) {
             primary="Log out"
             onClick={() => {
               localStorage.removeItem("access_token");
+              navigate("/sign-in");
             }}
           />
         </MenuItem>

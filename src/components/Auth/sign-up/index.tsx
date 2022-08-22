@@ -76,7 +76,7 @@ export default function SignUpPage({}: Props) {
           toast.error(response?.error?.message);
         }
       } else {
-        dispatch(signUpResendSuccess(data.email));
+        dispatch(signUpResendSuccess({ email: data.email, type: "sign-up" }));
         navigate("/resend-email");
       }
       setIsClickFirst(false);

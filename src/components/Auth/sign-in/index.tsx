@@ -5,7 +5,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,6 +40,14 @@ export default function SignInPage({}: Props) {
       password: getRememberLogin?.password ?? "",
     },
   });
+
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (item) {
+      navigate("/connect-wallet");
+      return;
+    }
+  }, [navigate]);
 
   const [{ loading }, doSubmit] = useThrowableAsyncFn(
     async (body: LoginForm) => {
@@ -89,7 +97,9 @@ export default function SignInPage({}: Props) {
         if (res?.data.user.is_verified) {
           navigate("/connect-wallet");
         } else {
-          dispatch(loginResendSuccess(res?.data.user.email));
+          dispatch(
+            loginResendSuccess({ email: res?.data.user.email, type: "sign-in" })
+          );
           navigate("/resend-email");
         }
       }
