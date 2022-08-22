@@ -1,9 +1,9 @@
 import { Typography } from "@material-ui/core";
 import clsx from "clsx";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useStyles from "./style";
 import { Logo } from "../../assets/svgs";
+import useStyles from "./style";
 type Props = {
   isTab?: boolean;
   children?: ReactNode;
@@ -13,15 +13,6 @@ export default function AuthLayout({ isTab = true, children }: Props) {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const item = localStorage.getItem("access_token");
-    if (item) {
-      navigate("/connect-wallet");
-      return;
-    }
-  }, [navigate]);
 
   return (
     <div className={classes.container}>

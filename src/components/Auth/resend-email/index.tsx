@@ -1,11 +1,13 @@
 import { Button, Typography } from "@material-ui/core";
 import moment from "moment";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { resendEmailAuth } from "../../../service";
+import { AppDispatch } from "../../../store";
+import { fetchInfoUser } from "../../../store/action";
 import useStyles from "./style";
 type Props = {};
 
@@ -18,25 +20,42 @@ export default function ResendEmailPage({}: Props) {
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
   const { email, type } = useSelector((state: any) => state.resendEmail);
+  const dispatch = useDispatch<AppDispatch>();
+  const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
 
   useEffect(() => {
-    if (userData && userData?.isVerify) {
-      navigate("/");
-    }
-  }, [navigate, userData]);
+    (async () => {
+      const item = localStorage.getItem("access_token");
+      if (!item) {
+        return;
+      } else {
+        setCheckFetchData(false);
+        await dispatch(fetchInfoUser(item));
+        setCheckFetchData(true);
+      }
+    })();
+  }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
   useEffect(() => {
-    if (!userData?.verifyAt) {
+    if (!checkFetchData) {
       setCounter(60);
-      return;
-    }
-    const time = moment.now() - userData.verifyAt / 1000;
-    if (time > 60) {
-      setCounter(0);
     } else {
-      setCounter(60 - time);
+      if (userData?.isVerify) {
+        navigate("/connect-wallet");
+        return;
+      }
+      if (!userData?.verifyAt) {
+        setCounter(60);
+        return;
+      }
+      const time = moment.now() - userData?.verifyAt / 1000;
+      if (time > 60) {
+        setCounter(0);
+      } else {
+        setCounter(60 - time);
+      }
     }
-  }, [userData.verifyAt]);
+  }, [checkFetchData, userData?.isVerify, navigate, userData?.verifyAt]);
 
   useLayoutEffect(() => {
     const interval = setInterval(function () {
@@ -59,8 +78,11 @@ export default function ResendEmailPage({}: Props) {
     }
   }, [navigate, email]);
 
+  console.log(email);
+
   const handleResendEmail = async () => {
     setIsClickFirst(true);
+    setCounter(new Number(60));
     const res = await resendEmailAuth({ email: email as string });
     if (res?.error) {
       if (res?.error?.statusCode === 406) {
@@ -73,7 +95,6 @@ export default function ResendEmailPage({}: Props) {
       toast.success("Successfully! Please check email");
     }
     setIsClickFirst(false);
-    setCounter(new Number(60));
   };
 
   return (

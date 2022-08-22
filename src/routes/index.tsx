@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import EmailConfirmPage from "../components/Auth/email-confirm";
 import ForgotPasswordPage from "../components/Auth/forgot-password";
 import ResendEmailPage from "../components/Auth/resend-email";
+import ResetPasswordPage from "../components/Auth/reset-password";
 import SignInPage from "../components/Auth/sign-in";
 import SignUpPage from "../components/Auth/sign-up";
 import ConnectWalletPage from "../components/connect-wallet";
@@ -17,7 +18,7 @@ export const AppRouter = () => {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/email-confirm" element={<EmailConfirmPage />} />
       <Route path="/connect-wallet" element={<ConnectWalletPage />} />
-      <Route path="/claiming" element={<Claiming />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/*" element={<>404! Not Found</>} />
     </Routes>
   );

@@ -27,6 +27,7 @@ export default function UserConnect({}: Props) {
 
   return (
     <div className={classes.container}>
+      <div className={classes.avatar}></div>
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>{userData.fullName}</p>

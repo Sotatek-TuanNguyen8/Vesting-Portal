@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "column",
         justifyContent: "space-between",
         color: "#303030",
-
+        marginRight: 80,
         "& p": {
           margin: 0,
           fontSize: 26,

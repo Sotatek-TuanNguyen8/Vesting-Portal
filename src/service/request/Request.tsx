@@ -41,7 +41,12 @@ class Request {
     this.instance = instance;
   }
 
-  get = (url: string, params?: object) => {
+  get = (url: string, params?: object, accessToken?: any) => {
+    if (accessToken) {
+      this.instance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+    }
     return this.instance.get(url, { params });
   };
 

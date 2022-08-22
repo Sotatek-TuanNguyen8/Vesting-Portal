@@ -8,7 +8,8 @@ interface userLogin {
     email: string;
     verifyAt: string;
     isVerify: boolean;
-    metamaskAdress: string;
+    metamaskAddress: string;
+    role: string;
   };
   loading: boolean;
   error: any;
@@ -16,15 +17,11 @@ interface userLogin {
 
 export const fetchInfoUser = createAsyncThunk(
   "user/fetchInfoUser",
-  async (userId: number, { rejectWithValue }) => {
-    const response = await getInfoUser({});
-
-    // Nếu bị lỗi thì reject
-    if (response.status < 200 || response.status >= 300) {
+  async (access_token: string, { rejectWithValue }) => {
+    const response = await getInfoUser(access_token);
+    if (response.status >= 300) {
       return rejectWithValue(response.error);
     }
-
-    // Còn không thì trả về dữ liệu
     return response.data;
   }
 );
@@ -36,7 +33,8 @@ const initialState: userLogin = {
     email: "",
     verifyAt: "",
     isVerify: false,
-    metamaskAdress: "",
+    metamaskAddress: "",
+    role: "",
   },
   loading: false,
   error: "",
@@ -55,7 +53,15 @@ const authAction = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchInfoUser.fulfilled, (state, action) => {
-      state.data = action.payload;
+      state.data = {
+        id: action.payload.id,
+        fullName: action.payload.full_name,
+        email: action.payload.email,
+        verifyAt: action.payload.send_verify_at,
+        isVerify: action.payload.is_verified,
+        metamaskAddress: action.payload.wallet,
+        role: action.payload.role,
+      };
       state.loading = false;
     });
     builder.addCase(fetchInfoUser.rejected, (state, action) => {
