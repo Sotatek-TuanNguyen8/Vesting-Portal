@@ -6,6 +6,7 @@ import SignInPage from "../components/Auth/sign-in";
 import SignUpPage from "../components/Auth/sign-up";
 import ConnectWalletPage from "../components/connect-wallet";
 import HomePage from "../components/Home";
+import Claiming from "../pages/Claiming";
 export const AppRouter = () => {
   return (
     <Routes>
@@ -16,6 +17,7 @@ export const AppRouter = () => {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/email-confirm" element={<EmailConfirmPage />} />
       <Route path="/connect-wallet" element={<ConnectWalletPage />} />
+      <Route path="/claiming" element={<Claiming />} />
       <Route path="/*" element={<>404! Not Found</>} />
     </Routes>
   );
