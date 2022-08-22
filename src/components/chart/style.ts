@@ -29,11 +29,12 @@ const useStyles = makeStyles((theme: Theme) => {
     valueTooltip: {
       margin: "0",
       fontSize: "27px",
+      fontWeight: 700,
     },
     labelTooltip: {
       fontWeight: 300,
-      fontSize: "9px",
-      margin: "5px 0",
+      fontSize: "14px",
+      margin: "2px 0",
     },
   };
 });

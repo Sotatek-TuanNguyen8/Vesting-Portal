@@ -1,4 +1,5 @@
 import { Button, Divider, Typography } from "@material-ui/core";
+import Chart from "../../chart";
 import useStyles from "./style";
 
 type Props = {};
@@ -51,7 +52,9 @@ export default function PreSeed({}: Props) {
             <Button>CLAIM</Button>
           </div>
         </div>
-        <div className={classes.lineChart}></div>
+        <div className={classes.lineChart}>
+          <Chart />
+        </div>
       </div>
     </div>
   );

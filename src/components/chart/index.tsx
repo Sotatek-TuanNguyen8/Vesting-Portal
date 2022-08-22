@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from "recharts";
 import { Tooltip as ToolTipMui } from "@mui/material";
 import useStyles from "./style";
@@ -107,10 +108,8 @@ const Chart = () => {
     );
   }, [positionTooltip]);
   return (
-    <>
+    <ResponsiveContainer width={700} height={500}>
       <AreaChart
-        width={500}
-        height={400}
         data={data}
         margin={{
           top: 10,
@@ -166,7 +165,7 @@ const Chart = () => {
           onMouseLeave={handleLeaveTooltip}
         />
       </AreaChart>
-    </>
+    </ResponsiveContainer>
   );
 };
 export default Chart;
