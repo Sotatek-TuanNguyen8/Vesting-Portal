@@ -37,6 +37,7 @@ button:focus {
 div:focus-visible {
   outline: none;
 }
+
 :root {
   --main-blue: #3fbce9;
   --background-color: #ffffff;
