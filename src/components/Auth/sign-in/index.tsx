@@ -80,8 +80,6 @@ export default function SignInPage() {
             })
           );
         }
-        setLocalStorage("access_token", res?.data?.accessToken);
-        setLocalStorage("refresh_token", res?.data?.refreshToken);
         dispatch(
           setUser({
             id: res?.data?.user?.id,
@@ -96,6 +94,8 @@ export default function SignInPage() {
 
         if (res?.data?.user?.is_verified !== false) {
           navigate("/connect-wallet");
+          setLocalStorage("access_token", res?.data?.accessToken);
+          setLocalStorage("refresh_token", res?.data?.refreshToken);
         } else {
           dispatch(
             loginResendSuccess({

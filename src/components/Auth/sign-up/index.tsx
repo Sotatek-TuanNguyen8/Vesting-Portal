@@ -106,6 +106,14 @@ export default function SignUpPage({}: Props) {
     }
   };
 
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (item) {
+      navigate("/connect-wallet");
+      return;
+    }
+  }, [navigate]);
+
   return (
     <AuthLayout>
       <form
