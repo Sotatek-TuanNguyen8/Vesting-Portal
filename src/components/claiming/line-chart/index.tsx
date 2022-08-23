@@ -110,7 +110,7 @@ const LineChart = () => {
     );
   }, [positionTooltip]);
   return (
-    <ResponsiveContainer width={700} height={500}>
+    <ResponsiveContainer width={"100%"} height={500}>
       <AreaChart
         data={data}
         margin={{
@@ -122,8 +122,8 @@ const LineChart = () => {
         onMouseMove={handleActiveTooltip}
       >
         <CartesianGrid vertical={false} stroke="#DDD" />
-        <XAxis dataKey="name" />
-        <YAxis />
+        <XAxis dataKey="name" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#36BBEB" stopOpacity={0.8} />
