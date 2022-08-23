@@ -84,7 +84,7 @@ export default function SignUpPage({}: Props) {
   const onChangeName = (e: any) => {
     const { value } = e.target;
     if (!value.toString().startsWith(" ")) {
-      setValue("full_name", e.target.value);
+      setValue("full_name", e.target.value.replace("  ", " "));
     }
   };
 
@@ -131,7 +131,7 @@ export default function SignUpPage({}: Props) {
                 message: "Enter less than 255 characters",
               },
               pattern: {
-                value: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/g,
+                value: /^[a-zA-Z]+[ ](([a-zA-Z ])+[a-zA-Z]*)*$/g,
                 message: "Special characters are not allowed",
               },
             }}

@@ -36,9 +36,9 @@ export default function EmailConfirmPage() {
     setNotUser(false);
     if (res?.error) {
       setIsVerified(false);
-      if (res?.error.statusCode === 400) {
+      if (res?.error?.statusCode === 400) {
         setIsNotEmailVerified(true);
-      } else if (res?.error.statusCode === 406) {
+      } else if (res?.error?.statusCode === 406) {
         setIsNotEmailVerified(false);
         return;
       } else {

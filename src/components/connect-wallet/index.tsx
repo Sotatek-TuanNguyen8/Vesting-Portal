@@ -61,32 +61,33 @@ export default function ConnectWalletPage() {
     setErrorCheckAddress("");
     if (!account) {
       await connect();
-    }
-    const accountWallet = localStorage.getItem("accounts");
-    if (!userData?.metamaskAddress) {
-      const signature = await getSignature("ConnectWallet");
-      const res = await updateWalletAuth({
-        signature: signature,
-        wallet_address: account,
-      });
-      if (res?.error) {
-        setErrorCheckAddress(
-          "This wallet has been connected to another account"
-        );
-      } else {
-        dispatch(setUser({ ...userData, metamaskAddress: account }));
-        navigate("/");
-      }
     } else {
-      if (
-        accountWallet?.toLowerCase() ===
-        userData?.metamaskAddress?.toLowerCase()
-      ) {
-        navigate("/");
+      const accountWallet = localStorage.getItem("accounts");
+      if (!userData?.metamaskAddress) {
+        const signature = await getSignature("ConnectWallet");
+        if (signature) {
+          const res = await updateWalletAuth({
+            signature: signature,
+            wallet_address: account,
+          });
+          if (res?.error) {
+            setErrorCheckAddress(
+              "This wallet has been connected to another account"
+            );
+          } else {
+            dispatch(setUser({ ...userData, metamaskAddress: account }));
+            navigate("/");
+          }
+        }
       } else {
-        setErrorCheckAddress(
-          "This wallet has been connected to another account"
-        );
+        if (
+          accountWallet?.toLowerCase() ===
+          userData?.metamaskAddress?.toLowerCase()
+        ) {
+          navigate("/");
+        } else {
+          setErrorCheckAddress("Email and Wallet address do not match");
+        }
       }
     }
   };
