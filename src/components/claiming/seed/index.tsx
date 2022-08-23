@@ -2,7 +2,38 @@ import { Button, Divider, Typography } from "@material-ui/core";
 import LineChart from "../line-chart";
 import useStyles from "./style";
 
-export default function Seed() {
+type Props = {};
+const data = [
+  {
+    name: "S",
+    value: 15,
+  },
+  {
+    name: "M",
+    value: 30,
+  },
+  {
+    name: "T",
+    value: 63,
+  },
+  {
+    name: "W",
+    value: 10,
+  },
+  {
+    name: "TH",
+    value: 20,
+  },
+  {
+    name: "F",
+    value: 30,
+  },
+  {
+    name: "SA",
+    value: 40,
+  },
+];
+export default function Seed({}: Props) {
   const classes = useStyles();
   return (
     <div className={classes.seed}>
@@ -51,7 +82,7 @@ export default function Seed() {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart />
+          <LineChart  data={data} />
         </div>
       </div>
     </div>

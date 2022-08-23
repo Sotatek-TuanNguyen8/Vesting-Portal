@@ -10,37 +10,6 @@ import {
 } from "recharts";
 import useStyles from "./style";
 
-const data = [
-  {
-    name: "S",
-    value: 10,
-  },
-  {
-    name: "M",
-    value: 20,
-  },
-  {
-    name: "T",
-    value: 23,
-  },
-  {
-    name: "W",
-    value: 40,
-  },
-  {
-    name: "TH",
-    value: 50,
-  },
-  {
-    name: "F",
-    value: 60,
-  },
-  {
-    name: "SA",
-    value: 100,
-  },
-];
-
 const CustomTooltip = ({ active, payload, label }: any) => {
   const style = useStyles();
   if (active && payload && payload.length) {
@@ -54,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const LineChart = () => {
+const LineChart = ({ data, width, height }: any) => {
   const [positionTooltip, setPositionTooltip] = useState({
     x: 0,
     y: 0,
@@ -75,11 +44,10 @@ const LineChart = () => {
     });
   };
   const handleActiveTooltip = (data: any) => {
+    console.log(data);
     setActiveTooltip(data.activeTooltipIndex);
   };
   const handleLeaveTooltip = (data: any) => {
-    console.log(data);
-
     setPositionTooltip({
       ...positionTooltip,
       show: false,
@@ -88,7 +56,7 @@ const LineChart = () => {
 
   useEffect(() => {
     const tooltip = document.querySelector<HTMLElement>(
-      ".recharts-tooltip-wrapper"
+      ".recharts-tooltip-wrapper",
     );
     if (!tooltip) return;
     // Init tooltip values
@@ -106,11 +74,11 @@ const LineChart = () => {
     left: -${tooltipWidth / 2}px;
     opacity: ${positionTooltip?.show ? "1" : 0};
     transition: all 400ms ease 0s;
-  `
+  `,
     );
   }, [positionTooltip]);
   return (
-    <ResponsiveContainer width={"100%"} height={500}>
+    <ResponsiveContainer>
       <AreaChart
         data={data}
         margin={{
@@ -165,6 +133,7 @@ const LineChart = () => {
           }}
           onMouseMove={onMouseMov}
           onMouseLeave={handleLeaveTooltip}
+          isAnimationActive={true}
         />
       </AreaChart>
     </ResponsiveContainer>
