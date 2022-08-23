@@ -82,7 +82,7 @@ export default function Seed({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart  data={data} />
+          <LineChart data={data} width={700} height={500} />
         </div>
       </div>
     </div>
