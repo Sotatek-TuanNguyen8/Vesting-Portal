@@ -101,6 +101,8 @@ const useStyles = makeStyles((theme: Theme) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        background: " #E9E9F0",
+        borderRadius: 10,
       },
       "& .btnContinue": {
         background: "#3fbce9",

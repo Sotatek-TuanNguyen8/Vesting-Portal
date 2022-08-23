@@ -1,3 +1,4 @@
+@import "./styles/_fonts.css";
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -33,6 +34,9 @@ button:focus {
   box-shadow: none;
   outline: none;
 }
+div:focus-visible {
+  outline: none;
+}
 
 :root {
   --main-blue: #3fbce9;
@@ -50,9 +54,9 @@ button:focus {
 
 .MuiTooltip-arrow {
   color: #7afbfd !important;
-  left: 30px !important;
+  /* left: 30px !important; */
 }
 
-.MuiTooltip-popper {
+/* .MuiTooltip-popper {
   transform: translate3d(118px, 664px, 0px) !important;
-}
+} */

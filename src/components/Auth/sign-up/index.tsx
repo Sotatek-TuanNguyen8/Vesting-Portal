@@ -6,11 +6,10 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { useWeb3React } from "@web3-react/core";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
@@ -18,7 +17,6 @@ import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { authService } from "../../../service";
 import { signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
-import useMetaMask from "../../../utils/hooks/useMetaMask";
 import useStyles from "./style";
 
 type Props = {};
@@ -76,7 +74,7 @@ export default function SignUpPage({}: Props) {
           toast.error(response?.error?.message);
         }
       } else {
-        dispatch(signUpResendSuccess(data.email));
+        dispatch(signUpResendSuccess({ email: data.email, type: "sign-up" }));
         navigate("/resend-email");
       }
       setIsClickFirst(false);
@@ -86,7 +84,7 @@ export default function SignUpPage({}: Props) {
   const onChangeName = (e: any) => {
     const { value } = e.target;
     if (!value.toString().startsWith(" ")) {
-      setValue("full_name", e.target.value);
+      setValue("full_name", e.target.value.replace("  ", " "));
     }
   };
 
@@ -108,6 +106,14 @@ export default function SignUpPage({}: Props) {
     }
   };
 
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (item) {
+      navigate("/connect-wallet");
+      return;
+    }
+  }, [navigate]);
+
   return (
     <AuthLayout>
       <form
@@ -125,7 +131,7 @@ export default function SignUpPage({}: Props) {
                 message: "Enter less than 255 characters",
               },
               pattern: {
-                value: /^([a-zA-Z])+/g,
+                value: /^[a-zA-Z]+[ ](([a-zA-Z ])+[a-zA-Z]*)*$/g,
                 message: "Special characters are not allowed",
               },
             }}

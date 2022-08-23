@@ -10,17 +10,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowDown,
+  AvatarDefault,
   Disconnect,
   Logout,
-  Profile,
-  Setting,
 } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
-type Props = {};
 
-export default function UserNav({}: Props) {
+export default function UserNav() {
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);
   const dispatch = useDispatch();
@@ -46,11 +44,11 @@ export default function UserNav({}: Props) {
 
   return (
     <div className={classes.container}>
-      {/* <img className={styles.avatar} /> */}
+      <AvatarDefault style={{ marginRight: 30 }} />
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>Matias</p>
-          {userData && userData?.metamaskAdress && <span>FWRF134...526</span>}
+          {userData && userData?.metamaskAddress && <span>FWRF134...526</span>}
         </div>
         <ArrowDown />
       </div>
@@ -77,18 +75,6 @@ export default function UserNav({}: Props) {
           <>
             <MenuItem>
               <ListItemIcon>
-                <Profile />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <Setting />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
                 <Disconnect />
               </ListItemIcon>
               <ListItemText primary="Disconnect wallet" />
@@ -107,6 +93,7 @@ export default function UserNav({}: Props) {
             primary="Log out"
             onClick={() => {
               localStorage.removeItem("access_token");
+              navigate("/sign-in");
             }}
           />
         </MenuItem>

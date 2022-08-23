@@ -2,8 +2,8 @@ import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import useStyles from "./style";
 import { Logo } from "../../assets/svgs";
+import useStyles from "./style";
 type Props = {
   isTab?: boolean;
   children?: ReactNode;
@@ -13,6 +13,7 @@ export default function AuthLayout({ isTab = true, children }: Props) {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
+
   return (
     <div className={classes.container}>
       <div className={classes.boxContainer}>

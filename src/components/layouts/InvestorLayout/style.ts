@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "100%",
       margin: "0px auto",
       backgroundImage: `url(${urlImage})`,
-      backgroundSize: "inherit",
+      backgroundSize: "cover",
       height: "100%",
       minHeight: "100vh",
       backgroundRepeat: "no-repeat",

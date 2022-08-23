@@ -96,6 +96,7 @@ export const theme = createTheme({
         textTransform: "none",
         paddingTop: 22,
         paddingBottom: 22,
+        fontFamily: "gibson !important",
       },
       label: {
         fontSize: 18,
@@ -153,6 +154,13 @@ export const theme = createTheme({
       root: {
         fontFamily: ["gibson", "sans-serif"].join(","),
         fontWeight: 200,
+      },
+    },
+    MuiInput: {
+      root: {
+        fontSize: 18,
+        fontWeight: 250,
+        lineHeight: "18px",
       },
     },
     MuiFormLabel: {

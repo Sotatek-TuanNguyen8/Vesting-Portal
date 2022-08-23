@@ -8,16 +8,21 @@ interface userLogin {
     email: string;
     verifyAt: string;
     isVerify: boolean;
-    metamaskAdress: string;
+    metamaskAddress: string;
+    role: string;
   };
   loading: boolean;
-  error: string;
+  error: any;
 }
 
-const fetchInfoUser = createAsyncThunk(
+export const fetchInfoUser = createAsyncThunk(
   "user/fetchInfoUser",
-  async (userId: number, { dispatch, getState }) => {
-    const response = await getInfoUser({});
+  async (access_token: string, { rejectWithValue }) => {
+    const response = await getInfoUser(access_token);
+    if (response.status >= 300) {
+      return rejectWithValue(response.error);
+    }
+    return response.data;
   }
 );
 
@@ -28,7 +33,8 @@ const initialState: userLogin = {
     email: "",
     verifyAt: "",
     isVerify: false,
-    metamaskAdress: "",
+    metamaskAddress: "",
+    role: "",
   },
   loading: false,
   error: "",
@@ -41,19 +47,27 @@ const authAction = createSlice({
     setUser: (state, action) => {
       state.data = action.payload;
     },
-    fetchInfo: (state, action) => {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchInfoUser.pending, (state) => {
       state.loading = true;
-      state.data = action.payload;
-      state.error = "";
-    },
-    fetchInfoSuccess: (state, action) => {
-      state.data = action.payload;
+    });
+    builder.addCase(fetchInfoUser.fulfilled, (state, action) => {
+      state.data = {
+        id: action.payload.id,
+        fullName: action.payload.full_name,
+        email: action.payload.email,
+        verifyAt: action.payload.send_verify_at,
+        isVerify: action.payload.is_verified,
+        metamaskAddress: action.payload.wallet,
+        role: action.payload.role,
+      };
       state.loading = false;
-    },
-    fetchInfoFail: (state, action) => {
+    });
+    builder.addCase(fetchInfoUser.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
-    },
+    });
   },
 });
 

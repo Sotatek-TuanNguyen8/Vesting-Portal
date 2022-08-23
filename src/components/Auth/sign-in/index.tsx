@@ -5,7 +5,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,18 +20,17 @@ import {
   useThrowableAsyncFn,
 } from "../../hooks";
 import useStyles from "./style";
-type Props = {};
 
 interface LoginForm {
   email: string;
   password: string;
 }
 
-export default function SignInPage({}: Props) {
+export default function SignInPage() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [rememberMe, setRememberme] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const getRememberLogin = getLocalStorage("rememberLogin");
   const dispatch = useDispatch();
   const { control, handleSubmit, setError } = useForm<LoginForm>({
@@ -41,11 +40,25 @@ export default function SignInPage({}: Props) {
     },
   });
 
+  useEffect(() => {
+    const item = localStorage.getItem("access_token");
+    if (item) {
+      navigate("/connect-wallet");
+      return;
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    setRememberMe(
+      Boolean(getRememberLogin?.email) || Boolean(getRememberLogin?.password)
+    );
+  }, [getRememberLogin?.email, getRememberLogin?.password]);
+
   const [{ loading }, doSubmit] = useThrowableAsyncFn(
     async (body: LoginForm) => {
       const res = await loginAuth({
-        email: body.email,
-        password: body.password,
+        email: body.email.trim(),
+        password: body.password.trim(),
       });
 
       if (!res) throw new Error("Something goes wrong, please try again");
@@ -70,31 +83,44 @@ export default function SignInPage({}: Props) {
             JSON.stringify({
               email: body.email,
               password: body.password,
+            }),
+          );
+        } else {
+          await setLocalStorage(
+            "rememberLogin",
+            JSON.stringify({
+              email: "",
+              password: "",
             })
           );
         }
-        setLocalStorage("access_token", res?.data.accessToken);
-        setLocalStorage("refresh_token", res?.data.refreshToken);
         dispatch(
           setUser({
-            id: res?.data.user.id,
-            fullName: res?.data.user.full_name,
-            email: res?.data.user.email,
-            verifyAt: res?.data.user.send_verify_at,
-            isVerify: res?.data.user.is_verified,
-            metamaskAdress: res?.data.user.wallet ?? "",
-          })
+            id: res?.data?.user?.id,
+            fullName: res?.data?.user?.full_name,
+            email: res?.data?.user?.email,
+            verifyAt: res?.data?.user?.send_verify_at,
+            isVerify: res?.data?.user?.is_verified,
+            metamaskAddress: res?.data?.user?.wallet ?? "",
+            role: res?.data?.user?.role,
+          }),
         );
-
-        if (res?.data.user.is_verified) {
+        if (res?.data?.user?.is_verified !== false) {
           navigate("/connect-wallet");
+          setLocalStorage("access_token", res?.data?.accessToken);
+          setLocalStorage("refresh_token", res?.data?.refreshToken);
         } else {
-          dispatch(loginResendSuccess(res?.data.user.email));
+          dispatch(
+            loginResendSuccess({
+              email: res?.data?.user?.email,
+              type: "sign-in",
+            }),
+          );
           navigate("/resend-email");
         }
       }
     },
-    [rememberMe]
+    [rememberMe],
   );
 
   return (
@@ -112,8 +138,8 @@ export default function SignInPage({}: Props) {
             rules={{
               required: "Please enter email address",
               maxLength: {
-                value: 250,
-                message: "Too much characters",
+                value: 255,
+                message: "Enter less than 255 characters",
               },
               max: 3,
               pattern: {
@@ -132,7 +158,7 @@ export default function SignInPage({}: Props) {
                     id="standard-number"
                     onChange={onChange}
                     inputRef={ref}
-                    value={value}
+                    value={value.trim()}
                     error={!!error?.message}
                     label="Email"
                   />
@@ -160,7 +186,7 @@ export default function SignInPage({}: Props) {
                   <TextField
                     id="standard-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    value={value}
+                    value={value.trim()}
                     onChange={onChange}
                     label="Password"
                     error={!!error?.message}
@@ -192,7 +218,7 @@ export default function SignInPage({}: Props) {
               checked={rememberMe}
               type="checkbox"
               onChange={(e) => {
-                setRememberme(e.target.checked);
+                setRememberMe(e.target.checked);
               }}
             />
             <p>Remember me</p>

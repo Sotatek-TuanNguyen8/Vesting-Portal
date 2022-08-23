@@ -5,13 +5,11 @@ const useStyles = makeStyles((theme: Theme) => {
     container: {
       display: "flex !important",
       alignItems: "center",
-    },
-    avatar: {
-      borderRadius: "50%",
-      width: 62,
-      height: 62,
-      backgroundColor: "#474747",
-      marginRight: 30,
+      "& .MuiSvgIcon-root": {
+        width: 62,
+        height: 62,
+        marginRight: 30,
+      },
     },
     dropMenu: {
       display: "flex",
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "column",
         justifyContent: "space-between",
         color: "#303030",
-
+        marginRight: 80,
         "& p": {
           margin: 0,
           fontSize: 26,
