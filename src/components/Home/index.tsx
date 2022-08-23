@@ -15,36 +15,36 @@ export default function HomePage({}: Props) {
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
   const { account } = useMetaMask();
 
-  useEffect(() => {
-    (async () => {
-      const item = localStorage.getItem("access_token");
-      if (!item) {
-        navigate("/sign-in");
-      } else {
-        setCheckFetchData(false);
-        await dispatch(fetchInfoUser(item));
-        setCheckFetchData(true);
-      }
-    })();
-  }, [dispatch, navigate, localStorage.getItem("access_token")]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const item = localStorage.getItem("access_token");
+  //     if (!item) {
+  //       navigate("/sign-in");
+  //     } else {
+  //       setCheckFetchData(false);
+  //       await dispatch(fetchInfoUser(item));
+  //       setCheckFetchData(true);
+  //     }
+  //   })();
+  // }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
-  useEffect(() => {
-    if (!checkFetchData || !account) return;
-    if (userData.metamaskAddress !== account) {
-      navigate("/connect-wallet");
-      return;
-    }
-    if (!userData.isVerify) {
-      dispatch(
-        signUpResendSuccess({
-          email: userData?.email,
-          type: "sign-in",
-        })
-      );
-      navigate("/resend-email");
-      return;
-    }
-  }, [account, checkFetchData, dispatch, navigate, userData]);
+  // useEffect(() => {
+  //   if (!checkFetchData || !account) return;
+  //   if (userData.metamaskAddress !== account) {
+  //     navigate("/connect-wallet");
+  //     return;
+  //   }
+  //   if (!userData.isVerify) {
+  //     dispatch(
+  //       signUpResendSuccess({
+  //         email: userData?.email,
+  //         type: "sign-in",
+  //       })
+  //     );
+  //     navigate("/resend-email");
+  //     return;
+  //   }
+  // }, [account, checkFetchData, dispatch, navigate, userData]);
 
   useEffect(() => {}, []);
   return (
