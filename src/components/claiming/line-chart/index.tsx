@@ -138,7 +138,7 @@ const LineChart = ({ data, width, height }: any) => {
           className: "boxShadow",
         }}
         onMouseMove={onMouseMov}
-        onMouseLeave={handleLeaveTooltip}
+        onMouseOut={handleLeaveTooltip}
         isAnimationActive={true}
       />
     </AreaChart>
