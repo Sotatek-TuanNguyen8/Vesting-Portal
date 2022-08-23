@@ -51,8 +51,8 @@ export default function SignInPage() {
   const [{ loading }, doSubmit] = useThrowableAsyncFn(
     async (body: LoginForm) => {
       const res = await loginAuth({
-        email: body.email,
-        password: body.password,
+        email: body.email.trim(),
+        password: body.password.trim(),
       });
 
       if (!res) throw new Error("Something goes wrong, please try again");
@@ -77,7 +77,7 @@ export default function SignInPage() {
             JSON.stringify({
               email: body.email,
               password: body.password,
-            })
+            }),
           );
         }
         setLocalStorage("access_token", res?.data?.accessToken);
@@ -91,7 +91,7 @@ export default function SignInPage() {
             isVerify: res?.data?.user?.is_verified,
             metamaskAddress: res?.data?.user?.wallet ?? "",
             role: res?.data?.user?.role,
-          })
+          }),
         );
 
         if (res?.data?.user?.is_verified !== false) {
@@ -101,13 +101,13 @@ export default function SignInPage() {
             loginResendSuccess({
               email: res?.data?.user?.email,
               type: "sign-in",
-            })
+            }),
           );
           navigate("/resend-email");
         }
       }
     },
-    [rememberMe]
+    [rememberMe],
   );
 
   return (
@@ -125,8 +125,8 @@ export default function SignInPage() {
             rules={{
               required: "Please enter email address",
               maxLength: {
-                value: 250,
-                message: "Too much characters",
+                value: 255,
+                message: "Enter less than 255 characters",
               },
               max: 3,
               pattern: {
@@ -145,7 +145,7 @@ export default function SignInPage() {
                     id="standard-number"
                     onChange={onChange}
                     inputRef={ref}
-                    value={value}
+                    value={value.trim()}
                     error={!!error?.message}
                     label="Email"
                   />
@@ -173,7 +173,7 @@ export default function SignInPage() {
                   <TextField
                     id="standard-adornment-password"
                     type={showPassword ? "text" : "password"}
-                    value={value}
+                    value={value.trim()}
                     onChange={onChange}
                     label="Password"
                     error={!!error?.message}
