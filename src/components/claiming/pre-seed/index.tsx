@@ -83,7 +83,7 @@ export default function PreSeed({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart data={data}  width={700} height={500}/>
+          <LineChart data={data} width={700} height={500} />
         </div>
       </div>
     </div>

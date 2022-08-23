@@ -2,8 +2,8 @@ import { Drawer, List, ListItem } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
+import { AvatarDefault } from "../../../../assets/svgs";
 import useStyles from "./style";
 type Props = {
   open: boolean;
@@ -43,7 +43,7 @@ export default function NavMobile({ open, handleClose }: Props) {
           <img src="/images/icons/close.svg" alt="icon_close" />
         </div>
         <div className={classes.info}>
-          <AccountCircleOutlinedIcon />
+          <AvatarDefault style={{ marginRight: 30 }} />
           <div className="boxInfo">
             <p>Matias</p>
             <span>FWRF134...526</span>
