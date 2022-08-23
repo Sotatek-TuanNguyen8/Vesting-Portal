@@ -8,7 +8,7 @@ type Props = {
   handleClose: () => void;
 };
 
-interface ListItem {
+interface IListItem {
   label: string;
   href: string;
 }
@@ -18,7 +18,7 @@ export default function NavMobile({ open, handleClose }: Props) {
   const { pathname } = location;
   const classes = useStyles();
 
-  const listMenu: ListItem[] = [
+  const listMenu: IListItem[] = [
     { label: "STAKING/LP", href: "" },
     { label: "CLAIMING", href: "" },
     { label: "ADD LIQUIDITY", href: "" },
@@ -38,10 +38,10 @@ export default function NavMobile({ open, handleClose }: Props) {
         className={classes.drawer}
       >
         <div className={classes.iconClose} onClick={handleClose}>
-          <img src="/images/icons/close.svg" />
+          <img src="/images/icons/close.svg" alt="icon_close" />
         </div>
         <div className={classes.info}>
-          <img className="avatar" />
+          <div className="avatar"></div>
           <div className="boxInfo">
             <p>Matias</p>
             <span>FWRF134...526</span>

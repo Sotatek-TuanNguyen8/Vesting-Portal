@@ -5,9 +5,8 @@ import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { confirmEmailAuth } from "../../../service";
 import useStyles from "./style";
-type Props = {};
 
-export default function EmailConfirmPage({}: Props) {
+export default function EmailConfirmPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

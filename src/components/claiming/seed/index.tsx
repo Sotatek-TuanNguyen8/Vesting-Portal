@@ -2,9 +2,7 @@ import { Button, Divider, Typography } from "@material-ui/core";
 import LineChart from "../line-chart";
 import useStyles from "./style";
 
-type Props = {};
-
-export default function Seed({}: Props) {
+export default function Seed() {
   const classes = useStyles();
   return (
     <div className={classes.seed}>

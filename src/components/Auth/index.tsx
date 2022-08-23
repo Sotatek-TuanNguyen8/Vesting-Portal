@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { ReactNode } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../../assets/svgs";
 import useStyles from "./style";
 type Props = {

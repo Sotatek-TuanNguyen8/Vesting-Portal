@@ -2,9 +2,7 @@ import { Button, Divider, Typography } from "@material-ui/core";
 import LineChart from "../line-chart";
 import useStyles from "./style";
 
-type Props = {};
-
-export default function PreSeed({}: Props) {
+export default function PreSeed() {
   const classes = useStyles();
   return (
     <div className={classes.preSeed}>

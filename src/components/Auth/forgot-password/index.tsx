@@ -9,9 +9,8 @@ import { FORGOT_PASSWORD } from "../../../utils/common/message-sign";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { LayoutPass } from "../../layouts/LayoutPass";
 import useStyles from "./style";
-type Props = {};
 
-export default function ForgotPasswordPage({}: Props) {
+export default function ForgotPasswordPage() {
   const classes = useStyles();
   const { control, handleSubmit, watch } = useForm({
     defaultValues: {
