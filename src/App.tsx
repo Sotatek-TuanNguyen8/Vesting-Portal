@@ -21,6 +21,7 @@ const App = () => {
         localStorage.removeItem("access_token");
         navigate("/sign-in");
       }
+      localStorage.setItem("accounts", accounts[0]);
     });
     windowObj?.ethereum?.on("networkChanged", (chainId: string) => {});
   }, [navigate]);

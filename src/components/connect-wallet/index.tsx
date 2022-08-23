@@ -52,11 +52,17 @@ export default function ConnectWalletPage() {
     }
   }, [account, checkFetchData, dispatch, navigate, userData]);
 
+  useEffect(() => {
+    if (!account) return;
+    localStorage.setItem("accounts", account);
+  }, [account]);
+
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
     if (!account) {
       await connect();
     }
+    const accountWallet = localStorage.getItem("accounts");
     if (!userData?.metamaskAddress) {
       const signature = await getSignature("ConnectWallet");
       const res = await updateWalletAuth({
@@ -64,13 +70,15 @@ export default function ConnectWalletPage() {
         wallet_address: account,
       });
       if (res?.error) {
-        // setErrorCheckAddress(res?.error.message);
+        setErrorCheckAddress(
+          "This wallet has been connected to another account"
+        );
       } else {
         dispatch(setUser({ ...userData, metamaskAddress: account }));
         navigate("/");
       }
     } else {
-      if (account === userData?.metamaskAddress) {
+      if (accountWallet === userData?.metamaskAddress?.toLowerCase()) {
         navigate("/");
       } else {
         setErrorCheckAddress(
