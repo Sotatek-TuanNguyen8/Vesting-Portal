@@ -14,9 +14,8 @@ import { scrollIntoView } from "../../utils/common/fn";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import InvestorLayout from "../layouts/InvestorLayout";
 import useStyles from "./style";
-type Props = {};
 
-export default function ConnectWalletPage({}: Props) {
+export default function ConnectWalletPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();

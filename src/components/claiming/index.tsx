@@ -3,9 +3,7 @@ import PreSeed from "./pre-seed";
 import Seed from "./seed";
 import useStyles from "./style";
 
-type Props = {};
-
-export default function ClaimPage({}: Props) {
+export default function ClaimPage() {
   const classes = useStyles();
   return (
     <div className={classes.claim}>

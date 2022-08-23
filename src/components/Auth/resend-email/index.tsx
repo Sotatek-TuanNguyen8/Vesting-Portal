@@ -9,9 +9,8 @@ import { resendEmailAuth } from "../../../service";
 import { AppDispatch } from "../../../store";
 import { fetchInfoUser } from "../../../store/action";
 import useStyles from "./style";
-type Props = {};
 
-export default function ResendEmailPage({}: Props) {
+export default function ResendEmailPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState<number>();

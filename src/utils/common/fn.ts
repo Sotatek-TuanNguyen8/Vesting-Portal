@@ -1,3 +1,4 @@
+//eslint-disable-next-line
 export const removeMark = (str: string) => {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
@@ -18,6 +19,7 @@ export const removeMark = (str: string) => {
 };
 
 export const validatePassWord = (value: string) => {
+  //eslint-disable-line
   if (value.length < 8) return 0;
   if (
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/])[A-Za-z\d`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]{8,}$/g.test(

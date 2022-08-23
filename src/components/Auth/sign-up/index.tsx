@@ -6,11 +6,10 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { useWeb3React } from "@web3-react/core";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
@@ -18,7 +17,6 @@ import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { authService } from "../../../service";
 import { signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
-import useMetaMask from "../../../utils/hooks/useMetaMask";
 import useStyles from "./style";
 
 type Props = {};

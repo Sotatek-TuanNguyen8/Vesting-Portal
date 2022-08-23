@@ -12,9 +12,8 @@ import { ArrowDown, Disconnect, Logout } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
-type Props = {};
 
-export default function UserNav({}: Props) {
+export default function UserNav() {
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);
   const dispatch = useDispatch();

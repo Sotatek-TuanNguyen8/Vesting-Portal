@@ -20,14 +20,13 @@ import {
   useThrowableAsyncFn,
 } from "../../hooks";
 import useStyles from "./style";
-type Props = {};
 
 interface LoginForm {
   email: string;
   password: string;
 }
 
-export default function SignInPage({}: Props) {
+export default function SignInPage() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState<boolean>(false);

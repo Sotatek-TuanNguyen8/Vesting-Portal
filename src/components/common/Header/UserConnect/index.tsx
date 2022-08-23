@@ -10,9 +10,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
 import useStyles from "./style";
-type Props = {};
 
-export default function UserConnect({}: Props) {
+export default function UserConnect() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);

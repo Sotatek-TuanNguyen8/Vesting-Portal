@@ -15,14 +15,13 @@ import { resetPWlAuth } from "../../../service";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import { LayoutPass } from "../../layouts/LayoutPass";
 import useStyles from "./style";
-type Props = {};
 
 interface ResetPasswordForm {
   password: string;
   confirm_password: string;
 }
 
-export default function ResetPasswordPage({}: Props) {
+export default function ResetPasswordPage() {
   const classes = useStyles();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const { control, handleSubmit, watch, setError, setValue } = useForm({
