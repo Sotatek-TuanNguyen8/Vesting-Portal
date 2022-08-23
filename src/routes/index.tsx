@@ -7,6 +7,7 @@ import SignInPage from "../components/Auth/sign-in";
 import SignUpPage from "../components/Auth/sign-up";
 import ConnectWalletPage from "../components/connect-wallet";
 import HomePage from "../components/Home";
+import Claiming from "../pages/Claiming";
 export const AppRouter = () => {
   return (
     <Routes>
