@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .MuiListItem-root:last-child": {
         borderBottom: "1px solid #c2c2c2",
       },
+      "& .MuiSvgIcon-root": {
+        width: 40,
+        height: 40,
+        marginRight: 18,
+      },
     },
     iconClose: {
       marginTop: 30,

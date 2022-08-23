@@ -12,6 +12,7 @@ import { ArrowDown, Logout } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 export default function UserConnect() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -37,7 +38,7 @@ export default function UserConnect() {
 
   return (
     <div className={classes.container}>
-      <div className={classes.avatar}></div>
+      <AccountCircleOutlinedIcon />
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>{userData.fullName}</p>

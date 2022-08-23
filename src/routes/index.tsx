@@ -5,6 +5,7 @@ import ResendEmailPage from "../components/Auth/resend-email";
 import ResetPasswordPage from "../components/Auth/reset-password";
 import SignInPage from "../components/Auth/sign-in";
 import SignUpPage from "../components/Auth/sign-up";
+import NotFoundPage from "../components/common/NotFound";
 import ConnectWalletPage from "../components/connect-wallet";
 import HomePage from "../components/Home";
 export const AppRouter = () => {
@@ -18,7 +19,7 @@ export const AppRouter = () => {
       <Route path="/email-confirm" element={<EmailConfirmPage />} />
       <Route path="/connect-wallet" element={<ConnectWalletPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/*" element={<>404! Not Found</>} />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 };
