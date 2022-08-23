@@ -78,7 +78,10 @@ export default function ConnectWalletPage() {
         navigate("/");
       }
     } else {
-      if (accountWallet === userData?.metamaskAddress?.toLowerCase()) {
+      if (
+        accountWallet?.toLowerCase() ===
+        userData?.metamaskAddress?.toLowerCase()
+      ) {
         navigate("/");
       } else {
         setErrorCheckAddress(

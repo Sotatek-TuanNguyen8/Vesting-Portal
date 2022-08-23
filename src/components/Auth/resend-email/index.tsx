@@ -1,13 +1,11 @@
 import { Button, Typography } from "@material-ui/core";
 import moment from "moment";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { resendEmailAuth } from "../../../service";
-import { AppDispatch } from "../../../store";
-import { fetchInfoUser } from "../../../store/action";
 import useStyles from "./style";
 
 export default function ResendEmailPage() {
@@ -19,34 +17,15 @@ export default function ResendEmailPage() {
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
   const { email, type } = useSelector((state: any) => state.resendEmail);
-  const dispatch = useDispatch<AppDispatch>();
-  const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      const item = localStorage.getItem("access_token");
-      if (!item) {
-        return;
-      } else {
-        setCheckFetchData(false);
-        await dispatch(fetchInfoUser(item));
-        setCheckFetchData(true);
-      }
-    })();
-  }, [dispatch, navigate, localStorage.getItem("access_token")]);
-
-  useEffect(() => {
-    if (!checkFetchData) {
+    if (userData?.isVerify) {
+      navigate("/connect-wallet");
+      return;
+    }
+    if (!userData?.verifyAt) {
       setCounter(60);
     } else {
-      if (userData?.isVerify) {
-        navigate("/connect-wallet");
-        return;
-      }
-      if (!userData?.verifyAt) {
-        setCounter(60);
-        return;
-      }
       const time = moment.now() - userData?.verifyAt / 1000;
       if (time > 60) {
         setCounter(0);
@@ -54,7 +33,7 @@ export default function ResendEmailPage() {
         setCounter(60 - time);
       }
     }
-  }, [checkFetchData, userData?.isVerify, navigate, userData?.verifyAt]);
+  }, [userData?.isVerify, navigate, userData?.verifyAt]);
 
   useLayoutEffect(() => {
     const interval = setInterval(function () {
@@ -103,8 +82,8 @@ export default function ResendEmailPage() {
             The email address has already been verified successfully. Click the
             button below to login.
           </p>
-          <Link to="/sign-in" className={classes.btnLogin}>
-            LOG IN
+          <Link to="/sign-in">
+            <Button>LOG IN</Button>
           </Link>
         </div>
       ) : (

@@ -6,22 +6,33 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
+import { setUser } from "../../../../store/action";
+import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
 
 export default function UserConnect() {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const classes = useStyles();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleClick = (e: any) => {
     setAnchorEl(e.currentTarget);
+  };
+
+  const handleLogout = () => {
+    dispatch(setUser({}));
+    setLocalStorage("access_token", "");
+    setLocalStorage("refresh_token", "");
+    navigate("/sign-in");
   };
 
   return (
@@ -59,8 +70,7 @@ export default function UserConnect() {
           <ListItemText
             primary="Log out"
             onClick={() => {
-              localStorage.removeItem("access_token");
-              navigate("/sign-in");
+              handleLogout();
             }}
           />
         </MenuItem>

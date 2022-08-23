@@ -39,12 +39,23 @@ export const MetaMaskProvider = ({ children }: any) => {
       .catch(() => {});
   }, [active, activate, error]);
 
+  // check not install extension MetaMask
+  const isMetaMask = () => {
+    const windowObj: any = window;
+    return !!windowObj?.ethereum || !!windowObj?.ethereum?.isMetaMask;
+  };
+
   // Connect to MetaMask wallet
   const connect = React.useCallback(async () => {
-    try {
-      await activate(injectedConnector);
-    } catch (error: any) {
-      toast.error(error?.message);
+    if (!isMetaMask()) {
+      toast.error("Please install extension MetaMask");
+      window.open("https://metamask.io/");
+    } else {
+      try {
+        await activate(injectedConnector);
+      } catch (error: any) {
+        toast.error(error?.message);
+      }
     }
   }, [activate]);
 
@@ -78,11 +89,6 @@ export const MetaMaskProvider = ({ children }: any) => {
     } catch (error: any) {
       toast.error(error?.message);
     }
-  };
-
-  const isNotMetaMask = () => {
-    const windowObj: any = window;
-    return !!windowObj?.ethereum || !!windowObj?.ethereum?.isMetaMask;
   };
 
   const switchNetwork = async () => {
@@ -130,7 +136,7 @@ export const MetaMaskProvider = ({ children }: any) => {
     setError,
     chainId,
     getSignature,
-    isNotMetaMask,
+    isMetaMask,
     switchNetwork,
     wrongNetWork,
   };

@@ -30,7 +30,7 @@ export default function SignInPage() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [rememberMe, setRememberme] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const getRememberLogin = getLocalStorage("rememberLogin");
   const dispatch = useDispatch();
   const { control, handleSubmit, setError } = useForm<LoginForm>({
@@ -47,6 +47,12 @@ export default function SignInPage() {
       return;
     }
   }, [navigate]);
+
+  useEffect(() => {
+    setRememberMe(
+      Boolean(getRememberLogin?.email) || Boolean(getRememberLogin?.password)
+    );
+  }, [getRememberLogin?.email, getRememberLogin?.password]);
 
   const [{ loading }, doSubmit] = useThrowableAsyncFn(
     async (body: LoginForm) => {
@@ -79,6 +85,14 @@ export default function SignInPage() {
               password: body.password,
             })
           );
+        } else {
+          await setLocalStorage(
+            "rememberLogin",
+            JSON.stringify({
+              email: "",
+              password: "",
+            })
+          );
         }
         dispatch(
           setUser({
@@ -91,7 +105,6 @@ export default function SignInPage() {
             role: res?.data?.user?.role,
           })
         );
-
         if (res?.data?.user?.is_verified !== false) {
           navigate("/connect-wallet");
           setLocalStorage("access_token", res?.data?.accessToken);
@@ -205,7 +218,7 @@ export default function SignInPage() {
               checked={rememberMe}
               type="checkbox"
               onChange={(e) => {
-                setRememberme(e.target.checked);
+                setRememberMe(e.target.checked);
               }}
             />
             <p>Remember me</p>
