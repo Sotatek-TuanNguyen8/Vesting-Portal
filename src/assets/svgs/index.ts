@@ -12,3 +12,4 @@ export { ReactComponent as VisibilityOff } from "./visibility_off.svg";
 export { ReactComponent as ToolTipIcon } from "./tool_tip.svg";
 export { ReactComponent as RoundCancelIcon } from "./round_cancel.svg";
 export { ReactComponent as Error } from "./error.svg";
+export { ReactComponent as AvatarDefault } from "./avatarDefault.svg";

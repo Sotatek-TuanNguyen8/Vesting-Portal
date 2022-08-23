@@ -8,11 +8,15 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowDown, Disconnect, Logout } from "../../../../assets/svgs";
+import {
+  ArrowDown,
+  AvatarDefault,
+  Disconnect,
+  Logout,
+} from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 export default function UserNav() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,7 +44,7 @@ export default function UserNav() {
 
   return (
     <div className={classes.container}>
-      <AccountCircleOutlinedIcon />
+      <AvatarDefault style={{ marginRight: 30 }} />
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <p>Matias</p>
