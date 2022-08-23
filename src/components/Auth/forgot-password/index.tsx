@@ -42,30 +42,25 @@ export default function ForgotPasswordPage() {
     if (res?.error) {
       const { statusCode } = res?.error;
       if (statusCode === 406) {
-        if (!isNotMetaMask()) {
-          toast.error("Please install extension MetaMask");
-          window.open("https://metamask.io/");
-        } else {
-          try {
-            const signature = await handleConnect();
-            const response = await forgotPWlAuth(
-              {
-                email: data.email,
-                signature: signature,
-                wallet_address: account,
-              },
-              FORGOT_PASSWORD
-            );
-            if (response?.error) {
-              setMessError("Email and Wallet address do not match");
-            } else {
-              setMessError("");
-              setIsSendEmail(true);
-            }
-          } catch (error: any) {
-            setIsClickFirst(false);
-            toast.error(error?.message);
+        try {
+          const signature = await handleConnect();
+          const response = await forgotPWlAuth(
+            {
+              email: data.email,
+              signature: signature,
+              wallet_address: account,
+            },
+            FORGOT_PASSWORD
+          );
+          if (response?.error) {
+            setMessError("Email and Wallet address do not match");
+          } else {
+            setMessError("");
+            setIsSendEmail(true);
           }
+        } catch (error: any) {
+          setIsClickFirst(false);
+          toast.error(error?.message);
         }
       } else {
         setMessError(res?.error?.details);
