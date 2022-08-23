@@ -96,6 +96,7 @@ export const theme = createTheme({
         textTransform: "none",
         paddingTop: 22,
         paddingBottom: 22,
+        fontFamily: "gibson !important",
       },
       label: {
         fontSize: 18,

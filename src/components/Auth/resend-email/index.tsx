@@ -78,8 +78,6 @@ export default function ResendEmailPage({}: Props) {
     }
   }, [navigate, email]);
 
-  console.log(email);
-
   const handleResendEmail = async () => {
     setIsClickFirst(true);
     setCounter(new Number(60));

@@ -43,10 +43,10 @@ export const Header = ({ isNav = false }: Props) => {
           ) : (
             <>
               <div className={classes.nav}>
-                <Link to="/" className={clsx(isActive("/"), "item")}>
+                <Link to="/" className={clsx(isActive("/2"), "item")}>
                   STAKING/LP
                 </Link>
-                <Link to="/" className={clsx(isActive("/2"), "item")}>
+                <Link to="/" className={clsx(isActive("/"), "item")}>
                   CLAIMING
                 </Link>
                 <Link to="/" className={clsx(isActive("/3"), "item")}>

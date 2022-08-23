@@ -1,5 +1,5 @@
 import { Button, Divider, Typography } from "@material-ui/core";
-import Chart from "../../chart";
+import LineChart from "../line-chart";
 import useStyles from "./style";
 
 type Props = {};
@@ -53,7 +53,7 @@ export default function PreSeed({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <Chart />
+          <LineChart />
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
-import { Tooltip as ToolTipMui } from "@mui/material";
 import useStyles from "./style";
+
 const data = [
   {
     name: "S",
@@ -40,6 +40,7 @@ const data = [
     value: 100,
   },
 ];
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   const style = useStyles();
   if (active && payload && payload.length) {
@@ -52,7 +53,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   }
   return null;
 };
-const Chart = () => {
+
+const LineChart = () => {
   const [positionTooltip, setPositionTooltip] = useState({
     x: 0,
     y: 0,
@@ -86,7 +88,7 @@ const Chart = () => {
 
   useEffect(() => {
     const tooltip = document.querySelector<HTMLElement>(
-      ".recharts-tooltip-wrapper",
+      ".recharts-tooltip-wrapper"
     );
     if (!tooltip) return;
     // Init tooltip values
@@ -104,7 +106,7 @@ const Chart = () => {
     left: -${tooltipWidth / 2}px;
     opacity: ${positionTooltip?.show ? "1" : 0};
     transition: all 400ms ease 0s;
-  `,
+  `
     );
   }, [positionTooltip]);
   return (
@@ -168,4 +170,4 @@ const Chart = () => {
     </ResponsiveContainer>
   );
 };
-export default Chart;
+export default LineChart;

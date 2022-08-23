@@ -12,14 +12,14 @@ export default function InvestorLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const classes = useStyles();
 
-  useEffect(() => {
-    const item = localStorage.getItem("access_token");
-    if (item) {
-      return;
-    } else {
-      navigate("/sign-in");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const item = localStorage.getItem("access_token");
+  //   if (item) {
+  //     return;
+  //   } else {
+  //     navigate("/sign-in");
+  //   }
+  // }, [navigate]);
 
   return (
     <div className={classes.main}>

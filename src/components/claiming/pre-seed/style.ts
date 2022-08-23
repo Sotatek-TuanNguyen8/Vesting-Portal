@@ -47,11 +47,13 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: 20,
         lineHeight: "20px",
         color: "#0A208F",
+        fontFamily: "gibson",
       },
       "& .content": {
         fontSize: 20,
         lineHeight: "26px",
         color: "#676767",
+        fontFamily: "gibson",
       },
     },
     lineChart: {
