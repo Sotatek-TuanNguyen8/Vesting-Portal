@@ -2,7 +2,39 @@ import { Button, Divider, Typography } from "@material-ui/core";
 import LineChart from "../line-chart";
 import useStyles from "./style";
 
-export default function PreSeed() {
+type Props = {};
+const data = [
+  {
+    name: "S",
+    value: 10,
+  },
+  {
+    name: "M",
+    value: 20,
+  },
+  {
+    name: "T",
+    value: 23,
+  },
+  {
+    name: "W",
+    value: 40,
+  },
+  {
+    name: "TH",
+    value: 50,
+  },
+  {
+    name: "F",
+    value: 60,
+  },
+  {
+    name: "SA",
+    value: 100,
+  },
+];
+
+export default function PreSeed({}: Props) {
   const classes = useStyles();
   return (
     <div className={classes.preSeed}>
@@ -51,7 +83,7 @@ export default function PreSeed() {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart />
+          <LineChart data={data}  width={700} height={500}/>
         </div>
       </div>
     </div>

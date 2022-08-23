@@ -10,37 +10,6 @@ import {
 } from "recharts";
 import useStyles from "./style";
 
-const data = [
-  {
-    name: "S",
-    value: 10,
-  },
-  {
-    name: "M",
-    value: 20,
-  },
-  {
-    name: "T",
-    value: 23,
-  },
-  {
-    name: "W",
-    value: 40,
-  },
-  {
-    name: "TH",
-    value: 50,
-  },
-  {
-    name: "F",
-    value: 60,
-  },
-  {
-    name: "SA",
-    value: 100,
-  },
-];
-
 const CustomTooltip = ({ active, payload, label }: any) => {
   const style = useStyles();
   if (active && payload && payload.length) {
@@ -54,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const LineChart = () => {
+const LineChart = ({ data, width, height }: any) => {
   const [positionTooltip, setPositionTooltip] = useState({
     x: 0,
     y: 0,
@@ -75,99 +44,105 @@ const LineChart = () => {
     });
   };
   const handleActiveTooltip = (data: any) => {
+    console.log(data);
     setActiveTooltip(data.activeTooltipIndex);
   };
   const handleLeaveTooltip = (data: any) => {
-    console.log(data);
-
     setPositionTooltip({
       ...positionTooltip,
       show: false,
     });
   };
 
-  useEffect(() => {
-    const tooltip = document.querySelector<HTMLElement>(
-      ".recharts-tooltip-wrapper"
-    );
-    if (!tooltip) return;
-    // Init tooltip values
-    const tooltipHeight = tooltip.getBoundingClientRect().height;
-    const tooltipWidth = tooltip.getBoundingClientRect().width;
-    const spaceForLittleTriangle = 20;
+  // useEffect(() => {
+  //   const tooltip = document.querySelector<HTMLElement>(
+  //     ".recharts-tooltip-wrapper",
+  //   );
+  //   if (!tooltip) return;
+  //   // Init tooltip values
+  //   const tooltipHeight = tooltip.getBoundingClientRect().height;
+  //   const tooltipWidth = tooltip.getBoundingClientRect().width;
+  //   const spaceForLittleTriangle = 20;
 
-    // Rewrite tooltip styles
-    tooltip.setAttribute(
-      "style",
-      `
-    transform: translate(${positionTooltip?.x}px, ${positionTooltip?.y}px);
-    pointer-events: none;  position: absolute;
-    top: -${tooltipHeight + spaceForLittleTriangle}px;
-    left: -${tooltipWidth / 2}px;
-    opacity: ${positionTooltip?.show ? "1" : 0};
-    transition: all 400ms ease 0s;
-  `
-    );
-  }, [positionTooltip]);
+  //   // Rewrite tooltip styles
+  //   tooltip.setAttribute(
+  //     "style",
+  //     `
+  //    transform: translate(${positionTooltip?.x}px, ${positionTooltip?.y}px);
+  //   pointer-events: none;  position: absolute;
+  //   top: -${tooltipHeight + spaceForLittleTriangle}px;
+  //   left: -${tooltipWidth / 2}px;
+  //   opacity: ${positionTooltip?.show ? "1" : 0};
+  //   transition: all 400ms ease 0s;
+  // `,
+  //   );
+  // }, [positionTooltip]);
   return (
-    <ResponsiveContainer width={"100%"} height={500}>
-      <AreaChart
-        data={data}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
+    // <ResponsiveContainer width={700} height={500}>
+    <AreaChart
+      data={data}
+      width={width}
+      height={height}
+      margin={{
+        top: 10,
+        right: 30,
+        left: 0,
+        bottom: 0,
+      }}
+      onMouseMove={handleActiveTooltip}
+    >
+      <CartesianGrid vertical={false} stroke="#82828E"   />
+      <XAxis dataKey="name" tickLine={false} axisLine={false} />
+      <YAxis tickLine={false} axisLine={false} />
+      <defs>
+        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="5%" stopColor="#36BBEB" stopOpacity={0.8} />
+          <stop offset="95%" stopColor="#36BBEB" stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <Tooltip
+        content={<CustomTooltip />}
+        offset={10}
+        filterNull={true}
+        cursor={false}
+        position={{
+          x: positionTooltip.x - 20,
+          y: positionTooltip.y - 80,
         }}
-        onMouseMove={handleActiveTooltip}
-      >
-        <CartesianGrid vertical={false} stroke="#DDD" />
-        <XAxis dataKey="name" tickLine={false} axisLine={false} />
-        <YAxis tickLine={false} axisLine={false} />
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#36BBEB" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#36BBEB" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <Tooltip
-          content={<CustomTooltip />}
-          offset={10}
-          filterNull={true}
-          cursor={false}
-          position={{
-            x: positionTooltip.x,
-            y: positionTooltip.y,
-          }}
-        />
+        wrapperStyle={{
+          opacity: positionTooltip?.show ? "1" : 0,
+          transition: " all 400ms ease 0s",
+        }}
+      />
 
-        <Area
-          type="monotone"
-          dataKey="value"
-          stroke="#27FFFF"
-          strokeWidth={4}
-          fill="url(#colorUv)"
-          fillOpacity={1}
-          layout="horizontal"
-          activeDot={{
-            fill: "#FFFFFF",
-            stroke: "#75BBE7",
-            strokeWidth: 3,
-            r: 7,
-            className: "boxShadow",
-          }}
-          dot={{
-            fill: "#FFFFFF",
-            stroke: "#75BBE7",
-            strokeWidth: 1,
-            r: 2,
-            className: "boxShadow",
-          }}
-          onMouseMove={onMouseMov}
-          onMouseLeave={handleLeaveTooltip}
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+      <Area
+        type="monotone"
+        dataKey="value"
+        stroke="#27FFFF"
+        strokeWidth={4}
+        fill="url(#colorUv)"
+        fillOpacity={1}
+        layout="horizontal"
+        activeDot={{
+          fill: "#FFFFFF",
+          stroke: "#75BBE7",
+          strokeWidth: 3,
+          r: 7,
+          className: "boxShadow",
+        }}
+        dot={{
+          fill: "#FFFFFF",
+          stroke: "#75BBE7",
+          strokeWidth: 1,
+          r: 2,
+          className: "boxShadow",
+        }}
+        onMouseMove={onMouseMov}
+        onMouseOut={handleLeaveTooltip}
+        isAnimationActive={true}
+      />
+    </AreaChart>
+    // </ResponsiveContainer>
   );
 };
 export default LineChart;
