@@ -25,7 +25,7 @@ export const AppRouter = () => {
       <Route path="/admin-panel/investor" element={<Investors />} />
       <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
       <Route path="/admin-panel" element={<Investors />} />
-      <Route path="/*" element={<>404! Not Found</>} />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 };
