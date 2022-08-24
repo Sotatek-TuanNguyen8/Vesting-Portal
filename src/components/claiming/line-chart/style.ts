@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme: Theme) => {
     customTooltip: {
       maxWidth: "250px",
       position: "relative",
-      padding: "1px 11px",
-      borderRadius: "5px",
+      padding: "6px 41px",
+      borderRadius: "20px",
       background: " linear-gradient(92.15deg, #E7D4FF 0.76%, #ABFBFD 100.94%)",
       color: "#474747",
       border: "none",
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => {
         height: 0,
         width: 0,
         bottom: "-10px",
-        left: "60%",
+        left: "50%",
         transform: "translateX(-50%)",
         borderStyle: "solid",
         borderWidth: "10px 20px 0 0px",
@@ -28,13 +28,15 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     valueTooltip: {
       margin: "0",
-      fontSize: "27px",
+      fontSize: 27,
+      paddingTop: 10,
+      lineHeight: "20px",
       fontWeight: 700,
     },
     labelTooltip: {
       fontWeight: 300,
-      fontSize: "14px",
-      margin: "2px 0",
+      fontSize: 14,
+      margin: "0",
     },
   };
 });
