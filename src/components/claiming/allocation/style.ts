@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     container: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-start",
       justifyContent: "space-between",
       gap: "0px 160px",
     },

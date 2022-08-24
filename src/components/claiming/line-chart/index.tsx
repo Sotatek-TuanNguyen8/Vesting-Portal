@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Area,
   AreaChart,
   CartesianGrid,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -16,7 +15,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className={style.customTooltip}>
         <p className={style.valueTooltip}>{payload[0].value}</p>
-        <p className={style.labelTooltip}>{payload[0].name}</p>
+        {/* <p className={style.labelTooltip}>{payload[0].name}</p> */}
       </div>
     );
   }
@@ -32,9 +31,8 @@ const LineChart = ({ data, width, height }: any) => {
     show: false,
   });
   const [activeTooltip, setActiveTooltip] = useState(0);
-  const onMouseMov = (hoveredData: any) => {
-    // console.log(hoveredData);
 
+  const onMouseMov = (hoveredData: any) => {
     setPositionTooltip({
       x: hoveredData?.points[activeTooltip]?.x,
       y: hoveredData?.points[activeTooltip]?.y,
@@ -43,10 +41,11 @@ const LineChart = ({ data, width, height }: any) => {
       show: true,
     });
   };
+
   const handleActiveTooltip = (data: any) => {
-    console.log(data);
     setActiveTooltip(data.activeTooltipIndex);
   };
+
   const handleLeaveTooltip = (data: any) => {
     setPositionTooltip({
       ...positionTooltip,
@@ -77,6 +76,7 @@ const LineChart = ({ data, width, height }: any) => {
   // `,
   //   );
   // }, [positionTooltip]);
+
   return (
     // <ResponsiveContainer width={700} height={500}>
     <AreaChart
@@ -91,18 +91,35 @@ const LineChart = ({ data, width, height }: any) => {
       }}
       onMouseMove={handleActiveTooltip}
     >
-      <CartesianGrid vertical={false} stroke="rgba(130, 130, 142, 0.2)" />
+      <CartesianGrid vertical={false} stroke="rgba(130, 130, 142, 0.3)" />
       <XAxis
         dataKey="name"
         tickLine={false}
         axisLine={false}
-        padding={{ left: 20 }}
+        padding={{ left: 20, right: 10 }}
+        tick={{
+          fontFamily: "gibson",
+          fontWeight: 300,
+          fontSize: 12,
+          color: "#82828E",
+        }}
       />
-      <YAxis tickLine={false} axisLine={false} />
+      <YAxis
+        tickLine={false}
+        axisLine={false}
+        // ticks={[0, 20, 40, 60, 80, 100, 120]}
+        tick={{
+          fontFamily: "gibson",
+          fontWeight: 300,
+          fontSize: 12,
+          color: "#82828E",
+        }}
+        tickSize={2}
+      />
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
           <stop offset="5%" stopColor="#36BBEB" stopOpacity={1} />
-          <stop offset="95%" stopColor="#36BBEB" stopOpacity={0.1} />
+          <stop offset="100%" stopColor="#36BBEB" stopOpacity={0} />
         </linearGradient>
       </defs>
       <Tooltip
@@ -124,7 +141,7 @@ const LineChart = ({ data, width, height }: any) => {
         type="monotone"
         dataKey="value"
         stroke="#27FFFF"
-        strokeWidth={4}
+        strokeWidth={5}
         fill="url(#colorUv)"
         fillOpacity={1}
         layout="horizontal"

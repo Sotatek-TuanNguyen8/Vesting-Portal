@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
       color: "#474747",
       border: "none",
       fontWeight: 400,
+      fontFamily: "gibson",
       textAlign: "center",
       "&:after": {
         content: '""',
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) => {
     valueTooltip: {
       margin: "0",
       fontSize: 27,
-      paddingTop: 10,
+      paddingTop: 15,
+      paddingBottom: 15,
       lineHeight: "20px",
       fontWeight: 700,
     },

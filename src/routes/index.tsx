@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import AdminPanel from "../components/AdminPanel";
 import Investors from "../components/AdminPanel/Adminstration/Investor";
 import Tokenomics from "../components/AdminPanel/Adminstration/Tokenomics";
 import EmailConfirmPage from "../components/Auth/email-confirm";
