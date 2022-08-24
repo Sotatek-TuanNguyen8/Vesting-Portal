@@ -1,14 +1,14 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Error } from "../../assets/svgs";
 import { loginAdmin } from "../../service";
 import { scrollIntoView } from "../../utils/common/fn";
-import useMetaMask from "../../utils/hooks/useMetaMask";
-import useStyles from "./style";
 import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
-import { toast } from "react-toastify";
+import useMetaMask from "../../utils/hooks/useMetaMask";
 import { setLocalStorage } from "../hooks/localStorageCheck";
+import useStyles from "./style";
 
 export default function AdminAuthPage() {
   const classes = useStyles();

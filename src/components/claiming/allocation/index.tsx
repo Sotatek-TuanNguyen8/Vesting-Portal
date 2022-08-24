@@ -100,7 +100,7 @@ export default function Allocation({}: Props) {
         process.env.REACT_APP_CONTRACT_PROXY as string
       );
       if (!time_out_claim) {
-        toast.success("Claim Successfully");
+        toast.success("Successful transaction done");
         dispatch(fetchInfoClaim("1"));
       } else {
         toast.error(
@@ -108,7 +108,7 @@ export default function Allocation({}: Props) {
         );
       }
     } catch (error) {
-      toast.error("Claim Failed");
+      toast.warning("You denied the transaction");
       console.error(error);
     }
     setCheckClickFirst(false);
