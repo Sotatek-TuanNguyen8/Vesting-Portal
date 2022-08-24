@@ -6,9 +6,11 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "100%",
       maxWidth: 1440,
       margin: "0px auto",
+      marginTop: 40,
       "& .MuiTypography-h5": {
         color: "#0A208F",
       },
+      position: "relative",
     },
     desc: {
       fontSize: 20,
