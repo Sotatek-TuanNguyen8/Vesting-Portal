@@ -21,7 +21,7 @@ export default function Investors({}: Props) {
     setOpen(false);
   };
   return (
-    <div>
+    <div className={styles.wrapper}>
       <AdminPanel />
       <div className={styles.container}>
         <Administration active={"investor"} />

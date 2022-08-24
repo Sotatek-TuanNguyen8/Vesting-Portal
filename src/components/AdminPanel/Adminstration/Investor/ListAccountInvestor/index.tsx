@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getListInvestor } from "../../../../../service";
 import InputTableEdit from "../../../../common/InputEdit";
+import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
+import ModalDelete from "../ModalDelete";
 import ModalFilterSaleStage from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
@@ -13,6 +16,8 @@ const data = [
     walletAddress: "0XC6...72AA",
     tokenAmount: "135000000",
     saleStage: "Angel",
+    tokensVested: "50000",
+    tokensClaimed: "50000",
   },
 ];
 
@@ -23,6 +28,8 @@ const dataItemDefault = {
   walletAddress: "",
   tokenAmount: "",
   saleStage: "",
+  tokensVested: "",
+  tokensClaimed: "",
 };
 export default function ListAccountInvestor({}: Props) {
   const styles = useStyles();
@@ -31,7 +38,26 @@ export default function ListAccountInvestor({}: Props) {
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleDelete = (e: any) => {};
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
+  const [dataListInvestor, setDataListInvestor] = useState<any>();
+
+  const renderOpenModalDelete = () => (
+    <ModalDelete open={openModalDelete} onClose={handleCloseModalDelete} />
+  );
+
+  useEffect(() => {
+    (async () => {
+      // const data = await getListInvestor()
+      setDataListInvestor(data);
+    })();
+  }, []);
+  const handleCloseModalDelete = () => {
+    setOpenModalDelete(false);
+  };
+
+  const handleDelete = (e: any) => {
+    setOpenModalDelete(true);
+  };
 
   const handleEdit = (e: any) => {
     setIsEdit(true);
@@ -60,6 +86,15 @@ export default function ListAccountInvestor({}: Props) {
     setOpen(false);
   };
 
+  const handleSelect = (e: any) => {
+    // console.log(e);
+    setDataItem({
+      ...dataItem,
+      saleStage: e,
+    });
+    console.log(dataItem);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -79,6 +114,8 @@ export default function ListAccountInvestor({}: Props) {
               <ModalFilterSaleStage open={open} onClose={handleClose} />
             </div>
           </p>
+          <p>Tokens vested</p>
+          <p>Tokens claimed</p>
           <p></p>
         </div>
         <div className={styles.border}></div>
@@ -88,34 +125,46 @@ export default function ListAccountInvestor({}: Props) {
           <div className="content">
             <InputTableEdit
               status={isEdit}
-              value={dataItem.fullName || item.fullName}
+              value={isEdit ? dataItem.fullName : item.fullName}
               field="fullName"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
               status={isEdit}
-              value={dataItem.email || item.email}
+              value={isEdit ? dataItem.email : item.email}
               field="email"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
               status={isEdit}
-              value={dataItem.walletAddress || item.walletAddress}
+              value={isEdit ? dataItem.walletAddress : item.walletAddress}
               field="walletAddress"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
               status={isEdit}
-              value={dataItem.tokenAmount || item.tokenAmount}
+              value={isEdit ? dataItem.tokenAmount : item.tokenAmount}
               field="tokenAmount"
               onChange={handleChangeInputTable}
             />
-            <InputTableEdit
+            {/* <InputTableEdit
               status={isEdit}
-              value={dataItem.saleStage || item.saleStage}
+              value={isEdit ? dataItem.saleStage : item.saleStage}
               field="saleStage"
               onChange={handleChangeInputTable}
+            /> */}
+
+            <ModalSaleStage
+              open={open}
+              status={isEdit}
+              onClose={handleClose}
+              value={isEdit ? dataItem.saleStage : item.saleStage}
+              onClickSelect={handleSelect}
             />
+
+            <div className="tokensVested">{item.tokensVested}</div>
+            <div className="tokensClaimed">{item.tokensClaimed}</div>
+
             <div className="action">
               {!isEdit ? (
                 <>
@@ -129,6 +178,7 @@ export default function ListAccountInvestor({}: Props) {
                     src="/images/iconEdit.svg"
                     alt=""
                   />
+                  {renderOpenModalDelete()}
                 </>
               ) : (
                 <>

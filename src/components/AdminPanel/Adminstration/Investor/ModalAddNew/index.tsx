@@ -1,6 +1,7 @@
 import { Dialog, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import { useRef, useState } from "react";
+import { createInvestorNew } from "../../../../../service";
 import useStyles from "./style";
 
 type Props = {
@@ -32,13 +33,20 @@ export default function ModalAddNew({ open, onClose }: Props) {
     ref.current.focus();
   };
 
-  const handleClickCreate = () => {
+  const checkWalletInvestor = async () => {
+    const data = await createInvestorNew(value);
+    if (data.status === 200) {
+    }
+  };
+
+  const handleClickCreate = async () => {
     if (!value) {
       setMsgErrRequied(true);
     } else if (!ethers.utils.isAddress(value)) {
       setMsgErrInvalid(true);
     } else {
-      onClose();
+      checkWalletInvestor();
+      // onClose();
     }
   };
 

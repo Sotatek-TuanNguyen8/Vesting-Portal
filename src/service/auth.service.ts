@@ -1,5 +1,6 @@
 import {
   confirmEmailBody,
+  createInvestor,
   forgotPWBody,
   loginBody,
   resendEmailBody,
@@ -24,6 +25,11 @@ export const authService = {
 export const loginAuth = async (body: loginBody) => {
   const { data } = await Request.post(`${serverEndpoint}/auth/login`, body);
   return data;
+};
+
+export const createInvestorNew = async (body: createInvestor) => {
+  const response = await Request.post(`${serverEndpoint}/investors`, body);
+  return response;
 };
 
 export const confirmEmailAuth = async (body: confirmEmailBody) => {
@@ -67,6 +73,15 @@ export const updateWalletAuth = async (body: updateWallet) => {
 export const getInfoUser = async (access_token: string) => {
   const { data } = await Request.get(
     `${serverEndpoint}/users/me`,
+    {},
+    access_token
+  );
+  return data;
+};
+
+export const getListInvestor = async (access_token: string) => {
+  const { data } = await Request.get(
+    `${serverEndpoint}/investors`,
     {},
     access_token
   );

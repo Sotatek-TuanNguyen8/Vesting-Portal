@@ -34,4 +34,8 @@ export interface updateWallet {
   wallet_address: string;
 }
 
+export interface createInvestor {
+  wallet_address: string;
+}
+
 export interface getInfo {}
