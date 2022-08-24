@@ -15,31 +15,31 @@ import moment from "moment";
 type Props = {};
 const data = [
   {
-    name: "S",
+    name: "18",
     value: 123,
   },
   {
-    name: "M",
+    name: "19",
     value: 234,
   },
   {
-    name: "T",
+    name: "20",
     value: 206,
   },
   {
-    name: "W",
+    name: "21",
     value: 228,
   },
   {
-    name: "TH",
+    name: "22",
     value: 804,
   },
   {
-    name: "F",
+    name: "23",
     value: 500,
   },
   {
-    name: "SA",
+    name: "24",
     value: 700,
   },
 ];
@@ -101,6 +101,7 @@ export default function Allocation({}: Props) {
       );
       if (!time_out_claim) {
         toast.success("Claim Successfully");
+        dispatch(fetchInfoClaim("1"));
       } else {
         toast.error(
           "Transaction Pending. Please wait for transaction success and reload page"
