@@ -1,4 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import AdminPanel from "../components/AdminPanel";
+import Investors from "../components/AdminPanel/Adminstration/Investor";
+import Tokenomics from "../components/AdminPanel/Adminstration/Tokenomics";
 import EmailConfirmPage from "../components/Auth/email-confirm";
 import ForgotPasswordPage from "../components/Auth/forgot-password";
 import ResendEmailPage from "../components/Auth/resend-email";
@@ -19,6 +22,9 @@ export const AppRouter = () => {
       <Route path="/email-confirm" element={<EmailConfirmPage />} />
       <Route path="/connect-wallet" element={<ConnectWalletPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/admin-panel/investor" element={<Investors />} />
+      <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
+      <Route path="/admin-panel" element={<Investors />} />
       <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
