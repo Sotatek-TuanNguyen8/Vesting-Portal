@@ -15,6 +15,7 @@ import {
   Logout,
 } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
+import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
 
@@ -47,8 +48,12 @@ export default function UserNav() {
       <AvatarDefault style={{ marginRight: 30 }} />
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
-          <p>Matias</p>
-          {userData && userData?.metamaskAddress && <span>FWRF134...526</span>}
+          {userData?.fullName && <p>{userData?.fullName}</p>}
+          {userData?.metamaskAddress && (
+            <span>
+              {convertTextAddressWallet(7, 3, userData?.metamaskAddress)}
+            </span>
+          )}
         </div>
         <ArrowDown />
       </div>

@@ -11,6 +11,7 @@ import {
   signUpResendSuccess,
 } from "../../store/action";
 import { scrollIntoView } from "../../utils/common/fn";
+import { CONNECT_WALLET } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import InvestorLayout from "../layouts/InvestorLayout";
 import useStyles from "./style";
@@ -64,7 +65,7 @@ export default function ConnectWalletPage() {
     } else {
       const accountWallet = localStorage.getItem("accounts");
       if (!userData?.metamaskAddress) {
-        const signature = await getSignature("ConnectWallet");
+        const signature = await getSignature(CONNECT_WALLET);
         if (signature) {
           const res = await updateWalletAuth({
             signature: signature,

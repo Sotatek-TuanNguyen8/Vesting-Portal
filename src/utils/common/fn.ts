@@ -52,3 +52,13 @@ export const scrollIntoView = (element: React.RefObject<HTMLInputElement>) => {
     inline: "nearest",
   });
 };
+
+export function convertTextAddressWallet(
+  startIndex: number,
+  endIndex: number,
+  text: string
+) {
+  const startText = text?.substring(0, startIndex);
+  const endText = text?.substring(text.length - endIndex);
+  return startText?.concat("...")?.concat(endText);
+}

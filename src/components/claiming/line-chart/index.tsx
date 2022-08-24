@@ -91,13 +91,18 @@ const LineChart = ({ data, width, height }: any) => {
       }}
       onMouseMove={handleActiveTooltip}
     >
-      <CartesianGrid vertical={false} stroke="#82828E"   />
-      <XAxis dataKey="name" tickLine={false} axisLine={false} />
+      <CartesianGrid vertical={false} stroke="rgba(130, 130, 142, 0.2)" />
+      <XAxis
+        dataKey="name"
+        tickLine={false}
+        axisLine={false}
+        padding={{ left: 20 }}
+      />
       <YAxis tickLine={false} axisLine={false} />
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#36BBEB" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#36BBEB" stopOpacity={0} />
+          <stop offset="5%" stopColor="#36BBEB" stopOpacity={1} />
+          <stop offset="95%" stopColor="#36BBEB" stopOpacity={0.1} />
         </linearGradient>
       </defs>
       <Tooltip
@@ -106,8 +111,8 @@ const LineChart = ({ data, width, height }: any) => {
         filterNull={true}
         cursor={false}
         position={{
-          x: positionTooltip.x - 20,
-          y: positionTooltip.y - 80,
+          x: positionTooltip.x - 50,
+          y: positionTooltip.y - 90,
         }}
         wrapperStyle={{
           opacity: positionTooltip?.show ? "1" : 0,
@@ -126,15 +131,15 @@ const LineChart = ({ data, width, height }: any) => {
         activeDot={{
           fill: "#FFFFFF",
           stroke: "#75BBE7",
-          strokeWidth: 3,
-          r: 7,
+          strokeWidth: 7,
+          r: 12,
           className: "boxShadow",
         }}
         dot={{
           fill: "#FFFFFF",
           stroke: "#75BBE7",
-          strokeWidth: 1,
-          r: 2,
+          strokeWidth: 3,
+          r: 5,
           className: "boxShadow",
         }}
         onMouseMove={onMouseMov}

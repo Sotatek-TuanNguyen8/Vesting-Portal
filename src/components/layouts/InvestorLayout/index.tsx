@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { Header } from "../../common/Header";
 import useStyles from "./style";
 
@@ -11,15 +12,15 @@ type Props = {
 export default function InvestorLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const classes = useStyles();
+  const { account } = useMetaMask();
 
   useEffect(() => {
     const item = localStorage.getItem("access_token");
-    if (item) {
-      return;
-    } else {
+    if (!item || !account) {
       navigate("/sign-in");
+      return;
     }
-  }, [navigate]);
+  }, [account, navigate]);
 
   return (
     <div className={classes.main}>
