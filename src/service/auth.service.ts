@@ -29,11 +29,6 @@ export const loginAuth = async (body: loginBody) => {
   return data;
 };
 
-export const createInvestorNew = async (body: createInvestor) => {
-  const response = await Request.post(`${serverEndpoint}/investors`, body);
-  return response;
-};
-
 export const confirmEmailAuth = async (body: confirmEmailBody) => {
   const { data } = await Request.post(
     `${serverEndpoint}/auth/confirm-email`,
@@ -86,15 +81,6 @@ export const loginAdmin = async (body: loginWallet, header?: string) => {
     `${serverEndpoint}/auth/admin/login`,
     body,
     header
-  );
-  return data;
-};
-
-export const getListInvestor = async (access_token: string) => {
-  const { data } = await Request.get(
-    `${serverEndpoint}/investors`,
-    {},
-    access_token
   );
   return data;
 };

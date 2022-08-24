@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getListInvestor } from "../../../../../service";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";

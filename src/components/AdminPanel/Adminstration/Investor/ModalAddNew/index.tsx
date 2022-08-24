@@ -1,7 +1,7 @@
 import { Dialog, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import { useRef, useState } from "react";
-import { createInvestorNew } from "../../../../../service";
+import { createInvestorNew } from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
