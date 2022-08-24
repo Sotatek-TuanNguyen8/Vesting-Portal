@@ -28,3 +28,5 @@ export const chainIDS = [
   11297108109, // palm
   1285, // moonrive
 ];
+
+export const CONNECT_WALLET_ADMIN = "Connect wallet admin";

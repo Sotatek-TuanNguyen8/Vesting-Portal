@@ -1,7 +1,7 @@
 import axios from "axios";
-import { handleErrorUtil } from "../../utils/handle-error";
+import { handleErrorUtilAdmin } from "../../utils/handle-error";
 
-class Request {
+class RequestAdmin {
   instance;
   constructor() {
     const instance = axios.create({
@@ -28,11 +28,11 @@ class Request {
 
     instance.interceptors.response.use(
       function (response: any) {
-        return handleErrorUtil(response);
+        return handleErrorUtilAdmin(response);
       },
       function (error: any) {
         if (error.response) {
-          return handleErrorUtil(error.response);
+          return handleErrorUtilAdmin(error.response);
         }
         return Promise.reject(error);
       }
@@ -70,4 +70,4 @@ class Request {
   };
 }
 
-export default new Request();
+export default new RequestAdmin();
