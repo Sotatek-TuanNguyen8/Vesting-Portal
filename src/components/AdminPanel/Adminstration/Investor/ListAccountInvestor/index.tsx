@@ -59,7 +59,6 @@ export default function ListAccountInvestor({}: Props) {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -87,30 +86,35 @@ export default function ListAccountInvestor({}: Props) {
         <div key={item.id} className={styles.tableBody}>
           <div className="content">
             <InputTableEdit
+              type="text"
               status={isEdit}
               value={dataItem.fullName || item.fullName}
               field="fullName"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
+              type="text"
               status={isEdit}
               value={dataItem.email || item.email}
               field="email"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
+              type="text"
               status={isEdit}
               value={dataItem.walletAddress || item.walletAddress}
               field="walletAddress"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
+              type="text"
               status={isEdit}
               value={dataItem.tokenAmount || item.tokenAmount}
               field="tokenAmount"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
+              type="text"
               status={isEdit}
               value={dataItem.saleStage || item.saleStage}
               field="saleStage"
