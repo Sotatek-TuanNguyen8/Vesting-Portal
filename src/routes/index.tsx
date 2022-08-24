@@ -26,7 +26,8 @@ export const AppRouter = () => {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/admin-panel/investor" element={<Investors />} />
       <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
-      <Route path="/admin-panel" element={<Investors />} />
+      <Route path="/admin-panel" element={<AdminAuthPage />} />
+
       <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
