@@ -7,8 +7,9 @@ const UnauthorizedCallback = () => {
 
 let timeoutFlag: NodeJS.Timeout;
 
-const handleErrorUtil = (response: AxiosResponse<any>) => {
+export const handleErrorUtil = (response: AxiosResponse<any>) => {
   const { status } = response;
+
   switch (status) {
     case 401:
       clearTimeout(timeoutFlag);
@@ -24,4 +25,22 @@ const handleErrorUtil = (response: AxiosResponse<any>) => {
   }
 };
 
-export default handleErrorUtil;
+const UnauthorizedAdminCallback = () => {
+  toast.error("Your wallet is not granted Admin role");
+};
+
+export const handleErrorUtilAdmin = (response: AxiosResponse<any>) => {
+  const { status } = response;
+  console.log(UnauthorizedAdminCallback);
+
+  switch (status) {
+    case 401:
+      timeoutFlag = setTimeout(UnauthorizedAdminCallback, 1500);
+      return;
+    case 500:
+      toast.error("Server error");
+      return;
+    default:
+      return response;
+  }
+};
