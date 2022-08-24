@@ -37,6 +37,8 @@ export default function ModalAddNew({ open, onClose }: Props) {
       setMsgErrRequied(true);
     } else if (!ethers.utils.isAddress(value)) {
       setMsgErrInvalid(true);
+    } else {
+      onClose();
     }
   };
 

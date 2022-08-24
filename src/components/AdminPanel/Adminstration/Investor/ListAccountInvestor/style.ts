@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "flex",
       flexDirection: "column",
       padding: "0 24px",
-      "& div:first-child": {
+      "& .header": {
         display: "flex",
         flexDirection: "row",
         // justifyContent: "space-around",
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) => {
           fontWeight: 400,
           "& img": {
             marginLeft: 20,
+            cursor: "pointer",
           },
         },
         "& p:first-child": {
@@ -31,44 +32,46 @@ const useStyles = makeStyles((theme: Theme) => {
           paddingTight: 20,
         },
       },
-      "& div:last-child": {
-        // width: "100%",
-        height: 0.8,
-        padding: "0 24px",
-        backgroundColor: "#BBBBBB",
-      },
+      // "& div:last-child": {
+      //   // width: "100%",
+      //   height: 0.8,
+      //   padding: "0 24px",
+      //   backgroundColor: "#BBBBBB",
+      // },
     },
     tableBody: {
       marginTop: 25,
       display: "flex",
       flexDirection: "column",
+      justifyContent: "center",
       padding: "0 24px",
-      "& div:first-child": {
+      "& .content": {
         display: "flex",
         flexDirection: "row",
-        // justifyContent: "space-around",
-        "& p": {
-          width: "16.66%",
-          fontSize: 16,
-          fontWeight: 400,
-          color: " #0A208F",
+        "& .action": {
+          width: "16.67%",
+          display: "flex",
+          alignItems: "center",
           "& img": {
+            cursor: "pointer",
             marginLeft: 20,
           },
         },
-        "& p:first-child": {
-          paddingLeft: 20,
-        },
-        "& p:last-child": {
-          paddingRight: 20,
-          display: "flex",
-        },
       },
-      "& div:last-child": {
-        // width: "100%",
-        height: 0.8,
-        padding: "0 24px",
-        backgroundColor: "#BBBBBB",
+    },
+    border: {
+      height: 0.8,
+      padding: "0 24px",
+      backgroundColor: "#BBBBBB",
+      marginTop: 20,
+    },
+    saleStage: {
+      position: "relative",
+      "& .modalSaleStage": {
+        position: "absolute",
+        top: "112%",
+        left: "0",
+        right: "0",
       },
     },
   };

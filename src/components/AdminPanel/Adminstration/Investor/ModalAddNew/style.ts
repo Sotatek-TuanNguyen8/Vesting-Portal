@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme: Theme) => {
       height: 223,
       backgroundColor: "#fff",
       margin: "auto",
-      //   border: "none !important",
       "& .MuiPaper-root": {
         width: 409,
         height: 223,

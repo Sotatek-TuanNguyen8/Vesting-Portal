@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputTableEdit from "../../../../common/InputEdit";
+import ModalFilterSaleStage from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
 type Props = {};
@@ -28,17 +29,16 @@ export default function ListAccountInvestor({}: Props) {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const handleDelete = () => {};
+  const handleDelete = (e: any) => {};
 
   const handleEdit = (e: any) => {
     setIsEdit(true);
     setDataItem(e);
-    console.log({ dataItem });
   };
 
   const handleSave = () => {
-    console.log({ dataItem });
     setIsEdit(false);
   };
 
@@ -46,54 +46,90 @@ export default function ListAccountInvestor({}: Props) {
     setIsEdit(false);
   };
   const handleChangeInputTable = (e: any, field: any) => {
-    console.log({ e, field });
     setDataItem({
       ...dataItem,
       [field]: e,
     });
   };
 
+  const handleClickFilter = () => {
+    setOpen((preState) => !preState);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
-        <div>
+        <div className="header">
           <p>Full Name</p>
           <p>Email</p>
           <p>Wallet address</p>
           <p>Token amount</p>
-          <p>
-            Sale stage <img src="/images/iconFilter.svg" alt="" />
+          <p className={styles.saleStage}>
+            Sale stage{" "}
+            <img
+              onClick={handleClickFilter}
+              src="/images/iconFilter.svg"
+              alt=""
+            />
+            <div className="modalSaleStage">
+              <ModalFilterSaleStage open={open} onClose={handleClose} />
+            </div>
           </p>
           <p></p>
         </div>
-        <div></div>
+        <div className={styles.border}></div>
       </div>
       {data.map((item) => (
         <div key={item.id} className={styles.tableBody}>
-          <div>
-            {/* <p>{item.fullName}</p>
-            <p>{item.email}</p>
-            <p>{item.walletAddress}</p>
-            <p>{item.tokenAmount}</p>
-            <p>{item.saleStage}</p> */}
+          <div className="content">
             <InputTableEdit
               status={isEdit}
               value={dataItem.fullName || item.fullName}
               field="fullName"
               onChange={handleChangeInputTable}
             />
-            <p>{item.email}</p>
-            <p>{item.walletAddress}</p>
-            <p>{item.tokenAmount}</p>
-            <p>{item.saleStage}</p>
-            <p>
-              <img onClick={handleDelete} src="/images/iconDelete.svg" alt="" />
+            <InputTableEdit
+              status={isEdit}
+              value={dataItem.email || item.email}
+              field="email"
+              onChange={handleChangeInputTable}
+            />
+            <InputTableEdit
+              status={isEdit}
+              value={dataItem.walletAddress || item.walletAddress}
+              field="walletAddress"
+              onChange={handleChangeInputTable}
+            />
+            <InputTableEdit
+              status={isEdit}
+              value={dataItem.tokenAmount || item.tokenAmount}
+              field="tokenAmount"
+              onChange={handleChangeInputTable}
+            />
+            <InputTableEdit
+              status={isEdit}
+              value={dataItem.saleStage || item.saleStage}
+              field="saleStage"
+              onChange={handleChangeInputTable}
+            />
+            <div className="action">
               {!isEdit ? (
-                <img
-                  onClick={() => handleEdit(item)}
-                  src="/images/iconEdit.svg"
-                  alt=""
-                />
+                <>
+                  <img
+                    onClick={() => handleDelete(item)}
+                    src="/images/iconDelete.svg"
+                    alt=""
+                  />
+                  <img
+                    onClick={() => handleEdit(item)}
+                    src="/images/iconEdit.svg"
+                    alt=""
+                  />
+                </>
               ) : (
                 <>
                   <img
@@ -108,9 +144,9 @@ export default function ListAccountInvestor({}: Props) {
                   />
                 </>
               )}
-            </p>
+            </div>
           </div>
-          <div></div>
+          <div className={styles.border}></div>
         </div>
       ))}
     </div>
