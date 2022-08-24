@@ -1,16 +1,16 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Error } from "../../assets/svgs";
 import { loginAdmin } from "../../service";
 import { AppDispatch } from "../../store";
 import { setAdminToken } from "../../store/action";
 import { scrollIntoView } from "../../utils/common/fn";
-import useMetaMask from "../../utils/hooks/useMetaMask";
-import useStyles from "./style";
-import LayoutAdmin from "./layoutAdmin/index";
 import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
+import useMetaMask from "../../utils/hooks/useMetaMask";
+import LayoutAdmin from "./layoutAdmin/index";
+import useStyles from "./style";
 
 export default function AdminAuthPage() {
   const classes = useStyles();
