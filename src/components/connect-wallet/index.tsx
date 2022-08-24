@@ -100,13 +100,17 @@ export default function ConnectWalletPage() {
   return (
     <div ref={elRef}>
       <InvestorLayout isNav={false}>
-        <Container maxWidth="lg" sx={{ margin: "auto" }}>
+        <Container
+          maxWidth="lg"
+          sx={{ margin: "auto" }}
+          className={classes.container}
+        >
           <Box
             width="fit-content"
             sx={{
               background:
                 " linear-gradient(134.72deg, #F3E8FF -2.3%, #FCFEFF 32.48%, #E8F9FF 100%)",
-              borderRadius: "10px",
+              borderRadius: "25px",
               minWidth: "546px",
               padding: "28px 45px",
               margin: "auto",
@@ -133,6 +137,7 @@ export default function ConnectWalletPage() {
                 flexDirection: "column",
                 display: "flex",
               }}
+              className={classes.box}
             >
               {[
                 ["metamask", "Metamask"],
@@ -163,8 +168,8 @@ export default function ConnectWalletPage() {
                   <img
                     src={`/images/${type}.svg`}
                     alt={type}
-                    width={60}
-                    height={60}
+                    width={50}
+                    height={50}
                   />
                 </ButtonBase>
               ))}

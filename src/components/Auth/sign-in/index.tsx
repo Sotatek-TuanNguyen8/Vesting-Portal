@@ -83,7 +83,7 @@ export default function SignInPage() {
             JSON.stringify({
               email: body.email,
               password: body.password,
-            }),
+            })
           );
         } else {
           await setLocalStorage(
@@ -103,7 +103,7 @@ export default function SignInPage() {
             isVerify: res?.data?.user?.is_verified,
             metamaskAddress: res?.data?.user?.wallet ?? "",
             role: res?.data?.user?.role,
-          }),
+          })
         );
         if (res?.data?.user?.is_verified !== false) {
           navigate("/connect-wallet");
@@ -114,13 +114,13 @@ export default function SignInPage() {
             loginResendSuccess({
               email: res?.data?.user?.email,
               type: "sign-in",
-            }),
+            })
           );
           navigate("/resend-email");
         }
       }
     },
-    [rememberMe],
+    [rememberMe]
   );
 
   return (

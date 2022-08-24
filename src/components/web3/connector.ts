@@ -7,3 +7,5 @@ export const injected = new InjectedConnector({
 export const connectors = {
   injected: injected,
 };
+
+export const TRANSACTION_TIMEOUT = 1 * 60 * 1000;

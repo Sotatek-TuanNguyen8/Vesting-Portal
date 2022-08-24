@@ -18,14 +18,14 @@ export default function LayoutAdmin({ children, isNav = false }: Props) {
     if (accessToken) {
       return;
     } else {
-      navigate("/admin-login");
+      navigate("/admin-panel");
     }
   }, [navigate]);
 
   return (
     <div className={classes.main}>
       <div className={classes.box}>
-        {/* <Header isNav={isNav} /> */}
+        <Header isNav={isNav} />
         {children}
       </div>
     </div>

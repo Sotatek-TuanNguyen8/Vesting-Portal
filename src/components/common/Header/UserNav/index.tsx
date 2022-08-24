@@ -77,14 +77,12 @@ export default function UserNav() {
         className={classes.menu}
       >
         {pathname !== "/connect-wallet" && (
-          <>
-            <MenuItem>
-              <ListItemIcon>
-                <Disconnect />
-              </ListItemIcon>
-              <ListItemText primary="Disconnect wallet" />
-            </MenuItem>
-          </>
+          <MenuItem>
+            <ListItemIcon>
+              <Disconnect />
+            </ListItemIcon>
+            <ListItemText primary="Disconnect wallet" />
+          </MenuItem>
         )}
         <MenuItem
           onClick={() => {
