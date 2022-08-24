@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { Header } from "../../common/Header";
+import { useSelector } from "react-redux";
 import useStyles from "./style";
 
 type Props = {
@@ -9,23 +9,23 @@ type Props = {
   isNav?: boolean;
 };
 
-export default function InvestorLayout({ children, isNav = false }: Props) {
+export default function LayoutAdmin({ children, isNav = false }: Props) {
+  const accessToken = useSelector((s: any) => s.adminAuthAction.token);
   const navigate = useNavigate();
   const classes = useStyles();
-  const { account } = useMetaMask();
 
   useEffect(() => {
-    const item = localStorage.getItem("access_token");
-    if (!item || !account) {
-      navigate("/sign-in");
+    if (accessToken) {
       return;
+    } else {
+      navigate("/admin-login");
     }
-  }, [account, navigate]);
+  }, [navigate]);
 
   return (
     <div className={classes.main}>
       <div className={classes.box}>
-        <Header isNav={isNav} />
+        {/* <Header isNav={isNav} /> */}
         {children}
       </div>
     </div>

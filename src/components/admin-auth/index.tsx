@@ -1,96 +1,110 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { Error } from "../../assets/svgs";
-import { updateWalletAuth } from "../../service";
+import { loginAdmin } from "../../service";
 import { AppDispatch } from "../../store";
-import {
-  fetchInfoUser,
-  setUser,
-  signUpResendSuccess,
-} from "../../store/action";
+import { setAdminToken } from "../../store/action";
 import { scrollIntoView } from "../../utils/common/fn";
-import { CONNECT_WALLET } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
-import InvestorLayout from "../layouts/InvestorLayout";
 import useStyles from "./style";
+import LayoutAdmin from "./layoutAdmin/index";
+import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
 
-export default function ConnectWalletPage() {
+export default function AdminAuthPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();
-  const userData = useSelector((s: any) => s.authAction.data);
+  // const userData = useSelector((s: any) => s.authAction.data);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
+  // const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
   const elRef = useRef(null);
 
-  useEffect(() => {
-    (async () => {
-      const item = localStorage.getItem("access_token");
-      if (!item) {
-        navigate("/sign-in");
-      } else {
-        setCheckFetchData(false);
-        await dispatch(fetchInfoUser(item));
-        setCheckFetchData(true);
-      }
-    })();
-  }, [dispatch, navigate, localStorage.getItem("access_token")]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const item = localStorage.getItem("access_token");
+  //     if (!item) {
+  //       navigate("/sign-in");
+  //     } else {
+  //       setCheckFetchData(false);
+  //       await dispatch(fetchInfoUser(item));
+  //       setCheckFetchData(true);
+  //     }
+  //   })();
+  // }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
-  useEffect(() => {
-    if (!checkFetchData || !account) return;
-    if (!userData.isVerify) {
-      dispatch(
-        signUpResendSuccess({
-          email: userData?.email,
-          type: "sign-in",
-        })
-      );
-      navigate("/resend-email");
-      return;
-    }
-  }, [account, checkFetchData, dispatch, navigate, userData]);
+  // useEffect(() => {
+  //   if (!checkFetchData || !account) return;
+  //   if (!userData.isVerify) {
+  //     dispatch(
+  //       signUpResendSuccess({
+  //         email: userData?.email,
+  //         type: "sign-in",
+  //       })
+  //     );
+  //     navigate("/resend-email");
+  //     return;
+  //   }
+  // }, [account, checkFetchData, dispatch, navigate, userData]);
 
-  useEffect(() => {
-    if (!account) return;
-    localStorage.setItem("accounts", account);
-  }, [account]);
+  // useEffect(() => {
+  //   if (!account) return;
+  //   localStorage.setItem("accounts", account);
+  // }, [account]);
 
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
     if (!account) {
       await connect();
-    } else {
-      const accountWallet = localStorage.getItem("accounts");
-      if (!userData?.metamaskAddress) {
-        const signature = await getSignature(CONNECT_WALLET);
-        if (signature) {
-          const res = await updateWalletAuth({
-            signature: signature,
-            wallet_address: account,
-          });
-          if (res?.error) {
-            setErrorCheckAddress(
-              "This wallet has been connected to another account"
-            );
-          } else {
-            dispatch(setUser({ ...userData, metamaskAddress: account }));
-            navigate("/");
-          }
-        }
+    }
+    const signature = await getSignature(CONNECT_WALLET_ADMIN);
+
+    if (signature) {
+      const res = await loginAdmin(
+        {
+          signature: signature,
+          wallet_address: account,
+        },
+        CONNECT_WALLET_ADMIN
+      );
+
+      if (res) {
+        // console.log("res", res);
+        dispatch(setAdminToken(res.data.accessToken));
+        navigate("/investor");
       } else {
-        if (
-          accountWallet?.toLowerCase() ===
-          userData?.metamaskAddress?.toLowerCase()
-        ) {
-          navigate("/");
-        } else {
-          setErrorCheckAddress("Email and Wallet address do not match");
-        }
+        console.log("khong phai admin");
       }
     }
+
+    // const accountWallet = localStorage.getItem("accounts");
+    // if (!userData?.metamaskAddress) {
+    //   const res = await updateWalletAuth({
+    //     signature: signature,
+    //     wallet_address: account,
+    //   });
+    //   if (res?.error) {
+    //     setErrorCheckAddress(
+    //       "This wallet has been connected to another account"
+    //     );
+    //   } else {
+    //     dispatch(setUser({ ...userData, metamaskAddress: account }));
+    //     navigate("/");
+    //   }
+    // } else {
+    //   if (
+    //     accountWallet?.toLowerCase() ===
+    //     userData?.metamaskAddress?.toLowerCase()
+    //   ) {
+    //     navigate("/");
+    //   } else {
+    //     setErrorCheckAddress(
+    //       "This wallet has been connected to another account"
+    //     );
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -99,7 +113,7 @@ export default function ConnectWalletPage() {
 
   return (
     <div ref={elRef}>
-      <InvestorLayout isNav={false}>
+      <LayoutAdmin isNav={false}>
         <Container maxWidth="lg" sx={{ margin: "auto" }}>
           <Box
             width="fit-content"
@@ -171,7 +185,7 @@ export default function ConnectWalletPage() {
             </Box>
           </Box>
         </Container>
-      </InvestorLayout>
+      </LayoutAdmin>
     </div>
   );
 }

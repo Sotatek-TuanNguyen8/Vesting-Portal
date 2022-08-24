@@ -1,14 +1,13 @@
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import * as React from "react";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CHAIN_ID } from "../chains";
-import { WrongNetworkDialog } from "./WrongNetWorkDialog";
+import { CHAIN_ID_SUPPORT } from "../chains";
+import { chainIDS } from "../common/message-sign";
 export const MetaMaskContext = React.createContext(null);
 
 export const injectedConnector = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42, 1337, 43114],
+  supportedChainIds: chainIDS,
 });
 
 export const MetaMaskProvider = ({ children }: any) => {
@@ -21,12 +20,8 @@ export const MetaMaskProvider = ({ children }: any) => {
     setError,
     error,
     chainId,
-    connector,
   } = useWeb3React();
   const [isActive, setIsActive] = React.useState(false);
-  const location = useLocation();
-  const { pathname } = location;
-  const checkRounterConnect = pathname === "/connect-wallet";
 
   React.useEffect(() => {
     injectedConnector
@@ -60,7 +55,6 @@ export const MetaMaskProvider = ({ children }: any) => {
   }, [activate]);
 
   // Init Loading
-
   const handleIsActive = React.useCallback(() => {
     setIsActive(active);
   }, [active]);
@@ -92,7 +86,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   };
 
   const switchNetwork = async () => {
-    if (chainId !== 4) return;
+    if (chainId === 4) return;
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
@@ -117,14 +111,16 @@ export const MetaMaskProvider = ({ children }: any) => {
               },
             ],
           });
-        } catch (error) {
-          console.error(error);
+        } catch (error: any) {
+          console.error("addNetwork", error);
         }
+      } else {
+        toast.error("You denied the switch network");
       }
     }
   };
 
-  const wrongNetWork = isActive ? chainId !== CHAIN_ID : false;
+  const wrongNetWork = Boolean(chainId?.toString() !== CHAIN_ID_SUPPORT);
 
   const values: any = {
     isActive,
@@ -144,9 +140,6 @@ export const MetaMaskProvider = ({ children }: any) => {
   return (
     <MetaMaskContext.Provider value={values}>
       {children}
-      {/* <WrongNetworkDialog
-        open={Boolean(connector) && wrongNetWork && checkRounterConnect}
-      /> */}
     </MetaMaskContext.Provider>
   );
 };

@@ -1,4 +1,5 @@
 import { Button, Divider, Typography } from "@material-ui/core";
+import useMetaMask from "../../../utils/hooks/useMetaMask";
 import LineChart from "../line-chart";
 import useStyles from "./style";
 
@@ -6,39 +7,46 @@ type Props = {};
 const data = [
   {
     name: "S",
-    value: 10,
+    value: 15,
   },
   {
     name: "M",
-    value: 20,
+    value: 30,
   },
   {
     name: "T",
-    value: 23,
+    value: 63,
   },
   {
     name: "W",
-    value: 40,
+    value: 10,
   },
   {
     name: "TH",
-    value: 50,
+    value: 20,
   },
   {
     name: "F",
-    value: 60,
+    value: 30,
   },
   {
     name: "SA",
-    value: 100,
+    value: 40,
   },
 ];
-
-export default function PreSeed({}: Props) {
+export default function Allocation({}: Props) {
   const classes = useStyles();
+  const { switchNetwork, wrongNetWork } = useMetaMask();
+
+  const handleClaim = async () => {
+    if (wrongNetWork) {
+      await switchNetwork();
+    }
+  };
+
   return (
-    <div className={classes.preSeed}>
-      <Typography variant="h5">PRE SEED</Typography>
+    <div className={classes.seed}>
+      <Typography variant="h5">SEED</Typography>
       <p className={classes.text}>View Instructions</p>
       <div className={classes.container}>
         <div className={classes.info}>
@@ -79,7 +87,7 @@ export default function PreSeed({}: Props) {
             <div className="content">406 FLD</div>
           </div>
           <div style={{ width: "100%", height: 62, marginBottom: 20 }}>
-            <Button>CLAIM</Button>
+            <Button onClick={() => handleClaim()}>CLAIM</Button>
           </div>
         </div>
         <div className={classes.lineChart}>

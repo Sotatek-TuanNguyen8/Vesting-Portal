@@ -1,6 +1,5 @@
 import { Typography } from "@material-ui/core";
-import PreSeed from "./pre-seed";
-import Seed from "./seed";
+import Allocation from "./allocation";
 import useStyles from "./style";
 
 export default function ClaimPage() {
@@ -15,9 +14,8 @@ export default function ClaimPage() {
         across the vested period. It will also allow you to claim your tokens
         into your preferred wallet.
       </p>
-      <PreSeed />
-      <div style={{ marginTop: 66 }}>
-        <Seed />
+      <div>
+        <Allocation />
       </div>
     </div>
   );

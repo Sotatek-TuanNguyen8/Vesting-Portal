@@ -39,3 +39,8 @@ export interface createInvestor {
 }
 
 export interface getInfo {}
+
+export interface loginWallet {
+  signature: string;
+  wallet_address: string;
+}

@@ -11,6 +11,8 @@ import SignUpPage from "../components/Auth/sign-up";
 import NotFoundPage from "../components/common/NotFound";
 import ConnectWalletPage from "../components/connect-wallet";
 import HomePage from "../components/Home";
+import AdminAuthPage from "../components/admin-auth/index";
+
 export const AppRouter = () => {
   return (
     <Routes>
@@ -25,7 +27,7 @@ export const AppRouter = () => {
       <Route path="/admin-panel/investor" element={<Investors />} />
       <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
       <Route path="/admin-panel" element={<Investors />} />
-      <Route path="/*" element={<>404! Not Found</>} />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 };
