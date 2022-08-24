@@ -16,6 +16,11 @@
 @font-face {
   font-family: "gibson";
   src: url("../assets/fonts/Gibson-SemiBold.otf") format("opentype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "gibson";
+  src: url("../assets/fonts/Gibson-SemiBold.otf") format("opentype");
   font-weight: 600;
 }
 @font-face {

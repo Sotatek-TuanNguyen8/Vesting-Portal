@@ -52,3 +52,32 @@ export const scrollIntoView = (element: React.RefObject<HTMLInputElement>) => {
     inline: "nearest",
   });
 };
+
+export function convertTextAddressWallet(
+  startIndex: number,
+  endIndex: number,
+  text: string
+) {
+  const startText = text?.substring(0, startIndex);
+  const endText = text?.substring(text.length - endIndex);
+  return startText?.concat("...")?.concat(endText);
+}
+
+export const take_decimal_number = (num: string | number, n: number) => {
+  let result = Math.trunc(Number(num) * Math.pow(10, n)) / Math.pow(10, n);
+  return result;
+};
+
+export const take_decimal_numberFormatThousands = (num: string | number) => {
+  let result = Math.trunc(Number(num) * Math.pow(10, 4)) / Math.pow(10, 4);
+  const newResult = result
+    .toString()
+    .split(".")[0]
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    .concat(
+      result.toString().split(".")[1]
+        ? "." + result.toString().split(".")[1]
+        : ""
+    );
+  return newResult;
+};

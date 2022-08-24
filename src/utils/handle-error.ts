@@ -7,8 +7,9 @@ const UnauthorizedCallback = () => {
 
 let timeoutFlag: NodeJS.Timeout;
 
-const handleErrorUtil = (response: AxiosResponse<any>) => {
+export const handleErrorUtil = (response: AxiosResponse<any>) => {
   const { status } = response;
+
   switch (status) {
     case 401:
       clearTimeout(timeoutFlag);
@@ -24,4 +25,13 @@ const handleErrorUtil = (response: AxiosResponse<any>) => {
   }
 };
 
-export default handleErrorUtil;
+export const handleErrorUtilAdmin = (response: AxiosResponse<any>) => {
+  const { status } = response;
+  switch (status) {
+    case 500:
+      toast.error("Server error");
+      return;
+    default:
+      return response;
+  }
+};

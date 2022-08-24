@@ -1,3 +1,4 @@
+import { loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
   forgotPWBody,
@@ -8,6 +9,7 @@ import {
   updateWallet,
 } from "../utils";
 import Request from "./request/Request";
+import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
 
@@ -69,6 +71,15 @@ export const getInfoUser = async (access_token: string) => {
     `${serverEndpoint}/users/me`,
     {},
     access_token
+  );
+  return data;
+};
+
+export const loginAdmin = async (body: loginWallet, header?: string) => {
+  const { data } = await RequestAdmin.post(
+    `${serverEndpoint}/auth/admin/login`,
+    body,
+    header
   );
   return data;
 };

@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme: Theme) => {
           color: "#ffffff !important",
           fontWeight: "600 !important",
           height: 66,
+          lineHeight: "26px",
         },
       },
     },
