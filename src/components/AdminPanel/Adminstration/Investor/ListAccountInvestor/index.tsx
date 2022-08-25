@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputTableEdit from "../../../../common/InputEdit";
-import ModalFilterSaleStage from "./ModalFilterSaleStage";
+import FilterAdmin from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
 type Props = {};
@@ -75,7 +75,7 @@ export default function ListAccountInvestor({}: Props) {
               alt=""
             />
             <div className="modalSaleStage">
-              <ModalFilterSaleStage open={open} onClose={handleClose} />
+              <FilterAdmin open={open} onClose={handleClose} />
             </div>
           </p>
           <p></p>
