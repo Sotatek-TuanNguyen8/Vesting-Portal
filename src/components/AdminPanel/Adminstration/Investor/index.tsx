@@ -4,6 +4,7 @@ import AdminPanel from "../..";
 import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
+import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 
 type Props = {};
 
@@ -22,24 +23,26 @@ export default function Investors({}: Props) {
   };
   return (
     <div>
-      <AdminPanel />
-      <div className={styles.container}>
-        <Administration active={"investor"} />
-        <div className="listInvestor">
-          <div className="new">
-            <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
-            <p>New</p>
-          </div>
-          <div className={styles.body}>
-            <div className="search">
-              <img src="/images/iconSearch.svg" alt="" />
-              <input type="text" />
+      <AdminLayout>
+        <AdminPanel />
+        <div className={styles.container}>
+          <Administration active={"investor"} />
+          <div className="listInvestor">
+            <div className="new">
+              <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
+              <p>New</p>
             </div>
-            <ListAccountInvestor />
+            <div className={styles.body}>
+              <div className="search">
+                <img src="/images/iconSearch.svg" alt="" />
+                <input type="text" />
+              </div>
+              <ListAccountInvestor />
+            </div>
+            {renderOpenModalAddNew()}
           </div>
-          {renderOpenModalAddNew()}
         </div>
-      </div>
+      </AdminLayout>
     </div>
   );
 }

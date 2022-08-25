@@ -19,8 +19,6 @@ import { signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import useStyles from "./style";
 
-type Props = {};
-
 interface SignUpForm {
   full_name: string;
   email: string;
@@ -28,7 +26,7 @@ interface SignUpForm {
   confirm_password: string;
 }
 
-export default function SignUpPage({}: Props) {
+export default function SignUpPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();

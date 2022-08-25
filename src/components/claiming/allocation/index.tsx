@@ -1,16 +1,16 @@
-import { Button, Divider, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { getContractConnect } from "../../../service/web";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import TokenFLD from "../../../abi/Token-FLD.json";
 import ClaimABI from "../../../abi/User-Claim.json";
+import { getContractConnect } from "../../../service/web";
 import { AppDispatch } from "../../../store";
 import { fetchInfoClaim } from "../../../store/action/claim.action";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
-import moment from "moment";
 
 type Props = {};
 const data = [
@@ -43,18 +43,35 @@ const data = [
     value: 700,
   },
 ];
+
+interface ITokenInfo {
+  decimals: number;
+}
+
 export default function Allocation({}: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
+  const [infoToken, setInfoToken] = useState<ITokenInfo>();
   const infoClaim = useSelector((s: any) => s.claimAction.data);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (!account) return;
-    dispatch(fetchInfoClaim("1"));
+    // dispatch(fetchInfoClaim("1"));
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const contract = await getContractConnect(
+        TokenFLD,
+        process.env.REACT_APP_FLD_TOKEN as string
+      );
+      const decimals = Number(await contract?.methods.decimals().call());
+      setInfoToken({ decimals });
+    })();
   }, []);
 
   const handleClaim = async (
@@ -160,7 +177,11 @@ export default function Allocation({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart data={data} width={700} height={500} />
+          <div className="labelY">CLAIMED TOKENS</div>
+          <div>
+            <LineChart data={data} width={700} height={500} />
+            <p className="labelX">DAYS</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
 import React from "react";
 import useStyles from "./style";
-import UserNavAdmin from "./UserNav";
+import UserNavAdmin from "./AdminNav";
 
-type Props = {};
-
-export default function Header({}: Props) {
+export default function Header() {
   const styles = useStyles();
   return (
     <div className={styles.header}>

@@ -104,7 +104,7 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {openAdd && (
+      {/* {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault

@@ -34,6 +34,15 @@ export interface updateWallet {
   wallet_address: string;
 }
 
+export interface createInvestor {
+  wallet_address: string;
+}
+
+export interface updateInvestor {
+  id: number | string;
+  data: any;
+}
+
 export interface getInfo {}
 
 export interface loginWallet {

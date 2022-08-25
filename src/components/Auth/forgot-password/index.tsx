@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
 
-  const { account, connect, getSignature, isNotMetaMask } = useMetaMask();
+  const { account, connect, getSignature } = useMetaMask();
 
   const watchEmail = watch("email");
 
@@ -36,6 +36,7 @@ export default function ForgotPasswordPage() {
 
   const handleForgot = async (data: { email: string }) => {
     setIsClickFirst(true);
+    setMessError("");
     const res = await forgotPWlAuth({
       email: data.email,
     });
@@ -44,19 +45,21 @@ export default function ForgotPasswordPage() {
       if (statusCode === 406) {
         try {
           const signature = await handleConnect();
-          const response = await forgotPWlAuth(
-            {
-              email: data.email,
-              signature: signature,
-              wallet_address: account,
-            },
-            FORGOT_PASSWORD
-          );
-          if (response?.error) {
-            setMessError("Email and Wallet address do not match");
-          } else {
-            setMessError("");
-            setIsSendEmail(true);
+          if (signature) {
+            const response = await forgotPWlAuth(
+              {
+                email: data.email,
+                signature: signature,
+                wallet_address: account,
+              },
+              FORGOT_PASSWORD
+            );
+            if (response?.error) {
+              setMessError("Email and Wallet address do not match");
+            } else {
+              setMessError("");
+              setIsSendEmail(true);
+            }
           }
         } catch (error: any) {
           setIsClickFirst(false);

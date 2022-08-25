@@ -4,20 +4,54 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: 227,
+      width: "12.5%",
       backgroundColor: "#fff",
       border: "1px solid #BBBBBB",
-      boxShadow: "1px 4px 4px rgba(0, 0, 0, 0.25)",
       borderRadius: 3,
+      padding: "3px 10px",
+      height: "100%",
+      "& .MuiInputBase-root.Mui-disabled": {
+        height: "100%",
+      },
+      "& .MuiInput-underline.Mui-disabled:before": {
+        display: "none",
+      },
+      "& .MuiInput-underline:before": {
+        border: "none",
+        display: "none",
+      },
+      "& .MuiInput-underline:after": {
+        display: "none",
+      },
+      "& .MuiPaper-root .MuiMenu-paper .MuiPopover-paper .MuiPaper-elevation8 .MuiPaper-rounded":
+        {
+          height: "100%",
+          minWidth: "214px !important",
+          top: "372px !important",
+          left: "890px !important",
+        },
       "& div": {
         color: "#0A208F",
         fontSize: 16,
         fontWeight: 400,
-        padding: "11px 16px",
         cursor: "pointer",
-        "&:hover": {
-          backgroundColor: "rgba(0, 0, 0, 0.04)",
-        },
+      },
+    },
+    wrapperEdit: {
+      width: "12.5%",
+      borderRadius: 3,
+      height: "100%",
+      "& .MuiInputBase-root.Mui-disabled": {
+        height: "100%",
+      },
+      "& .MuiInput-underline.Mui-disabled:before": {
+        display: "none",
+      },
+      "& div": {
+        color: "#0A208F",
+        fontSize: 16,
+        fontWeight: 400,
+        cursor: "pointer",
       },
     },
   };
