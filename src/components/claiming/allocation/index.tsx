@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { getContractConnect } from "../../../service/web";
 import { useDispatch, useSelector } from "react-redux";
 import ClaimABI from "../../../abi/User-Claim.json";
+import TokenFLD from "../../../abi/Token-FLD.json";
 import { AppDispatch } from "../../../store";
 import { fetchInfoClaim } from "../../../store/action/claim.action";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
@@ -43,11 +44,17 @@ const data = [
     value: 700,
   },
 ];
+
+interface ITokenInfo {
+  decimals: number;
+}
+
 export default function Allocation({}: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
+  const [infoToken, setInfoToken] = useState<ITokenInfo>();
   const infoClaim = useSelector((s: any) => s.claimAction.data);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -55,6 +62,17 @@ export default function Allocation({}: Props) {
   useEffect(() => {
     if (!account) return;
     // dispatch(fetchInfoClaim("1"));
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const contract = await getContractConnect(
+        TokenFLD,
+        process.env.REACT_APP_FLD_TOKEN as string
+      );
+      const decimals = Number(await contract?.methods.decimals().call());
+      setInfoToken({ decimals });
+    })();
   }, []);
 
   const handleClaim = async (

@@ -9,7 +9,6 @@ let timeoutFlag: NodeJS.Timeout;
 
 export const handleErrorUtil = (response: AxiosResponse<any>) => {
   const { status } = response;
-
   switch (status) {
     case 401:
       clearTimeout(timeoutFlag);
