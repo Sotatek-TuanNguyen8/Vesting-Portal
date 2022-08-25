@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import InputTableEditDefault from "../../../../common/InputEdit";
+import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
 import { editTableTokenimics, getDataTokenomics } from "../../../../../service";
 import _ from "lodash";
@@ -104,7 +104,7 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {/* {openAdd && (
+       {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault
