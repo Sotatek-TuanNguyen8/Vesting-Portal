@@ -41,7 +41,7 @@ export default function ModalFilterSaleStage(props: ModalProps) {
 
   const handleClickSaleStage = () => {
     // onClose();
-    setIsFilter(true);
+    setIsFilter((prev) => !prev);
   };
 
   const handleClickCancel = () => {
@@ -68,7 +68,16 @@ export default function ModalFilterSaleStage(props: ModalProps) {
           </div>
           {data.map((item) => (
             <div key={item.id} onClick={handleClickSaleStage} className="item">
-              {isFilter && <img src="/images/iconApply.svg" alt="" />}
+              {/* {isFilter ? (
+                <div className="imgApply">
+                  <img src="/images/iconApply.svg" alt="" />
+                </div>
+              ) : (
+                <div className="hiddenIcon"></div>
+              )} */}
+              <div className={`${isFilter ? "imgApply" : "hiddenIcon"}`}>
+                <img src="/images/iconApply.svg" alt="" />
+              </div>
               {item.name}
             </div>
           ))}

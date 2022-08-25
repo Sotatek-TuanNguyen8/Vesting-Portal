@@ -4,6 +4,8 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
       width: "12.5%",
+      display: "flex",
+      flexDirection: "row",
     },
     input: {
       height: 40,
@@ -15,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "80%",
       fontSize: 16,
       fontWeight: 400,
+      marginRight: 4,
     },
     hiddenInput: {
       height: 40,

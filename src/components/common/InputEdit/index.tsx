@@ -5,34 +5,58 @@ type InputProps = {
   value: any;
   status: boolean;
   field: string;
+  defaultValue: string;
   onChange: (e: any, field: any) => void;
 };
 export default function InputTableEdit(props: InputProps) {
-  const { value, status, onChange, field } = props;
+  const { value, status, onChange, field, defaultValue } = props;
   const styles = useStyles();
 
   return (
     <div className={styles.wrapper}>
-      {field === "fullName" ? (
+      {field === "allocation_token" ? (
         <input
           className={` ${
-            !status ? styles.hiddenInputFullname : styles.inputFullname
+            !status || !defaultValue ? styles.hiddenInput : styles.input
           } `}
           value={value}
-          disabled={!status}
+          type="number"
+          min={0}
+          disabled={!status || !defaultValue}
+          onChange={(e) => onChange(Number(e.target.value), field)}
+        />
+      ) : field === "full_name" ? (
+        <input
+          className={` ${
+            !status || !defaultValue
+              ? styles.hiddenInputFullname
+              : styles.inputFullname
+          } `}
+          value={value}
+          disabled={!status || !defaultValue}
           onChange={(e) => onChange(e.target.value, field)}
         />
       ) : (
         <>
           <input
-            className={` ${!status ? styles.hiddenInput : styles.input} `}
+            className={` ${
+              !status || !defaultValue ? styles.hiddenInput : styles.input
+            } `}
             value={value}
-            disabled={!status}
+            disabled={!status || !defaultValue}
             onChange={(e) => onChange(e.target.value, field)}
           />
         </>
       )}
-      <TooltipValidate value={value} field={field} />
+      {status ? (
+        <TooltipValidate
+          value={value}
+          field={field}
+          defaultValue={defaultValue}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

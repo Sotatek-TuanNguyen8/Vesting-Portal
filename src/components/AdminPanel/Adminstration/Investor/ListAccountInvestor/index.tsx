@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import {
+  getListInvestor,
+  updateInvestorNew,
+} from "../../../../../service/admin.service";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
@@ -10,25 +14,27 @@ type Props = {};
 const data = [
   {
     id: 1,
-    fullName: "tien",
+    full_name: "tien",
     email: "sonkekekeke@gmail.com",
-    walletAddress: "0XC6...72AA",
-    tokenAmount: "135000000",
-    saleStage: "Angel",
+    wallet_address: "0x1c99B89a25D5565083b7682C03DCFc830293fB5A",
+    allocation_token: "135000000",
+    stage_name: "Angel",
     tokensVested: "50000",
-    tokensClaimed: "50000",
+    claimed: "50000",
+    stage_id: 1,
   },
 ];
 
 const dataItemDefault = {
-  id: "",
-  fullName: "",
+  investor_id: "",
+  full_name: "",
   email: "",
-  walletAddress: "",
-  tokenAmount: "",
-  saleStage: "",
+  wallet_address: "",
+  allocation_token: 0,
+  stage_name: "",
   tokensVested: "",
-  tokensClaimed: "",
+  claimed: "",
+  stage_id: 0,
 };
 export default function ListAccountInvestor({}: Props) {
   const styles = useStyles();
@@ -40,16 +46,33 @@ export default function ListAccountInvestor({}: Props) {
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<any>();
 
+  const shortenAddress = (
+    string?: string,
+    start?: number,
+    end?: number
+  ): string => {
+    if (typeof string !== "string") return "";
+    return (
+      string.slice(0, start || 7) +
+      "..." +
+      string.slice(-(end || 6))
+    ).toLowerCase();
+  };
+
   const renderOpenModalDelete = () => (
     <ModalDelete open={openModalDelete} onClose={handleCloseModalDelete} />
   );
 
   useEffect(() => {
     (async () => {
-      // const data = await getListInvestor()
-      setDataListInvestor(data);
+      const data = await getListInvestor(
+        localStorage.getItem("access_token") as string,
+        0
+      );
+      setDataListInvestor(data?.data);
     })();
   }, []);
+
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
   };
@@ -58,19 +81,23 @@ export default function ListAccountInvestor({}: Props) {
     setOpenModalDelete(true);
   };
 
-  const handleEdit = (e: any) => {
+  const handleEdit = async (e: any) => {
     setIsEdit(true);
     setDataItem(e);
   };
 
-  const handleSave = () => {
-    setIsEdit(false);
+  const handleSave = async () => {
+    const dataUpdate = await updateInvestorNew(dataItem.investor_id, dataItem);
+    if (dataUpdate?.status === 200) {
+      setIsEdit(false);
+    } else if (dataUpdate?.status === 402) {
+    }
   };
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
   };
-  const handleChangeInputTable = (e: any, field: any) => {
+  const handleChangeInputTable = (e: any, field: number) => {
     setDataItem({
       ...dataItem,
       [field]: e,
@@ -86,12 +113,10 @@ export default function ListAccountInvestor({}: Props) {
   };
 
   const handleSelect = (e: any) => {
-    // console.log(e);
     setDataItem({
       ...dataItem,
-      saleStage: e,
+      stage_name: e,
     });
-    console.log(dataItem);
   };
 
   return (
@@ -119,31 +144,51 @@ export default function ListAccountInvestor({}: Props) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {data.map((item) => (
-        <div key={item.id} className={styles.tableBody}>
+      {dataListInvestor?.map((item: any) => (
+        <div key={item?.investor_id} className={styles.tableBody}>
           <div className="content">
             <InputTableEdit
-              status={isEdit}
-              value={isEdit ? dataItem.fullName : item.fullName}
-              field="fullName"
+              status={isEdit && item.investor_id === dataItem.investor_id}
+              defaultValue={item.full_name}
+              value={
+                isEdit && item.investor_id === dataItem.investor_id
+                  ? dataItem.full_name
+                  : item?.full_name
+              }
+              field="full_name"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
-              status={isEdit}
-              value={isEdit ? dataItem.email : item.email}
+              status={isEdit && item.investor_id === dataItem.investor_id}
+              defaultValue={item.email}
+              value={
+                isEdit && item.investor_id === dataItem.investor_id
+                  ? dataItem.email
+                  : item?.email
+              }
               field="email"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
-              status={isEdit}
-              value={isEdit ? dataItem.walletAddress : item.walletAddress}
-              field="walletAddress"
+              status={isEdit && item.investor_id === dataItem.investor_id}
+              defaultValue={item.wallet_address}
+              value={
+                isEdit && item.investor_id === dataItem.investor_id
+                  ? dataItem.wallet_address
+                  : shortenAddress(item?.wallet_address, 4, 4)
+              }
+              field="wallet_address"
               onChange={handleChangeInputTable}
             />
             <InputTableEdit
-              status={isEdit}
-              value={isEdit ? dataItem.tokenAmount : item.tokenAmount}
-              field="tokenAmount"
+              status={isEdit && item.investor_id === dataItem.investor_id}
+              defaultValue={item.allocation_token}
+              value={
+                isEdit && item.investor_id === dataItem.investor_id
+                  ? dataItem.allocation_token
+                  : item?.allocation_token
+              }
+              field="allocation_token"
               onChange={handleChangeInputTable}
             />
             {/* <InputTableEdit
@@ -155,14 +200,18 @@ export default function ListAccountInvestor({}: Props) {
 
             <ModalSaleStage
               open={open}
-              status={isEdit}
+              status={isEdit && item.investor_id === dataItem.investor_id}
               onClose={handleClose}
-              value={isEdit ? dataItem.saleStage : item.saleStage}
+              value={
+                isEdit && item.investor_id === dataItem.investor_id
+                  ? dataItem?.stage_name
+                  : item?.stage_name
+              }
               onClickSelect={handleSelect}
             />
 
-            <div className="tokensVested">{item.tokensVested}</div>
-            <div className="tokensClaimed">{item.tokensClaimed}</div>
+            <div className="tokensVested">{item?.tokensVested}</div>
+            <div className="tokensClaimed">{item?.claimed}</div>
 
             <div className="action">
               {!isEdit ? (

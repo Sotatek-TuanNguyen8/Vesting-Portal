@@ -14,8 +14,6 @@ type ModalProps = {
 export default function ModalSaleStage(props: ModalProps) {
   const { open, onClose, value, status, onClickSelect } = props;
 
-  console.log({ value });
-
   const styles = useStyles();
 
   const data = [

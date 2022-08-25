@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme: Theme) => {
       border: "1px solid #BBBBBB",
       boxShadow: "1px 1px 2px 1px rgba(0, 0, 0, 0.25)",
       borderRadius: 3,
+      zIndex: 10,
       "& .btn": {
         display: "flex",
         flexDirection: "row",
@@ -55,10 +56,19 @@ const useStyles = makeStyles((theme: Theme) => {
         color: "#0A208F",
         fontSize: 16,
         fontWeight: 400,
-        padding: "11px 40px",
+        padding: "12px",
         cursor: "pointer",
+        display: "flex",
+        flexDirection: "row",
         "& :hover": {
           backgroundColor: "rgba(0, 0, 0, 0.04)",
+        },
+        "& .imgApply": {
+          marginRight: 20,
+        },
+        "& .hiddenIcon": {
+          marginRight: 20,
+          opacity: 0,
         },
       },
     },
