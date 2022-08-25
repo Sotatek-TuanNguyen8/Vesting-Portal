@@ -68,7 +68,7 @@ export const take_decimal_number = (num: string | number, n: number) => {
   return result;
 };
 
-export const take_decimal_numberFormatThousands = (num: string | number) => {
+export const format_thousands_decimal = (num: string | number) => {
   let result = Math.trunc(Number(num) * Math.pow(10, 4)) / Math.pow(10, 4);
   const newResult = result
     .toString()

@@ -115,12 +115,13 @@ export const MetaMaskProvider = ({ children }: any) => {
           console.error("addNetwork", error);
         }
       } else {
-        toast.error("You denied the switch network");
+        toast.warning("You denied the switch network");
       }
     }
   };
 
-  const wrongNetWork = Boolean(chainId?.toString() !== CHAIN_ID_SUPPORT);
+  const wrongNetWork =
+    chainId && Boolean(chainId?.toString() !== CHAIN_ID_SUPPORT);
 
   const values: any = {
     isActive,

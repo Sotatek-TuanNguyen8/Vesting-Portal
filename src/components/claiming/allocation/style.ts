@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "flex",
       alignItems: "flex-start",
       justifyContent: "space-between",
-      gap: "0px 160px",
+      gap: "0px 108px",
     },
     info: {
-      width: "50%",
+      width: "40%",
       "& .MuiButtonBase-root": {
         height: 62,
         width: 227,
@@ -56,7 +56,23 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     lineChart: {
-      width: "50%",
+      width: "60%",
+      display: "flex",
+      alignItems: "center",
+      "& .labelY": {
+        fontWeight: 250,
+        fontSize: 12,
+        lineHeight: "12px",
+        color: "#82828E",
+      },
+      "& .labelX": {
+        fontWeight: 250,
+        fontSize: 12,
+        lineHeight: "12px",
+        color: "#82828E",
+        textAlign: "center",
+        paddingBottom: 30,
+      },
     },
   };
 });
