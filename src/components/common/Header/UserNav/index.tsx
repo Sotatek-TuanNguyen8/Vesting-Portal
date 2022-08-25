@@ -51,7 +51,7 @@ export default function UserNav() {
           {userData?.fullName && <p>{userData?.fullName}</p>}
           {userData?.metamaskAddress && (
             <span>
-              {convertTextAddressWallet(7, 3, userData?.metamaskAddress)}
+              {convertTextAddressWallet(4, 4, userData?.metamaskAddress)}
             </span>
           )}
         </div>

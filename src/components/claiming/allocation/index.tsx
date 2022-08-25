@@ -54,7 +54,7 @@ export default function Allocation({}: Props) {
 
   useEffect(() => {
     if (!account) return;
-    dispatch(fetchInfoClaim("1"));
+    // dispatch(fetchInfoClaim("1"));
   }, []);
 
   const handleClaim = async (
@@ -160,7 +160,11 @@ export default function Allocation({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart data={data} width={700} height={500} />
+          <div className="labelY">CLAIMED TOKENS</div>
+          <div>
+            <LineChart data={data} width={700} height={500} />
+            <p className="labelX">DAYS</p>
+          </div>
         </div>
       </div>
     </div>
