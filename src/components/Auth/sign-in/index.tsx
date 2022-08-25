@@ -42,7 +42,6 @@ export default function SignInPage() {
 
   useEffect(() => {
     const item = localStorage.getItem("access_token");
-    document.cookie = "username=John Doe";
     if (item) {
       navigate("/connect-wallet");
       return;
