@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     box: {
-      maxWidth: 1626,
+      maxWidth: 1605,
       width: "100%",
       margin: "0px auto",
       paddingBottom: 256,
-      [xl]: {
+      [theme.breakpoints.down(1600)]: {
         padding: "0px 60px",
         paddingBottom: 200,
       },

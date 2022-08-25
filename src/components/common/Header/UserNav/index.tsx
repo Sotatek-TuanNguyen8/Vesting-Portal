@@ -76,14 +76,6 @@ export default function UserNav() {
         anchorEl={anchorEl}
         className={classes.menu}
       >
-        {pathname !== "/connect-wallet" && (
-          <MenuItem>
-            <ListItemIcon>
-              <Disconnect />
-            </ListItemIcon>
-            <ListItemText primary="Disconnect wallet" />
-          </MenuItem>
-        )}
         <MenuItem
           onClick={() => {
             handleLogout();
