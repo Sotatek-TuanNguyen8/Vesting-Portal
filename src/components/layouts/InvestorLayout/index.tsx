@@ -16,7 +16,7 @@ export default function InvestorLayout({ children, isNav = false }: Props) {
 
   useEffect(() => {
     const item = localStorage.getItem("access_token");
-    if (!item || !account) {
+    if (!item) {
       navigate("/sign-in");
       return;
     }

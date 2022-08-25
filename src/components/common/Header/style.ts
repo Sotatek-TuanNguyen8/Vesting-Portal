@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => {
         borderBottom: "2px solid #3fbce9",
         fontWeight: 600,
         color: "#051c42",
-        paddingBottom: 8,
+        paddingBottom: 2,
       },
     },
   };

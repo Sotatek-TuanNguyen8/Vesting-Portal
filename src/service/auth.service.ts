@@ -1,3 +1,4 @@
+import { loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
   createInvestor,
@@ -7,7 +8,6 @@ import {
   resetPWBody,
   singUpBody,
   updateWallet,
-  loginWallet,
 } from "../utils";
 import Request from "./request/Request";
 import RequestAdmin from "./request/RequestAdmin";

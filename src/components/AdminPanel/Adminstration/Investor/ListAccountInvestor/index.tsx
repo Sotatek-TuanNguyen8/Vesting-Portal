@@ -111,7 +111,6 @@ export default function ListAccountInvestor({}: Props) {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleSelect = (e: any) => {
     setDataItem({
       ...dataItem,

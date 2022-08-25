@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
       height: "100%",
       minHeight: "100vh",
       backgroundRepeat: "no-repeat",
-      backgroundPosition: "100px 50%",
+      // backgroundPosition: "100px 50%",
       [tablet]: {
         backgroundImage: "none",
       },
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => {
     boxContainer: {
       width: 740,
       padding: "40px 80px",
-      background: "rgba(255, 255, 255, 1)",
+      background: "rgba(255, 255, 255, .7)",
       height: "100%",
       minHeight: "100vh",
       [tablet]: {
