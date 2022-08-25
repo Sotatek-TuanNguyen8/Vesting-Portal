@@ -109,24 +109,26 @@ export default function Allocation({}: Props) {
   const handleClaimToken = async () => {
     setCheckClickFirst(true);
     if (wrongNetWork) {
-      await switchNetwork();
-    }
-    try {
-      const { time_out_claim } = await handleClaim(
-        ClaimABI,
-        process.env.REACT_APP_CONTRACT_PROXY as string
-      );
-      if (!time_out_claim) {
-        toast.success("Successful transaction done");
-        dispatch(fetchInfoClaim("1"));
-      } else {
-        toast.error(
-          "Transaction Pending. Please wait for transaction success and reload page"
-        );
+      const switchError = await switchNetwork();
+      if (!switchError) {
+        try {
+          const { time_out_claim } = await handleClaim(
+            ClaimABI,
+            process.env.REACT_APP_CONTRACT_PROXY as string
+          );
+          if (!time_out_claim) {
+            toast.success("Successful transaction done");
+            dispatch(fetchInfoClaim("1"));
+          } else {
+            toast.error(
+              "Transaction Pending. Please wait for transaction success and reload page"
+            );
+          }
+        } catch (error) {
+          toast.warning("You denied the transaction");
+          console.error(error);
+        }
       }
-    } catch (error) {
-      toast.warning("You denied the transaction");
-      console.error(error);
     }
     setCheckClickFirst(false);
   };

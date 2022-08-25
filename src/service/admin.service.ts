@@ -1,15 +1,16 @@
-import { createInvestor } from "../utils";
+import { createInvestor, IListInvestor } from "../utils";
 import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
 
 export const getListInvestor = async (
-  access_token: string,
-  page_number: number
+  body: IListInvestor,
+  access_token: string
 ) => {
+  const { search, stages_id, page_number, page_size } = body;
   const { data } = await RequestAdmin.get(
-    `${serverEndpoint}/investors?page_number=${page_number}`,
-    {},
+    `${serverEndpoint}/investors?page_number=${page_number}&page_size=${page_size}&search=${search}&stages_id=${stages_id}`,
+    undefined,
     access_token
   );
   return data;
@@ -26,4 +27,11 @@ export const updateInvestorNew = async (id: number | string, data: {}) => {
     data
   );
   return response;
+};
+
+export const getListStage = async () => {
+  const { data } = await RequestAdmin.get(
+    `${serverEndpoint}/rounds/list-stage`
+  );
+  return data;
 };

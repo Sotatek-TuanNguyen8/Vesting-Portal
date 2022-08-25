@@ -3,11 +3,12 @@ import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
 import { useEffect, useState } from "react";
 import { IconCloseBlue } from "../../../../../../assets/svgs";
-import { getListStage } from "../../../../../../service/list-stage.service";
+import { getListStage } from "../../../../../../service/admin.service";
 import useStyles from "./style";
 type Props = {
   open: boolean;
   onClose: () => void;
+  onFilter: (data: string[]) => void;
 };
 
 interface IData {
@@ -15,7 +16,7 @@ interface IData {
   name: string;
 }
 
-export default function FilterAdmin({ open, onClose }: Props) {
+export default function FilterAdmin({ open, onClose, onFilter }: Props) {
   const classes = useStyles();
   const [data, setData] = useState<IData[]>([]);
   const [dataList, setDataList] = useState<IData[]>([]);
@@ -42,9 +43,13 @@ export default function FilterAdmin({ open, onClose }: Props) {
 
   const handleClearFilter = () => {
     setDataList([]);
+    onFilter([]);
   };
 
-  console.log(dataList.map((el) => el.id.toString()));
+  const handleFilter = () => {
+    onFilter(dataList.map((el) => el.id.toString()));
+    onClose();
+  };
 
   return (
     <>
@@ -55,7 +60,11 @@ export default function FilterAdmin({ open, onClose }: Props) {
               <button className="btn btnCancel" onClick={onClose}>
                 Cancel
               </button>
-              <button className="btn btnApply" disabled={dataList?.length <= 0}>
+              <button
+                onClick={handleFilter}
+                className="btn btnApply"
+                disabled={dataList?.length <= 0}
+              >
                 Apply
               </button>
             </div>

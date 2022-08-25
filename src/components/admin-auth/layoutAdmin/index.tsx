@@ -11,7 +11,6 @@ export default function AdminLayout({ children, isNav = false }: Props) {
 
   useEffect(() => {
     const item = sessionStorage.getItem("access_token");
-
     if (!item) {
       navigate("/admin-panel");
       return;
