@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         // justifyContent: "space-around",
         "& p": {
-          width: "20%",
+          width: "12.5%",
           fontSize: 16,
           fontWeight: 400,
           "& img": {
@@ -48,8 +48,20 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
+        "& .tokensClaimed": {
+          width: "12.5%",
+          display: "flex",
+          alignItems: "center",
+          color: "#0A208F",
+        },
+        "& .tokensVested": {
+          width: "12.5%",
+          display: "flex",
+          color: "#0A208F",
+          alignItems: "center",
+        },
         "& .action": {
-          width: "16.67%",
+          width: "12.5%",
           display: "flex",
           alignItems: "center",
           "& img": {
@@ -72,6 +84,7 @@ const useStyles = makeStyles((theme: Theme) => {
         top: "112%",
         left: "0",
         right: "0",
+        zIndex: 10,
       },
     },
   };

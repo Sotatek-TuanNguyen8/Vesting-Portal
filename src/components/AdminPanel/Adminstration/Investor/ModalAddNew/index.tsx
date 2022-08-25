@@ -1,6 +1,10 @@
 import { Dialog, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import { useRef, useState } from "react";
+import {
+  createInvestorNew,
+  getListInvestor,
+} from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
@@ -14,6 +18,7 @@ export default function ModalAddNew({ open, onClose }: Props) {
   const [value, setValue] = useState<any>("");
   const [msgErrRequied, setMsgErrRequied] = useState<boolean>(false);
   const [msgErrInvalid, setMsgErrInvalid] = useState<boolean>(false);
+  const [msgErrDuplicate, setMsgErrDuplicate] = useState<boolean>(false);
 
   const ref = useRef<any>();
   const handleClickCancel = () => {
@@ -32,13 +37,24 @@ export default function ModalAddNew({ open, onClose }: Props) {
     ref.current.focus();
   };
 
-  const handleClickCreate = () => {
+  const checkWalletInvestor = async () => {
+    const data = await createInvestorNew({ wallet_address: value });
+    if (data?.status === 201) {
+      onClose();
+      await getListInvestor(localStorage.getItem("access_token") as string, 0);
+    } else if (data?.status === 406) {
+      setMsgErrDuplicate(true);
+    }
+  };
+
+  const handleClickCreate = async () => {
     if (!value) {
       setMsgErrRequied(true);
     } else if (!ethers.utils.isAddress(value)) {
       setMsgErrInvalid(true);
     } else {
-      onClose();
+      checkWalletInvestor();
+      // onClose();
     }
   };
 
@@ -56,7 +72,7 @@ export default function ModalAddNew({ open, onClose }: Props) {
         <>
           <div
             className={`inputText ${
-              msgErrRequied || msgErrInvalid ? "error" : ""
+              msgErrRequied || msgErrInvalid || msgErrDuplicate ? "error" : ""
             }`}
           >
             <input
@@ -71,6 +87,11 @@ export default function ModalAddNew({ open, onClose }: Props) {
           )}
           {msgErrInvalid && (
             <p className={styles.msgErr}>Enter a valid wallet address</p>
+          )}
+          {msgErrDuplicate && (
+            <p className={styles.msgErr}>
+              This wallet address has been used by another investor
+            </p>
           )}
         </>
 

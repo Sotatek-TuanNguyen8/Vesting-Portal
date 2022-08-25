@@ -1,6 +1,7 @@
 import { loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
+  createInvestor,
   forgotPWBody,
   loginBody,
   resendEmailBody,
