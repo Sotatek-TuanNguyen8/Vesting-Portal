@@ -86,11 +86,11 @@ export const MetaMaskProvider = ({ children }: any) => {
   };
 
   const switchNetwork = async () => {
-    if (chainId === 4) return;
+    if (chainId === Number(CHAIN_ID_SUPPORT)) return;
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x4" }],
+        params: [{ chainId: `0x${Number(CHAIN_ID_SUPPORT).toString(16)}` }],
       });
     } catch (switchError: any) {
       if (switchError.code === 4902) {
@@ -99,7 +99,7 @@ export const MetaMaskProvider = ({ children }: any) => {
             method: "wallet_addEthereumChain",
             params: [
               {
-                chainId: "0x4",
+                chainId: `0x${Number(CHAIN_ID_SUPPORT).toString(16)}`,
                 rpcUrls: ["https://rinkeby.infura.io/v3/"],
                 chainName: "Rinkeby",
                 nativeCurrency: {
@@ -116,6 +116,7 @@ export const MetaMaskProvider = ({ children }: any) => {
         }
       } else {
         toast.warning("You denied the switch network");
+        return switchError.code;
       }
     }
   };

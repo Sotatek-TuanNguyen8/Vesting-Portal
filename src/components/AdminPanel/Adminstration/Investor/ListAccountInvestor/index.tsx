@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
-import {
-  getListInvestor,
-  updateInvestorNew,
-} from "../../../../../service/admin.service";
+import { useState } from "react";
+import { InInvestor } from "..";
+import { updateInvestorNew } from "../../../../../service/admin.service";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
 import FilterAdmin from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
-type Props = {};
+type Props = {
+  dataListInvestor: InInvestor[];
+  onFilter: (data: string[]) => void;
+};
 
 const data = [
   {
@@ -36,15 +37,15 @@ const dataItemDefault = {
   claimed: "",
   stage_id: 0,
 };
-export default function ListAccountInvestor({}: Props) {
+export default function ListAccountInvestor({
+  dataListInvestor,
+  onFilter,
+}: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
-
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [dataListInvestor, setDataListInvestor] = useState<any>();
 
   const shortenAddress = (
     string?: string,
@@ -62,16 +63,6 @@ export default function ListAccountInvestor({}: Props) {
   const renderOpenModalDelete = () => (
     <ModalDelete open={openModalDelete} onClose={handleCloseModalDelete} />
   );
-
-  useEffect(() => {
-    (async () => {
-      const data = await getListInvestor(
-        localStorage.getItem("access_token") as string,
-        0
-      );
-      setDataListInvestor(data?.data);
-    })();
-  }, []);
 
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
@@ -97,6 +88,7 @@ export default function ListAccountInvestor({}: Props) {
   const handleCancel = (e: any) => {
     setIsEdit(false);
   };
+
   const handleChangeInputTable = (e: any, field: number) => {
     setDataItem({
       ...dataItem,
@@ -111,11 +103,16 @@ export default function ListAccountInvestor({}: Props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleSelect = (e: any) => {
     setDataItem({
       ...dataItem,
       stage_name: e,
     });
+  };
+
+  const handleFilter = (data: string[]) => {
+    onFilter(data);
   };
 
   return (
@@ -134,7 +131,11 @@ export default function ListAccountInvestor({}: Props) {
               alt=""
             />
             <div className="modalSaleStage">
-              <FilterAdmin open={open} onClose={handleClose} />
+              <FilterAdmin
+                open={open}
+                onClose={handleClose}
+                onFilter={handleFilter}
+              />
             </div>
           </p>
           <p>Tokens vested</p>
@@ -143,7 +144,7 @@ export default function ListAccountInvestor({}: Props) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {dataListInvestor?.map((item: any) => (
+      {dataListInvestor?.map((item) => (
         <div key={item?.investor_id} className={styles.tableBody}>
           <div className="content">
             <InputTableEdit
