@@ -9,8 +9,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
-import { setUser } from "../../../../store/action";
-import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
 type Props = {};
 
@@ -30,10 +28,9 @@ export default function UserNavAdmin({}: Props) {
   };
 
   const handleLogout = () => {
-    dispatch(setUser({}));
-    setLocalStorage("access_token", "");
-    setLocalStorage("refresh_token", "");
-    navigate("/sign-in");
+    sessionStorage.clear();
+    localStorage.clear();
+    navigate("/admin-panel");
   };
 
   return (

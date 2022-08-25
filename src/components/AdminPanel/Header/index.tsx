@@ -1,6 +1,6 @@
 import React from "react";
 import useStyles from "./style";
-import UserNavAdmin from "./UserNav";
+import UserNavAdmin from "./AdminNav";
 
 type Props = {};
 
