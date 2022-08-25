@@ -22,7 +22,7 @@ const App = () => {
         navigate("/sign-in");
       }
       if (
-        _.findIndex(routeSupported, (el) => {
+        _.findIndex(routeAdminSupported, (el) => {
           return el === pathname;
         }) !== -1
       ) {
