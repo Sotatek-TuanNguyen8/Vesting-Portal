@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { AppRouter } from "./routes";
-import { routeSupported } from "./utils/types/route";
+import { routeSupported, routeAdminSupported } from "./utils/types/route";
 
 const App = () => {
   const navigate = useNavigate();
@@ -21,8 +21,17 @@ const App = () => {
         localStorage.removeItem("access_token");
         navigate("/sign-in");
       }
+      if (
+        _.findIndex(routeSupported, (el) => {
+          return el === pathname;
+        }) !== -1
+      ) {
+        sessionStorage.removeItem("access_token");
+        navigate("/admin-panel");
+      }
       localStorage.setItem("accounts", accounts[0]);
     });
+
     windowObj?.ethereum?.on("networkChanged", (chainId: string) => {});
   }, [navigate]);
 

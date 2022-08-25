@@ -8,7 +8,6 @@ import useMetaMask from "../../utils/hooks/useMetaMask";
 import useStyles from "./style";
 import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
 import { toast } from "react-toastify";
-import { setLocalStorage } from "../hooks/localStorageCheck";
 
 export default function AdminAuthPage() {
   const classes = useStyles();
@@ -16,6 +15,14 @@ export default function AdminAuthPage() {
   const { getSignature, connect, account } = useMetaMask();
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const elRef = useRef(null);
+
+  useEffect(() => {
+    const item = sessionStorage.getItem("access_token");
+    if (item) {
+      navigate("/admin-panel/investor");
+      return;
+    }
+  }, [navigate]);
 
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
@@ -34,11 +41,10 @@ export default function AdminAuthPage() {
       );
 
       if (!res?.error) {
-        setLocalStorage("access_token", res.data.accessToken);
-
+        sessionStorage.setItem("access_token", res?.data?.accessToken);
         navigate("/admin-panel/investor");
       } else {
-        toast.error("Your wallet is not granted Admin role");
+        navigate("/admin-panel");
       }
     }
   };
@@ -49,77 +55,85 @@ export default function AdminAuthPage() {
 
   return (
     <div ref={elRef}>
-      <Container maxWidth="lg" sx={{ margin: "auto" }}>
-        <Box
-          width="fit-content"
-          sx={{
-            background:
-              " linear-gradient(134.72deg, #F3E8FF -2.3%, #FCFEFF 32.48%, #E8F9FF 100%)",
-            borderRadius: "10px",
-            minWidth: "546px",
-            padding: "28px 45px",
-            margin: "auto",
-            minHeight: 530,
-          }}
-        >
-          <Typography variant="h4" color="#0A208F" pb={5}>
-            Connect Wallet
-          </Typography>
-          {errorCheckAddress && (
-            <Typography
-              // variant="subtitle1"
-              color="#F44336"
-              fontSize={"14px!important"}
-              pb={2}
-              sx={{ display: "flex", alignItems: "center" }}
+      <div className={classes.main}>
+        <div className={classes.box}>
+          <Container maxWidth="lg" sx={{ margin: "auto" }}>
+            <Box
+              width="fit-content"
+              sx={{
+                background:
+                  " linear-gradient(134.72deg, #F3E8FF -2.3%, #FCFEFF 32.48%, #E8F9FF 100%)",
+                borderRadius: "10px",
+                minWidth: "546px",
+                padding: "28px 45px",
+                margin: "auto",
+                minHeight: 530,
+              }}
             >
-              <Error width={16} height={16} style={{ marginRight: "5px" }} />{" "}
-              {errorCheckAddress}
-            </Typography>
-          )}
-          <Box
-            sx={{
-              flexDirection: "column",
-              display: "flex",
-            }}
-          >
-            {[
-              ["metamask", "Metamask"],
-              //   ["coinbase", "Coinbase Wallet"],
-            ].map(([type, label]) => (
-              <ButtonBase
-                className={classes.buttonWallet}
-                sx={{
-                  transition: (theme) =>
-                    theme.transitions.create("background-color"),
-                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
-                  "& > img": { mb: 2 },
-                }}
-                key={type}
-                // @ts-ignore
-                onClick={handleConnectWallet}
-              >
+              <Typography variant="h4" color="#0A208F" pb={5}>
+                Connect Wallet
+              </Typography>
+              {errorCheckAddress && (
                 <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: "18px",
-                    fonColor: "#050025",
-                    fontWeight: "500!important",
-                  }}
+                  // variant="subtitle1"
+                  color="#F44336"
+                  fontSize={"14px!important"}
+                  pb={2}
+                  sx={{ display: "flex", alignItems: "center" }}
                 >
-                  {label}
+                  <Error
+                    width={16}
+                    height={16}
+                    style={{ marginRight: "5px" }}
+                  />{" "}
+                  {errorCheckAddress}
                 </Typography>
-                <img
-                  src={`/images/${type}.svg`}
-                  alt={type}
-                  width={60}
-                  height={60}
-                />
-              </ButtonBase>
-            ))}
-          </Box>
-        </Box>
-      </Container>
+              )}
+              <Box
+                sx={{
+                  flexDirection: "column",
+                  display: "flex",
+                }}
+              >
+                {[
+                  ["metamask", "Metamask"],
+                  //   ["coinbase", "Coinbase Wallet"],
+                ].map(([type, label]) => (
+                  <ButtonBase
+                    className={classes.buttonWallet}
+                    sx={{
+                      transition: (theme) =>
+                        theme.transitions.create("background-color"),
+                      "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
+                      "& > img": { mb: 2 },
+                    }}
+                    key={type}
+                    // @ts-ignore
+                    onClick={handleConnectWallet}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "18px",
+                        fonColor: "#050025",
+                        fontWeight: "500!important",
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                    <img
+                      src={`/images/${type}.svg`}
+                      alt={type}
+                      width={60}
+                      height={60}
+                    />
+                  </ButtonBase>
+                ))}
+              </Box>
+            </Box>
+          </Container>
+        </div>
+      </div>
     </div>
   );
 }

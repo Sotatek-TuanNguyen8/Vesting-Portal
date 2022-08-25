@@ -1,33 +1,22 @@
 import { ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "../../common/Header";
-import { useSelector } from "react-redux";
-import useStyles from "./style";
+import { useNavigate, Navigate } from "react-router-dom";
 
 type Props = {
   children?: ReactNode;
   isNav?: boolean;
 };
 
-export default function LayoutAdmin({ children, isNav = false }: Props) {
-  const accessToken = useSelector((s: any) => s.adminAuthAction.token);
+export default function AdminLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
-  const classes = useStyles();
 
   useEffect(() => {
-    if (accessToken) {
-      return;
-    } else {
+    const item = sessionStorage.getItem("access_token");
+
+    if (!item) {
       navigate("/admin-panel");
+      return;
     }
   }, [navigate]);
 
-  return (
-    <div className={classes.main}>
-      <div className={classes.box}>
-        <Header isNav={isNav} />
-        {children}
-      </div>
-    </div>
-  );
+  return <div>{children}</div>;
 }
