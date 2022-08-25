@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
 
-  const { account, connect, getSignature, isNotMetaMask } = useMetaMask();
+  const { account, connect, getSignature } = useMetaMask();
 
   const watchEmail = watch("email");
 

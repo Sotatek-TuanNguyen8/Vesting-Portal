@@ -6,7 +6,7 @@ import {
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
-import ModalFilterSaleStage from "./ModalFilterSaleStage";
+import FilterAdmin from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
 type Props = {};
@@ -134,7 +134,7 @@ export default function ListAccountInvestor({}: Props) {
               alt=""
             />
             <div className="modalSaleStage">
-              <ModalFilterSaleStage open={open} onClose={handleClose} />
+              <FilterAdmin open={open} onClose={handleClose} />
             </div>
           </p>
           <p>Tokens vested</p>

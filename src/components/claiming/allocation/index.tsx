@@ -1,17 +1,16 @@
-import { Button, Divider, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { getContractConnect } from "../../../service/web";
 import { useDispatch, useSelector } from "react-redux";
-import ClaimABI from "../../../abi/User-Claim.json";
+import { toast } from "react-toastify";
 import TokenFLD from "../../../abi/Token-FLD.json";
+import ClaimABI from "../../../abi/User-Claim.json";
+import { getContractConnect } from "../../../service/web";
 import { AppDispatch } from "../../../store";
 import { fetchInfoClaim } from "../../../store/action/claim.action";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
-import moment from "moment";
 
 type Props = {};
 const data = [

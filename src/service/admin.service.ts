@@ -1,4 +1,4 @@
-import { createInvestor, updateInvestor } from "../utils";
+import { createInvestor } from "../utils";
 import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;

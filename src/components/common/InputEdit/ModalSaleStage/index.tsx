@@ -1,5 +1,4 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import useStyles from "./style";
 
