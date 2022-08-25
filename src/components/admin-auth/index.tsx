@@ -8,12 +8,14 @@ import { scrollIntoView } from "../../utils/common/fn";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import useStyles from "./style";
 import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
-
+import { Logo } from "../../assets/svgs/";
+import Icon from "../../assets/svgs/iconErrorAdminAuth.svg";
 export default function AdminAuthPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
+  const [errorLogin, setErrorLogin] = useState(false);
   const elRef = useRef(null);
 
   useEffect(() => {
@@ -23,6 +25,10 @@ export default function AdminAuthPage() {
       return;
     }
   }, [navigate]);
+
+  const handleErrorLogin = () => {
+    setErrorLogin(!errorLogin);
+  };
 
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
@@ -38,14 +44,17 @@ export default function AdminAuthPage() {
           wallet_address: account,
         },
         CONNECT_WALLET_ADMIN
-      );
-
-      if (!res?.error) {
-        sessionStorage.setItem("access_token", res?.data?.accessToken);
-        navigate("/admin-panel/investor");
-      } else {
-        navigate("/admin-panel");
-      }
+      )
+        .then((res) => {
+          setErrorLogin(false);
+          sessionStorage.setItem("access_token", res?.data?.accessToken);
+          navigate("/admin-panel/investor");
+        })
+        .catch(() => {
+          debugger;
+          setErrorLogin(true);
+          navigate("/admin-panel");
+        });
     }
   };
 
@@ -56,6 +65,7 @@ export default function AdminAuthPage() {
   return (
     <div ref={elRef}>
       <div className={classes.main}>
+        <Logo className={classes.logo} />
         <div className={classes.box}>
           <Container maxWidth="lg" sx={{ margin: "auto" }}>
             <Box
@@ -70,9 +80,7 @@ export default function AdminAuthPage() {
                 minHeight: 530,
               }}
             >
-              <Typography variant="h4" color="#0A208F" pb={5}>
-                Connect Wallet
-              </Typography>
+              <p className={classes.title}>ADMIN LOGIN</p>
               {errorCheckAddress && (
                 <Typography
                   // variant="subtitle1"
@@ -95,39 +103,48 @@ export default function AdminAuthPage() {
                   display: "flex",
                 }}
               >
+                <div className={errorLogin ? classes.active : classes.unActive}>
+                  <img src={Icon} alt="" />
+                  <p className={classes.titleError}>
+                    Your wallet is not granted Admin role
+                  </p>
+                </div>
+
                 {[
                   ["metamask", "Metamask"],
                   //   ["coinbase", "Coinbase Wallet"],
                 ].map(([type, label]) => (
-                  <ButtonBase
-                    className={classes.buttonWallet}
-                    sx={{
-                      transition: (theme) =>
-                        theme.transitions.create("background-color"),
-                      "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
-                      "& > img": { mb: 2 },
-                    }}
-                    key={type}
-                    // @ts-ignore
-                    onClick={handleConnectWallet}
-                  >
-                    <Typography
-                      variant="body1"
+                  <div className={classes.container}>
+                    <ButtonBase
+                      className={classes.Wallet}
                       sx={{
-                        fontSize: "18px",
-                        fonColor: "#050025",
-                        fontWeight: "500!important",
+                        transition: (theme) =>
+                          theme.transitions.create("background-color"),
+                        "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
+                        "& > img": { mb: 2 },
                       }}
+                      key={type}
+                      // @ts-ignore
+                      onClick={handleConnectWallet}
                     >
-                      {label}
-                    </Typography>
-                    <img
-                      src={`/images/${type}.svg`}
-                      alt={type}
-                      width={60}
-                      height={60}
-                    />
-                  </ButtonBase>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontSize: "18px",
+                          fonColor: "#050025",
+                          fontWeight: "500!important",
+                        }}
+                      >
+                        {label}
+                      </Typography>
+                      <img
+                        src={`/images/${type}.svg`}
+                        alt={type}
+                        width={60}
+                        height={60}
+                      />
+                    </ButtonBase>
+                  </div>
                 ))}
               </Box>
             </Box>
