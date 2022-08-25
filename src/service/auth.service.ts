@@ -96,3 +96,7 @@ export const editTableTokenimics = async (
   const { data } = await Request.patch(`${serverEndpoint}/rounds/${id}`, body);
   return data;
 };
+export const addTokenomics = async (body: editTokennomics) => {
+  const { data } = await Request.post(`${serverEndpoint}/rounds`, body);
+  return data;
+};

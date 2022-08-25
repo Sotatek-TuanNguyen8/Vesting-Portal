@@ -1,36 +1,29 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import _ from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
-import { editTableTokenimics, getDataTokenomics } from "../../../../../service";
-import _ from "lodash";
-import { toast } from "react-toastify";
-// let data = [
-//   {
-//     id: 1,
-//     sales_stage: "Angel",
-//     token_amount: 1000000,
-//     tge_amount: 50000,
-//     cliff: 12,
-//     linear_vesting: 11,
-//   },
-// ];
+import {
+  editTableTokenimics,
+  getDataTokenomics,
+  addTokenomics,
+} from "../../../../../service";
+import ModalDelete from "../ModalDelete";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd } = props;
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
+  const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
   const [editDataItem, setEditDataItem] = useState<any | undefined | never>({});
   const [dataTable, setDataTable] = useState<Array<any>>([]);
   const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
-    sales_stage: "",
+    name: "",
     token_amount: "",
     tge_amount: "",
     cliff: "",
     linear_vesting: "",
   });
-  const handleDelete = (e: any) => {};
-  // console.log(dataItem);
-
   const handleEdit = (e: any, id: any) => {
     setIsEdit(id);
     setEditDataItem(e);
@@ -59,15 +52,12 @@ export default function ListAccountTokenomics(props: any) {
     setIsEdit(null);
   };
   const handleChangeInputTable = (e: any, field: any) => {
-    console.log(e, field, editDataItem);
     setEditDataItem({
       ...editDataItem,
       [field]: e,
     });
   };
   const handleChangeInputAdd = (e: any, field: any) => {
-    console.log(e);
-
     setFieldAddItem({
       ...fieldAddItem,
       [field]: e,
@@ -78,10 +68,22 @@ export default function ListAccountTokenomics(props: any) {
     setAdd(false);
     setFieldAddItem({});
   };
-  const confirmAdd = () => {
-    // if (openAdd) {
-    //   dataTable?.unshift(fieldAddItem ?? {});
-    // }
+  const confirmAdd = async () => {
+    if (openAdd) {
+      const res = await addTokenomics(fieldAddItem);
+      if (!res) return;
+      if (res?.error) {
+        toast.error(res?.error?.message);
+        return;
+      } else {
+        toast.success("Add successfully");
+        await getDataTable();
+        handleCloseAdd();
+      }
+    }
+  };
+  const handleClosePopup = () => {
+    setOpenDeleteStatus(false);
   };
   const getDataTable = async () => {
     const renderData = await getDataTokenomics();
@@ -104,14 +106,14 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-       {openAdd && (
+      {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault
               type="text"
               status={true}
-              value={fieldAddItem?.sales_stage ?? ""}
-              field="sales_stage"
+              value={fieldAddItem?.name ?? ""}
+              field="name"
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
@@ -216,7 +218,9 @@ export default function ListAccountTokenomics(props: any) {
                 {isEdit !== item.id ? (
                   <>
                     <img
-                      onClick={() => handleDelete(item)}
+                      onClick={() => {
+                        setOpenDeleteStatus(true);
+                      }}
                       src="/images/iconDelete.svg"
                       alt=""
                     />
@@ -245,6 +249,11 @@ export default function ListAccountTokenomics(props: any) {
               </div>
             </div>
             <div className={styles.border}></div>
+            <ModalDelete
+              open={openDeleteStatus}
+              onClose={handleClosePopup}
+              id={item.id}
+            />
           </div>
         ))}
     </div>

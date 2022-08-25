@@ -51,8 +51,8 @@ export interface loginWallet {
 }
 export interface editTokennomics {
   name: string;
-  token_amount: "string";
-  tge_amount: "string";
+  token_amount: string;
+  tge_amount: string;
   cliff: number;
   linear_vesting: number;
 }
