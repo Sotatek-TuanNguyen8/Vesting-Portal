@@ -1,5 +1,4 @@
 import { useState } from "react";
-import InputTableEdit from "../../../../common/InputEdit";
 import useStyles from "./style";
 
 let data = [
@@ -72,13 +71,11 @@ export default function ListAccountTokenomics(props: any) {
     });
   };
   const confirmAdd = () => {
-    
     if (openAdd) {
       console.log(data);
       data.unshift(fieldAddItem);
     }
   };
-  
 
   return (
     <div className={styles.container}>
@@ -93,7 +90,7 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {openAdd && (
+      {/* {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEdit
@@ -141,8 +138,8 @@ export default function ListAccountTokenomics(props: any) {
             </div>
           </div>
         </div>
-      )}
-      {data.map((item,index) => (
+      )} */}
+      {/* {data.map((item, index) => (
         <div key={index} className={styles.tableBody}>
           <div className="content">
             <InputTableEdit
@@ -212,7 +209,7 @@ export default function ListAccountTokenomics(props: any) {
           </div>
           <div className={styles.border}></div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
