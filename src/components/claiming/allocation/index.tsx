@@ -15,31 +15,31 @@ import moment from "moment";
 type Props = {};
 const data = [
   {
-    name: "S",
+    name: "18",
     value: 123,
   },
   {
-    name: "M",
+    name: "19",
     value: 234,
   },
   {
-    name: "T",
+    name: "20",
     value: 206,
   },
   {
-    name: "W",
+    name: "21",
     value: 228,
   },
   {
-    name: "TH",
+    name: "22",
     value: 804,
   },
   {
-    name: "F",
+    name: "23",
     value: 500,
   },
   {
-    name: "SA",
+    name: "24",
     value: 700,
   },
 ];
@@ -54,7 +54,7 @@ export default function Allocation({}: Props) {
 
   useEffect(() => {
     if (!account) return;
-    dispatch(fetchInfoClaim("1"));
+    // dispatch(fetchInfoClaim("1"));
   }, []);
 
   const handleClaim = async (
@@ -100,14 +100,15 @@ export default function Allocation({}: Props) {
         process.env.REACT_APP_CONTRACT_PROXY as string
       );
       if (!time_out_claim) {
-        toast.success("Claim Successfully");
+        toast.success("Successful transaction done");
+        dispatch(fetchInfoClaim("1"));
       } else {
         toast.error(
           "Transaction Pending. Please wait for transaction success and reload page"
         );
       }
     } catch (error) {
-      toast.error("Claim Failed");
+      toast.warning("You denied the transaction");
       console.error(error);
     }
     setCheckClickFirst(false);
@@ -159,7 +160,11 @@ export default function Allocation({}: Props) {
           </div>
         </div>
         <div className={classes.lineChart}>
-          <LineChart data={data} width={700} height={500} />
+          <div className="labelY">CLAIMED TOKENS</div>
+          <div>
+            <LineChart data={data} width={700} height={500} />
+            <p className="labelX">DAYS</p>
+          </div>
         </div>
       </div>
     </div>

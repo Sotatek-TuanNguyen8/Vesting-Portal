@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import AdminAuthPage from "../components/admin-auth";
 import Investors from "../components/AdminPanel/Adminstration/Investor";
 import Tokenomics from "../components/AdminPanel/Adminstration/Tokenomics";
 import EmailConfirmPage from "../components/Auth/email-confirm";
@@ -10,7 +11,7 @@ import SignUpPage from "../components/Auth/sign-up";
 import NotFoundPage from "../components/common/NotFound";
 import ConnectWalletPage from "../components/connect-wallet";
 import HomePage from "../components/Home";
-import AdminAuthPage from "../components/admin-auth/index";
+// import AdminAuthPage from "../components/admin-auth/index";
 
 export const AppRouter = () => {
   return (
@@ -26,7 +27,6 @@ export const AppRouter = () => {
       <Route path="/admin-panel/investor" element={<Investors />} />
       <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
       <Route path="/admin-panel" element={<AdminAuthPage />} />
-
       <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );

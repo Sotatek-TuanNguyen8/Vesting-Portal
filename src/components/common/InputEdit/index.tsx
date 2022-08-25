@@ -6,10 +6,11 @@ type InputProps = {
   value: any;
   status: boolean;
   field: string;
+  type: string;
   onChange: (e: any, field: any) => void;
 };
 export default function InputTableEdit(props: InputProps) {
-  const { value, status, onChange, field } = props;
+  const { value, status, onChange, field, type } = props;
   const styles = useStyles();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -49,6 +50,7 @@ export default function InputTableEdit(props: InputProps) {
         </div>
       ) : field === "fullName" ? (
         <input
+          type={type}
           className={` ${
             !status ? styles.hiddenInputFullname : styles.inputFullname
           } `}
@@ -58,6 +60,7 @@ export default function InputTableEdit(props: InputProps) {
         />
       ) : (
         <input
+          type={type}
           className={` ${!status ? styles.hiddenInput : styles.input} `}
           value={value}
           disabled={!status}

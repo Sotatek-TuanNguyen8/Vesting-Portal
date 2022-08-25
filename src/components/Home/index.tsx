@@ -30,7 +30,7 @@ export default function HomePage({}: Props) {
 
   useEffect(() => {
     if (!checkFetchData || !account) return;
-    if (userData.metamaskAddress !== account) {
+    if (account?.toLowerCase() !== userData?.metamaskAddress?.toLowerCase()) {
       navigate("/connect-wallet");
       return;
     }

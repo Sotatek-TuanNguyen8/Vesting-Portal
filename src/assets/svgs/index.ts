@@ -13,3 +13,5 @@ export { ReactComponent as ToolTipIcon } from "./tool_tip.svg";
 export { ReactComponent as RoundCancelIcon } from "./round_cancel.svg";
 export { ReactComponent as Error } from "./error.svg";
 export { ReactComponent as AvatarDefault } from "./avatarDefault.svg";
+export { ReactComponent as UploadIcon } from "./upload_icon.svg";
+export { ReactComponent as UploadRootIcon } from "./upload_root.svg";
