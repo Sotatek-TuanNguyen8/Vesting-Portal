@@ -65,11 +65,11 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadIcon />
                   <p>Upload</p>
-                  <input hidden accept="image/*" multiple type="file" />
+                  <input hidden accept="'.csv" multiple type="file" />
                 </Button>
               </div>
               <div>
-                {/* <Button
+                <Button
                   variant="contained"
                   sx={{
                     background: "#BBBBBB",
@@ -82,7 +82,7 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadRootIcon style={{ marginRight: "3px" }} />
                   Update Root
-                </Button> */}
+                </Button>
               </div>
             </div>
             <div className={styles.body}>

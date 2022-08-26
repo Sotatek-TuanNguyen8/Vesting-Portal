@@ -99,8 +99,9 @@ export default function ListAccountTokenomics(props: any) {
       }
     }
   };
-  const handleClosePopup = () => {
+  const handleClosePopup = async () => {
     setOpenDeleteStatus(false);
+    await renderTable();
   };
   useEffect(() => {
     if (openAdd) {
