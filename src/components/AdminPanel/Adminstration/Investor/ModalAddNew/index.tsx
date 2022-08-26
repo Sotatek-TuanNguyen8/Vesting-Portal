@@ -1,6 +1,7 @@
 import { Dialog, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 import {
   createInvestorNew,
   getListInvestor,
@@ -40,8 +41,9 @@ export default function ModalAddNew({ open, onClose }: Props) {
   const checkWalletInvestor = async () => {
     const data = await createInvestorNew({ wallet_address: value });
     if (data?.status === 201) {
-      onClose();
       await getListInvestor(localStorage.getItem("access_token") as string, 0);
+      onClose();
+      toast.success("Add New Investor Success");
     } else if (data?.status === 406) {
       setMsgErrDuplicate(true);
     }
@@ -54,7 +56,6 @@ export default function ModalAddNew({ open, onClose }: Props) {
       setMsgErrInvalid(true);
     } else {
       checkWalletInvestor();
-      // onClose();
     }
   };
 

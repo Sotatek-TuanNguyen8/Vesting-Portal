@@ -72,13 +72,11 @@ export default function ListAccountTokenomics(props: any) {
     });
   };
   const confirmAdd = () => {
-    
     if (openAdd) {
       console.log(data);
       data.unshift(fieldAddItem);
     }
   };
-  
 
   return (
     <div className={styles.container}>
@@ -93,25 +91,25 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {openAdd && (
+      {/* {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEdit
-              type="text"
+              // type="text"
               status={true}
               value={fieldAddItem?.sales_stage ?? ""}
               field="sales_stage"
               onChange={handleChangeInputAdd}
             />
             <InputTableEdit
-              type="number"
+              // type="number"
               status={true}
               value={fieldAddItem?.token_amount ?? ""}
               field="token_amount"
               onChange={handleChangeInputAdd}
             />
             <InputTableEdit
-              type="number"
+              // type="number"
               status={true}
               value={fieldAddItem?.tge_amount ?? ""}
               field="tge_amount"
@@ -212,7 +210,7 @@ export default function ListAccountTokenomics(props: any) {
           </div>
           <div className={styles.border}></div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }

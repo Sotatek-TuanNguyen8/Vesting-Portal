@@ -1,4 +1,4 @@
-import { createInvestor, updateInvestor } from "../utils";
+import { createInvestor } from "../utils";
 import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
@@ -24,6 +24,13 @@ export const updateInvestorNew = async (id: number | string, data: {}) => {
   const response = await RequestAdmin.patch(
     `${serverEndpoint}/investors/${id}`,
     data
+  );
+  return response;
+};
+
+export const deleteInvestor = async (id: number) => {
+  const response = await RequestAdmin.delete(
+    `${serverEndpoint}/investors/${id}`
   );
   return response;
 };
