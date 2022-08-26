@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .info": {
         display: "flex",
         flexDirection: "row",
-        marginRight: 60,
+        marginRight: 25,
         "& p": {
           marginLeft: 12,
         },
