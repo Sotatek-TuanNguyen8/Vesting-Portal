@@ -93,12 +93,14 @@ export default function Investors({}: Props) {
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
               />
-              <PaginationCustom
-                count={Math.ceil(count / query?.page_size)}
-                onChange={(page) =>
-                  setQuery({ ...query, page_number: page - 1 })
-                }
-              />
+              {dataListInvestor?.length > 0 && (
+                <PaginationCustom
+                  count={Math.ceil(count / query?.page_size)}
+                  onChange={(page) =>
+                    setQuery({ ...query, page_number: page - 1 })
+                  }
+                />
+              )}
             </div>
             {renderOpenModalAddNew()}
           </div>

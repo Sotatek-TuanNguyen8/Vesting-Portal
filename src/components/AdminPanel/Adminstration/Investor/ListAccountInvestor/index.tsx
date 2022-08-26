@@ -116,7 +116,7 @@ export default function ListAccountInvestor({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} tabIndex={1} onBlur={() => handleClose()}>
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Full Name</p>
@@ -124,7 +124,7 @@ export default function ListAccountInvestor({
           <p>Wallet address</p>
           <p>Token amount</p>
           <p className={styles.saleStage}>
-            Sale stage{" "}
+            Sale stage
             <img
               onClick={handleClickFilter}
               src="/images/iconFilter.svg"
