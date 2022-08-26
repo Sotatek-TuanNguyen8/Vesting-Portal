@@ -6,7 +6,8 @@ import useStyles from "./style";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
 import { Button } from "@mui/material";
-import { getDataTokenomics } from "../../../../service";
+import { getDataTokenomics } from "../../../../service/admin.service";
+
 
 type Props = {};
 

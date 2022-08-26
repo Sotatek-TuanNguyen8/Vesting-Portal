@@ -3,8 +3,9 @@ import { toast } from "react-toastify";
 import _, { isNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
-import { editTableTokenimics, addTokenomics } from "../../../../../service";
+
 import ModalDelete from "../ModalDelete";
+import { addTokenomics, editTableTokenimics } from "../../../../../service/admin.service";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd, dataTable, renderTable } = props;
