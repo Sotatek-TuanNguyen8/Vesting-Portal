@@ -9,6 +9,8 @@ import _ from "lodash";
 import { IListInvestor } from "../../../../utils";
 import { getListInvestor } from "../../../../service/admin.service";
 import PaginationCustom from "../Pagination";
+import { WrongNetwork } from "../../../WrongNetWork/index";
+import useMetaMask from "../../../../utils/hooks/useMetaMask";
 
 type Props = {};
 export interface InInvestor {
@@ -33,6 +35,7 @@ export default function Investors({}: Props) {
     page_number: 0,
     page_size: 10,
   });
+  const { wrongNetWork } = useMetaMask();
 
   const fetchListInvestors = useCallback(async () => {
     const res = await getListInvestor(
@@ -77,6 +80,9 @@ export default function Investors({}: Props) {
     <div>
       <AdminLayout>
         <AdminPanel />
+        <div className={styles.wrongNetWorkContainer}>
+          {wrongNetWork && <WrongNetwork />}
+        </div>
         <div className={styles.container}>
           <Administration active={"investor"} />
           <div className="listInvestor">
