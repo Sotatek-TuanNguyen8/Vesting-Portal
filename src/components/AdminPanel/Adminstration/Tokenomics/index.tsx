@@ -20,6 +20,7 @@ export default function Tokenomics({}: Props) {
 
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics();
+    console.log(renderData);
     if (!renderData) return;
     setDataTable(renderData?.data);
   }, []);

@@ -5,7 +5,10 @@ import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
 
 import ModalDelete from "../ModalDelete";
-import { addTokenomics, editTableTokenimics } from "../../../../../service/admin.service";
+import {
+  addTokenomics,
+  editTableTokenimics,
+} from "../../../../../service/admin.service";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd, dataTable, renderTable } = props;
@@ -90,6 +93,7 @@ export default function ListAccountTokenomics(props: any) {
         toast.error(res?.error?.message);
         return;
       } else {
+        await renderTable();
         toast.success("Add successfully");
         handleCloseAdd();
       }
