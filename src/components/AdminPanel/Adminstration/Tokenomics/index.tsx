@@ -8,7 +8,6 @@ import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
 import { Button } from "@mui/material";
 import { getDataTokenomics } from "../../../../service/admin.service";
 
-
 type Props = {};
 
 export default function Tokenomics({}: Props) {
@@ -42,8 +41,26 @@ export default function Tokenomics({}: Props) {
                 </div>
                 <Button
                   className={styles.featureUPload}
-                  variant="contained"
+                  variant="outlined"
                   component="label"
+                  sx={{
+                    border: "none",
+                    alignItems: "center",
+                    marginLeft: "90px",
+                    padding: "0",
+                    fontFamily: "gibson",
+                    "& p": {
+                      fontWeight: 400,
+                      fontSize: "18px",
+                      color: "#051C42",
+                      margin: "0 0 0 5px",
+                      textTransform: "initial",
+                    },
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                      border: "none",
+                    },
+                  }}
                 >
                   <UploadIcon />
                   <p>Upload</p>
