@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => {
       justifyContent: "space-between !important",
       alignContent: "center",
       borderRadius: 10,
-      width: "99%",
+      width: "100%",
       maxWidth: 456,
       minHeight: 67,
       background:

@@ -30,6 +30,9 @@ export const handleErrorUtilAdmin = (response: AxiosResponse<any>) => {
     case 401:
       localStorage.clear();
       sessionStorage.clear();
+      if (window.location.pathname !== "/admin-panel") {
+        window.location.href = "/admin-panel";
+      }
       return;
     case 500:
       toast.error("Server error");

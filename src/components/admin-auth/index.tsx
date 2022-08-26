@@ -34,6 +34,7 @@ export default function AdminAuthPage() {
   }, [navigate]);
 
   const handleConnectWallet = async () => {
+    setErrorLogin(false);
     setErrorCheckAddress("");
     if (!account) {
       await connect();
