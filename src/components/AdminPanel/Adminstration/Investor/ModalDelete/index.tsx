@@ -21,7 +21,15 @@ export default function ModalDelete({ open, onClose, id }: Props) {
 
   const handleClickDelete = useCallback(async () => {
     await deleteInvestor(id);
-    await getListInvestor(localStorage.getItem("access_token") as string, 0);
+    await getListInvestor(
+      {
+        search: "",
+        stages_id: [],
+        page_number: 0,
+        page_size: 10,
+      },
+      sessionStorage.getItem("access_token") as string
+    );
     onClose();
     toast.success("Delete Investor Success");
   }, [id, onClose]);

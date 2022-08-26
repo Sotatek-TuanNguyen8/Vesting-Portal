@@ -111,6 +111,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .btnContinue:disabled": {
         background: "#e9e9f0",
         color: "#bbbbbb",
+        cursor: "no-drop",
       },
     },
     actionOK: {

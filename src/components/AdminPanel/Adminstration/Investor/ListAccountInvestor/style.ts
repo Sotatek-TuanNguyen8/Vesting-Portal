@@ -84,7 +84,9 @@ const useStyles = makeStyles((theme: Theme) => {
         top: "112%",
         left: "0",
         right: "0",
-        zIndex: 10,
+        zIndex: 999,
+        width: 260,
+        backgroundColor: "#fff",
       },
     },
   };

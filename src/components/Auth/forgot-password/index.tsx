@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
 
-  const { account, connect, getSignature, isNotMetaMask } = useMetaMask();
+  const { account, connect, getSignature } = useMetaMask();
 
   const watchEmail = watch("email");
 
@@ -40,7 +40,10 @@ export default function ForgotPasswordPage() {
     const res = await forgotPWlAuth({
       email: data.email,
     });
-    if (res?.error) {
+    if (res?.data) {
+      setMessError("");
+      setIsSendEmail(true);
+    } else {
       const { statusCode } = res?.error;
       if (statusCode === 406) {
         try {
@@ -68,9 +71,6 @@ export default function ForgotPasswordPage() {
       } else {
         setMessError(res?.error?.details);
       }
-    } else {
-      setMessError("");
-      setIsSendEmail(true);
     }
     setIsClickFirst(false);
   };

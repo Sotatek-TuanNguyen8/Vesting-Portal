@@ -1,56 +1,59 @@
-import { useState } from "react";
-import InputTableEdit from "../../../../common/InputEdit";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import _ from "lodash";
+import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
-
-let data = [
-  {
-    id: 1,
-    sales_stage: "Angel",
-    token_amount: 1000000,
-    tge_amount: 50000,
-    cliff: 12,
-    linear_vesting: 11,
-  },
-];
-
-const dataItemDefault = {
-  id: 1,
-  sales_stage: "Angel",
-  token_amount: 0,
-  tge_amount: 0,
-  cliff: 0,
-  linear_vesting: 0,
-};
+import {
+  editTableTokenimics,
+  getDataTokenomics,
+  addTokenomics,
+} from "../../../../../service";
+import ModalDelete from "../ModalDelete";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd } = props;
   const styles = useStyles();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [dataItem, setDataItem] = useState<any>(dataItemDefault);
-  const [fieldAddItem, setFieldAddItem] = useState<any>({
-    sales_stage: "",
-    token_amount: 0,
-    tge_amount: 0,
-    cliff: 0,
-    linear_vesting: 0,
+  const [isEdit, setIsEdit] = useState<boolean | null>(null);
+  const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
+  const [editDataItem, setEditDataItem] = useState<any | undefined | never>({});
+  const [dataTable, setDataTable] = useState<Array<any>>([]);
+  const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
+    name: "",
+    token_amount: "",
+    tge_amount: "",
+    cliff: "",
+    linear_vesting: "",
   });
-  const handleDelete = (e: any) => {};
-
-  const handleEdit = (e: any) => {
-    setIsEdit(true);
-    setDataItem(e);
+  const handleEdit = (e: any, id: any) => {
+    setIsEdit(id);
+    setEditDataItem(e);
+  };
+  //edit confirm
+  const handleSaveEdit = async (data: any) => {
+    const res = await editTableTokenimics(data.id, {
+      name: data.name,
+      token_amount: data.token_amount,
+      tge_amount: data.tge_amount,
+      cliff: data.cliff,
+      linear_vesting: data.linear_vesting,
+    });
+    if (!res) return;
+    if (res?.error?.statusCode === 404 || res?.error?.statusCode === 406) {
+      toast.error(res?.error?.message);
+      return;
+    } else {
+      toast.success("Update Successfully");
+      setIsEdit(null);
+    }
   };
 
-  const handleSave = () => {
-    setIsEdit(false);
-  };
-
-  const handleCancel = (e: any) => {
-    setIsEdit(false);
+  const handleCancel = () => {
+    setEditDataItem({});
+    setIsEdit(null);
   };
   const handleChangeInputTable = (e: any, field: any) => {
-    setDataItem({
-      ...dataItem,
+    setEditDataItem({
+      ...editDataItem,
       [field]: e,
     });
   };
@@ -61,23 +64,35 @@ export default function ListAccountTokenomics(props: any) {
     });
   };
 
-  const handleClose = () => {
+  const handleCloseAdd = () => {
     setAdd(false);
-    setFieldAddItem({
-      sales_stage: "",
-      token_amount: 0,
-      tge_amount: 0,
-      cliff: 0,
-      linear_vesting: 0,
-    });
+    setFieldAddItem({});
   };
-  const confirmAdd = () => {
+  const confirmAdd = async () => {
     if (openAdd) {
-      console.log(data);
-      data.unshift(fieldAddItem);
+      const res = await addTokenomics(fieldAddItem);
+      if (!res) return;
+      if (res?.error) {
+        toast.error(res?.error?.message);
+        return;
+      } else {
+        toast.success("Add successfully");
+        await getDataTable();
+        handleCloseAdd();
+      }
     }
   };
-
+  const handleClosePopup = () => {
+    setOpenDeleteStatus(false);
+  };
+  const getDataTable = async () => {
+    const renderData = await getDataTokenomics();
+    if (!renderData) return;
+    setDataTable(renderData?.data);
+  };
+  useEffect(() => {
+    getDataTable();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -91,38 +106,38 @@ export default function ListAccountTokenomics(props: any) {
         </div>
         <div className={styles.border}></div>
       </div>
-      {/* {openAdd && (
+      {openAdd && (
         <div className={styles.addWrap}>
           <div className={styles.content}>
-            <InputTableEdit
-              // type="text"
+            <InputTableEditDefault
+              type="text"
               status={true}
-              value={fieldAddItem?.sales_stage ?? ""}
-              field="sales_stage"
+              value={fieldAddItem?.name ?? ""}
+              field="name"
               onChange={handleChangeInputAdd}
             />
-            <InputTableEdit
-              // type="number"
+            <InputTableEditDefault
+              type="number"
               status={true}
               value={fieldAddItem?.token_amount ?? ""}
               field="token_amount"
               onChange={handleChangeInputAdd}
             />
-            <InputTableEdit
-              // type="number"
+            <InputTableEditDefault
+              type="number"
               status={true}
               value={fieldAddItem?.tge_amount ?? ""}
               field="tge_amount"
               onChange={handleChangeInputAdd}
             />
-            <InputTableEdit
+            <InputTableEditDefault
               type="number"
               status={true}
               value={fieldAddItem?.cliff ?? ""}
               field="cliff"
               onChange={handleChangeInputAdd}
             />
-            <InputTableEdit
+            <InputTableEditDefault
               type="number"
               status={true}
               value={fieldAddItem?.linear_vesting ?? ""}
@@ -132,7 +147,7 @@ export default function ListAccountTokenomics(props: any) {
             <div className={styles.action}>
               <img onClick={confirmAdd} src="/images/iconSuccess.svg" alt="" />
               <img
-                onClick={() => handleClose()}
+                onClick={() => handleCloseAdd()}
                 src="/images/iconCancel.svg"
                 alt=""
               />
@@ -140,77 +155,107 @@ export default function ListAccountTokenomics(props: any) {
           </div>
         </div>
       )}
-      {data.map((item,index) => (
-        <div key={index} className={styles.tableBody}>
-          <div className="content">
-            <InputTableEdit
-              type="text"
-              status={isEdit}
-              value={dataItem.sales_stage || item.sales_stage}
-              field="sales_stage"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              type="number"
-              status={isEdit}
-              value={dataItem.token_amount || item.token_amount}
-              field="token_amount"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              type="number"
-              status={isEdit}
-              value={dataItem.tge_amount || item.tge_amount}
-              field="tge_amount"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              type="number"
-              status={isEdit}
-              value={dataItem.cliff || item.cliff}
-              field="cliff"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              type="number"
-              status={isEdit}
-              value={dataItem.linear_vesting || item.linear_vesting}
-              field="linear_vesting"
-              onChange={handleChangeInputTable}
-            />
-            <div className="action">
-              {!isEdit ? (
-                <>
-                  <img
-                    onClick={() => handleDelete(item)}
-                    src="/images/iconDelete.svg"
-                    alt=""
-                  />
-                  <img
-                    onClick={() => handleEdit(item)}
-                    src="/images/iconEdit.svg"
-                    alt=""
-                  />
-                </>
-              ) : (
-                <>
-                  <img
-                    onClick={handleSave}
-                    src="/images/iconSuccess.svg"
-                    alt=""
-                  />
-                  <img
-                    onClick={() => handleCancel(item)}
-                    src="/images/iconCancel.svg"
-                    alt=""
-                  />
-                </>
-              )}
+      {dataTable.length > 0 &&
+        dataTable.map((item: any, index: any) => (
+          <div key={index} className={styles.tableBody}>
+            <div className="content">
+              <InputTableEditDefault
+                type="text"
+                status={isEdit === item.id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.name
+                    : item.name
+                }
+                field="name"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEditDefault
+                type="number"
+                status={isEdit === item.id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.token_amount
+                    : item.token_amount
+                }
+                field="token_amount"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEditDefault
+                type="number"
+                status={isEdit === item.id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.tge_amount
+                    : item.tge_amount
+                }
+                field="tge_amount"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEditDefault
+                type="number"
+                status={isEdit === item.id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.cliff
+                    : item.cliff
+                }
+                field="cliff"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEditDefault
+                type="number"
+                status={isEdit === item.id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.linear_vesting
+                    : item.linear_vesting
+                }
+                field="linear_vesting"
+                onChange={handleChangeInputTable}
+              />
+              <div className="action">
+                {isEdit !== item.id ? (
+                  <>
+                    <img
+                      onClick={() => {
+                        setOpenDeleteStatus(true);
+                      }}
+                      src="/images/iconDelete.svg"
+                      alt=""
+                    />
+                    <img
+                      onClick={() => handleEdit(item, item?.id)}
+                      src="/images/iconEdit.svg"
+                      alt=""
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      onClick={() => {
+                        handleSaveEdit(item);
+                      }}
+                      src="/images/iconSuccess.svg"
+                      alt=""
+                    />
+                    <img
+                      onClick={() => handleCancel()}
+                      src="/images/iconCancel.svg"
+                      alt=""
+                    />
+                  </>
+                )}
+              </div>
             </div>
+            <div className={styles.border}></div>
+            <ModalDelete
+              open={openDeleteStatus}
+              onClose={handleClosePopup}
+              id={item.id}
+            />
           </div>
-          <div className={styles.border}></div>
-        </div>
-      ))} */}
+        ))}
     </div>
   );
 }

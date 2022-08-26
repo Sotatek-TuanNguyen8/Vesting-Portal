@@ -1,7 +1,6 @@
-import { loginWallet } from "./../utils/types/index";
+import { editTokennomics, loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
-  createInvestor,
   forgotPWBody,
   loginBody,
   resendEmailBody,
@@ -18,7 +17,7 @@ export const authService = {
   signUp: async (body: singUpBody) => {
     const response = await Request.post(
       `${serverEndpoint}/auth/register`,
-      body
+      body,
     );
     return response.data;
   },
@@ -32,7 +31,7 @@ export const loginAuth = async (body: loginBody) => {
 export const confirmEmailAuth = async (body: confirmEmailBody) => {
   const { data } = await Request.post(
     `${serverEndpoint}/auth/confirm-email`,
-    body
+    body,
   );
   return data;
 };
@@ -40,7 +39,7 @@ export const confirmEmailAuth = async (body: confirmEmailBody) => {
 export const resendEmailAuth = async (body: resendEmailBody) => {
   const { data } = await Request.post(
     `${serverEndpoint}/auth/re-send-confirm-email`,
-    body
+    body,
   );
   return data;
 };
@@ -49,7 +48,7 @@ export const forgotPWlAuth = async (body: forgotPWBody, header?: string) => {
   const { data } = await Request.post(
     `${serverEndpoint}/auth/forgot-password`,
     body,
-    header
+    header,
   );
   return data;
 };
@@ -57,7 +56,7 @@ export const forgotPWlAuth = async (body: forgotPWBody, header?: string) => {
 export const resetPWlAuth = async (body: resetPWBody) => {
   const { data } = await Request.post(
     `${serverEndpoint}/auth/password-reset`,
-    body
+    body,
   );
   return data;
 };
@@ -71,7 +70,7 @@ export const getInfoUser = async (access_token: string) => {
   const { data } = await Request.get(
     `${serverEndpoint}/users/me`,
     {},
-    access_token
+    access_token,
   );
   return data;
 };
@@ -80,7 +79,24 @@ export const loginAdmin = async (body: loginWallet, header?: string) => {
   const { data } = await RequestAdmin.post(
     `${serverEndpoint}/auth/admin/login`,
     body,
-    header
+    header,
   );
+  return data;
+};
+
+export const getDataTokenomics = async () => {
+  const { data } = await Request.get(`${serverEndpoint}/rounds`);
+  return data;
+};
+
+export const editTableTokenimics = async (
+  id: number,
+  body: editTokennomics,
+) => {
+  const { data } = await Request.patch(`${serverEndpoint}/rounds/${id}`, body);
+  return data;
+};
+export const addTokenomics = async (body: editTokennomics) => {
+  const { data } = await Request.post(`${serverEndpoint}/rounds`, body);
   return data;
 };

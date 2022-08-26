@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     box: {
-      maxWidth: 1626,
+      maxWidth: 1605,
       width: "100%",
       margin: "0px auto",
       paddingBottom: 256,

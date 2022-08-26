@@ -6,14 +6,16 @@ import {
   createInvestorNew,
   getListInvestor,
 } from "../../../../../service/admin.service";
+import { IListInvestor } from "../../../../../utils";
 import useStyles from "./style";
 
 type Props = {
   open: boolean;
   onClose: () => void;
+  body: IListInvestor;
 };
 
-export default function ModalAddNew({ open, onClose }: Props) {
+export default function ModalAddNew({ open, onClose, body }: Props) {
   const styles = useStyles();
 
   const [value, setValue] = useState<any>("");
@@ -41,7 +43,10 @@ export default function ModalAddNew({ open, onClose }: Props) {
   const checkWalletInvestor = async () => {
     const data = await createInvestorNew({ wallet_address: value });
     if (data?.status === 201) {
-      await getListInvestor(localStorage.getItem("access_token") as string, 0);
+      await getListInvestor(
+        body,
+        sessionStorage.getItem("access_token") as string
+      );
       onClose();
       toast.success("Add New Investor Success");
     } else if (data?.status === 406) {

@@ -1,16 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  getListInvestor,
-  updateInvestorNew,
-} from "../../../../../service/admin.service";
+import { InInvestor } from "..";
+import { updateInvestorNew } from "../../../../../service/admin.service";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
-import ModalFilterSaleStage from "./ModalFilterSaleStage";
+import FilterAdmin from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
-type Props = {};
+type Props = {
+  dataListInvestor: InInvestor[];
+  onFilter: (data: string[]) => void;
+};
 
 const dataItemDefault = {
   investor_id: "",
@@ -23,10 +24,12 @@ const dataItemDefault = {
   claimed: "",
   stage_id: 0,
 };
-export default function ListAccountInvestor({}: Props) {
+export default function ListAccountInvestor({
+  dataListInvestor,
+  onFilter,
+}: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -47,7 +50,6 @@ export default function ListAccountInvestor({}: Props) {
   );
 
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [dataListInvestor, setDataListInvestor] = useState<any>();
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
@@ -72,19 +74,6 @@ export default function ListAccountInvestor({}: Props) {
       id={id}
     />
   );
-
-  const getListDataInvestor = useCallback(async () => {
-    const data = await getListInvestor(
-      localStorage.getItem("access_token") as string,
-      0
-    );
-    setDataListInvestor(data?.data);
-  }, []);
-  useEffect(() => {
-    (async () => {
-      await getListDataInvestor();
-    })();
-  }, [getListDataInvestor]);
 
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
@@ -117,6 +106,7 @@ export default function ListAccountInvestor({}: Props) {
   const handleCancel = (e: any) => {
     setIsEdit(false);
   };
+
   const handleChangeInputTable = (e: any, field: number) => {
     setDataItem({
       ...dataItem,
@@ -131,11 +121,16 @@ export default function ListAccountInvestor({}: Props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleSelect = (e: any) => {
     setDataItem({
       ...dataItem,
       stage_name: e,
     });
+  };
+
+  const handleFilter = (data: string[]) => {
+    onFilter(data);
   };
 
   return (
@@ -154,7 +149,11 @@ export default function ListAccountInvestor({}: Props) {
               alt=""
             />
             <div className="modalSaleStage">
-              <ModalFilterSaleStage open={open} onClose={handleClose} />
+              <FilterAdmin
+                open={open}
+                onClose={handleClose}
+                onFilter={handleFilter}
+              />
             </div>
           </p>
           <p>Tokens vested</p>
