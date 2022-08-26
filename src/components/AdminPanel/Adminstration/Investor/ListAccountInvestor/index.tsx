@@ -111,7 +111,7 @@ export default function ListAccountInvestor({
   const handleSave = useCallback(async () => {
     const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
       wallet_address: dataItem?.wallet_address,
-      allocation: Number(dataItem?.allocation_token),
+      allocation_token: Number(dataItem?.allocation_token),
       stage_id: dataItem?.stage_id,
       full_name: dataItem?.full_name,
       email: dataItem?.email,
