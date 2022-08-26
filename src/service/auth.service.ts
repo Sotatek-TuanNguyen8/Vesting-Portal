@@ -97,6 +97,6 @@ export const editTableTokenimics = async (
   return data;
 };
 export const addTokenomics = async (body: editTokennomics) => {
-  const { data } = await Request.post(`${serverEndpoint}/rounds`, body);
+  const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
   return data;
 };
