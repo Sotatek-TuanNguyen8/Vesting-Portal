@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import _ from "lodash";
+import _, { isNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
-import {
-  editTableTokenimics,
-  getDataTokenomics,
-  addTokenomics,
-} from "../../../../../service";
+import { editTableTokenimics, addTokenomics } from "../../../../../service";
 import ModalDelete from "../ModalDelete";
 
 export default function ListAccountTokenomics(props: any) {
-  const { openAdd, setAdd } = props;
+  const { openAdd, setAdd, dataTable, renderTable } = props;
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
   const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
   const [editDataItem, setEditDataItem] = useState<any | undefined | never>({});
-  const [dataTable, setDataTable] = useState<Array<any>>([]);
+
   const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
     name: "",
     token_amount: "",
@@ -30,18 +26,27 @@ export default function ListAccountTokenomics(props: any) {
   };
   //edit confirm
   const handleSaveEdit = async (data: any) => {
+    if (
+      checkValidate(editDataItem.name) ||
+      checkValidate(editDataItem.token_amount) ||
+      checkValidate(editDataItem.tge_amount) ||
+      checkValidate(editDataItem.cliff) ||
+      checkValidate(editDataItem.linear_vesting)
+    )
+      return;
     const res = await editTableTokenimics(data.id, {
-      name: data.name,
-      token_amount: data.token_amount,
-      tge_amount: data.tge_amount,
-      cliff: data.cliff,
-      linear_vesting: data.linear_vesting,
+      name: editDataItem.name,
+      token_amount: editDataItem.token_amount,
+      tge_amount: editDataItem.tge_amount,
+      cliff: editDataItem.cliff,
+      linear_vesting: editDataItem.linear_vesting,
     });
     if (!res) return;
     if (res?.error?.statusCode === 404 || res?.error?.statusCode === 406) {
       toast.error(res?.error?.message);
       return;
     } else {
+      await renderTable();
       toast.success("Update Successfully");
       setIsEdit(null);
     }
@@ -69,6 +74,14 @@ export default function ListAccountTokenomics(props: any) {
     setFieldAddItem({});
   };
   const confirmAdd = async () => {
+    if (
+      checkValidate(fieldAddItem.name) ||
+      checkValidate(fieldAddItem.token_amount) ||
+      checkValidate(fieldAddItem.tge_amount) ||
+      checkValidate(fieldAddItem.cliff) ||
+      checkValidate(fieldAddItem.linear_vesting)
+    )
+      return;
     if (openAdd) {
       const res = await addTokenomics(fieldAddItem);
       if (!res) return;
@@ -77,7 +90,6 @@ export default function ListAccountTokenomics(props: any) {
         return;
       } else {
         toast.success("Add successfully");
-        await getDataTable();
         handleCloseAdd();
       }
     }
@@ -85,14 +97,23 @@ export default function ListAccountTokenomics(props: any) {
   const handleClosePopup = () => {
     setOpenDeleteStatus(false);
   };
-  const getDataTable = async () => {
-    const renderData = await getDataTokenomics();
-    if (!renderData) return;
-    setDataTable(renderData?.data);
-  };
   useEffect(() => {
-    getDataTable();
-  }, []);
+    if (openAdd) {
+      handleCancel();
+    }
+  }, [openAdd]);
+
+  const checkValidate = (value: any) => {
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (specialChars.test(value) || !value) {
+      return true;
+    } else if (isNumber(value) && value > 1000000) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
@@ -113,6 +134,7 @@ export default function ListAccountTokenomics(props: any) {
               type="text"
               status={true}
               value={fieldAddItem?.name ?? ""}
+              defaultValue=""
               field="name"
               onChange={handleChangeInputAdd}
             />
@@ -120,6 +142,7 @@ export default function ListAccountTokenomics(props: any) {
               type="number"
               status={true}
               value={fieldAddItem?.token_amount ?? ""}
+              defaultValue=""
               field="token_amount"
               onChange={handleChangeInputAdd}
             />
@@ -127,6 +150,7 @@ export default function ListAccountTokenomics(props: any) {
               type="number"
               status={true}
               value={fieldAddItem?.tge_amount ?? ""}
+              defaultValue=""
               field="tge_amount"
               onChange={handleChangeInputAdd}
             />
@@ -134,6 +158,7 @@ export default function ListAccountTokenomics(props: any) {
               type="number"
               status={true}
               value={fieldAddItem?.cliff ?? ""}
+              defaultValue=""
               field="cliff"
               onChange={handleChangeInputAdd}
             />
@@ -141,6 +166,7 @@ export default function ListAccountTokenomics(props: any) {
               type="number"
               status={true}
               value={fieldAddItem?.linear_vesting ?? ""}
+              defaultValue=""
               field="linear_vesting"
               onChange={handleChangeInputAdd}
             />
@@ -162,6 +188,7 @@ export default function ListAccountTokenomics(props: any) {
               <InputTableEditDefault
                 type="text"
                 status={isEdit === item.id}
+                defaultValue={item.name}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
                     ? editDataItem.name
@@ -173,6 +200,7 @@ export default function ListAccountTokenomics(props: any) {
               <InputTableEditDefault
                 type="number"
                 status={isEdit === item.id}
+                defaultValue={item.token_amount}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
                     ? editDataItem.token_amount
@@ -184,6 +212,7 @@ export default function ListAccountTokenomics(props: any) {
               <InputTableEditDefault
                 type="number"
                 status={isEdit === item.id}
+                defaultValue={item.tge_amount}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
                     ? editDataItem.tge_amount
@@ -195,6 +224,7 @@ export default function ListAccountTokenomics(props: any) {
               <InputTableEditDefault
                 type="number"
                 status={isEdit === item.id}
+                defaultValue={item.cliff}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
                     ? editDataItem.cliff
@@ -206,6 +236,7 @@ export default function ListAccountTokenomics(props: any) {
               <InputTableEditDefault
                 type="number"
                 status={isEdit === item.id}
+                defaultValue={item.linear_vesting}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
                     ? editDataItem.linear_vesting

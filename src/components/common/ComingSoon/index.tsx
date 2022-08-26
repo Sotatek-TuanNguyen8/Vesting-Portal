@@ -1,5 +1,5 @@
 import { LogoLend } from "../../../assets/svgs";
-import InvestorUserLayout from "../../layouts/InvestorLayout";
+import InvestorUserLayout from "../../layouts/InvestorUserLayout";
 import useStyles from "./style";
 type Props = {
   props: any;

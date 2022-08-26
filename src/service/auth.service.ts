@@ -85,7 +85,7 @@ export const loginAdmin = async (body: loginWallet, header?: string) => {
 };
 
 export const getDataTokenomics = async () => {
-  const { data } = await Request.get(`${serverEndpoint}/rounds`);
+  const { data } = await RequestAdmin.get(`${serverEndpoint}/rounds`);
   return data;
 };
 
@@ -93,10 +93,10 @@ export const editTableTokenimics = async (
   id: number,
   body: editTokennomics,
 ) => {
-  const { data } = await Request.patch(`${serverEndpoint}/rounds/${id}`, body);
+  const { data } = await RequestAdmin.patch(`${serverEndpoint}/rounds/${id}`, body);
   return data;
 };
 export const addTokenomics = async (body: editTokennomics) => {
-  const { data } = await Request.post(`${serverEndpoint}/rounds`, body);
+  const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
   return data;
 };

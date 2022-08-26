@@ -50,7 +50,11 @@ export default function Investors({}: Props) {
   }, [fetchListInvestors]);
 
   const renderOpenModalAddNew = () => (
-    <ModalAddNew open={open} onClose={handleClose} body={query} />
+    <ModalAddNew
+      open={open}
+      onClose={handleClose}
+      fetchListInvestors={fetchListInvestors}
+    />
   );
 
   const handleAddNew = () => {
@@ -62,7 +66,7 @@ export default function Investors({}: Props) {
   };
 
   const debounceSearch = _.debounce((e) => {
-    setQuery({ ...query, search: e.target.value });
+    setQuery({ ...query, search: e.target.value, page_number: 0 });
   }, 1000);
 
   const handleSearch = (e: any) => {
@@ -70,7 +74,7 @@ export default function Investors({}: Props) {
   };
 
   const handleFilter = (data: string[]) => {
-    setQuery({ ...query, stages_id: data });
+    setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
   return (
@@ -92,6 +96,7 @@ export default function Investors({}: Props) {
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
+                fetchListInvestors={fetchListInvestors}
               />
               {dataListInvestor?.length > 0 && (
                 <PaginationCustom

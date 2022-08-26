@@ -42,8 +42,6 @@ export default function InputTableEdit(props: InputProps) {
     (state: any) => state.statusTokenAmountEditAction.statusTokenAmount
   );
 
-  console.log(statusEditFullName);
-
   const renderInputField = useCallback(() => {
     switch (field) {
       case "full_name":

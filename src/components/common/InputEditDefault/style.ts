@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
       width: "16.67%",
+      display: "flex",
     },
     input: {
       height: 40,
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => {
       padding: "0 10px",
       color: "#0A208F",
       backgroundColor: "#fff",
-      width: "80%",
+      width: "200px",
       fontSize: 16,
       fontWeight: 400,
     },
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => {
       border: "none",
       outline: "none",
       backgroundColor: "#fff",
-      width: "100%",
+      width: "200px",
       fontSize: 16,
       fontWeight: 400,
     },

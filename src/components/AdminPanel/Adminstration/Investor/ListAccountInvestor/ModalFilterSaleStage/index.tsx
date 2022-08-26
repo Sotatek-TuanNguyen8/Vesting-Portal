@@ -9,28 +9,17 @@ type Props = {
   open: boolean;
   onClose: () => void;
   onFilter: (data: string[]) => void;
+  data: IData[];
 };
 
-interface IData {
+export interface IData {
   id: number;
   name: string;
 }
 
-export default function FilterAdmin({ open, onClose, onFilter }: Props) {
+export default function FilterAdmin({ open, onClose, onFilter, data }: Props) {
   const classes = useStyles();
-  const [data, setData] = useState<IData[]>([]);
   const [dataList, setDataList] = useState<IData[]>([]);
-
-  const getList = async () => {
-    const res = await getListStage();
-    if (res?.data) {
-      setData(res?.data);
-    }
-  };
-
-  useEffect(() => {
-    getList();
-  }, []);
 
   const handleClick = (value: IData) => {
     const index = dataList.findIndex((el) => el.id === value.id);
