@@ -1,16 +1,20 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { InInvestor } from "..";
-import { updateInvestorNew } from "../../../../../service/admin.service";
+import {
+  getListStage,
+  updateInvestorNew,
+} from "../../../../../service/admin.service";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
-import FilterAdmin from "./ModalFilterSaleStage";
+import FilterAdmin, { IData } from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
 type Props = {
   dataListInvestor: InInvestor[];
   onFilter: (data: string[]) => void;
+  fetchListInvestors: () => void;
 };
 
 const dataItemDefault = {
@@ -27,6 +31,7 @@ const dataItemDefault = {
 export default function ListAccountInvestor({
   dataListInvestor,
   onFilter,
+  fetchListInvestors,
 }: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -53,6 +58,19 @@ export default function ListAccountInvestor({
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
+  const [idDelete, SetIdDelete] = useState<number>();
+  const [data, setData] = useState<IData[]>([]);
+
+  const getList = async () => {
+    const res = await getListStage();
+    if (res?.data) {
+      setData(res?.data);
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   const shortenAddress = (
     string?: string,
@@ -67,11 +85,12 @@ export default function ListAccountInvestor({
     ).toLowerCase();
   };
 
-  const renderOpenModalDelete = (id: any) => (
+  const renderOpenModalDelete = () => (
     <ModalDelete
       open={openModalDelete}
       onClose={handleCloseModalDelete}
-      id={id}
+      id={idDelete}
+      fetchListInvestors={fetchListInvestors}
     />
   );
 
@@ -81,6 +100,7 @@ export default function ListAccountInvestor({
 
   const handleDelete = (e: any) => {
     setOpenModalDelete(true);
+    SetIdDelete(e.investor_id);
   };
 
   const handleEdit = async (e: any) => {
@@ -89,7 +109,13 @@ export default function ListAccountInvestor({
   };
 
   const handleSave = useCallback(async () => {
-    const dataUpdate = await updateInvestorNew(dataItem.investor_id, dataItem);
+    const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
+      wallet_address: dataItem?.wallet_address,
+      allocation: Number(dataItem?.allocation_token),
+      stage_id: dataItem?.stage_id,
+      full_name: dataItem?.full_name,
+      email: dataItem?.email,
+    });
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
     } else if (dataUpdate?.status === 400) {
@@ -101,7 +127,8 @@ export default function ListAccountInvestor({
     } else {
       setIsEdit(false);
     }
-  }, [dataItem]);
+    fetchListInvestors();
+  }, [dataItem, fetchListInvestors]);
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
@@ -126,6 +153,7 @@ export default function ListAccountInvestor({
     setDataItem({
       ...dataItem,
       stage_name: e,
+      stage_id: data?.filter((el) => el.name === e)[0]?.id,
     });
   };
 
@@ -153,6 +181,7 @@ export default function ListAccountInvestor({
                 open={open}
                 onClose={handleClose}
                 onFilter={handleFilter}
+                data={data}
               />
             </div>
           </p>
@@ -222,6 +251,7 @@ export default function ListAccountInvestor({
                   ? dataItem?.stage_name
                   : item?.stage_name
               }
+              data={data}
               onClickSelect={handleSelect}
             />
 
@@ -266,7 +296,7 @@ export default function ListAccountInvestor({
                     src="/images/iconEdit.svg"
                     alt=""
                   />
-                  {renderOpenModalDelete(item.investor_id)}
+                  {renderOpenModalDelete()}
                 </>
               )}
             </div>

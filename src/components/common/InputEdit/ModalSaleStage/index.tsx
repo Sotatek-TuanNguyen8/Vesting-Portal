@@ -1,5 +1,6 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
 import useStyles from "./style";
 
 type ModalProps = {
@@ -8,39 +9,12 @@ type ModalProps = {
   value: string;
   status: boolean;
   onClickSelect: (value: any) => void;
+  data: IData[];
 };
 
 export default function ModalSaleStage(props: ModalProps) {
-  const { open, onClose, value, status, onClickSelect } = props;
-
+  const { open, onClose, value, status, onClickSelect, data } = props;
   const styles = useStyles();
-
-  const data = [
-    {
-      id: 1,
-      name: "Angel",
-    },
-    {
-      id: 2,
-      name: "Pre-seed",
-    },
-    {
-      id: 3,
-      name: "Private 1",
-    },
-    {
-      id: 4,
-      name: "Private 2",
-    },
-    {
-      id: 5,
-      name: "Public",
-    },
-    {
-      id: 6,
-      name: "Rewards",
-    },
-  ];
 
   return (
     <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
