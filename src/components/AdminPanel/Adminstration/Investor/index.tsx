@@ -37,7 +37,7 @@ export default function Investors({}: Props) {
   const fetchListInvestors = useCallback(async () => {
     const res = await getListInvestor(
       query,
-      localStorage.getItem("access_token") as string
+      sessionStorage.getItem("access_token") as string
     );
     if (res?.data) {
       setDataListInvestor(res?.data);
@@ -93,12 +93,14 @@ export default function Investors({}: Props) {
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
               />
-              <PaginationCustom
-                count={Math.ceil(count / query?.page_size)}
-                onChange={(page) =>
-                  setQuery({ ...query, page_number: page - 1 })
-                }
-              />
+              {dataListInvestor?.length > 0 && (
+                <PaginationCustom
+                  count={Math.ceil(count / query?.page_size)}
+                  onChange={(page) =>
+                    setQuery({ ...query, page_number: page - 1 })
+                  }
+                />
+              )}
             </div>
             {renderOpenModalAddNew()}
           </div>
