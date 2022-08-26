@@ -15,7 +15,7 @@ export default function InvestorLayout({ children, isNav = false }: Props) {
   const { account } = useMetaMask();
 
   useEffect(() => {
-    const item = localStorage.getItem("access_token");
+    const item = sessionStorage.getItem("access_token");
     if (!item) {
       navigate("/sign-in");
       return;

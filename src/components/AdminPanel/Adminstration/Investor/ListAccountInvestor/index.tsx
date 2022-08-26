@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
 import { InInvestor } from "..";
 import { updateInvestorNew } from "../../../../../service/admin.service";
 import InputTableEdit from "../../../../common/InputEdit";
@@ -11,20 +12,6 @@ type Props = {
   dataListInvestor: InInvestor[];
   onFilter: (data: string[]) => void;
 };
-
-const data = [
-  {
-    id: 1,
-    full_name: "tien",
-    email: "sonkekekeke@gmail.com",
-    wallet_address: "0x1c99B89a25D5565083b7682C03DCFc830293fB5A",
-    allocation_token: "135000000",
-    stage_name: "Angel",
-    tokensVested: "50000",
-    claimed: "50000",
-    stage_id: 1,
-  },
-];
 
 const dataItemDefault = {
   investor_id: "",
@@ -45,7 +32,27 @@ export default function ListAccountInvestor({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
+
+  const statusEditFullName = useSelector(
+    (state: any) => state.statusFullNameEditAction.statusFullName
+  );
+
+  const statusEditEmail = useSelector(
+    (state: any) => state.statusEmailEditAction.statusEmail
+  );
+
+  const statusEditWallet = useSelector(
+    (state: any) => state.statusWalletEditAction.statusWallet
+  );
+
+  const statusEditTokenAmount = useSelector(
+    (state: any) => state.statusTokenAmountEditAction.statusTokenAmount
+  );
+
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
+  const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
+  const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
+  const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
 
   const shortenAddress = (
     string?: string,
@@ -60,8 +67,12 @@ export default function ListAccountInvestor({
     ).toLowerCase();
   };
 
-  const renderOpenModalDelete = () => (
-    <ModalDelete open={openModalDelete} onClose={handleCloseModalDelete} />
+  const renderOpenModalDelete = (id: any) => (
+    <ModalDelete
+      open={openModalDelete}
+      onClose={handleCloseModalDelete}
+      id={id}
+    />
   );
 
   const handleCloseModalDelete = () => {
@@ -77,13 +88,20 @@ export default function ListAccountInvestor({
     setDataItem(e);
   };
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     const dataUpdate = await updateInvestorNew(dataItem.investor_id, dataItem);
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
-    } else if (dataUpdate?.status === 402) {
+    } else if (dataUpdate?.status === 400) {
+      setDuplicateWallet(true);
+    } else if (dataUpdate?.status === 409) {
+      setDuplicateEmail(true);
+    } else if (dataUpdate?.status === 406) {
+      setTokenAmountInvalid(true);
+    } else {
+      setIsEdit(false);
     }
-  };
+  }, [dataItem]);
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
@@ -144,7 +162,7 @@ export default function ListAccountInvestor({
         </div>
         <div className={styles.border}></div>
       </div>
-      {dataListInvestor?.map((item) => (
+      {dataListInvestor?.map((item: any) => (
         <div key={item?.investor_id} className={styles.tableBody}>
           <div className="content">
             <InputTableEdit
@@ -161,6 +179,7 @@ export default function ListAccountInvestor({
             <InputTableEdit
               status={isEdit && item.investor_id === dataItem.investor_id}
               defaultValue={item.email}
+              isDuplicateEmail={duplicateEmail}
               value={
                 isEdit && item.investor_id === dataItem.investor_id
                   ? dataItem.email
@@ -172,6 +191,7 @@ export default function ListAccountInvestor({
             <InputTableEdit
               status={isEdit && item.investor_id === dataItem.investor_id}
               defaultValue={item.wallet_address}
+              isDuplicateWallet={duplicateWallet}
               value={
                 isEdit && item.investor_id === dataItem.investor_id
                   ? dataItem.wallet_address
@@ -183,6 +203,7 @@ export default function ListAccountInvestor({
             <InputTableEdit
               status={isEdit && item.investor_id === dataItem.investor_id}
               defaultValue={item.allocation_token}
+              tokenAmountInvalid={tokenAmountInvalid}
               value={
                 isEdit && item.investor_id === dataItem.investor_id
                   ? dataItem.allocation_token
@@ -191,12 +212,6 @@ export default function ListAccountInvestor({
               field="allocation_token"
               onChange={handleChangeInputTable}
             />
-            {/* <InputTableEdit
-              status={isEdit}
-              value={isEdit ? dataItem.saleStage : item.saleStage}
-              field="saleStage"
-              onChange={handleChangeInputTable}
-            /> */}
 
             <ModalSaleStage
               open={open}
@@ -214,7 +229,32 @@ export default function ListAccountInvestor({
             <div className="tokensClaimed">{item?.claimed}</div>
 
             <div className="action">
-              {!isEdit ? (
+              {isEdit && item.investor_id === dataItem.investor_id ? (
+                <>
+                  {statusEditFullName ||
+                  statusEditEmail ||
+                  statusEditWallet ||
+                  statusEditTokenAmount ? (
+                    <img
+                      // onClick={handleSave}
+                      src="/images/iconSuccess.svg"
+                      alt=""
+                      style={{ opacity: 0.5, cursor: "default" }}
+                    />
+                  ) : (
+                    <img
+                      onClick={handleSave}
+                      src="/images/iconSuccess.svg"
+                      alt=""
+                    />
+                  )}
+                  <img
+                    onClick={() => handleCancel(item)}
+                    src="/images/iconCancel.svg"
+                    alt=""
+                  />
+                </>
+              ) : (
                 <>
                   <img
                     onClick={() => handleDelete(item)}
@@ -226,20 +266,7 @@ export default function ListAccountInvestor({
                     src="/images/iconEdit.svg"
                     alt=""
                   />
-                  {renderOpenModalDelete()}
-                </>
-              ) : (
-                <>
-                  <img
-                    onClick={handleSave}
-                    src="/images/iconSuccess.svg"
-                    alt=""
-                  />
-                  <img
-                    onClick={() => handleCancel(item)}
-                    src="/images/iconCancel.svg"
-                    alt=""
-                  />
+                  {renderOpenModalDelete(item.investor_id)}
                 </>
               )}
             </div>
