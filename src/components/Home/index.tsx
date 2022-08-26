@@ -5,7 +5,7 @@ import { AppDispatch } from "../../store";
 import { fetchInfoUser, signUpResendSuccess } from "../../store/action";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import ClaimPage from "../claiming";
-import InvestorLayout from "../layouts/InvestorLayout";
+import InvestorUserLayout from "../layouts/InvestorLayout";
 type Props = {};
 
 export default function HomePage({}: Props) {
@@ -48,8 +48,8 @@ export default function HomePage({}: Props) {
 
   useEffect(() => {}, []);
   return (
-    <InvestorLayout isNav={true}>
+    <InvestorUserLayout isNav={true}>
       <ClaimPage />
-    </InvestorLayout>
+    </InvestorUserLayout>
   );
 }

@@ -40,10 +40,6 @@ export default function ModalSaleStage(props: ModalProps) {
       id: 6,
       name: "Rewards",
     },
-    {
-      id: 0,
-      name: "",
-    },
   ];
 
   return (
