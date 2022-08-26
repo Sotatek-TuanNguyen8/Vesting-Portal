@@ -54,3 +54,10 @@ export interface loginWallet {
   signature: string;
   wallet_address: string;
 }
+export interface editTokennomics {
+  name: string;
+  token_amount: string;
+  tge_amount: string;
+  cliff: number;
+  linear_vesting: number;
+}
