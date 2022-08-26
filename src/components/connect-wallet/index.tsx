@@ -26,10 +26,11 @@ export default function ConnectWalletPage() {
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
+  const [checkConnect, setCheckConnect] = useState<boolean>(false);
   const elRef = useRef(null);
 
   useEffect(() => {
-    if (!account || !library || !checkFetchData) return;
+    if (!account || !library || !checkFetchData || !checkConnect) return;
     (async () => {
       if (!userData?.metamaskAddress) {
         const signature = await getSignature(CONNECT_WALLET, library);
@@ -48,6 +49,7 @@ export default function ConnectWalletPage() {
           }
         }
       }
+      setCheckConnect(false);
     })();
   }, [
     account,
@@ -57,6 +59,7 @@ export default function ConnectWalletPage() {
     getSignature,
     dispatch,
     navigate,
+    checkConnect,
   ]);
 
   useEffect(() => {
@@ -106,6 +109,8 @@ export default function ConnectWalletPage() {
       } else {
         setErrorCheckAddress("Email and Wallet address do not match");
       }
+    } else {
+      setCheckConnect(true);
     }
   };
 
