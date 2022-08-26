@@ -1,19 +1,22 @@
 import { Dialog } from "@material-ui/core";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
-import {
-  deleteInvestor,
-  getListInvestor,
-} from "../../../../../service/admin.service";
+import { deleteInvestor } from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   id: any;
+  fetchListInvestors: () => void;
 };
 
-export default function ModalDelete({ open, onClose, id }: Props) {
+export default function ModalDelete({
+  open,
+  onClose,
+  id,
+  fetchListInvestors,
+}: Props) {
   const styles = useStyles();
   const handleClickCancel = () => {
     onClose();
@@ -21,18 +24,10 @@ export default function ModalDelete({ open, onClose, id }: Props) {
 
   const handleClickDelete = useCallback(async () => {
     await deleteInvestor(id);
-    await getListInvestor(
-      {
-        search: "",
-        stages_id: [],
-        page_number: 0,
-        page_size: 10,
-      },
-      sessionStorage.getItem("access_token") as string
-    );
+    fetchListInvestors();
     onClose();
     toast.success("Delete Investor Success");
-  }, [id, onClose]);
+  }, [fetchListInvestors, id, onClose]);
 
   return (
     <Dialog

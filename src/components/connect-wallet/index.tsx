@@ -13,7 +13,7 @@ import {
 import { scrollIntoView } from "../../utils/common/fn";
 import { CONNECT_WALLET } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
-import InvestorUserLayout from "../layouts/InvestorLayout";
+import InvestorUserLayout from "../layouts/InvestorUserLayout";
 import useStyles from "./style";
 
 export default function ConnectWalletPage() {
