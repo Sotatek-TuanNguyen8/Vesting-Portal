@@ -21,7 +21,7 @@ export const createInvestorNew = async (body: createInvestor) => {
   return response;
 };
 
-export const updateInvestorNew = async (id: number | string, data: {}) => {
+export const updateInvestorNew = async (id: number | string, data: any) => {
   const response = await RequestAdmin.patch(
     `${serverEndpoint}/investors/${id}`,
     data
@@ -34,4 +34,11 @@ export const getListStage = async () => {
     `${serverEndpoint}/rounds/list-stage`
   );
   return data;
+};
+
+export const deleteInvestor = async (id: number) => {
+  const response = await RequestAdmin.delete(
+    `${serverEndpoint}/investors/${id}`
+  );
+  return response;
 };

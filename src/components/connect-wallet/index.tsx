@@ -13,7 +13,7 @@ import {
 import { scrollIntoView } from "../../utils/common/fn";
 import { CONNECT_WALLET } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
-import InvestorLayout from "../layouts/InvestorLayout";
+import InvestorUserLayout from "../layouts/InvestorUserLayout";
 import useStyles from "./style";
 
 export default function ConnectWalletPage() {
@@ -99,7 +99,7 @@ export default function ConnectWalletPage() {
 
   return (
     <div ref={elRef}>
-      <InvestorLayout isNav={false}>
+      <InvestorUserLayout isNav={false}>
         <Container
           maxWidth="lg"
           sx={{ margin: "auto" }}
@@ -176,7 +176,7 @@ export default function ConnectWalletPage() {
             </Box>
           </Box>
         </Container>
-      </InvestorLayout>
+      </InvestorUserLayout>
     </div>
   );
 }

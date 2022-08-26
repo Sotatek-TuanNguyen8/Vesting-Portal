@@ -9,6 +9,8 @@ import _ from "lodash";
 import { IListInvestor } from "../../../../utils";
 import { getListInvestor } from "../../../../service/admin.service";
 import PaginationCustom from "../Pagination";
+import { WrongNetwork } from "../../../WrongNetWork/index";
+import useMetaMask from "../../../../utils/hooks/useMetaMask";
 
 type Props = {};
 export interface InInvestor {
@@ -33,11 +35,12 @@ export default function Investors({}: Props) {
     page_number: 0,
     page_size: 10,
   });
+  const { wrongNetWork } = useMetaMask();
 
   const fetchListInvestors = useCallback(async () => {
     const res = await getListInvestor(
       query,
-      localStorage.getItem("access_token") as string
+      sessionStorage.getItem("access_token") as string
     );
     if (res?.data) {
       setDataListInvestor(res?.data);
@@ -50,7 +53,11 @@ export default function Investors({}: Props) {
   }, [fetchListInvestors]);
 
   const renderOpenModalAddNew = () => (
-    <ModalAddNew open={open} onClose={handleClose} body={query} />
+    <ModalAddNew
+      open={open}
+      onClose={handleClose}
+      fetchListInvestors={fetchListInvestors}
+    />
   );
 
   const handleAddNew = () => {
@@ -62,7 +69,7 @@ export default function Investors({}: Props) {
   };
 
   const debounceSearch = _.debounce((e) => {
-    setQuery({ ...query, search: e.target.value });
+    setQuery({ ...query, search: e.target.value, page_number: 0 });
   }, 1000);
 
   const handleSearch = (e: any) => {
@@ -70,13 +77,16 @@ export default function Investors({}: Props) {
   };
 
   const handleFilter = (data: string[]) => {
-    setQuery({ ...query, stages_id: data });
+    setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
   return (
     <div>
       <AdminLayout>
         <AdminPanel />
+        <div className={styles.wrongNetWorkContainer}>
+          {wrongNetWork && <WrongNetwork />}
+        </div>
         <div className={styles.container}>
           <Administration active={"investor"} />
           <div className="listInvestor">
@@ -92,13 +102,16 @@ export default function Investors({}: Props) {
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
+                fetchListInvestors={fetchListInvestors}
               />
-              <PaginationCustom
-                count={Math.ceil(count / query?.page_size)}
-                onChange={(page) =>
-                  setQuery({ ...query, page_number: page - 1 })
-                }
-              />
+              {dataListInvestor?.length > 0 && (
+                <PaginationCustom
+                  count={Math.ceil(count / query?.page_size)}
+                  onChange={(page) =>
+                    setQuery({ ...query, page_number: page - 1 })
+                  }
+                />
+              )}
             </div>
             {renderOpenModalAddNew()}
           </div>

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
         opacity: 0,
         fontWeight: 400,
         fontSize: 14,
-        width: 220,
+        minWidth: 220,
         height: 44,
         backgroundColor: "#F44336",
         borderRadius: 10,
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) => {
         // borderRadius: 10,
         "&> p": {
           padding: "0px 12px",
+          whiteSpace: "pre",
         },
         " &::after": {
           content: '""',

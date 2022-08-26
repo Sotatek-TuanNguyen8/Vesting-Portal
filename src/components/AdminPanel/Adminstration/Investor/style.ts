@@ -57,6 +57,17 @@ const useStyles = makeStyles((theme: Theme) => {
         },
       },
     },
+    wrongNetWorkContainer: {
+      width: 815,
+      left: 70,
+      position: "relative",
+      margin: "0 auto",
+      fontFamily: ["gibson", "sans-serif"].join(","),
+      "& div": {
+        fontWeight: 400,
+        fontSize: 18,
+      },
+    },
   };
 });
 export default useStyles;

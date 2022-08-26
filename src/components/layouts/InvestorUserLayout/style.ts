@@ -5,7 +5,6 @@ import urlImage from "../../../assets/svgs/background/layout.png";
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
   const tablet = theme.breakpoints.down("md");
-  const xl = theme.breakpoints.down("xl");
 
   return {
     main: {

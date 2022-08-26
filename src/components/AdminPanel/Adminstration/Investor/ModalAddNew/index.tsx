@@ -1,20 +1,21 @@
 import { Dialog, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import { useRef, useState } from "react";
-import {
-  createInvestorNew,
-  getListInvestor,
-} from "../../../../../service/admin.service";
-import { IListInvestor } from "../../../../../utils";
+import { toast } from "react-toastify";
+import { createInvestorNew } from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  body: IListInvestor;
+  fetchListInvestors: () => void;
 };
 
-export default function ModalAddNew({ open, onClose, body }: Props) {
+export default function ModalAddNew({
+  open,
+  onClose,
+  fetchListInvestors,
+}: Props) {
   const styles = useStyles();
 
   const [value, setValue] = useState<any>("");
@@ -42,11 +43,9 @@ export default function ModalAddNew({ open, onClose, body }: Props) {
   const checkWalletInvestor = async () => {
     const data = await createInvestorNew({ wallet_address: value });
     if (data?.status === 201) {
+      fetchListInvestors();
       onClose();
-      await getListInvestor(
-        body,
-        localStorage.getItem("access_token") as string
-      );
+      toast.success("Add New Investor Success");
     } else if (data?.status === 406) {
       setMsgErrDuplicate(true);
     }
@@ -59,7 +58,6 @@ export default function ModalAddNew({ open, onClose, body }: Props) {
       setMsgErrInvalid(true);
     } else {
       checkWalletInvestor();
-      // onClose();
     }
   };
 

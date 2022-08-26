@@ -9,7 +9,7 @@ type Props = {
   isNav?: boolean;
 };
 
-export default function InvestorLayout({ children, isNav = false }: Props) {
+export default function InvestorUserLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const classes = useStyles();
   const { account } = useMetaMask();
