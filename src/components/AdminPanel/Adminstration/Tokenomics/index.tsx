@@ -39,13 +39,18 @@ export default function Tokenomics({}: Props) {
                   <img src="/images/iconAdd.svg" alt="" />
                   <p>New</p>
                 </div>
-                <div className={styles.featureUPload}>
+                <Button
+                  className={styles.featureUPload}
+                  variant="contained"
+                  component="label"
+                >
                   <UploadIcon />
                   <p>Upload</p>
-                </div>
+                  <input hidden accept="image/*" multiple type="file" />
+                </Button>
               </div>
               <div>
-                <Button
+                {/* <Button
                   variant="contained"
                   sx={{
                     background: "#BBBBBB",
@@ -58,7 +63,7 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadRootIcon style={{ marginRight: "3px" }} />
                   Update Root
-                </Button>
+                </Button> */}
               </div>
             </div>
             <div className={styles.body}>
