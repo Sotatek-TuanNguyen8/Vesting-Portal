@@ -35,3 +35,10 @@ export const getListStage = async () => {
   );
   return data;
 };
+
+export const deleteInvestor = async (id: number) => {
+  const response = await RequestAdmin.delete(
+    `${serverEndpoint}/investors/${id}`
+  );
+  return response;
+};

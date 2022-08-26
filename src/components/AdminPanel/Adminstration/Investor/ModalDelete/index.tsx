@@ -1,18 +1,38 @@
 import { Dialog } from "@material-ui/core";
+import { useCallback } from "react";
+import { toast } from "react-toastify";
+import {
+  deleteInvestor,
+  getListInvestor,
+} from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
   open: boolean;
   onClose: () => void;
+  id: any;
 };
 
-export default function ModalDelete({ open, onClose }: Props) {
+export default function ModalDelete({ open, onClose, id }: Props) {
   const styles = useStyles();
   const handleClickCancel = () => {
     onClose();
   };
 
-  const handleClickDelete = () => {};
+  const handleClickDelete = useCallback(async () => {
+    await deleteInvestor(id);
+    await getListInvestor(
+      {
+        search: "",
+        stages_id: [],
+        page_number: 0,
+        page_size: 10,
+      },
+      sessionStorage.getItem("access_token") as string
+    );
+    onClose();
+    toast.success("Delete Investor Success");
+  }, [id, onClose]);
 
   return (
     <Dialog
