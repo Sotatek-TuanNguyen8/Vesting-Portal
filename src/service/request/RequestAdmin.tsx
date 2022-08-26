@@ -14,7 +14,7 @@ class RequestAdmin {
 
     instance.interceptors.request.use(
       async (config: any) => {
-        const accessToken = localStorage.getItem("access_token");
+        const accessToken = sessionStorage.getItem("access_token") as string;
         if (accessToken) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }

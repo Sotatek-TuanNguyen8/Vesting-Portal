@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) => {
   const xl = theme.breakpoints.down("xl");
 
   return {
+    adminLayout: {
+      position: "relative",
+    },
     main: {
       width: "100%",
       margin: "0px auto",
@@ -31,6 +34,18 @@ const useStyles = makeStyles((theme: Theme) => {
       },
       [tablet]: {
         padding: "0px 20px",
+      },
+    },
+    wrongNetWorkContainer: {
+      width: 815,
+      top: 85,
+      left: 70,
+      position: "relative",
+      margin: "0 auto",
+      fontFamily: ["gibson", "sans-serif"].join(","),
+      "& div": {
+        fontWeight: 400,
+        fontSize: 18,
       },
     },
   };
