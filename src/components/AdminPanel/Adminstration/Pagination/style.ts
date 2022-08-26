@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme: Theme) => {
       alignItems: "center",
       justifyContent: "center",
       marginTop: 66,
+      marginBottom: 66,
       "& .MuiButtonBase-root": {
         width: 25,
         hight: 25,
