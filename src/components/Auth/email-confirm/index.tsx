@@ -34,7 +34,9 @@ export default function EmailConfirmPage() {
       code: code as string,
     });
     setNotUser(false);
-    if (res?.error) {
+    if (res?.data) {
+      setIsVerified(true);
+    } else {
       setIsVerified(false);
       if (res?.error?.statusCode === 400) {
         setIsNotEmailVerified(true);
@@ -45,8 +47,6 @@ export default function EmailConfirmPage() {
         toast.error(res?.error.message);
         setNotUser(true);
       }
-    } else {
-      setIsVerified(true);
     }
   }, [code, email]);
 
