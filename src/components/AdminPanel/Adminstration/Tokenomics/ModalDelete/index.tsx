@@ -1,4 +1,6 @@
 import { Dialog } from "@material-ui/core";
+import { toast } from "react-toastify";
+import { deleteTokenomics } from "../../../../../service/admin.service";
 import useStyles from "./style";
 
 type Props = {
@@ -13,8 +15,15 @@ export default function ModalDelete({ open, onClose, id }: Props) {
     onClose();
   };
 
-  const handleConfirm = () => {
-    console.log(id);
+  const handleConfirm = async () => {
+    const res = await deleteTokenomics(id);
+    if (!res) return;
+    if (res?.error) {
+      toast.error(res?.error?.message);
+    } else {
+      toast.success("Delete successfully");
+      handleClickCancel();
+    }
   };
 
   return (

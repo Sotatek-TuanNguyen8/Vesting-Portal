@@ -7,7 +7,7 @@ import {
   singUpBody,
   updateWallet,
 } from "../utils";
-import { editTokennomics, loginWallet } from "./../utils/types/index";
+import { loginWallet } from "./../utils/types/index";
 import Request from "./request/Request";
 import RequestAdmin from "./request/RequestAdmin";
 
@@ -81,25 +81,5 @@ export const loginAdmin = async (body: loginWallet, header?: string) => {
     body,
     header
   );
-  return data;
-};
-
-export const getDataTokenomics = async () => {
-  const { data } = await RequestAdmin.get(`${serverEndpoint}/rounds`);
-  return data;
-};
-
-export const editTableTokenimics = async (
-  id: number,
-  body: editTokennomics
-) => {
-  const { data } = await RequestAdmin.patch(
-    `${serverEndpoint}/rounds/${id}`,
-    body
-  );
-  return data;
-};
-export const addTokenomics = async (body: editTokennomics) => {
-  const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
   return data;
 };

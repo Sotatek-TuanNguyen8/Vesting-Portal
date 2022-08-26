@@ -1,4 +1,4 @@
-import { createInvestor, IListInvestor } from "../utils";
+import { createInvestor, editTokennomics, IListInvestor } from "../utils";
 import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
@@ -41,4 +41,27 @@ export const deleteInvestor = async (id: number) => {
     `${serverEndpoint}/investors/${id}`
   );
   return response;
+};
+export const getDataTokenomics = async () => {
+  const { data } = await RequestAdmin.get(`${serverEndpoint}/rounds`);
+  return data;
+};
+
+export const editTableTokenimics = async (
+  id: number,
+  body: editTokennomics
+) => {
+  const { data } = await RequestAdmin.patch(
+    `${serverEndpoint}/rounds/${id}`,
+    body
+  );
+  return data;
+};
+export const addTokenomics = async (body: editTokennomics) => {
+  const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
+  return data;
+};
+export const deleteTokenomics = async (id: number) => {
+  const { data } = await RequestAdmin.delete(`${serverEndpoint}/rounds/${id}`);
+  return data;
 };

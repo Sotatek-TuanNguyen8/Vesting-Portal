@@ -5,7 +5,7 @@ import Administration from "..";
 import AdminPanel from "../..";
 import ClaimABI from "../../../../abi/User-Claim.json";
 import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
-import { getDataTokenomics } from "../../../../service";
+import { getDataTokenomics } from "../../../../service/admin.service";
 import { getContractConnect } from "../../../../service/web";
 import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
@@ -29,6 +29,7 @@ export default function Tokenomics({}: Props) {
 
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics();
+    console.log(renderData);
     if (!renderData) return;
     setDataTable(renderData?.data);
   }, []);
@@ -107,12 +108,35 @@ export default function Tokenomics({}: Props) {
                   <img src="/images/iconAdd.svg" alt="" />
                   <p>New</p>
                 </div>
-                <div className={styles.featureUPload}>
+                <Button
+                  className={styles.featureUPload}
+                  variant="outlined"
+                  component="label"
+                  sx={{
+                    border: "none",
+                    alignItems: "center",
+                    marginLeft: "90px",
+                    padding: "0",
+                    fontFamily: "gibson",
+                    "& p": {
+                      fontWeight: 400,
+                      fontSize: "18px",
+                      color: "#051C42",
+                      margin: "0 0 0 5px",
+                      textTransform: "initial",
+                    },
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                      border: "none",
+                    },
+                  }}
+                >
                   <UploadIcon />
                   <p>Upload</p>
-                </div>
+                  <input hidden accept="'.csv" multiple type="file" />
+                </Button>
               </div>
-              <div onClick={handleUpdateRoot}>
+              <div>
                 <Button
                   variant="contained"
                   sx={{
