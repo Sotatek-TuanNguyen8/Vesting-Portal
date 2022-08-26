@@ -62,21 +62,7 @@ export default function SignInPage() {
       });
 
       if (!res) throw new Error("Something goes wrong, please try again");
-      if (res?.error) {
-        if (res?.error?.statusCode === 404) {
-          setError("email", {
-            type: "conflict",
-            message: "The email address isn't connected to an account.",
-          });
-        } else if (res?.error?.statusCode === 406) {
-          setError("password", {
-            type: "conflict",
-            message: "The password that you've entered is incorrect.",
-          });
-        } else {
-          toast.error(res?.error?.message);
-        }
-      } else {
+      if (res?.data) {
         if (rememberMe) {
           await setLocalStorage(
             "rememberLogin",
@@ -117,6 +103,20 @@ export default function SignInPage() {
             })
           );
           navigate("/resend-email");
+        }
+      } else {
+        if (res?.error?.statusCode === 404) {
+          setError("email", {
+            type: "conflict",
+            message: "The email address isn't connected to an account.",
+          });
+        } else if (res?.error?.statusCode === 406) {
+          setError("password", {
+            type: "conflict",
+            message: "The password that you've entered is incorrect.",
+          });
+        } else {
+          toast.error(res?.error?.message);
         }
       }
     },

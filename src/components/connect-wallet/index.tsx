@@ -71,13 +71,13 @@ export default function ConnectWalletPage() {
             signature: signature,
             wallet_address: account,
           });
-          if (res?.error) {
+          if (res?.data) {
+            dispatch(setUser({ ...userData, metamaskAddress: account }));
+            navigate("/");
+          } else {
             setErrorCheckAddress(
               "This wallet has been connected to another account"
             );
-          } else {
-            dispatch(setUser({ ...userData, metamaskAddress: account }));
-            navigate("/");
           }
         }
       } else {

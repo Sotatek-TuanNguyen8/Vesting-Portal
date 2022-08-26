@@ -60,15 +60,15 @@ export default function ResendEmailPage() {
     setIsClickFirst(true);
     setCounter(new Number(60));
     const res = await resendEmailAuth({ email: email as string });
-    if (res?.error) {
+    if (res?.data) {
+      toast.success("Successfully! Please check email");
+    } else {
       if (res?.error?.statusCode === 406) {
         setIsEmailVerify(true);
       } else {
         setIsEmailVerify(false);
         toast.error(res?.error?.details);
       }
-    } else {
-      toast.success("Successfully! Please check email");
     }
     setIsClickFirst(false);
   };
