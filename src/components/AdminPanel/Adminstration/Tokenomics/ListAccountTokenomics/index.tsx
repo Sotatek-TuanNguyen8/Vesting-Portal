@@ -154,6 +154,7 @@ export default function ListAccountTokenomics(props: any) {
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault
+              width="228px"
               type="text"
               status={true}
               value={fieldAddItem?.name ?? ""}
@@ -162,6 +163,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
+              width="204px"
               type="number"
               status={true}
               value={fieldAddItem?.token_amount ?? ""}
@@ -170,6 +172,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
+              width="190px"
               type="number"
               status={true}
               value={fieldAddItem?.tge_amount ?? ""}
@@ -178,6 +181,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
+              width="117px"
               type="number"
               status={true}
               value={fieldAddItem?.cliff ?? ""}
@@ -186,6 +190,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
+              width="117px"
               type="number"
               status={true}
               value={fieldAddItem?.linear_vesting ?? ""}
@@ -209,6 +214,7 @@ export default function ListAccountTokenomics(props: any) {
           <div key={index} className={styles.tableBody}>
             <div className="content">
               <InputTableEditDefault
+                width="228px"
                 type="text"
                 status={isEdit === item.id}
                 defaultValue={item.name}
@@ -221,6 +227,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
+                width="204px"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.token_amount}
@@ -233,6 +240,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
+                width="190px"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.tge_amount}
@@ -245,6 +253,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
+                width="117px"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.cliff}
@@ -257,6 +266,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
+                width="117px"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.linear_vesting}
