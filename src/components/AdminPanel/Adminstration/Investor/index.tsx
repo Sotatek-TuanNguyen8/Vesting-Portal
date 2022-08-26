@@ -39,7 +39,6 @@ export default function Investors({}: Props) {
       query,
       localStorage.getItem("access_token") as string
     );
-    console.log(res);
     if (res?.data) {
       setDataListInvestor(res?.data);
       setCount(res?.meta?.count);
@@ -95,7 +94,7 @@ export default function Investors({}: Props) {
                 onFilter={handleFilter}
               />
               <PaginationCustom
-                count={count}
+                count={Math.ceil(count / query?.page_size)}
                 onChange={(page) =>
                   setQuery({ ...query, page_number: page - 1 })
                 }

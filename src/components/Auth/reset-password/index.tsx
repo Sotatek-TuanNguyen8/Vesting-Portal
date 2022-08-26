@@ -68,10 +68,10 @@ export default function ResetPasswordPage() {
         token: token as string,
         password: data.password.trim(),
       });
-      if (res?.error) {
-        setIsSuccess(false);
-      } else {
+      if (res?.data) {
         setIsSuccess(true);
+      } else {
+        setIsSuccess(false);
       }
       setIsClickFirst(false);
     }

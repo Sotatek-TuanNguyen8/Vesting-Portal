@@ -25,6 +25,14 @@ export default function AdminAuthPage() {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const windowObj: any = window;
+
+    windowObj?.ethereum?.on("accountsChanged", (accounts: string[]) => {
+      setErrorLogin(false);
+    });
+  }, [navigate]);
+
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
     if (!account) {
