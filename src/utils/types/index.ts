@@ -60,4 +60,5 @@ export interface editTokennomics {
   tge_amount: string;
   cliff: number;
   linear_vesting: number;
+  vesting_type_id: number;
 }
