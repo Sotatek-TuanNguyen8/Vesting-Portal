@@ -13,9 +13,19 @@ const useStyles = makeStyles((theme: Theme) => {
       padding: "0 10px",
       color: "#0A208F",
       backgroundColor: "#fff",
-      width: "200px",
       fontSize: 16,
       fontWeight: 400,
+      "&[type=number]": {
+        "-moz-appearance": "textfield",
+      },
+      "&::-webkit-outer-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
+      "&::-webkit-inner-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
     },
     hiddenInput: {
       height: 40,
@@ -24,7 +34,6 @@ const useStyles = makeStyles((theme: Theme) => {
       border: "none",
       outline: "none",
       backgroundColor: "#fff",
-      width: "200px",
       fontSize: 16,
       fontWeight: 400,
     },
