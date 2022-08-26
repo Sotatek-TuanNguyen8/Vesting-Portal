@@ -162,7 +162,7 @@ export default function ListAccountInvestor({
   };
 
   return (
-    <div className={styles.container} tabIndex={1} onBlur={() => handleClose()}>
+    <div className={styles.container}>
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Full Name</p>
