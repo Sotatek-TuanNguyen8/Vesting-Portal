@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   children?: ReactNode;
@@ -11,8 +11,7 @@ export default function AdminLayout({ children, isNav = false }: Props) {
 
   useEffect(() => {
     const item = sessionStorage.getItem("access_token");
-
-    if (!item) {
+    if (!item || item === "undefined") {
       navigate("/admin-panel");
       return;
     }

@@ -1,13 +1,12 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Error } from "../../assets/svgs";
 import { loginAdmin } from "../../service";
 import { scrollIntoView } from "../../utils/common/fn";
+import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import useStyles from "./style";
-import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
 import { Logo } from "../../assets/svgs/";
 import Icon from "../../assets/svgs/iconErrorAdminAuth.svg";
 export default function AdminAuthPage() {
@@ -26,10 +25,6 @@ export default function AdminAuthPage() {
     }
   }, [navigate]);
 
-  const handleErrorLogin = () => {
-    setErrorLogin(!errorLogin);
-  };
-
   const handleConnectWallet = async () => {
     setErrorCheckAddress("");
     if (!account) {
@@ -46,12 +41,17 @@ export default function AdminAuthPage() {
         CONNECT_WALLET_ADMIN
       )
         .then((res) => {
-          setErrorLogin(false);
-          sessionStorage.setItem("access_token", res?.data?.accessToken);
-          navigate("/admin-panel/investor");
+          if (res === undefined) {
+            setErrorLogin(true);
+            navigate("/admin-panel");
+          } else {
+            setErrorLogin(false);
+            localStorage.clear();
+            sessionStorage.setItem("access_token", res?.data?.accessToken);
+            navigate("/admin-panel/investor");
+          }
         })
         .catch(() => {
-          debugger;
           setErrorLogin(true);
           navigate("/admin-panel");
         });
@@ -114,7 +114,7 @@ export default function AdminAuthPage() {
                   ["metamask", "Metamask"],
                   //   ["coinbase", "Coinbase Wallet"],
                 ].map(([type, label]) => (
-                  <div className={classes.container}>
+                  <div key={type} className={classes.container}>
                     <ButtonBase
                       className={classes.Wallet}
                       sx={{

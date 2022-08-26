@@ -1,77 +1,100 @@
-import { useState } from "react";
+import { Divider } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
+import { useEffect, useState } from "react";
+import { IconCloseBlue } from "../../../../../../assets/svgs";
+import { getListStage } from "../../../../../../service/admin.service";
 import useStyles from "./style";
-
-type ModalProps = {
+type Props = {
   open: boolean;
   onClose: () => void;
+  onFilter: (data: string[]) => void;
 };
 
-const data = [
-  {
-    id: 1,
-    name: "Angel",
-  },
-  {
-    id: 2,
-    name: "Pre-seed",
-  },
-  {
-    id: 3,
-    name: "Private 1",
-  },
-  {
-    id: 4,
-    name: "Private 2",
-  },
-  {
-    id: 5,
-    name: "Public",
-  },
-  {
-    id: 6,
-    name: "Rewards",
-  },
-];
+interface IData {
+  id: number;
+  name: string;
+}
 
-export default function ModalFilterSaleStage(props: ModalProps) {
-  const { open, onClose } = props;
-  const styles = useStyles();
+export default function FilterAdmin({ open, onClose, onFilter }: Props) {
+  const classes = useStyles();
+  const [data, setData] = useState<IData[]>([]);
+  const [dataList, setDataList] = useState<IData[]>([]);
 
-  const [isFilter, setIsFilter] = useState<boolean>(false);
-
-  const handleClickSaleStage = () => {
-    // onClose();
-    setIsFilter(true);
+  const getList = async () => {
+    const res = await getListStage();
+    if (res?.data) {
+      setData(res?.data);
+    }
   };
 
-  const handleClickCancel = () => {
-    onClose();
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const handleClick = (value: IData) => {
+    const index = dataList.findIndex((el) => el.id === value.id);
+    if (index !== -1) {
+      setDataList(dataList.filter((el) => el.id !== value.id));
+    } else {
+      setDataList([...dataList, value]);
+    }
   };
-  const handleClickApply = () => {
+
+  const handleClearFilter = () => {
+    setDataList([]);
+    onFilter([]);
+  };
+
+  const handleFilter = () => {
+    onFilter(dataList.map((el) => el.id.toString()));
     onClose();
   };
 
   return (
     <>
       {open && (
-        <div className={styles.wrapper}>
-          <div className="btn">
-            <button onClick={handleClickCancel} className="btnCancel">
-              Cancel
-            </button>
-            <button
-              onClick={handleClickApply}
-              className={`${isFilter ? "btnIsApply" : "btnApply"}`}
-            >
-              Apply
-            </button>
-          </div>
-          {data.map((item) => (
-            <div key={item.id} onClick={handleClickSaleStage} className="item">
-              {isFilter && <img src="/images/iconApply.svg" alt="" />}
-              {item.name}
+        <div className={classes.select}>
+          <div>
+            <div className={classes.action}>
+              <button className="btn btnCancel" onClick={onClose}>
+                Cancel
+              </button>
+              <button
+                onClick={handleFilter}
+                className="btn btnApply"
+                disabled={dataList?.length <= 0}
+              >
+                Apply
+              </button>
             </div>
-          ))}
+            <Divider />
+            {dataList?.length > 0 && (
+              <div>
+                <div
+                  className={classes.clearFilter}
+                  onClick={handleClearFilter}
+                >
+                  <IconCloseBlue />
+                  Clear filter
+                </div>
+                <Divider />
+              </div>
+            )}
+
+            {data.map((el, index) => (
+              <div
+                key={index}
+                onClick={() => handleClick({ id: el.id, name: el.name })}
+                className={classes.item}
+              >
+                <Checkbox
+                  checked={dataList.map((it) => it.id).indexOf(el.id) > -1}
+                />
+                <ListItemText primary={el.name} />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </>

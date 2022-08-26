@@ -3,6 +3,11 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
+    wrapper: {
+      display: "flex",
+      alignItems: "stretch",
+      flexDirection: "column",
+    },
     container: {
       display: "flex",
       flexDirection: "row",

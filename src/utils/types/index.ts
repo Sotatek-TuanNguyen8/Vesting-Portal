@@ -34,7 +34,21 @@ export interface updateWallet {
   wallet_address: string;
 }
 
-export interface getInfo {}
+export interface createInvestor {
+  wallet_address: string;
+}
+
+export interface updateInvestor {
+  id: number | string;
+  data: any;
+}
+
+export interface IListInvestor {
+  search: string;
+  stages_id: string[];
+  page_number: number;
+  page_size: number;
+}
 
 export interface loginWallet {
   signature: string;

@@ -1,4 +1,3 @@
-import { loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
   forgotPWBody,
@@ -8,6 +7,7 @@ import {
   singUpBody,
   updateWallet,
 } from "../utils";
+import { loginWallet } from "./../utils/types/index";
 import Request from "./request/Request";
 import RequestAdmin from "./request/RequestAdmin";
 

@@ -33,10 +33,8 @@ const useStyles = makeStyles((theme: Theme) => {
       paddingTop: 15,
       paddingBottom: 15,
       lineHeight: "20px",
-      fontWeight: 700,
     },
     labelTooltip: {
-      fontWeight: 300,
       fontSize: 14,
       margin: "0",
     },

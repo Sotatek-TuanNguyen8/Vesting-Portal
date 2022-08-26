@@ -52,10 +52,7 @@ export const Header = ({ isNav = false }: Props) => {
                 <Link to="/" className={clsx(isActive("/3"), "item")}>
                   ADD LIQUIDITY
                 </Link>
-                <Link
-                  to="/lend"
-                  className={clsx(isActive("/lend"), clsx("item"))}
-                >
+                <Link to="/" className={clsx(isActive("/4"), clsx("item"))}>
                   LEND
                 </Link>
               </div>
