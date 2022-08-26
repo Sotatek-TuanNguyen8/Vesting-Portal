@@ -40,7 +40,7 @@ export default function Tokenomics({}: Props) {
 
   const handleUpdate = async (
     abi: any,
-    contractAddress: string
+    contractAddress: string,
   ): Promise<{ time_out_update: boolean }> => {
     return new Promise(async (resolve, reject) => {
       let timeOut;
@@ -78,13 +78,13 @@ export default function Tokenomics({}: Props) {
         try {
           const { time_out_update } = await handleUpdate(
             ClaimABI,
-            process.env.REACT_APP_CONTRACT_PROXY as string
+            process.env.REACT_APP_CONTRACT_PROXY as string,
           );
           if (!time_out_update) {
             toast.success("Successful transaction done");
           } else {
             toast.error(
-              "Transaction Pending. Please wait for transaction success and reload page"
+              "Transaction Pending. Please wait for transaction success and reload page",
             );
           }
         } catch (error) {
@@ -93,6 +93,18 @@ export default function Tokenomics({}: Props) {
       }
     }
     setCheckClickFirst(false);
+  };
+  const handleUpdateCsv = (e: any) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = (e: any) => {
+        const csvOutput = e.target.result;
+        console.log(e);
+      };
+      fileReader.readAsText(file);
+    }
   };
 
   return (
@@ -133,7 +145,13 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadIcon />
                   <p>Upload</p>
-                  <input hidden accept="'.csv" multiple type="file" />
+                  <input
+                    hidden
+                    accept="'.csv"
+                    multiple
+                    type="file"
+                    onChange={handleUpdateCsv}
+                  />
                 </Button>
               </div>
               <div>

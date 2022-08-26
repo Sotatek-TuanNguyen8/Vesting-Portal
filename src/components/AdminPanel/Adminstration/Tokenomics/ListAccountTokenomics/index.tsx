@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import _, { isNumber } from "lodash";
+import _, { isNumber, toNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
 
@@ -47,11 +47,13 @@ export default function ListAccountTokenomics(props: any) {
       return;
     const res = await editTableTokenimics(data.id, {
       name: editDataItem.name,
-      token_amount: editDataItem.token_amount,
-      tge_amount: editDataItem.tge_amount,
-      cliff: editDataItem.cliff,
-      linear_vesting: editDataItem.linear_vesting,
-      vesting_type_id: editDataItem.vesting_type_id,
+      token_amount: toNumber(editDataItem.token_amount),
+      tge_amount: toNumber(editDataItem.tge_amount),
+      cliff: toNumber(editDataItem.cliff),
+      linear_vesting: toNumber(editDataItem.linear_vesting),
+      vesting_type_id: editDataItem.vesting_type_id
+        ? toNumber(editDataItem.vesting_type_id)
+        : editDataItem.vesting_type_id,
     });
     if (!res) return;
     if (res?.error && res?.error?.message) {
