@@ -7,14 +7,15 @@ type Props = {
   open: boolean;
   onClose: () => void;
   id: number;
+  count: any;
 };
 
-export default function ModalDelete({ open, onClose, id }: Props) {
+export default function ModalDelete({ open, onClose, id, count }: Props) {
   const styles = useStyles();
   const handleClickCancel = () => {
     onClose();
   };
-
+  console.log(count)
   const handleConfirm = async () => {
     const res = await deleteTokenomics(id);
     if (!res) return;
@@ -33,7 +34,7 @@ export default function ModalDelete({ open, onClose, id }: Props) {
       open={open}
     >
       <div className={styles.content}>
-        <p>21 investors are in this round.</p>
+        <p>{count} investors are in this round.</p>
         <p>Are you sure you want to delete this round?</p>
       </div>
       <div className={styles.textContent}>

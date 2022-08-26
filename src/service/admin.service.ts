@@ -61,7 +61,13 @@ export const addTokenomics = async (body: editTokennomics) => {
   const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
   return data;
 };
-export const deleteTokenomics =async (id:number) => {
-  const {data} = await RequestAdmin.delete(`${serverEndpoint}/rounds/${id}`);
+export const deleteTokenomics = async (id: number) => {
+  const { data } = await RequestAdmin.delete(`${serverEndpoint}/rounds/${id}`);
   return data;
-}
+};
+// export const uploadCsv = async () => {
+//   const { data } = await RequestAdmin.delete(
+//     `${serverEndpoint}/rounds/investors/uploads`,
+//   );
+//   return data;
+// };

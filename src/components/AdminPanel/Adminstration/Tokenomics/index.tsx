@@ -27,6 +27,11 @@ export default function Tokenomics({}: Props) {
   useEffect(() => {
     getDataTable();
   }, [getDataTable]);
+
+  const handleUpload = (e: any) => {
+    e.preventDefault();
+    console.log(e);
+  };
   return (
     <div>
       <AdminLayout>
@@ -65,7 +70,13 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadIcon />
                   <p>Upload</p>
-                  <input hidden accept="'.csv" multiple type="file" />
+                  <input
+                    hidden
+                    accept="'.csv"
+                    multiple
+                    type="file"
+                    onChange={handleUpload}
+                  />
                 </Button>
               </div>
               <div>
