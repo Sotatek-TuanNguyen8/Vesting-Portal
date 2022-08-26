@@ -9,13 +9,13 @@ type Props = {
   isNav?: boolean;
 };
 
-export default function InvestorLayout({ children, isNav = false }: Props) {
+export default function InvestorUserLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const classes = useStyles();
   const { account } = useMetaMask();
 
   useEffect(() => {
-    const item = sessionStorage.getItem("access_token");
+    const item = localStorage.getItem("access_token");
     if (!item) {
       navigate("/sign-in");
       return;
