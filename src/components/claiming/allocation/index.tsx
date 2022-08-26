@@ -126,7 +126,6 @@ export default function Allocation({}: Props) {
           }
         } catch (error) {
           toast.warning("You denied the transaction");
-          console.error(error);
         }
       }
     }
