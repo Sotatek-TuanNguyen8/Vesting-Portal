@@ -16,7 +16,7 @@ export default function ListAccountTokenomics(props: any) {
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
   const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
   const [editDataItem, setEditDataItem] = useState<any | undefined | never>({});
-
+  const [itemDelete, setItemDelete] = useState<any | undefined | never>({});
   const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
     name: "",
     token_amount: "",
@@ -26,7 +26,14 @@ export default function ListAccountTokenomics(props: any) {
   });
   const handleEdit = (e: any, id: any) => {
     setIsEdit(id);
-    setEditDataItem(e);
+    setEditDataItem({
+      name: e.name,
+      token_amount: e.token_amount,
+      tge_amount: e.tge_amount,
+      cliff: e.cliff,
+      linear_vesting: e.linear_vesting,
+      vesting_type_id: e.vesting_type_id,
+    });
   };
   //edit confirm
   const handleSaveEdit = async (data: any) => {
@@ -44,15 +51,16 @@ export default function ListAccountTokenomics(props: any) {
       tge_amount: editDataItem.tge_amount,
       cliff: editDataItem.cliff,
       linear_vesting: editDataItem.linear_vesting,
+      vesting_type_id: editDataItem.vesting_type_id,
     });
     if (!res) return;
-    if (res?.error?.statusCode === 404 || res?.error?.statusCode === 406) {
+    if (res?.error && res?.error?.message) {
       toast.error(res?.error?.message);
       return;
     } else {
-      await renderTable();
       toast.success("Update Successfully");
       setIsEdit(null);
+      await renderTable();
     }
   };
 
@@ -89,7 +97,7 @@ export default function ListAccountTokenomics(props: any) {
     if (openAdd) {
       const res = await addTokenomics(fieldAddItem);
       if (!res) return;
-      if (res?.error) {
+      if (res?.error && res?.error?.message) {
         toast.error(res?.error?.message);
         return;
       } else {
@@ -118,6 +126,13 @@ export default function ListAccountTokenomics(props: any) {
     } else {
       return false;
     }
+  };
+  const handleDelete = (id: number, count: number) => {
+    setItemDelete({
+      id: id,
+      count: count,
+    });
+    setOpenDeleteStatus(true);
   };
 
   return (
@@ -256,7 +271,7 @@ export default function ListAccountTokenomics(props: any) {
                   <>
                     <img
                       onClick={() => {
-                        setOpenDeleteStatus(true);
+                        handleDelete(item.id, item.investor_count);
                       }}
                       src="/images/iconDelete.svg"
                       alt=""
@@ -286,13 +301,14 @@ export default function ListAccountTokenomics(props: any) {
               </div>
             </div>
             <div className={styles.border}></div>
-            <ModalDelete
-              open={openDeleteStatus}
-              onClose={handleClosePopup}
-              id={item.id}
-            />
           </div>
         ))}
+      <ModalDelete
+        open={openDeleteStatus}
+        onClose={handleClosePopup}
+        id={itemDelete?.id}
+        count={itemDelete?.count}
+      />
     </div>
   );
 }
