@@ -1,4 +1,5 @@
 import { InputLabel, TextField, Typography } from "@material-ui/core";
+import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -23,6 +24,7 @@ export default function ForgotPasswordPage() {
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
 
   const { account, connect, getSignature } = useMetaMask();
+  const { library } = useWeb3React();
 
   const watchEmail = watch("email");
 
@@ -30,7 +32,7 @@ export default function ForgotPasswordPage() {
     if (!account) {
       await connect();
     }
-    const signature = await getSignature(FORGOT_PASSWORD);
+    const signature = await getSignature(FORGOT_PASSWORD, library);
     return signature;
   };
 

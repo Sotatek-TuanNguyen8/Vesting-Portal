@@ -72,10 +72,10 @@ export const MetaMaskProvider = ({ children }: any) => {
     }
   };
 
-  const getSignature = async (message: string) => {
-    if (!library) return;
+  const getSignature = async (message: string, libraryWeb3: any) => {
+    if (!libraryWeb3) return;
     try {
-      const signature = await library?.provider.request({
+      const signature = await libraryWeb3?.provider.request({
         method: "personal_sign",
         params: [message, account],
       });
