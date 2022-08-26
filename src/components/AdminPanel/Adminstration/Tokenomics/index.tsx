@@ -6,7 +6,7 @@ import useStyles from "./style";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
 import { Button } from "@mui/material";
-import { getDataTokenomics } from "../../../../service";
+import { getDataTokenomics } from "../../../../service/admin.service";
 
 type Props = {};
 
@@ -20,6 +20,7 @@ export default function Tokenomics({}: Props) {
 
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics();
+    console.log(renderData);
     if (!renderData) return;
     setDataTable(renderData?.data);
   }, []);
@@ -41,16 +42,34 @@ export default function Tokenomics({}: Props) {
                 </div>
                 <Button
                   className={styles.featureUPload}
-                  variant="contained"
+                  variant="outlined"
                   component="label"
+                  sx={{
+                    border: "none",
+                    alignItems: "center",
+                    marginLeft: "90px",
+                    padding: "0",
+                    fontFamily: "gibson",
+                    "& p": {
+                      fontWeight: 400,
+                      fontSize: "18px",
+                      color: "#051C42",
+                      margin: "0 0 0 5px",
+                      textTransform: "initial",
+                    },
+                    "&:hover": {
+                      backgroundColor: "transparent",
+                      border: "none",
+                    },
+                  }}
                 >
                   <UploadIcon />
                   <p>Upload</p>
-                  <input hidden accept="image/*" multiple type="file" />
+                  <input hidden accept="'.csv" multiple type="file" />
                 </Button>
               </div>
               <div>
-                {/* <Button
+                <Button
                   variant="contained"
                   sx={{
                     background: "#BBBBBB",
@@ -63,7 +82,7 @@ export default function Tokenomics({}: Props) {
                 >
                   <UploadRootIcon style={{ marginRight: "3px" }} />
                   Update Root
-                </Button> */}
+                </Button>
               </div>
             </div>
             <div className={styles.body}>

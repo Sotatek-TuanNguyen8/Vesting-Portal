@@ -1,4 +1,4 @@
-import { editTokennomics, loginWallet } from "./../utils/types/index";
+import {  loginWallet } from "./../utils/types/index";
 import {
   confirmEmailBody,
   forgotPWBody,
@@ -84,19 +84,4 @@ export const loginAdmin = async (body: loginWallet, header?: string) => {
   return data;
 };
 
-export const getDataTokenomics = async () => {
-  const { data } = await RequestAdmin.get(`${serverEndpoint}/rounds`);
-  return data;
-};
 
-export const editTableTokenimics = async (
-  id: number,
-  body: editTokennomics,
-) => {
-  const { data } = await RequestAdmin.patch(`${serverEndpoint}/rounds/${id}`, body);
-  return data;
-};
-export const addTokenomics = async (body: editTokennomics) => {
-  const { data } = await RequestAdmin.post(`${serverEndpoint}/rounds`, body);
-  return data;
-};

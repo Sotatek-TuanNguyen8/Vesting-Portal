@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: "18px",
         color: "#051C42",
       },
+     
     },
     startTime: {
       fontSize: "18px",
