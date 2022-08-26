@@ -104,6 +104,7 @@ export default function Investors({}: Props) {
                   onChange={(page) =>
                     setQuery({ ...query, page_number: page - 1 })
                   }
+                  page={query?.page_number + 1}
                 />
               )}
             </div>
