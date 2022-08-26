@@ -15,7 +15,6 @@ export default function ModalDelete({ open, onClose, id, count }: Props) {
   const handleClickCancel = () => {
     onClose();
   };
-  console.log(count)
   const handleConfirm = async () => {
     const res = await deleteTokenomics(id);
     if (!res) return;
