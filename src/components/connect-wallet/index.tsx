@@ -1,4 +1,5 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -20,11 +21,46 @@ export default function ConnectWalletPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();
+  const { library } = useWeb3React();
   const userData = useSelector((s: any) => s.authAction.data);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
+  const [checkConnect, setCheckConnect] = useState<boolean>(false);
   const elRef = useRef(null);
+
+  useEffect(() => {
+    if (!account || !library || !checkFetchData || !checkConnect) return;
+    (async () => {
+      if (!userData?.metamaskAddress) {
+        const signature = await getSignature(CONNECT_WALLET, library);
+        if (signature) {
+          const res = await updateWalletAuth({
+            signature: signature,
+            wallet_address: account,
+          });
+          if (res?.data) {
+            dispatch(setUser({ ...userData, metamaskAddress: account }));
+            navigate("/");
+          } else {
+            setErrorCheckAddress(
+              "This wallet has been connected to another account"
+            );
+          }
+        }
+      }
+      setCheckConnect(false);
+    })();
+  }, [
+    account,
+    library,
+    checkFetchData,
+    userData,
+    getSignature,
+    dispatch,
+    navigate,
+    checkConnect,
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -62,34 +98,19 @@ export default function ConnectWalletPage() {
     setErrorCheckAddress("");
     if (!account) {
       await connect();
-    } else {
-      const accountWallet = localStorage.getItem("accounts");
-      if (!userData?.metamaskAddress) {
-        const signature = await getSignature(CONNECT_WALLET);
-        if (signature) {
-          const res = await updateWalletAuth({
-            signature: signature,
-            wallet_address: account,
-          });
-          if (res?.data) {
-            dispatch(setUser({ ...userData, metamaskAddress: account }));
-            navigate("/");
-          } else {
-            setErrorCheckAddress(
-              "This wallet has been connected to another account"
-            );
-          }
-        }
+    }
+    const accountWallet = localStorage.getItem("accounts");
+    if (userData?.metamaskAddress) {
+      if (
+        accountWallet?.toLowerCase() ===
+        userData?.metamaskAddress?.toLowerCase()
+      ) {
+        navigate("/");
       } else {
-        if (
-          accountWallet?.toLowerCase() ===
-          userData?.metamaskAddress?.toLowerCase()
-        ) {
-          navigate("/");
-        } else {
-          setErrorCheckAddress("Email and Wallet address do not match");
-        }
+        setErrorCheckAddress("Email and Wallet address do not match");
       }
+    } else {
+      setCheckConnect(true);
     }
   };
 

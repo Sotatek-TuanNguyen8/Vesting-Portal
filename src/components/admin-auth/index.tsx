@@ -1,21 +1,54 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Error } from "../../assets/svgs";
+import { Logo } from "../../assets/svgs/";
+import Icon from "../../assets/svgs/iconErrorAdminAuth.svg";
 import { loginAdmin } from "../../service";
 import { scrollIntoView } from "../../utils/common/fn";
 import { CONNECT_WALLET_ADMIN } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import useStyles from "./style";
-import { Logo } from "../../assets/svgs/";
-import Icon from "../../assets/svgs/iconErrorAdminAuth.svg";
 export default function AdminAuthPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();
-  const [errorCheckAddress, setErrorCheckAddress] = useState("");
+  const { library } = useWeb3React();
   const [errorLogin, setErrorLogin] = useState(false);
+  const [checkConnect, setCheckConnect] = useState(false);
   const elRef = useRef(null);
+
+  useEffect(() => {
+    if (!account || !library || !checkConnect) return;
+    (async () => {
+      const signature = await getSignature(CONNECT_WALLET_ADMIN, library);
+      if (signature) {
+        const res = await loginAdmin(
+          {
+            signature: signature,
+            wallet_address: account,
+          },
+          CONNECT_WALLET_ADMIN
+        )
+          .then((res) => {
+            if (res === undefined) {
+              setErrorLogin(true);
+              navigate("/admin-panel");
+            } else {
+              setErrorLogin(false);
+              localStorage.clear();
+              sessionStorage.setItem("access_token", res?.data?.accessToken);
+              navigate("/admin-panel/investor");
+            }
+          })
+          .catch(() => {
+            setErrorLogin(true);
+            navigate("/admin-panel");
+          });
+      }
+      setCheckConnect(false);
+    })();
+  }, [account, getSignature, library, navigate, checkConnect]);
 
   useEffect(() => {
     const item = sessionStorage.getItem("access_token");
@@ -27,7 +60,6 @@ export default function AdminAuthPage() {
 
   useEffect(() => {
     const windowObj: any = window;
-
     windowObj?.ethereum?.on("accountsChanged", (accounts: string[]) => {
       setErrorLogin(false);
     });
@@ -35,36 +67,10 @@ export default function AdminAuthPage() {
 
   const handleConnectWallet = async () => {
     setErrorLogin(false);
-    setErrorCheckAddress("");
     if (!account) {
       await connect();
     }
-    const signature = await getSignature(CONNECT_WALLET_ADMIN);
-
-    if (signature) {
-      const res = await loginAdmin(
-        {
-          signature: signature,
-          wallet_address: account,
-        },
-        CONNECT_WALLET_ADMIN
-      )
-        .then((res) => {
-          if (res === undefined) {
-            setErrorLogin(true);
-            navigate("/admin-panel");
-          } else {
-            setErrorLogin(false);
-            localStorage.clear();
-            sessionStorage.setItem("access_token", res?.data?.accessToken);
-            navigate("/admin-panel/investor");
-          }
-        })
-        .catch(() => {
-          setErrorLogin(true);
-          navigate("/admin-panel");
-        });
-    }
+    setCheckConnect(true);
   };
 
   useEffect(() => {
@@ -90,22 +96,6 @@ export default function AdminAuthPage() {
               }}
             >
               <p className={classes.title}>ADMIN LOGIN</p>
-              {errorCheckAddress && (
-                <Typography
-                  // variant="subtitle1"
-                  color="#F44336"
-                  fontSize={"14px!important"}
-                  pb={2}
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Error
-                    width={16}
-                    height={16}
-                    style={{ marginRight: "5px" }}
-                  />{" "}
-                  {errorCheckAddress}
-                </Typography>
-              )}
               <Box
                 sx={{
                   flexDirection: "column",

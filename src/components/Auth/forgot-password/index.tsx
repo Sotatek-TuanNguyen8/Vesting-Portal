@@ -1,5 +1,6 @@
 import { InputLabel, TextField, Typography } from "@material-ui/core";
-import { useState } from "react";
+import { useWeb3React } from "@web3-react/core";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,18 +22,37 @@ export default function ForgotPasswordPage() {
   const [messError, setMessError] = useState<string>();
   const [isSendEmail, setIsSendEmail] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
-
-  const { account, connect, getSignature } = useMetaMask();
-
+  const [checkConnect, setCheckConnect] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>();
   const watchEmail = watch("email");
 
-  const handleConnect = async () => {
-    if (!account) {
-      await connect();
-    }
-    const signature = await getSignature(FORGOT_PASSWORD);
-    return signature;
-  };
+  const { account, connect, getSignature } = useMetaMask();
+  const { library } = useWeb3React();
+
+  useEffect(() => {
+    if (!account || !library || !checkConnect || !email) return;
+    (async () => {
+      const signature = await getSignature(FORGOT_PASSWORD, library);
+      if (signature) {
+        const response = await forgotPWlAuth(
+          {
+            email,
+            signature: signature,
+            wallet_address: account,
+          },
+          FORGOT_PASSWORD
+        );
+        if (response?.error) {
+          setMessError("Email and Wallet address do not match");
+        } else {
+          setMessError("");
+          setIsSendEmail(true);
+        }
+      }
+      setCheckConnect(false);
+      setIsClickFirst(false);
+    })();
+  }, [account, checkConnect, email, getSignature, library]);
 
   const handleForgot = async (data: { email: string }) => {
     setIsClickFirst(true);
@@ -46,33 +66,15 @@ export default function ForgotPasswordPage() {
     } else {
       const { statusCode } = res?.error;
       if (statusCode === 406) {
-        try {
-          const signature = await handleConnect();
-          if (signature) {
-            const response = await forgotPWlAuth(
-              {
-                email: data.email,
-                signature: signature,
-                wallet_address: account,
-              },
-              FORGOT_PASSWORD
-            );
-            if (response?.error) {
-              setMessError("Email and Wallet address do not match");
-            } else {
-              setMessError("");
-              setIsSendEmail(true);
-            }
-          }
-        } catch (error: any) {
-          setIsClickFirst(false);
-          toast.error(error?.message);
+        if (!account) {
+          await connect();
         }
+        setCheckConnect(true);
       } else {
         setMessError(res?.error?.details);
+        setIsClickFirst(false);
       }
     }
-    setIsClickFirst(false);
   };
 
   return (
@@ -96,6 +98,7 @@ export default function ForgotPasswordPage() {
           <form
             onSubmit={handleSubmit((data) => {
               handleForgot(data);
+              setEmail(data.email);
             })}
           >
             <div className={classes.inputForm}>

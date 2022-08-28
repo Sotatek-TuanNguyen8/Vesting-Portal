@@ -10,12 +10,15 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
 import useStyles from "./style";
+import useMetaMask from "../../../../utils/hooks/useMetaMask";
+import { convertTextAddressWallet } from "../../../../utils/common/fn";
 
 export default function UserNavAdmin() {
   const [anchorEl, setAnchorEl] = useState(null);
   const userData = useSelector((s: any) => s.authAction.data);
   const navigate = useNavigate();
   const classes = useStyles();
+  const { account } = useMetaMask();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -37,7 +40,7 @@ export default function UserNavAdmin() {
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <img src="/images/avatar.svg" alt="" />
-          <p>Matias</p>
+          <p>{convertTextAddressWallet(4, 4, account)}</p>
           {userData && userData?.metamaskAdress && <span>FWRF134...526</span>}
         </div>
         <ArrowDown />

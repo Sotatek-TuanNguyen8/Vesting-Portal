@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) => {
           "& img": {
             cursor: "pointer",
             marginLeft: 20,
+            width: "20px",
+            "&:last-child": {
+              width: "17px",
+            },
           },
         },
       },
