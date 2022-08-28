@@ -121,8 +121,6 @@ export default function ListAccountInvestor({
       email: dataItem?.email,
     });
 
-    // console.log(dataUpdate);
-
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
       toast.success("Update Successfully");

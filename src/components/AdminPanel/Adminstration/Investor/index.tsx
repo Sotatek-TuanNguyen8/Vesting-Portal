@@ -81,8 +81,6 @@ export default function Investors({}: Props) {
 
   const handleClearValueInput = () => {};
 
-  console.log(dataListInvestor?.length);
-
   return (
     <div>
       <AdminLayout>
