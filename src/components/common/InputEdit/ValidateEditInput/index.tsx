@@ -32,9 +32,6 @@ export default function TooltipValidate(props: Props) {
 
   const dispatch = useDispatch();
 
-  console.log(tokenAmountInvalid);
-  console.log(field);
-
   const renderMsgErrorFullName = useCallback(() => {
     if (!value) {
       dispatch(setStatusFullNameEdit(true));
