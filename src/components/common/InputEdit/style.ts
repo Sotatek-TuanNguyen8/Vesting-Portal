@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme: Theme) => {
       fontWeight: 400,
       marginRight: 4,
       outline: "none",
+      background: "none",
+      "&::-webkit-outer-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
+      "&::-webkit-inner-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
     },
     inputError: {
       height: 40,
@@ -32,6 +41,14 @@ const useStyles = makeStyles((theme: Theme) => {
       fontWeight: 400,
       marginRight: 4,
       outline: "none",
+      "&::-webkit-outer-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
+      "&::-webkit-inner-spin-button": {
+        "-webkit-appearance": "none",
+        margin: 0,
+      },
     },
     hiddenInput: {
       height: 40,

@@ -1,14 +1,14 @@
+import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
+import { getListInvestor } from "../../../../service/admin.service";
+import { IListInvestor } from "../../../../utils";
+import AdminLayout from "../../../admin-auth/layoutAdmin/index";
+import PaginationCustom from "../Pagination";
 import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
-import AdminLayout from "../../../admin-auth/layoutAdmin/index";
-import _ from "lodash";
-import { IListInvestor } from "../../../../utils";
-import { getListInvestor } from "../../../../service/admin.service";
-import PaginationCustom from "../Pagination";
 
 type Props = {};
 export interface InInvestor {
@@ -27,6 +27,7 @@ export default function Investors({}: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
   const [count, setCount] = useState<number>(1);
+  const [value, setValue] = useState<boolean>(false);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
     stages_id: [],
@@ -71,11 +72,14 @@ export default function Investors({}: Props) {
 
   const handleSearch = (e: any) => {
     debounceSearch(e);
+    setValue(true);
   };
 
   const handleFilter = (data: string[]) => {
     setQuery({ ...query, stages_id: data, page_number: 0 });
   };
+
+  const handleClearValueInput = () => {};
 
   return (
     <div>
@@ -86,19 +90,28 @@ export default function Investors({}: Props) {
           <div className="listInvestor">
             <div className="new">
               <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
-              <p>New</p>
+              <p onClick={handleAddNew}>New</p>
             </div>
             <div className={styles.body}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
                 <input type="text" onChange={(e) => handleSearch(e)} />
+                {value && (
+                  <img
+                    src="/images/iconClose.svg"
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClearValueInput}
+                  />
+                )}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
                 fetchListInvestors={fetchListInvestors}
+                count={count}
               />
-              {dataListInvestor?.length > 0 && (
+              {dataListInvestor?.length > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
                   onChange={(page) =>

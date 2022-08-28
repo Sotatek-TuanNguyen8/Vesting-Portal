@@ -40,7 +40,7 @@ export default function ModalDelete({
         <button onClick={handleClickCancel} className={styles.btnCancel}>
           Cancel
         </button>
-        <button onClick={handleClickDelete} className={styles.btnCreate}>
+        <button onClick={handleClickDelete} className={styles.btnDelete}>
           Delete
         </button>
       </div>
