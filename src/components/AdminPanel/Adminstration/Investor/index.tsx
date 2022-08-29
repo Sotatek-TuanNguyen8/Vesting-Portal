@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
 import { getListInvestor } from "../../../../service/admin.service";
@@ -26,6 +26,8 @@ export default function Investors() {
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [valueInput, setValueInput] = useState<string>();
+  const timeoutRef = useRef<any>(null);
 
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
@@ -66,12 +68,14 @@ export default function Investors() {
     setOpen(false);
   };
 
-  const debounceSearch = _.debounce((e) => {
-    setQuery({ ...query, search: e.target.value, page_number: 0 });
-  }, 1000);
-
   const handleSearch = (e: any) => {
-    debounceSearch(e);
+    setValueInput(e.target.value);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setQuery({ ...query, search: e.target.value, page_number: 0 });
+    }, 1000);
   };
 
   const handleFilter = (data: string[]) => {
@@ -92,7 +96,11 @@ export default function Investors() {
             <div className={styles.body}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
-                <input type="text" onChange={(e) => handleSearch(e)} />
+                <input
+                  type="text"
+                  value={valueInput}
+                  onChange={(e) => handleSearch(e)}
+                />
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
