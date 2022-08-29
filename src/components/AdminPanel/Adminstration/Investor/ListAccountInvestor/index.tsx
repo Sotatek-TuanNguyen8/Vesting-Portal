@@ -173,8 +173,8 @@ export default function ListAccountInvestor({
   const handleSelect = (e: any) => {
     setDataItem({
       ...dataItem,
-      stage_name: e,
-      stage_id: data?.filter((el) => el.name === e)[0]?.id,
+      stage_name: data?.filter((el) => el.id === e)[0]?.name,
+      stage_id: e,
     });
   };
 
@@ -277,8 +277,8 @@ export default function ListAccountInvestor({
                 onClose={handleClose}
                 value={
                   isEdit && item.investor_id === dataItem.investor_id
-                    ? dataItem?.stage_name
-                    : item?.stage_name
+                    ? dataItem?.stage_id
+                    : item?.stage_id
                 }
                 data={data}
                 onClickSelect={handleSelect}
