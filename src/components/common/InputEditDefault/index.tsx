@@ -1,6 +1,5 @@
-import { useState } from "react";
-import TooltipValidateDefault from "./ValidateEditInputDefault";
 import useStyles from "./style";
+import TooltipValidateDefault from "./ValidateEditInputDefault";
 
 type InputProps = {
   value: any;

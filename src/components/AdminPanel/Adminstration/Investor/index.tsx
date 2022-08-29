@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
 import { getListInvestor } from "../../../../service/admin.service";
@@ -25,9 +25,11 @@ export default function Investors() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
-  const [count, setCount] = useState<number>(1);
-  // const [value, setValue] = useState<boolean>(false);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [valueInput, setValueInput] = useState<string>();
+  const timeoutRef = useRef<any>(null);
+
+  const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
     stages_id: [],
@@ -66,20 +68,24 @@ export default function Investors() {
     setOpen(false);
   };
 
-  const debounceSearch = _.debounce((e) => {
-    setQuery({ ...query, search: e.target.value, page_number: 0 });
-  }, 1000);
-
   const handleSearch = (e: any) => {
-    debounceSearch(e);
-    // setValue(true);
+    setValueInput(e.target.value);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setQuery({ ...query, search: e.target.value, page_number: 0 });
+    }, 1000);
   };
 
   const handleFilter = (data: string[]) => {
     setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
-  const handleClearValueInput = () => {};
+  const handleClearValueInput = () => {
+    setValueInput("");
+    setQuery({ ...query, search: "", page_number: 0 });
+  };
 
   return (
     <div>
@@ -95,17 +101,19 @@ export default function Investors() {
             <div className={styles.body}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
-                <input type="text" onChange={(e) => handleSearch(e)} />
-                {/* {value ? ( */}
-                <img
-                  src="/images/iconClose.svg"
-                  alt=""
-                  style={{ cursor: "pointer" }}
-                  onClick={handleClearValueInput}
+                <input
+                  type="text"
+                  value={valueInput}
+                  onChange={(e) => handleSearch(e)}
                 />
-                {/* ) : (
-                  ""
-                )} */}
+                {valueInput && (
+                  <img
+                    src="/images/iconClose.svg"
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClearValueInput}
+                  />
+                )}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}

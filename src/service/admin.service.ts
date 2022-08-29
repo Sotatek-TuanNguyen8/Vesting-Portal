@@ -14,7 +14,9 @@ export const getListInvestor = async (
 ) => {
   const { search, stages_id, page_number, page_size } = body;
   const { data } = await RequestAdmin.get(
-    `${serverEndpoint}/investors?page_number=${page_number}&page_size=${page_size}&search=${search}&stages_id=${stages_id}`,
+    `${serverEndpoint}/investors?page_number=${page_number}&page_size=${page_size}&search=${search}&${stages_id
+      ?.map((el) => `stages_id=${el}`)
+      .join("&")}`,
     undefined,
     access_token
   );

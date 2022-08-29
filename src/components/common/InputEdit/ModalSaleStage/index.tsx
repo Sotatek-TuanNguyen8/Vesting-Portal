@@ -17,19 +17,22 @@ export default function ModalSaleStage(props: ModalProps) {
 
   return (
     <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
-      <Select
-        value={value}
-        label="Age"
-        onChange={(e) => onClickSelect(e.target.value)}
-        disabled={!status}
-        // IconComponent={() => (!status ? null : <ArrowDropDownIcon />)}
-      >
-        {data.map((item) => (
-          <MenuItem key={item.id} value={item.name}>
-            {item.name}
-          </MenuItem>
-        ))}
-      </Select>
+      {!status ? (
+        data?.filter((el) => el.id === Number(value))[0]?.name
+      ) : (
+        <Select
+          value={Number(value)}
+          label="Age"
+          onChange={(e) => onClickSelect(e.target.value)}
+          disabled={!status}
+        >
+          {data.map((item) => (
+            <MenuItem key={item.id} value={item.id}>
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
     </FormControl>
   );
 }
