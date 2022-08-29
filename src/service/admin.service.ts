@@ -1,4 +1,9 @@
-import { createInvestor, editTokennomics, IListInvestor } from "../utils";
+import {
+  createInvestor,
+  editTokennomics,
+  IListInvestor,
+  IListTokenomic,
+} from "../utils";
 import RequestAdmin from "./request/RequestAdmin";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
@@ -42,8 +47,16 @@ export const deleteInvestor = async (id: number) => {
   );
   return response;
 };
-export const getDataTokenomics = async () => {
-  const { data } = await RequestAdmin.get(`${serverEndpoint}/rounds`);
+export const getDataTokenomics = async (
+  body: IListTokenomic,
+  access_token: string
+) => {
+  const { page_number, page_size } = body;
+  const { data } = await RequestAdmin.get(
+    `${serverEndpoint}/rounds?page_number=${page_number}&page_size=${page_size}`,
+    undefined,
+    access_token
+  );
   return data;
 };
 
