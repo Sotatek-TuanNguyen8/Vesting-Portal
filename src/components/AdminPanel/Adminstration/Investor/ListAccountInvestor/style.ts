@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
         "& .tokensClaimed": {
           width: "12.5%",
           display: "flex",
