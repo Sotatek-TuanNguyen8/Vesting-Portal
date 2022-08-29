@@ -96,13 +96,15 @@ export default function Investors({}: Props) {
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
                 <input type="text" onChange={(e) => handleSearch(e)} />
-                {value && (
+                {value ? (
                   <img
                     src="/images/iconClose.svg"
                     alt=""
                     style={{ cursor: "pointer" }}
                     onClick={handleClearValueInput}
                   />
+                ) : (
+                  ""
                 )}
               </div>
               <ListAccountInvestor
