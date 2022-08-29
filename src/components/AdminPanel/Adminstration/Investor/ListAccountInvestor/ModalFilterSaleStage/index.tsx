@@ -1,9 +1,8 @@
 import { Divider } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconCloseBlue } from "../../../../../../assets/svgs";
-import { getListStage } from "../../../../../../service/admin.service";
 import useStyles from "./style";
 type Props = {
   open: boolean;

@@ -15,6 +15,8 @@ type Props = {
   dataListInvestor: InInvestor[];
   onFilter: (data: string[]) => void;
   fetchListInvestors: () => void;
+  isOpenFilter: boolean;
+  setOpenFilter: (value: boolean) => void;
 };
 
 const dataItemDefault = {
@@ -32,6 +34,8 @@ export default function ListAccountInvestor({
   dataListInvestor,
   onFilter,
   fetchListInvestors,
+  isOpenFilter,
+  setOpenFilter,
 }: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -142,11 +146,15 @@ export default function ListAccountInvestor({
   };
 
   const handleClickFilter = () => {
-    setOpen((preState) => !preState);
+    setOpenFilter(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
   };
 
   const handleSelect = (e: any) => {
@@ -169,22 +177,28 @@ export default function ListAccountInvestor({
           <p>Email</p>
           <p>Wallet address</p>
           <p>Token amount</p>
-          <p className={styles.saleStage}>
+          <div className={styles.saleStage}>
             Sale stage
             <img
-              onClick={handleClickFilter}
+              onClick={(e) => {
+                handleClickFilter();
+                e.stopPropagation();
+              }}
               src="/images/iconFilter.svg"
               alt=""
             />
-            <div className="modalSaleStage">
+            <div
+              className="modalSaleStage"
+              onClick={(e) => e.stopPropagation()}
+            >
               <FilterAdmin
-                open={open}
-                onClose={handleClose}
+                open={isOpenFilter}
+                onClose={handleCloseFilter}
                 onFilter={handleFilter}
                 data={data}
               />
             </div>
-          </p>
+          </div>
           <p>Tokens vested</p>
           <p>Tokens claimed</p>
           <p></p>

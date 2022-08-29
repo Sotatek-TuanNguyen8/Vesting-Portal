@@ -1,16 +1,15 @@
+import _ from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
+import { getListInvestor } from "../../../../service/admin.service";
+import { IListInvestor } from "../../../../utils";
+import AdminLayout from "../../../admin-auth/layoutAdmin/index";
+import PaginationCustom from "../Pagination";
 import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
-import AdminLayout from "../../../admin-auth/layoutAdmin/index";
-import _ from "lodash";
-import { IListInvestor } from "../../../../utils";
-import { getListInvestor } from "../../../../service/admin.service";
-import PaginationCustom from "../Pagination";
 
-type Props = {};
 export interface InInvestor {
   email: string;
   full_name: string;
@@ -22,10 +21,12 @@ export interface InInvestor {
   tokensVested: string;
 }
 
-export default function Investors({}: Props) {
+export default function Investors() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -81,7 +82,7 @@ export default function Investors({}: Props) {
     <div>
       <AdminLayout>
         <AdminPanel />
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => setOpenFilter(false)}>
           <Administration active={"investor"} />
           <div className="listInvestor">
             <div className="new">
@@ -97,6 +98,8 @@ export default function Investors({}: Props) {
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
                 fetchListInvestors={fetchListInvestors}
+                isOpenFilter={openFilter}
+                setOpenFilter={(value) => setOpenFilter(value)}
               />
               {dataListInvestor?.length > 0 && (
                 <PaginationCustom
