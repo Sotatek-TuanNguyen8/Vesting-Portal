@@ -123,7 +123,7 @@ export default function Investors() {
                 isOpenFilter={openFilter}
                 setOpenFilter={(value) => setOpenFilter(value)}
               />
-              {dataListInvestor?.length > 10 && (
+              {count > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
                   onChange={(page) =>
