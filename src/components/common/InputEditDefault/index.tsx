@@ -9,9 +9,10 @@ type InputProps = {
   type: string;
   onChange: (e: any, field: any) => void;
   defaultValue: string;
+  width: number | string;
 };
 export default function InputTableEditDefault(props: InputProps) {
-  const { value, status, onChange, field, type, defaultValue } = props;
+  const { value, status, onChange, field, type, defaultValue, width } = props;
   const styles = useStyles();
 
   return (
@@ -21,6 +22,7 @@ export default function InputTableEditDefault(props: InputProps) {
         className={` ${!status ? styles.hiddenInput : styles.input} `}
         value={value}
         disabled={!status}
+        style={{ width: width ? width : "200px" }}
         onChange={(e) => onChange(e.target.value, field)}
       />
       {status ? (
