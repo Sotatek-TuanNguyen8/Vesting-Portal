@@ -21,6 +21,7 @@ export default function Tokenomics({}: Props) {
   const [dataTable, setDataTable] = useState<Array<any>>([]);
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
+  const [startTimeData, setStartTimeData] = useState<string>("");
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
 
   const handleAddNew = () => {
@@ -30,7 +31,8 @@ export default function Tokenomics({}: Props) {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics();
     if (!renderData) return;
-    setDataTable(renderData?.data);
+    setDataTable(renderData?.data?.rounds);
+    setStartTimeData(renderData?.data?.start_time);
   }, []);
 
   useEffect(() => {
@@ -70,6 +72,7 @@ export default function Tokenomics({}: Props) {
   };
 
   const handleUpdateRoot = async () => {
+    console.log(wrongNetWork);
     setCheckClickFirst(true);
     if (wrongNetWork) {
       const switchError = await switchNetwork();
@@ -163,6 +166,7 @@ export default function Tokenomics({}: Props) {
                     color: "#E9E9F0",
                     textTransform: "initial",
                   }}
+                  onClick={handleUpdateRoot}
                 >
                   <UploadRootIcon style={{ marginRight: "3px" }} />
                   Update Root
@@ -170,7 +174,10 @@ export default function Tokenomics({}: Props) {
               </div>
             </div>
             <div className={styles.body}>
-              <p className={styles.startTime}>Start date: Feb 24, 2022</p>
+              {startTimeData && (
+                <p className={styles.startTime}>Start date: Feb 24, 2022</p>
+              )}
+
               <ListAccountTokenomics
                 openAdd={open}
                 setAdd={setOpen}
