@@ -26,7 +26,7 @@ export default function Investors() {
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
   const [count, setCount] = useState<number>(1);
-  // const [value, setValue] = useState<boolean>(false);
+  const [value, setValue] = useState<boolean>(false);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -72,14 +72,16 @@ export default function Investors() {
 
   const handleSearch = (e: any) => {
     debounceSearch(e);
-    // setValue(true);
+    setValue(true);
   };
 
   const handleFilter = (data: string[]) => {
     setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
-  const handleClearValueInput = () => {};
+  const handleClearValueInput = () => {
+    // setValue(false);
+  };
 
   return (
     <div>
@@ -95,17 +97,21 @@ export default function Investors() {
             <div className={styles.body}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
-                <input type="text" onChange={(e) => handleSearch(e)} />
-                {/* {value ? ( */}
-                <img
-                  src="/images/iconClose.svg"
-                  alt=""
-                  style={{ cursor: "pointer" }}
-                  onClick={handleClearValueInput}
+                <input
+                  type="text"
+                  // value={!value  ""}
+                  onChange={(e) => handleSearch(e)}
                 />
-                {/* ) : (
+                {value ? (
+                  <img
+                    src="/images/iconClose.svg"
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClearValueInput}
+                  />
+                ) : (
                   ""
-                )} */}
+                )}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
@@ -115,7 +121,7 @@ export default function Investors() {
                 isOpenFilter={openFilter}
                 setOpenFilter={(value) => setOpenFilter(value)}
               />
-              {dataListInvestor?.length > 10 && (
+              {count > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
                   onChange={(page) =>
