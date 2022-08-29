@@ -27,11 +27,13 @@ export default function ModalAddNew({
   const handleClickCancel = () => {
     onClose();
     setHiddenError();
+    setValue("");
   };
 
   const setHiddenError = () => {
     setMsgErrRequied(false);
     setMsgErrInvalid(false);
+    setMsgErrDuplicate(false);
   };
 
   const handleChange = async (e: any) => {
@@ -42,10 +44,12 @@ export default function ModalAddNew({
 
   const checkWalletInvestor = async () => {
     const data = await createInvestorNew({ wallet_address: value });
+
     if (data?.status === 201) {
       fetchListInvestors();
       onClose();
       toast.success("Add New Investor Success");
+      setValue("");
     } else if (data?.status === 406) {
       setMsgErrDuplicate(true);
     }
@@ -54,6 +58,8 @@ export default function ModalAddNew({
   const handleClickCreate = async () => {
     if (!value) {
       setMsgErrRequied(true);
+      setMsgErrInvalid(false);
+      setMsgErrDuplicate(false);
     } else if (!ethers.utils.isAddress(value)) {
       setMsgErrInvalid(true);
     } else {
@@ -102,9 +108,13 @@ export default function ModalAddNew({
           <button onClick={handleClickCancel} className={styles.btnCancel}>
             Cancel
           </button>
-          <button onClick={handleClickCreate} className={styles.btnCreate}>
-            Create
-          </button>
+          {msgErrRequied || msgErrInvalid || msgErrDuplicate ? (
+            <button className={styles.btnCreateDisable}>Create</button>
+          ) : (
+            <button onClick={handleClickCreate} className={styles.btnCreate}>
+              Create
+            </button>
+          )}
         </div>
       </div>
       <div></div>

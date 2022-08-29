@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .MuiInput-underline:after": {
         display: "none",
       },
+
       "& .MuiPaper-root .MuiMenu-paper .MuiPopover-paper .MuiPaper-elevation8 .MuiPaper-rounded":
         {
           height: "100%",
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme: Theme) => {
       height: "100%",
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
+      },
+      "& .MuiSelect-icon": {
+        display: "none",
       },
       "& .MuiInput-underline.Mui-disabled:before": {
         display: "none",

@@ -30,7 +30,6 @@ export default function Tokenomics({}: Props) {
 
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics();
-    console.log(renderData);
     if (!renderData) return;
     setDataTable(renderData?.data?.rounds);
     setStartTimeData(renderData?.data?.start_time);
@@ -42,7 +41,7 @@ export default function Tokenomics({}: Props) {
 
   const handleUpdate = async (
     abi: any,
-    contractAddress: string,
+    contractAddress: string
   ): Promise<{ time_out_update: boolean }> => {
     return new Promise(async (resolve, reject) => {
       let timeOut;
@@ -81,13 +80,13 @@ export default function Tokenomics({}: Props) {
         try {
           const { time_out_update } = await handleUpdate(
             ClaimABI,
-            process.env.REACT_APP_CONTRACT_PROXY as string,
+            process.env.REACT_APP_CONTRACT_PROXY as string
           );
           if (!time_out_update) {
             toast.success("Successful transaction done");
           } else {
             toast.error(
-              "Transaction Pending. Please wait for transaction success and reload page",
+              "Transaction Pending. Please wait for transaction success and reload page"
             );
           }
         } catch (error) {
@@ -104,7 +103,6 @@ export default function Tokenomics({}: Props) {
     if (file) {
       fileReader.onload = (e: any) => {
         const csvOutput = e.target.result;
-        console.log(e);
       };
       fileReader.readAsText(file);
     }

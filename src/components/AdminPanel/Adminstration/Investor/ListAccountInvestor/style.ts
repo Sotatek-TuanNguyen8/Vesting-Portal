@@ -79,6 +79,10 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     saleStage: {
       position: "relative",
+      width: "12.5%",
+      fontSize: 16,
+      fontWeight: 400,
+      margin: "16px 0px",
       "& .modalSaleStage": {
         position: "absolute",
         top: "112%",
@@ -88,6 +92,13 @@ const useStyles = makeStyles((theme: Theme) => {
         width: 260,
         backgroundColor: "#fff",
       },
+    },
+    noResult: {
+      marginTop: 120,
+      margin: "auto",
+      color: "#909090",
+      fontSize: 18,
+      fontWeight: 400,
     },
   };
 });

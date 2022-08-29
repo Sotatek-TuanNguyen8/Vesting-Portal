@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import _ from "lodash";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
+import { getListInvestor } from "../../../../service/admin.service";
+import { IListInvestor } from "../../../../utils";
+import AdminLayout from "../../../admin-auth/layoutAdmin/index";
+import PaginationCustom from "../Pagination";
 import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
-import AdminLayout from "../../../admin-auth/layoutAdmin/index";
-import _ from "lodash";
-import { IListInvestor } from "../../../../utils";
-import { getListInvestor } from "../../../../service/admin.service";
-import PaginationCustom from "../Pagination";
 
-type Props = {};
 export interface InInvestor {
   email: string;
   full_name: string;
@@ -22,10 +21,14 @@ export interface InInvestor {
   tokensVested: string;
 }
 
-export default function Investors({}: Props) {
+export default function Investors() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [valueInput, setValueInput] = useState<string>();
+  const timeoutRef = useRef<any>(null);
+
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -65,45 +68,68 @@ export default function Investors({}: Props) {
     setOpen(false);
   };
 
-  const debounceSearch = _.debounce((e) => {
-    setQuery({ ...query, search: e.target.value, page_number: 0 });
-  }, 1000);
-
   const handleSearch = (e: any) => {
-    debounceSearch(e);
+    setValueInput(e.target.value);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setQuery({ ...query, search: e.target.value, page_number: 0 });
+    }, 1000);
   };
 
   const handleFilter = (data: string[]) => {
     setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
+  const handleClearValueInput = () => {
+    setValueInput("");
+    setQuery({ ...query, search: "", page_number: 0 });
+  };
+
   return (
     <div>
       <AdminLayout>
         <AdminPanel />
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => setOpenFilter(false)}>
           <Administration active={"investor"} />
           <div className="listInvestor">
             <div className="new">
               <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
-              <p>New</p>
+              <p onClick={handleAddNew}>New</p>
             </div>
             <div className={styles.body}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
-                <input type="text" onChange={(e) => handleSearch(e)} />
+                <input
+                  type="text"
+                  value={valueInput}
+                  onChange={(e) => handleSearch(e)}
+                />
+                {valueInput && (
+                  <img
+                    src="/images/iconClose.svg"
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClearValueInput}
+                  />
+                )}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
                 fetchListInvestors={fetchListInvestors}
+                count={count}
+                isOpenFilter={openFilter}
+                setOpenFilter={(value) => setOpenFilter(value)}
               />
-              {dataListInvestor?.length > 0 && (
+              {count > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
                   onChange={(page) =>
                     setQuery({ ...query, page_number: page - 1 })
                   }
+                  page={query?.page_number + 1}
                 />
               )}
             </div>

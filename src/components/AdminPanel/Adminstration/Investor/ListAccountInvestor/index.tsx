@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { InInvestor } from "..";
 import {
   getListStage,
@@ -15,6 +16,9 @@ type Props = {
   dataListInvestor: InInvestor[];
   onFilter: (data: string[]) => void;
   fetchListInvestors: () => void;
+  count: number;
+  isOpenFilter: boolean;
+  setOpenFilter: (value: boolean) => void;
 };
 
 const dataItemDefault = {
@@ -32,6 +36,9 @@ export default function ListAccountInvestor({
   dataListInvestor,
   onFilter,
   fetchListInvestors,
+  count,
+  isOpenFilter,
+  setOpenFilter,
 }: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -58,6 +65,7 @@ export default function ListAccountInvestor({
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
+  const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
   const [idDelete, SetIdDelete] = useState<number>();
   const [data, setData] = useState<IData[]>([]);
 
@@ -111,19 +119,22 @@ export default function ListAccountInvestor({
   const handleSave = useCallback(async () => {
     const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
       wallet_address: dataItem?.wallet_address,
-      allocation: Number(dataItem?.allocation_token),
+      allocation_token: Number(dataItem?.allocation_token),
       stage_id: dataItem?.stage_id,
       full_name: dataItem?.full_name,
       email: dataItem?.email,
     });
+
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
+      toast.success("Update Successfully");
     } else if (dataUpdate?.status === 400) {
       setDuplicateWallet(true);
     } else if (dataUpdate?.status === 409) {
       setDuplicateEmail(true);
     } else if (dataUpdate?.status === 406) {
       setTokenAmountInvalid(true);
+      setMsgTokenAmount(dataUpdate?.data?.error.message);
     } else {
       setIsEdit(false);
     }
@@ -132,9 +143,15 @@ export default function ListAccountInvestor({
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
+    setDuplicateWallet(false);
+    setDuplicateEmail(false);
+    setTokenAmountInvalid(false);
   };
 
   const handleChangeInputTable = (e: any, field: number) => {
+    setDuplicateWallet(false);
+    setDuplicateEmail(false);
+    setTokenAmountInvalid(false);
     setDataItem({
       ...dataItem,
       [field]: e,
@@ -142,18 +159,22 @@ export default function ListAccountInvestor({
   };
 
   const handleClickFilter = () => {
-    setOpen((preState) => !preState);
+    setOpenFilter(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
   const handleSelect = (e: any) => {
     setDataItem({
       ...dataItem,
-      stage_name: e,
-      stage_id: data?.filter((el) => el.name === e)[0]?.id,
+      stage_name: data?.filter((el) => el.id === e)[0]?.name,
+      stage_id: e,
     });
   };
 
@@ -169,141 +190,152 @@ export default function ListAccountInvestor({
           <p>Email</p>
           <p>Wallet address</p>
           <p>Token amount</p>
-          <p className={styles.saleStage}>
+          <div className={styles.saleStage}>
             Sale stage
             <img
-              onClick={handleClickFilter}
+              onClick={(e) => {
+                handleClickFilter();
+                e.stopPropagation();
+              }}
               src="/images/iconFilter.svg"
               alt=""
             />
-            <div className="modalSaleStage">
+            <div
+              className="modalSaleStage"
+              onClick={(e) => e.stopPropagation()}
+            >
               <FilterAdmin
-                open={open}
-                onClose={handleClose}
+                open={isOpenFilter}
+                onClose={handleCloseFilter}
                 onFilter={handleFilter}
                 data={data}
               />
             </div>
-          </p>
+          </div>
           <p>Tokens vested</p>
           <p>Tokens claimed</p>
           <p></p>
         </div>
         <div className={styles.border}></div>
       </div>
-      {dataListInvestor?.map((item: any) => (
-        <div key={item?.investor_id} className={styles.tableBody}>
-          <div className="content">
-            <InputTableEdit
-              status={isEdit && item.investor_id === dataItem.investor_id}
-              defaultValue={item.full_name}
-              value={
-                isEdit && item.investor_id === dataItem.investor_id
-                  ? dataItem.full_name
-                  : item?.full_name
-              }
-              field="full_name"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              status={isEdit && item.investor_id === dataItem.investor_id}
-              defaultValue={item.email}
-              isDuplicateEmail={duplicateEmail}
-              value={
-                isEdit && item.investor_id === dataItem.investor_id
-                  ? dataItem.email
-                  : item?.email
-              }
-              field="email"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              status={isEdit && item.investor_id === dataItem.investor_id}
-              defaultValue={item.wallet_address}
-              isDuplicateWallet={duplicateWallet}
-              value={
-                isEdit && item.investor_id === dataItem.investor_id
-                  ? dataItem.wallet_address
-                  : shortenAddress(item?.wallet_address, 4, 4)
-              }
-              field="wallet_address"
-              onChange={handleChangeInputTable}
-            />
-            <InputTableEdit
-              status={isEdit && item.investor_id === dataItem.investor_id}
-              defaultValue={item.allocation_token}
-              tokenAmountInvalid={tokenAmountInvalid}
-              value={
-                isEdit && item.investor_id === dataItem.investor_id
-                  ? dataItem.allocation_token
-                  : item?.allocation_token
-              }
-              field="allocation_token"
-              onChange={handleChangeInputTable}
-            />
+      {count > 0 ? (
+        dataListInvestor?.map((item: any) => (
+          <div key={item?.investor_id} className={styles.tableBody}>
+            <div className="content">
+              <InputTableEdit
+                status={isEdit && item.investor_id === dataItem.investor_id}
+                defaultValue={item.full_name}
+                value={
+                  isEdit && item.investor_id === dataItem.investor_id
+                    ? dataItem.full_name
+                    : item?.full_name
+                }
+                field="full_name"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEdit
+                status={isEdit && item.investor_id === dataItem.investor_id}
+                defaultValue={item.email}
+                isDuplicateEmail={duplicateEmail}
+                value={
+                  isEdit && item.investor_id === dataItem.investor_id
+                    ? dataItem.email
+                    : item?.email
+                }
+                field="email"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEdit
+                status={isEdit && item.investor_id === dataItem.investor_id}
+                defaultValue={item.wallet_address}
+                isDuplicateWallet={duplicateWallet}
+                value={
+                  isEdit && item.investor_id === dataItem.investor_id
+                    ? dataItem.wallet_address
+                    : shortenAddress(item?.wallet_address, 4, 4)
+                }
+                field="wallet_address"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEdit
+                status={isEdit && item.investor_id === dataItem.investor_id}
+                defaultValue={item.allocation_token}
+                tokenAmountInvalid={tokenAmountInvalid}
+                msgTokenAmount={msgTokenAmount}
+                value={
+                  isEdit && item.investor_id === dataItem.investor_id
+                    ? dataItem.allocation_token
+                    : item?.allocation_token
+                }
+                field="allocation_token"
+                onChange={handleChangeInputTable}
+              />
 
-            <ModalSaleStage
-              open={open}
-              status={isEdit && item.investor_id === dataItem.investor_id}
-              onClose={handleClose}
-              value={
-                isEdit && item.investor_id === dataItem.investor_id
-                  ? dataItem?.stage_name
-                  : item?.stage_name
-              }
-              data={data}
-              onClickSelect={handleSelect}
-            />
+              <ModalSaleStage
+                open={open}
+                status={isEdit && item.investor_id === dataItem.investor_id}
+                onClose={handleClose}
+                value={
+                  isEdit && item.investor_id === dataItem.investor_id
+                    ? dataItem?.stage_id
+                    : item?.stage_id
+                }
+                data={data}
+                onClickSelect={handleSelect}
+              />
 
-            <div className="tokensVested">{item?.tokensVested}</div>
-            <div className="tokensClaimed">{item?.claimed}</div>
+              <div className="tokensVested">{item?.tokensVested}</div>
+              <div className="tokensClaimed">{item?.claimed}</div>
 
-            <div className="action">
-              {isEdit && item.investor_id === dataItem.investor_id ? (
-                <>
-                  {statusEditFullName ||
-                  statusEditEmail ||
-                  statusEditWallet ||
-                  statusEditTokenAmount ? (
+              <div className="action">
+                {isEdit && item.investor_id === dataItem.investor_id ? (
+                  <>
+                    {statusEditFullName ||
+                    statusEditEmail ||
+                    statusEditWallet ||
+                    statusEditTokenAmount ? (
+                      <img
+                        // onClick={handleSave}
+                        src="/images/iconSuccess.svg"
+                        alt=""
+                        style={{ opacity: 0.5, cursor: "default" }}
+                      />
+                    ) : (
+                      <img
+                        onClick={handleSave}
+                        src="/images/iconSuccess.svg"
+                        alt=""
+                      />
+                    )}
                     <img
-                      // onClick={handleSave}
-                      src="/images/iconSuccess.svg"
+                      onClick={() => handleCancel(item)}
+                      src="/images/iconCancel.svg"
                       alt=""
-                      style={{ opacity: 0.5, cursor: "default" }}
                     />
-                  ) : (
+                  </>
+                ) : (
+                  <>
                     <img
-                      onClick={handleSave}
-                      src="/images/iconSuccess.svg"
+                      onClick={() => handleDelete(item)}
+                      src="/images/iconDelete.svg"
                       alt=""
                     />
-                  )}
-                  <img
-                    onClick={() => handleCancel(item)}
-                    src="/images/iconCancel.svg"
-                    alt=""
-                  />
-                </>
-              ) : (
-                <>
-                  <img
-                    onClick={() => handleDelete(item)}
-                    src="/images/iconDelete.svg"
-                    alt=""
-                  />
-                  <img
-                    onClick={() => handleEdit(item)}
-                    src="/images/iconEdit.svg"
-                    alt=""
-                  />
-                  {renderOpenModalDelete()}
-                </>
-              )}
+                    <img
+                      onClick={() => handleEdit(item)}
+                      src="/images/iconEdit.svg"
+                      alt=""
+                    />
+                    {renderOpenModalDelete()}
+                  </>
+                )}
+              </div>
             </div>
+            <div className={styles.border}></div>
           </div>
-          <div className={styles.border}></div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <div className={styles.noResult}>No Results</div>
+      )}
     </div>
   );
 }
