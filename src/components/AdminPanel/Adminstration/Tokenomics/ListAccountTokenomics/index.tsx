@@ -19,6 +19,7 @@ export default function ListAccountTokenomics(props: any) {
   const [itemDelete, setItemDelete] = useState<any | undefined | never>({});
   const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
     name: "",
+    vesting_type_id: "",
     token_amount: "",
     tge_amount: "",
     cliff: "",
@@ -142,6 +143,7 @@ export default function ListAccountTokenomics(props: any) {
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Sales stage</p>
+          <p>Vesting type </p>
           <p>Token amount</p>
           <p>TGE amount</p>
           <p>Cliff (days)</p>
@@ -160,6 +162,15 @@ export default function ListAccountTokenomics(props: any) {
               value={fieldAddItem?.name ?? ""}
               defaultValue=""
               field="name"
+              onChange={handleChangeInputAdd}
+            />
+            <InputTableEditDefault
+              width="228px"
+              type="text"
+              status={true}
+              value={fieldAddItem?.vesting_type_id ?? ""}
+              defaultValue=""
+              field="vesting_type_id"
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
@@ -224,6 +235,19 @@ export default function ListAccountTokenomics(props: any) {
                     : item.name
                 }
                 field="name"
+                onChange={handleChangeInputTable}
+              />
+              <InputTableEditDefault
+                width="117px"
+                type="text"
+                status={isEdit === item.id}
+                defaultValue={item.vesting_type_id}
+                value={
+                  isEdit === item.id && !_.isEmpty(editDataItem)
+                    ? editDataItem.vesting_type_id
+                    : item.vesting_type_id
+                }
+                field="vesting_type_id"
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault

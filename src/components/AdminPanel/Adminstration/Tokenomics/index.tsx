@@ -108,7 +108,8 @@ export default function Tokenomics() {
             <div className={styles.body}>
               {startTimeData && (
                 <p className={styles.startTime}>
-                  Start date: {moment.unix(startTimeData).format("MMM DD,YYYY")}
+                  Start date:{" "}
+                  {moment.unix(startTimeData).format("MMM DD,YYYY HH:mm:ss")}
                 </p>
               )}
 
