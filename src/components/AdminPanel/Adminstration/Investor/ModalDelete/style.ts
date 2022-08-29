@@ -16,6 +16,12 @@ const useStyles = makeStyles((theme: Theme) => {
         alignItems: "center",
         margin: "auto",
       },
+      "& .MuiBackdrop-root": {
+        backgroundColor: "rgba(0,0,0,0.1)",
+      },
+      "& .MuiPaper-elevation24": {
+        boxShadow: "none",
+      },
       "& .MuiDialog-container": {
         height: "auto",
       },
@@ -44,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => {
       cursor: "pointer",
       fontSize: "14px",
     },
-    btnCreate: {
+    btnDelete: {
       width: 100,
       height: 32,
       backgroundColor: "#3FBCE9",

@@ -88,6 +88,20 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: "14px",
       fontWeight: 600,
     },
+
+    btnCreateDisable: {
+      width: 100,
+      height: 32,
+      backgroundColor: "#3FBCE9",
+      borderRadius: 4,
+      color: "#051C42",
+      padding: "6px 28px",
+      border: "none",
+      // cursor: "pointer",
+      opacity: 0.7,
+      fontSize: "14px",
+      fontWeight: 600,
+    },
     msgErr: {
       padding: 0,
       margin: "4px 0 0 0",

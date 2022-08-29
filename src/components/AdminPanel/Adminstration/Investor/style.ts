@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme: Theme) => {
           height: 55,
           borderBottom: "1px solid #BBBBBB",
           alignItems: "center",
-
           "& img": {
-            margin: "0 12px 0 45px",
             cursor: "pointer",
+            margin: "0 12px 0 45px",
           },
           "& p": {
+            cursor: "pointer",
             fontSize: 18,
             fontWeight: 400,
           },

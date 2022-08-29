@@ -11,6 +11,7 @@ type InputProps = {
   isDuplicateEmail?: boolean;
   isDuplicateWallet?: boolean;
   tokenAmountInvalid?: boolean;
+  msgTokenAmount?: string;
   onChange: (e: any, field: any) => void;
 };
 export default function InputTableEdit(props: InputProps) {
@@ -23,6 +24,7 @@ export default function InputTableEdit(props: InputProps) {
     isDuplicateEmail,
     isDuplicateWallet,
     tokenAmountInvalid,
+    msgTokenAmount,
   } = props;
   const styles = useStyles();
 
@@ -105,7 +107,7 @@ export default function InputTableEdit(props: InputProps) {
             type="number"
             min={0}
             disabled={!status || !defaultValue}
-            onChange={(e) => onChange(Number(e.target.value), field)}
+            onChange={(e) => onChange(e.target.value, field)}
           />
         );
     }
@@ -129,40 +131,6 @@ export default function InputTableEdit(props: InputProps) {
 
   return (
     <div className={styles.wrapper}>
-      {/* {field === "allocation_token" ? (
-        <input
-          className={` ${
-            !status || !defaultValue ? styles.hiddenInput : styles.input
-          } `}
-          value={value}
-          type="number"
-          min={0}
-          disabled={!status || !defaultValue}
-          onChange={(e) => onChange(Number(e.target.value), field)}
-        />
-      ) : field === "full_name" ? (
-        <input
-          className={` ${
-            !status || !defaultValue
-              ? styles.hiddenInputFullname
-              : styles.inputFullname
-          } `}
-          value={value}
-          disabled={!status || !defaultValue}
-          onChange={(e) => onChange(e.target.value, field)}
-        />
-      ) : (
-        <>
-          <input
-            className={` ${
-              !status || !defaultValue ? styles.hiddenInput : styles.input
-            } `}
-            value={value}
-            disabled={!status || !defaultValue}
-            onChange={(e) => onChange(e.target.value, field)}
-          />
-        </>
-      )} */}
       {renderInputField()}
       {status ? (
         <TooltipValidate
@@ -172,6 +140,7 @@ export default function InputTableEdit(props: InputProps) {
           isDuplicateEmail={isDuplicateEmail}
           isDuplicateWallet={isDuplicateWallet}
           tokenAmountInvalid={tokenAmountInvalid}
+          msgTokenAmount={msgTokenAmount}
         />
       ) : (
         ""
