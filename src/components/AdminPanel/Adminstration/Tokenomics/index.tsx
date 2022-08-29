@@ -12,6 +12,8 @@ import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import { TRANSACTION_TIMEOUT } from "../../../web3/connector";
 import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
+import PaginationCustom from "../Pagination/index";
+import { IListTokenomic } from "../../../../utils/types/index";
 
 type Props = {};
 
@@ -23,17 +25,25 @@ export default function Tokenomics({}: Props) {
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
   const [startTimeData, setStartTimeData] = useState<string>("");
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
+  const [count, setCount] = useState<number>(1);
+  const [query, setQuery] = useState<IListTokenomic>({
+    page_number: 0,
+    page_size: 10,
+  });
 
   const handleAddNew = () => {
     setOpen(true);
   };
 
   const getDataTable = useCallback(async () => {
-    const renderData = await getDataTokenomics();
+    const renderData = await getDataTokenomics(
+      query,
+      sessionStorage.getItem("access_token") as string
+    );
     if (!renderData) return;
-    setDataTable(renderData?.data?.rounds);
-    setStartTimeData(renderData?.data?.start_time);
-  }, []);
+    setDataTable(renderData?.data.rounds);
+    setCount(renderData?.meta?.count);
+  }, [query]);
 
   useEffect(() => {
     getDataTable();
@@ -186,6 +196,15 @@ export default function Tokenomics({}: Props) {
                 renderTable={getDataTable}
               />
             </div>
+            {count > 10 && (
+              <PaginationCustom
+                count={Math.ceil(count / query?.page_size)}
+                onChange={(page) =>
+                  setQuery({ ...query, page_number: page - 1 })
+                }
+                page={query?.page_number + 1}
+              />
+            )}
           </div>
         </div>
       </AdminLayout>
