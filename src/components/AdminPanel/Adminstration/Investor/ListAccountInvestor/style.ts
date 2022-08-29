@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) => {
     container: {
       display: "flex",
       flexDirection: "column",
+      fontFamily: "gibson",
     },
     tableHeader: {
       marginTop: 25,
@@ -84,6 +85,11 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: 16,
       fontWeight: 400,
       margin: "16px 0px",
+      fontFamily: "gibson",
+      "& img": {
+        marginLeft: 20,
+        cursor: "pointer",
+      },
       "& .modalSaleStage": {
         position: "absolute",
         top: "112%",
