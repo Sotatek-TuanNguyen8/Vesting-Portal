@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Administration from "..";
 import AdminPanel from "../..";
@@ -14,6 +14,7 @@ import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
 import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
+import { scrollIntoView } from "../../../../utils/common/fn";
 
 type Props = {};
 
@@ -30,6 +31,7 @@ export default function Tokenomics({}: Props) {
     page_number: 0,
     page_size: 10,
   });
+  const scrollIntoViewRef = useRef<any>(null);
 
   const handleAddNew = () => {
     setOpen(true);
@@ -183,7 +185,7 @@ export default function Tokenomics({}: Props) {
                 </Button>
               </div>
             </div>
-            <div className={styles.body}>
+            <div className={styles.body} ref={scrollIntoViewRef}>
               {startTimeData && (
                 <p className={styles.startTime}>Start date: Feb 24, 2022</p>
               )}
@@ -199,9 +201,10 @@ export default function Tokenomics({}: Props) {
             {count > 10 && (
               <PaginationCustom
                 count={Math.ceil(count / query?.page_size)}
-                onChange={(page) =>
-                  setQuery({ ...query, page_number: page - 1 })
-                }
+                onChange={(page) => {
+                  setQuery({ ...query, page_number: page - 1 });
+                  scrollIntoView(scrollIntoViewRef);
+                }}
                 page={query?.page_number + 1}
               />
             )}
