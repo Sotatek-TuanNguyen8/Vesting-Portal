@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) => {
     wrapperEdit: {
       width: "12.5%",
       borderRadius: 3,
-      height: "100%",
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
       },

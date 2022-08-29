@@ -18,7 +18,9 @@ export default function ModalSaleStage(props: ModalProps) {
   return (
     <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
       {!status ? (
-        data?.filter((el) => el.id === Number(value))[0]?.name
+        <span style={{ color: "#0A208F", fontSize: 16 }}>
+          {data?.filter((el) => el.id === Number(value))[0]?.name}
+        </span>
       ) : (
         <Select
           value={Number(value)}

@@ -4,6 +4,7 @@ import Administration from "..";
 import AdminPanel from "../..";
 import { getListInvestor } from "../../../../service/admin.service";
 import { IListInvestor } from "../../../../utils";
+import { scrollIntoView } from "../../../../utils/common/fn";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import PaginationCustom from "../Pagination";
 import ListAccountInvestor from "./ListAccountInvestor";
@@ -28,6 +29,7 @@ export default function Investors() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [valueInput, setValueInput] = useState<string>();
   const timeoutRef = useRef<any>(null);
+  const scrollIntoViewRef = useRef<any>(null);
 
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
@@ -98,7 +100,7 @@ export default function Investors() {
               <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
               <p onClick={handleAddNew}>New</p>
             </div>
-            <div className={styles.body}>
+            <div className={styles.body} ref={scrollIntoViewRef}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
                 <input
@@ -126,9 +128,10 @@ export default function Investors() {
               {count > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
-                  onChange={(page) =>
-                    setQuery({ ...query, page_number: page - 1 })
-                  }
+                  onChange={(page) => {
+                    setQuery({ ...query, page_number: page - 1 });
+                    scrollIntoView(scrollIntoViewRef);
+                  }}
                   page={query?.page_number + 1}
                 />
               )}
