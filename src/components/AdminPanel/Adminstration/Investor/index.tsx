@@ -10,7 +10,6 @@ import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
 
-type Props = {};
 export interface InInvestor {
   email: string;
   full_name: string;
@@ -22,12 +21,13 @@ export interface InInvestor {
   tokensVested: string;
 }
 
-export default function Investors({}: Props) {
+export default function Investors() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataListInvestor, setDataListInvestor] = useState<InInvestor[]>([]);
   const [count, setCount] = useState<number>(1);
-  const [value, setValue] = useState<boolean>(false);
+  // const [value, setValue] = useState<boolean>(false);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
     stages_id: [],
@@ -72,7 +72,7 @@ export default function Investors({}: Props) {
 
   const handleSearch = (e: any) => {
     debounceSearch(e);
-    setValue(true);
+    // setValue(true);
   };
 
   const handleFilter = (data: string[]) => {
@@ -85,7 +85,7 @@ export default function Investors({}: Props) {
     <div>
       <AdminLayout>
         <AdminPanel />
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => setOpenFilter(false)}>
           <Administration active={"investor"} />
           <div className="listInvestor">
             <div className="new">
@@ -96,22 +96,24 @@ export default function Investors({}: Props) {
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />
                 <input type="text" onChange={(e) => handleSearch(e)} />
-                {value ? (
-                  <img
-                    src="/images/iconClose.svg"
-                    alt=""
-                    style={{ cursor: "pointer" }}
-                    onClick={handleClearValueInput}
-                  />
-                ) : (
+                {/* {value ? ( */}
+                <img
+                  src="/images/iconClose.svg"
+                  alt=""
+                  style={{ cursor: "pointer" }}
+                  onClick={handleClearValueInput}
+                />
+                {/* ) : (
                   ""
-                )}
+                )} */}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
                 fetchListInvestors={fetchListInvestors}
                 count={count}
+                isOpenFilter={openFilter}
+                setOpenFilter={(value) => setOpenFilter(value)}
               />
               {dataListInvestor?.length > 10 && (
                 <PaginationCustom
