@@ -79,6 +79,10 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     saleStage: {
       position: "relative",
+      width: "12.5%",
+      fontSize: 16,
+      fontWeight: 400,
+      margin: "16px 0px",
       "& .modalSaleStage": {
         position: "absolute",
         top: "112%",
