@@ -5,7 +5,10 @@ import Administration from "..";
 import AdminPanel from "../..";
 import ClaimABI from "../../../../abi/User-Claim.json";
 import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
-import { getDataTokenomics } from "../../../../service/admin.service";
+import {
+  getDataTokenomics,
+  uploadTokenomics,
+} from "../../../../service/admin.service";
 import { getContractConnect } from "../../../../service/web";
 import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
@@ -106,15 +109,34 @@ export default function Tokenomics({}: Props) {
     }
     setCheckClickFirst(false);
   };
-  const handleUpdateCsv = (e: any) => {
+
+  const handleUpdateCsv = async (e: any) => {
+    debugger;
     e.preventDefault();
     const file = e.target.files[0];
-    const fileReader = new FileReader();
-    if (file) {
-      fileReader.onload = (e: any) => {
-        const csvOutput = e.target.result;
-      };
-      fileReader.readAsText(file);
+    console.log("file", file);
+    const bytesToMegaBytes: any = file.size / 1024 ** 2;
+    console.log("bytesToMegaBytes", bytesToMegaBytes);
+
+    if (file.type === "text/csv") {
+      if (bytesToMegaBytes < 100) {
+        let formData = new FormData();
+        formData.append("file", file);
+        const data = await uploadTokenomics(formData);
+
+        if (data?.data) {
+          debugger;
+          toast.success("Upload Successfully");
+        } else {
+          if (data?.error.statusCode === 400) {
+            toast.error("File format is not supported");
+          }
+        }
+      } else {
+        toast.error("File size exceeded alllowed limits (100MB)");
+      }
+    } else {
+      toast.error("File format is not supported");
     }
   };
 
@@ -158,7 +180,6 @@ export default function Tokenomics({}: Props) {
                   <p>Upload</p>
                   <input
                     hidden
-                    accept="'.csv"
                     multiple
                     type="file"
                     onChange={handleUpdateCsv}

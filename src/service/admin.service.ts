@@ -80,3 +80,11 @@ export const deleteTokenomics = async (id: number) => {
   const { data } = await RequestAdmin.delete(`${serverEndpoint}/rounds/${id}`);
   return data;
 };
+
+export const uploadTokenomics = async (body: any) => {
+  const { data } = await RequestAdmin.post(
+    `http://10.4.17.123:3000/api/v1/rounds/uploads`,
+    body
+  );
+  return data;
+};
