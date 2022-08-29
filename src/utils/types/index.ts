@@ -62,3 +62,8 @@ export interface editTokennomics {
   linear_vesting: number;
   vesting_type_id: number;
 }
+
+export interface IListTokenomic {
+  page_number: number;
+  page_size: number;
+}

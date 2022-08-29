@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
 import UpdateRoot from "../UpdateRoot";
@@ -9,6 +9,9 @@ import { getDataTokenomics } from "../../../../service/admin.service";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
+import PaginationCustom from "../Pagination/index";
+import { IListTokenomic } from "../../../../utils/types/index";
+import { scrollIntoView } from "../../../../utils/common/fn";
 
 export default function Tokenomics() {
   const styles = useStyles();
@@ -16,17 +19,26 @@ export default function Tokenomics() {
   const [dataTable, setDataTable] = useState<Array<any>>([]);
 
   const [startTimeData, setStartTimeData] = useState<number | null>(null);
+  const [count, setCount] = useState<number>(1);
+  const [query, setQuery] = useState<IListTokenomic>({
+    page_number: 0,
+    page_size: 10,
+  });
+  const scrollIntoViewRef = useRef<any>(null);
 
   const handleAddNew = () => {
     setOpen(true);
   };
 
   const getDataTable = useCallback(async () => {
-    const renderData = await getDataTokenomics();
+    const renderData = await getDataTokenomics(
+      query,
+      sessionStorage.getItem("access_token") as string
+    );
     if (!renderData) return;
-    setDataTable(renderData?.data?.rounds);
-    setStartTimeData(renderData?.data?.start_time);
-  }, []);
+    setDataTable(renderData?.data.rounds);
+    setCount(renderData?.meta?.count);
+  }, [query]);
 
   useEffect(() => {
     getDataTable();
@@ -105,7 +117,7 @@ export default function Tokenomics() {
                 />
               </div>
             </div>
-            <div className={styles.body}>
+            <div className={styles.body} ref={scrollIntoViewRef}>
               {startTimeData && (
                 <p className={styles.startTime}>
                   Start date:{" "}
@@ -121,6 +133,16 @@ export default function Tokenomics() {
                 renderTable={getDataTable}
               />
             </div>
+            {count > 10 && (
+              <PaginationCustom
+                count={Math.ceil(count / query?.page_size)}
+                onChange={(page) => {
+                  setQuery({ ...query, page_number: page - 1 });
+                  scrollIntoView(scrollIntoViewRef);
+                }}
+                page={query?.page_number + 1}
+              />
+            )}
           </div>
         </div>
       </AdminLayout>
