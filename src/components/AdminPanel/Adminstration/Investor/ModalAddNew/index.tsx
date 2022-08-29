@@ -49,6 +49,7 @@ export default function ModalAddNew({
       fetchListInvestors();
       onClose();
       toast.success("Add New Investor Success");
+      setValue("");
     } else if (data?.status === 406) {
       setMsgErrDuplicate(true);
     }
