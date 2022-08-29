@@ -1,5 +1,4 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
 import useStyles from "./style";
 
@@ -13,7 +12,7 @@ type ModalProps = {
 };
 
 export default function ModalSaleStage(props: ModalProps) {
-  const { open, onClose, value, status, onClickSelect, data } = props;
+  const { value, status, onClickSelect, data } = props;
   const styles = useStyles();
 
   return (
@@ -23,7 +22,7 @@ export default function ModalSaleStage(props: ModalProps) {
         label="Age"
         onChange={(e) => onClickSelect(e.target.value)}
         disabled={!status}
-        IconComponent={() => (!status ? null : <ArrowDropDownIcon />)}
+        // IconComponent={() => (!status ? null : <ArrowDropDownIcon />)}
       >
         {data.map((item) => (
           <MenuItem key={item.id} value={item.name}>

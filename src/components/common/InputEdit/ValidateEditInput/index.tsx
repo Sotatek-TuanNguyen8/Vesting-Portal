@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import {
   setStatusEmailEdit,
@@ -16,6 +16,7 @@ type Props = {
   isDuplicateEmail?: boolean;
   isDuplicateWallet?: boolean;
   tokenAmountInvalid?: boolean;
+  msgTokenAmount?: string;
 };
 export default function TooltipValidate(props: Props) {
   const {
@@ -25,6 +26,7 @@ export default function TooltipValidate(props: Props) {
     tokenAmountInvalid,
     isDuplicateWallet,
     isDuplicateEmail,
+    msgTokenAmount,
   } = props;
   const styles = useStyles();
 
@@ -84,11 +86,11 @@ export default function TooltipValidate(props: Props) {
   const renderMsgErrorInvalidToken = useCallback(() => {
     if (tokenAmountInvalid) {
       dispatch(setStatusTokenAmountEdit(true));
-      return <p>Token amount of this investor cannot exceed 1000000</p>;
+      return <p>{msgTokenAmount}</p>;
     } else {
       dispatch(setStatusTokenAmountEdit(false));
     }
-  }, [dispatch, tokenAmountInvalid]);
+  }, [dispatch, msgTokenAmount, tokenAmountInvalid]);
 
   const renderMsgErrorInput = useCallback(() => {
     switch (field) {
@@ -113,7 +115,7 @@ export default function TooltipValidate(props: Props) {
 
   const renderMsgError = useCallback(() => {
     if (!defaultValue) return;
-    if (field !== "allocation_token") {
+    if (field) {
       return renderMsgErrorInput();
     } else {
       return "";

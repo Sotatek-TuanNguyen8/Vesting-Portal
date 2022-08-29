@@ -82,6 +82,11 @@ export default function Investors() {
     setQuery({ ...query, stages_id: data, page_number: 0 });
   };
 
+  const handleClearValueInput = () => {
+    setValueInput("");
+    setQuery({ ...query, search: "", page_number: 0 });
+  };
+
   return (
     <div>
       <AdminLayout>
@@ -91,7 +96,7 @@ export default function Investors() {
           <div className="listInvestor">
             <div className="new">
               <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
-              <p>New</p>
+              <p onClick={handleAddNew}>New</p>
             </div>
             <div className={styles.body}>
               <div className="search">
@@ -101,15 +106,24 @@ export default function Investors() {
                   value={valueInput}
                   onChange={(e) => handleSearch(e)}
                 />
+                {valueInput && (
+                  <img
+                    src="/images/iconClose.svg"
+                    alt=""
+                    style={{ cursor: "pointer" }}
+                    onClick={handleClearValueInput}
+                  />
+                )}
               </div>
               <ListAccountInvestor
                 dataListInvestor={dataListInvestor}
                 onFilter={handleFilter}
                 fetchListInvestors={fetchListInvestors}
+                count={count}
                 isOpenFilter={openFilter}
                 setOpenFilter={(value) => setOpenFilter(value)}
               />
-              {dataListInvestor?.length > 0 && (
+              {dataListInvestor?.length > 10 && (
                 <PaginationCustom
                   count={Math.ceil(count / query?.page_size)}
                   onChange={(page) =>

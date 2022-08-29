@@ -93,6 +93,13 @@ const useStyles = makeStyles((theme: Theme) => {
         backgroundColor: "#fff",
       },
     },
+    noResult: {
+      marginTop: 120,
+      margin: "auto",
+      color: "#909090",
+      fontSize: 18,
+      fontWeight: 400,
+    },
   };
 });
 export default useStyles;
