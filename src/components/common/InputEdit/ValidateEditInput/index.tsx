@@ -37,7 +37,7 @@ export default function TooltipValidate(props: Props) {
       dispatch(setStatusFullNameEdit(true));
       return <p>This field is required</p>;
     } else if (
-      /^[a-zA-Z]+[ ](([a-zA-Z ])+[a-zA-Z]*)*$/g.test(value) === false
+      /^[a-zA-Z]+[ ]*(([a-zA-Z ])+[a-zA-Z]*)*$/g.test(value) === false
     ) {
       dispatch(setStatusFullNameEdit(true));
       return <p>Special characters are not allowed</p>;
