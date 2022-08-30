@@ -15,28 +15,6 @@ const useStyles = makeStyles((theme: Theme) => {
         display: "flex",
         flexDirection: "column",
         flex: "1",
-        "& .new": {
-          display: "flex",
-          flexDirection: "row",
-          marginLeft: "45px",
-          height: 55,
-          alignItems: "center",
-          "& div:first-child": {
-            display: "flex",
-            flexDirection: "row",
-            height: 55,
-            alignItems: "center",
-            "& img": {
-              cursor: "pointer",
-              margin: "0 12px 0 45px",
-            },
-            "& p": {
-              cursor: "pointer",
-              fontSize: 18,
-              fontWeight: 400,
-            },
-          },
-        },
       },
     },
     body: {
@@ -69,6 +47,21 @@ const useStyles = makeStyles((theme: Theme) => {
       borderBottom: "1px solid #BBBBBB",
       width: "100%",
       alignItems: "center",
+      "& .new": {
+        display: "flex",
+        flexDirection: "row",
+        height: 55,
+        alignItems: "center",
+        "& img": {
+          cursor: "pointer",
+          margin: "0 12px 0 45px",
+        },
+        "& p": {
+          cursor: "pointer",
+          fontSize: 18,
+          fontWeight: 400,
+        },
+      },
     },
   };
 });
