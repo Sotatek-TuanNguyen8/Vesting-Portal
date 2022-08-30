@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
+        "& div:first-child": {
+          paddingLeft: 20,
+        },
         "& .action": {
           width: "16.67%",
           display: "flex",
@@ -57,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => {
             marginLeft: 20,
             width: "20px",
             "&:last-child": {
-              width: "17px",
+              width: "17.65px",
             },
           },
         },

@@ -266,7 +266,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="117px"
+                width="190px"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.linear_vesting}
