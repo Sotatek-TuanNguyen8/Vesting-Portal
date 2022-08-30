@@ -11,15 +11,18 @@ type InputProps = {
   width?: number | string;
   step?: number | string | undefined;
   min?: number | string;
+  title?: string;
 };
 export default function InputTableEditDefault(props: InputProps) {
-  const { value, status, onChange, field, type, defaultValue, width } = props;
+  const { value, status, onChange, field, type, defaultValue, width, title } =
+    props;
   const styles = useStyles();
 
   return (
     <div className={styles.wrapper}>
       <input
         {...props}
+        title={value}
         type={type}
         className={` ${!status ? styles.hiddenInput : styles.input} `}
         value={value}
@@ -32,6 +35,7 @@ export default function InputTableEditDefault(props: InputProps) {
           value={value}
           field={field}
           defaultValue={defaultValue}
+          type={type}
         />
       ) : (
         ""

@@ -103,3 +103,9 @@ export const updateRoot = async () => {
   const { data } = await RequestAdmin.patch(`${serverEndpoint}/root-data`, {});
   return data;
 };
+export const getListVestingType = async () => {
+  const { data } = await RequestAdmin.get(
+    `${serverEndpoint}/rounds/list-vesting-type`
+  );
+  return data;
+};
