@@ -49,21 +49,23 @@ export default function ListAccountTokenomics(props: any) {
   };
   //edit confirm
   const handleSaveEdit = async (data: any) => {
+    console.log(editDataItem);
     if (
-      checkValidate(editDataItem.name) ||
-      checkValidate(editDataItem.token_amount) ||
-      checkValidate(editDataItem.tge_amount) ||
-      checkValidate(editDataItem.cliff) ||
-      checkValidate(editDataItem.linear_vesting)
+      checkValidate(editDataItem.name, "text") ||
+      checkValidate(editDataItem.token_amount, "number") ||
+      checkValidate(editDataItem.tge_amount, "number") ||
+      checkValidate(editDataItem.cliff, "number") ||
+      checkValidate(editDataItem.linear_vesting, "number")
     )
       return;
+   
     const res = await editTableTokenimics(data.id, {
       name: editDataItem.name,
       token_amount: toNumber(editDataItem.token_amount),
       tge_amount: toNumber(editDataItem.tge_amount),
       cliff: toNumber(editDataItem.cliff),
       linear_vesting: toNumber(editDataItem.linear_vesting),
-      vesting_type_id: editDataItem.vesting_type_id,
+      vesting_type_id: toNumber(editDataItem.vesting_type_id),
     });
     if (!res) return;
     if (res?.error && res?.error?.message) {
@@ -101,15 +103,22 @@ export default function ListAccountTokenomics(props: any) {
   };
   const confirmAdd = async () => {
     if (
-      checkValidate(fieldAddItem.name) ||
-      checkValidate(fieldAddItem.token_amount) ||
-      checkValidate(fieldAddItem.tge_amount) ||
-      checkValidate(fieldAddItem.cliff) ||
-      checkValidate(fieldAddItem.linear_vesting)
+      checkValidate(fieldAddItem.name, "text") ||
+      checkValidate(fieldAddItem.token_amount, "number") ||
+      checkValidate(fieldAddItem.tge_amount, "number") ||
+      checkValidate(fieldAddItem.cliff, "number") ||
+      checkValidate(fieldAddItem.linear_vesting, "number")
     )
       return;
     if (openAdd) {
-      const res = await addTokenomics(fieldAddItem);
+      const res = await addTokenomics({
+        cliff: fieldAddItem.cliff,
+        linear_vesting: fieldAddItem.linear_vesting,
+        name: fieldAddItem.name,
+        tge_amount: fieldAddItem.tge_amount,
+        token_amount: fieldAddItem.token_amount,
+        vesting_type_id: fieldAddItem.vesting_type_id,
+      });
       if (!res) return;
       if (res?.error && res?.error?.message) {
         toast.error(res?.error?.message);
@@ -134,11 +143,11 @@ export default function ListAccountTokenomics(props: any) {
     getListVesting();
   }, []);
 
-  const checkValidate = (value: any) => {
+  const checkValidate = (value: any, type: string) => {
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (specialChars.test(value) || !value) {
       return true;
-    } else if (isNumber(value) && value > 1000000) {
+    } else if (type === "number" && value > 10000000) {
       return true;
     } else {
       return false;
