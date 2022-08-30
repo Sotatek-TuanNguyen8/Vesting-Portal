@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme: Theme) => {
         "& .new": {
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
-          borderBottom: "1px solid #BBBBBB",
+          marginLeft: "45px",
+          height: 55,
           alignItems: "center",
           "& div:first-child": {
             display: "flex",
@@ -62,6 +62,13 @@ const useStyles = makeStyles((theme: Theme) => {
           outline: "none",
         },
       },
+    },
+    navTop: {
+      display: "flex",
+      justifyContent: "space-between",
+      borderBottom: "1px solid #BBBBBB",
+      width: "100%",
+      alignItems: "center",
     },
   };
 });
