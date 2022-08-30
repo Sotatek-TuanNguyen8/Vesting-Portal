@@ -34,7 +34,7 @@ export default function TooltipValidateDefault(props: Props) {
     } else {
       return "";
     }
-  }, [defaultValue, field, value]);
+  }, [field, value]);
 
   const renderMsgValidateFullName = useCallback(() => {
     return (
