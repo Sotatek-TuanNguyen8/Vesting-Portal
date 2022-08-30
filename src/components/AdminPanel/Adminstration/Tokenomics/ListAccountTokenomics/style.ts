@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => {
           width: "16%",
           fontSize: 16,
           fontWeight: 400,
-          marginLeft: "12px",
+          // marginLeft: "12px",
           "& img": {
             marginLeft: 20,
             cursor: "pointer",

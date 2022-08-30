@@ -6,7 +6,7 @@ import useStyles from "./style";
 type Props = {
   value: string;
   field: string;
-  defaultValue: string;
+  defaultValue?: string;
   type?: string;
 };
 export default function TooltipValidateDefault(props: Props) {
@@ -32,6 +32,14 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>Enter a valid wallet address</p>;
     } else if (type === "number" && toNumber(value) > 10000000) {
       return <p>Token amount of this investor cannot exceed 10000000</p>;
+    } else if (field === "tge_amount" && toNumber(value) > 100) {
+      return <p>Token amount of this investor cannot exceed 100%</p>;
+    } else if (
+      type === "number" &&
+      toNumber(value) === 0 &&
+      defaultValue !== ""
+    ) {
+      return <p>Input value must be than 0</p>;
     } else {
       return "";
     }
