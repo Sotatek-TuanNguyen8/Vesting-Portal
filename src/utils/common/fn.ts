@@ -81,3 +81,7 @@ export const format_thousands_decimal = (num: string | number) => {
     );
   return newResult;
 };
+
+export function formatAmount(value: string) {
+  return value?.replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

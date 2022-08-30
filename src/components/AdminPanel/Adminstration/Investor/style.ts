@@ -18,17 +18,23 @@ const useStyles = makeStyles((theme: Theme) => {
         "& .new": {
           display: "flex",
           flexDirection: "row",
-          height: 55,
+          justifyContent: "space-between",
           borderBottom: "1px solid #BBBBBB",
           alignItems: "center",
-          "& img": {
-            cursor: "pointer",
-            margin: "0 12px 0 45px",
-          },
-          "& p": {
-            cursor: "pointer",
-            fontSize: 18,
-            fontWeight: 400,
+          "& div:first-child": {
+            display: "flex",
+            flexDirection: "row",
+            height: 55,
+            alignItems: "center",
+            "& img": {
+              cursor: "pointer",
+              margin: "0 12px 0 45px",
+            },
+            "& p": {
+              cursor: "pointer",
+              fontSize: 18,
+              fontWeight: 400,
+            },
           },
         },
       },

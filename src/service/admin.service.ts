@@ -88,3 +88,14 @@ export const uploadTokenomics = async (body: any) => {
   );
   return data;
 };
+
+export const getRootData = async () => {
+  const { data } = await RequestAdmin.get(`${serverEndpoint}/root-data`);
+  return data;
+};
+export const postGenerageData = async () => {
+  const { data } = await RequestAdmin.post(
+    `${serverEndpoint}/root-data/generate`
+  );
+  return data;
+};

@@ -1,39 +1,34 @@
 import { Button } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import moment from "moment";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
-import ClaimABI from "../../../../abi/User-Claim.json";
-import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
+import UpdateRoot from "../UpdateRoot";
+import { UploadIcon } from "../../../../assets/svgs";
 import {
   getDataTokenomics,
   uploadTokenomics,
 } from "../../../../service/admin.service";
-import { getContractConnect } from "../../../../service/web";
-import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
-import { TRANSACTION_TIMEOUT } from "../../../web3/connector";
 import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
 import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
+import { scrollIntoView } from "../../../../utils/common/fn";
 
-type Props = {};
-
-export default function Tokenomics({}: Props) {
+export default function Tokenomics() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataTable, setDataTable] = useState<Array<any>>([]);
-  const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
-  const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
-  const [startTimeData, setStartTimeData] = useState<string>("");
-  const { account, wrongNetWork, switchNetwork } = useMetaMask();
+
+  const [startTimeData, setStartTimeData] = useState<number | null>(null);
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListTokenomic>({
     page_number: 0,
     page_size: 10,
   });
   const [csvValue, setCsvValue] = useState<any>("");
+  const scrollIntoViewRef = useRef<any>(null);
 
   const handleAddNew = () => {
     setOpen(true);
@@ -110,9 +105,7 @@ export default function Tokenomics({}: Props) {
     }
     setCheckClickFirst(false);
   };
-
-  const handleUpdateCsv = async (e: any) => {
-    debugger;
+  const handleUpdateCsv = (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
     console.log("file", file);
@@ -190,7 +183,7 @@ export default function Tokenomics({}: Props) {
                 </Button>
               </div>
               <div>
-                <Button
+                <UpdateRoot
                   variant="contained"
                   sx={{
                     background: "#BBBBBB",
@@ -200,16 +193,15 @@ export default function Tokenomics({}: Props) {
                     color: "#E9E9F0",
                     textTransform: "initial",
                   }}
-                  onClick={handleUpdateRoot}
-                >
-                  <UploadRootIcon style={{ marginRight: "3px" }} />
-                  Update Root
-                </Button>
+                />
               </div>
             </div>
-            <div className={styles.body}>
+            <div className={styles.body} ref={scrollIntoViewRef}>
               {startTimeData && (
-                <p className={styles.startTime}>Start date: Feb 24, 2022</p>
+                <p className={styles.startTime}>
+                  Start date:{" "}
+                  {moment.unix(startTimeData).format("MMM DD,YYYY HH:mm:ss")}
+                </p>
               )}
 
               <ListAccountTokenomics
@@ -223,9 +215,10 @@ export default function Tokenomics({}: Props) {
             {count > 10 && (
               <PaginationCustom
                 count={Math.ceil(count / query?.page_size)}
-                onChange={(page) =>
-                  setQuery({ ...query, page_number: page - 1 })
-                }
+                onChange={(page) => {
+                  setQuery({ ...query, page_number: page - 1 });
+                  scrollIntoView(scrollIntoViewRef);
+                }}
                 page={query?.page_number + 1}
               />
             )}
