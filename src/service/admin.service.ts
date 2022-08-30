@@ -51,13 +51,13 @@ export const deleteInvestor = async (id: number) => {
 };
 export const getDataTokenomics = async (
   body: IListTokenomic,
-  access_token: string,
+  access_token: string
 ) => {
   const { page_number, page_size } = body;
   const { data } = await RequestAdmin.get(
     `${serverEndpoint}/rounds?page_number=${page_number}&page_size=${page_size}`,
     undefined,
-    access_token,
+    access_token
   );
   return data;
 };
@@ -83,7 +83,7 @@ export const deleteTokenomics = async (id: number) => {
 
 export const uploadTokenomics = async (body: any) => {
   const { data } = await RequestAdmin.post(
-    `http://10.4.17.123:3000/api/v1/rounds/uploads`,
+    `${serverEndpoint}/rounds/uploads`,
     body
   );
   return data;
@@ -100,6 +100,6 @@ export const postGenerageData = async () => {
   return data;
 };
 export const updateRoot = async () => {
-  const { data } = await RequestAdmin.patch(`${serverEndpoint}/root-data`,{});
+  const { data } = await RequestAdmin.patch(`${serverEndpoint}/root-data`, {});
   return data;
 };
