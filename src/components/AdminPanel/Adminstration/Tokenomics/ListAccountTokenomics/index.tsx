@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import _, { isNumber, toInteger, toNumber } from "lodash";
+import _, { isNumber, toNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
 
@@ -14,7 +14,7 @@ import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import { IData } from "../../Investor/ListAccountInvestor/ModalFilterSaleStage";
 
 export default function ListAccountTokenomics(props: any) {
-  const { openAdd, setAdd, dataTable, renderTable, setDataTable } = props;
+  const { openAdd, setAdd, dataTable, renderTable } = props;
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
   const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);

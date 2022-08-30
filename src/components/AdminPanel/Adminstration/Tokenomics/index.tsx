@@ -7,6 +7,7 @@ import UpdateRoot from "../UpdateRoot";
 import { UploadIcon } from "../../../../assets/svgs";
 import {
   getDataTokenomics,
+  getRootData,
   uploadTokenomics,
 } from "../../../../service/admin.service";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
@@ -23,6 +24,7 @@ export default function Tokenomics() {
   const [dataTable, setDataTable] = useState<Array<any>>([]);
 
   const [startTimeData, setStartTimeData] = useState<number | null>(null);
+  const [dataRoot, setDataRoot] = useState({});
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListTokenomic>({
     page_number: 0,
@@ -38,13 +40,20 @@ export default function Tokenomics() {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics(
       query,
-      sessionStorage.getItem("access_token") as string
+      sessionStorage.getItem("access_token") as string,
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
     setStartTimeData(renderData?.data?.start_time);
     setCount(renderData?.meta?.count);
+    await checkRootData();
   }, [query]);
+
+  const checkRootData = async () => {
+    const res = await getRootData();
+    if (!res) return;
+    setDataRoot(res?.data);
+  };
 
   useEffect(() => {
     getDataTable();
@@ -127,7 +136,7 @@ export default function Tokenomics() {
                 </Button>
               </div>
               <div>
-                <UpdateRoot />
+                <UpdateRoot checkRootData={dataRoot} />
               </div>
             </div>
             <div className={styles.body} ref={scrollIntoViewRef}>

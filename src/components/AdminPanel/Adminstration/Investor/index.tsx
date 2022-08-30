@@ -2,7 +2,10 @@ import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
-import { getListInvestor } from "../../../../service/admin.service";
+import {
+  getListInvestor,
+  getRootData,
+} from "../../../../service/admin.service";
 import { IListInvestor } from "../../../../utils";
 import { scrollIntoView } from "../../../../utils/common/fn";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
@@ -31,7 +34,7 @@ export default function Investors() {
   const [valueInput, setValueInput] = useState<string>();
   const timeoutRef = useRef<any>(null);
   const scrollIntoViewRef = useRef<any>(null);
-
+  const [dataRoot, setDataRoot] = useState({});
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -49,7 +52,14 @@ export default function Investors() {
       setDataListInvestor(res?.data);
       setCount(res?.meta?.count);
     }
+    await checkRootData();
   }, [query]);
+
+  const checkRootData = async () => {
+    const res = await getRootData();
+    if (!res) return;
+    setDataRoot(res?.data);
+  };
 
   useEffect(() => {
     fetchListInvestors();
@@ -102,7 +112,7 @@ export default function Investors() {
                 <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
                 <p onClick={handleAddNew}>New</p>
               </div>
-              <UpdateRoot />
+              <UpdateRoot checkRootData={dataRoot} />
             </div>
 
             <div className={styles.body} ref={scrollIntoViewRef}>

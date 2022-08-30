@@ -14,7 +14,7 @@ export default function TooltipValidateDefault(props: Props) {
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     // if (!defaultValue) return;
-    if (!value) {
+    if (!value && defaultValue) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
@@ -23,7 +23,7 @@ export default function TooltipValidateDefault(props: Props) {
     } else if (
       field === "email" &&
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
-        value
+        value,
       ) === false
     ) {
       return <p>Enter a valid email</p>;
