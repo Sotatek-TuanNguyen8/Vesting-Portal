@@ -8,7 +8,7 @@ import ModalDelete from "../ModalDelete";
 import {
   addTokenomics,
   editTableTokenimics,
-  getListStage,
+  getListVestingType,
 } from "../../../../../service/admin.service";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import { IData } from "../../Investor/ListAccountInvestor/ModalFilterSaleStage";
@@ -31,7 +31,7 @@ export default function ListAccountTokenomics(props: any) {
   const [vestingData, setVestingData] = useState<IData[]>([]);
   const [openVestingOption, setOpenVestingOption] = useState<boolean>(false);
   const getListVesting = async () => {
-    const res = await getListStage();
+    const res = await getListVestingType();
     if (res?.data) {
       setVestingData(res?.data);
     }
