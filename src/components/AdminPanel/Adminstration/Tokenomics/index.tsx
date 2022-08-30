@@ -112,7 +112,6 @@ export default function Tokenomics({}: Props) {
   };
 
   const handleUpdateCsv = async (e: any) => {
-    debugger;
     e.preventDefault();
     const file = e.target.files[0];
     console.log("file", file);
@@ -126,7 +125,6 @@ export default function Tokenomics({}: Props) {
         const data = await uploadTokenomics(formData);
 
         if (data?.data) {
-          debugger;
           toast.success("Upload Successfully");
         } else {
           if (data?.error.statusCode === 400) {
