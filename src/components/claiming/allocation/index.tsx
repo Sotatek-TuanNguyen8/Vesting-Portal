@@ -55,13 +55,7 @@ export default function Allocation({}: Props) {
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
   const [infoToken, setInfoToken] = useState<ITokenInfo>();
   const infoClaim = useSelector((s: any) => s.claimAction.data);
-
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (!account) return;
-    // dispatch(fetchInfoClaim("1"));
-  }, []);
 
   useEffect(() => {
     (async () => {

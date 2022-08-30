@@ -8,13 +8,13 @@ interface infoClaim {
 }
 
 export const fetchInfoClaim = createAsyncThunk(
-  "user/fetchInfoUser",
+  "user/fetchInfoClaim",
   async (access_token: string, { rejectWithValue }) => {
     const response = await getInfoClaim({});
-    if (response.status >= 300) {
+    if (response?.error) {
       return rejectWithValue(response.error);
     }
-    return response.data;
+    return response?.data;
   }
 );
 
