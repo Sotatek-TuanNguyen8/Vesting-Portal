@@ -27,19 +27,23 @@ export default function UpdateRoot(props: any) {
       let timeOut;
       const contract = await getContractConnect(abi, contractAddress);
       setLoadingTransaction(true);
+      console.log(value);
       try {
         await contract?.methods
-          .updateRoot(value)
+          .updateRoot(`0x${value}`)
           .send({
             from: account,
           })
-          .on("transactionHash", () => {
+          .on("transactionHash", (hash: any) => {
+            console.log(hash);
+
             timeOut = setTimeout(() => {
               resolve({
                 time_out_update: true,
               });
             }, TRANSACTION_TIMEOUT);
           });
+        console.log(value);
       } catch (error: any) {
         reject(error);
       }
@@ -80,7 +84,9 @@ export default function UpdateRoot(props: any) {
         toast.warning("You denied the transaction");
       }
     }
-
+    setTimeout(() => {
+      backToUpdate(false);
+    }, 3000);
     setCheckClickFirst(false);
   };
   //   const getDataRoot = async () => {
@@ -95,10 +101,9 @@ export default function UpdateRoot(props: any) {
     //   return;
     // }
 
-    if (!res?.data?.value && !res?.data?.is_updated) {
+    if (res?.data) {
       backToUpdate(true);
       await generateRootData();
-      //   await handleUpdateRoot(res?.data?.value);
     } else {
       backToUpdate(false);
       return;
@@ -107,7 +112,8 @@ export default function UpdateRoot(props: any) {
 
   const generateRootData = async () => {
     const res = await postGenerageData();
-    console.log(res);
+    if (res?.data?.value && !res?.data?.is_updated)
+      await handleUpdateRoot(res?.data?.value);
   };
   const backToUpdate = (action: boolean) => {
     if (action) {
