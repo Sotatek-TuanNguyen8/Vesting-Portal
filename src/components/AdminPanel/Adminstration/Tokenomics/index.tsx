@@ -27,8 +27,8 @@ export default function Tokenomics() {
     page_number: 0,
     page_size: 10,
   });
-  const scrollIntoViewRef = useRef<any>(null);
   const [csvValue, setCsvValue] = useState<any>("");
+  const scrollIntoViewRef = useRef<any>(null);
 
   const handleAddNew = () => {
     setOpen(true);
