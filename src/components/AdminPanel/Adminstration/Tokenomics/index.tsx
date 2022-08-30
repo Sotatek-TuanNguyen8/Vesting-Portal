@@ -1,31 +1,24 @@
 import { Button } from "@mui/material";
+import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import Administration from "..";
 import AdminPanel from "../..";
-import ClaimABI from "../../../../abi/User-Claim.json";
-import { UploadIcon, UploadRootIcon } from "../../../../assets/svgs";
+import UpdateRoot from "../UpdateRoot";
+import { UploadIcon } from "../../../../assets/svgs";
 import { getDataTokenomics } from "../../../../service/admin.service";
-import { getContractConnect } from "../../../../service/web";
-import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
-import { TRANSACTION_TIMEOUT } from "../../../web3/connector";
 import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
 import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
 import { scrollIntoView } from "../../../../utils/common/fn";
 
-type Props = {};
-
-export default function Tokenomics({}: Props) {
+export default function Tokenomics() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataTable, setDataTable] = useState<Array<any>>([]);
-  const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
-  const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
-  const [startTimeData, setStartTimeData] = useState<string>("");
-  const { account, wrongNetWork, switchNetwork } = useMetaMask();
+
+  const [startTimeData, setStartTimeData] = useState<number | null>(null);
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListTokenomic>({
     page_number: 0,
@@ -44,6 +37,7 @@ export default function Tokenomics({}: Props) {
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
+    setStartTimeData(renderData?.data?.start_time);
     setCount(renderData?.meta?.count);
   }, [query]);
 
@@ -51,63 +45,6 @@ export default function Tokenomics({}: Props) {
     getDataTable();
   }, [getDataTable]);
 
-  const handleUpdate = async (
-    abi: any,
-    contractAddress: string
-  ): Promise<{ time_out_update: boolean }> => {
-    return new Promise(async (resolve, reject) => {
-      let timeOut;
-      const contract = await getContractConnect(abi, contractAddress);
-      setLoadingTransaction(true);
-      try {
-        await contract?.methods
-          .updateRoot(12)
-          .send({
-            from: account,
-          })
-          .on("transactionHash", () => {
-            timeOut = setTimeout(() => {
-              resolve({
-                time_out_update: true,
-              });
-            }, TRANSACTION_TIMEOUT);
-          });
-      } catch (error: any) {
-        reject(error);
-      }
-      clearTimeout(timeOut);
-      resolve({
-        time_out_update: false,
-      });
-      setLoadingTransaction(false);
-    });
-  };
-
-  const handleUpdateRoot = async () => {
-    console.log(wrongNetWork);
-    setCheckClickFirst(true);
-    if (wrongNetWork) {
-      const switchError = await switchNetwork();
-      if (!switchError) {
-        try {
-          const { time_out_update } = await handleUpdate(
-            ClaimABI,
-            process.env.REACT_APP_CONTRACT_PROXY as string
-          );
-          if (!time_out_update) {
-            toast.success("Successful transaction done");
-          } else {
-            toast.error(
-              "Transaction Pending. Please wait for transaction success and reload page"
-            );
-          }
-        } catch (error) {
-          toast.warning("You denied the transaction");
-        }
-      }
-    }
-    setCheckClickFirst(false);
-  };
   const handleUpdateCsv = (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
@@ -168,7 +105,7 @@ export default function Tokenomics({}: Props) {
                 </Button>
               </div>
               <div className={styles.updateRoot}>
-                <Button
+                <UpdateRoot
                   variant="contained"
                   sx={{
                     background: "#BBBBBB",
@@ -178,16 +115,15 @@ export default function Tokenomics({}: Props) {
                     color: "#E9E9F0",
                     textTransform: "initial",
                   }}
-                  onClick={handleUpdateRoot}
-                >
-                  <UploadRootIcon style={{ marginRight: "3px" }} />
-                  Update Root
-                </Button>
+                />
               </div>
             </div>
             <div className={styles.body} ref={scrollIntoViewRef}>
               {startTimeData && (
-                <p className={styles.startTime}>Start date: Feb 24, 2022</p>
+                <p className={styles.startTime}>
+                  Start date:{" "}
+                  {moment.unix(startTimeData).format("MMM DD,YYYY HH:mm:ss")}
+                </p>
               )}
 
               <ListAccountTokenomics

@@ -1,7 +1,9 @@
+import { Button } from "@mui/material";
 import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
+import { UploadRootIcon } from "../../../../assets/svgs";
 import { getListInvestor } from "../../../../service/admin.service";
 import { IListInvestor } from "../../../../utils";
 import { scrollIntoView } from "../../../../utils/common/fn";
@@ -97,8 +99,27 @@ export default function Investors() {
           <Administration active={"investor"} />
           <div className="listInvestor">
             <div className="new">
-              <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
-              <p onClick={handleAddNew}>New</p>
+              <div>
+                <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
+                <p onClick={handleAddNew}>New</p>
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  sx={{
+                    background: "#BBBBBB",
+                    marginRight: "45px",
+                    fontSize: "400",
+                    fontWeight: "18px",
+                    color: "#E9E9F0",
+                    textTransform: "initial",
+                  }}
+                  // onClick={handleUpdateRoot}
+                >
+                  <UploadRootIcon style={{ marginRight: "3px" }} />
+                  Update Root
+                </Button>
+              </div>
             </div>
             <div className={styles.body} ref={scrollIntoViewRef}>
               <div className="search">

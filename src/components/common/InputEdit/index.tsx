@@ -1,5 +1,9 @@
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
+import {
+  formatAmount,
+  format_thousands_decimal,
+} from "../../../utils/common/fn";
 import useStyles from "./style";
 import TooltipValidate from "./ValidateEditInput";
 
@@ -95,20 +99,28 @@ export default function InputTableEdit(props: InputProps) {
         );
       case "allocation_token":
         return (
-          <input
-            className={` ${
-              !status || !defaultValue
-                ? styles.hiddenInput
-                : statusEditTokenAmount
-                ? styles.inputError
-                : styles.input
-            } `}
-            value={value}
-            type="number"
-            min={0}
-            disabled={!status || !defaultValue}
-            onChange={(e) => onChange(e.target.value, field)}
-          />
+          <>
+            {!status || !defaultValue ? (
+              <span className={styles.hiddenToken}>
+                {format_thousands_decimal(value)}
+              </span>
+            ) : (
+              <input
+                className={` ${
+                  !status || !defaultValue
+                    ? styles.hiddenInput
+                    : statusEditTokenAmount
+                    ? styles.inputError
+                    : styles.input
+                } `}
+                value={value}
+                type="number"
+                min={0}
+                disabled={!status || !defaultValue}
+                onChange={(e) => onChange(e.target.value, field)}
+              />
+            )}
+          </>
         );
     }
   }, [
@@ -122,6 +134,7 @@ export default function InputTableEdit(props: InputProps) {
     statusEditWallet,
     styles.hiddenInput,
     styles.hiddenInputFullname,
+    styles.hiddenToken,
     styles.input,
     styles.inputError,
     styles.inputFullname,

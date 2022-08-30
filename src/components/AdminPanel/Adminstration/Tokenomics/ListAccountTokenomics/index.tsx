@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import _, { isNumber, toNumber } from "lodash";
+import _, { isNumber, toInteger, toNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
 import useStyles from "./style";
 
@@ -8,10 +8,13 @@ import ModalDelete from "../ModalDelete";
 import {
   addTokenomics,
   editTableTokenimics,
+  getListStage,
 } from "../../../../../service/admin.service";
+import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
+import { IData } from "../../Investor/ListAccountInvestor/ModalFilterSaleStage";
 
 export default function ListAccountTokenomics(props: any) {
-  const { openAdd, setAdd, dataTable, renderTable } = props;
+  const { openAdd, setAdd, dataTable, renderTable, setDataTable } = props;
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
   const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
@@ -19,11 +22,20 @@ export default function ListAccountTokenomics(props: any) {
   const [itemDelete, setItemDelete] = useState<any | undefined | never>({});
   const [fieldAddItem, setFieldAddItem] = useState<any | never | undefined>({
     name: "",
+    vesting_type_id: 0,
     token_amount: "",
     tge_amount: "",
     cliff: "",
     linear_vesting: "",
   });
+  const [vestingData, setVestingData] = useState<IData[]>([]);
+  const [openVestingOption, setOpenVestingOption] = useState<boolean>(false);
+  const getListVesting = async () => {
+    const res = await getListStage();
+    if (res?.data) {
+      setVestingData(res?.data);
+    }
+  };
   const handleEdit = (e: any, id: any) => {
     setIsEdit(id);
     setEditDataItem({
@@ -51,9 +63,7 @@ export default function ListAccountTokenomics(props: any) {
       tge_amount: toNumber(editDataItem.tge_amount),
       cliff: toNumber(editDataItem.cliff),
       linear_vesting: toNumber(editDataItem.linear_vesting),
-      vesting_type_id: editDataItem.vesting_type_id
-        ? toNumber(editDataItem.vesting_type_id)
-        : editDataItem.vesting_type_id,
+      vesting_type_id: editDataItem.vesting_type_id,
     });
     if (!res) return;
     if (res?.error && res?.error?.message) {
@@ -69,7 +79,9 @@ export default function ListAccountTokenomics(props: any) {
   const handleCancel = () => {
     setEditDataItem({});
     setIsEdit(null);
+    setOpenVestingOption(false);
   };
+
   const handleChangeInputTable = (e: any, field: any) => {
     setEditDataItem({
       ...editDataItem,
@@ -79,7 +91,7 @@ export default function ListAccountTokenomics(props: any) {
   const handleChangeInputAdd = (e: any, field: any) => {
     setFieldAddItem({
       ...fieldAddItem,
-      [field]: e,
+      [field]: field === "name" ? e : toNumber(e),
     });
   };
 
@@ -118,6 +130,9 @@ export default function ListAccountTokenomics(props: any) {
       handleCancel();
     }
   }, [openAdd]);
+  useEffect(() => {
+    getListVesting();
+  }, []);
 
   const checkValidate = (value: any) => {
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -136,12 +151,31 @@ export default function ListAccountTokenomics(props: any) {
     });
     setOpenDeleteStatus(true);
   };
+  const handleCloseVesting = () => {
+    setOpenVestingOption(false);
+  };
+  const handleSelectVesting = (e: any) => {
+    setEditDataItem({
+      ...editDataItem,
+      vesting_type_name: vestingData?.filter((el: any) => el.id === e)[0]?.name,
+      vesting_type_id: e,
+    });
+  };
+
+  const handleSelectVestingAdd = (e: any) => {
+    setFieldAddItem({
+      ...fieldAddItem,
+      vesting_type_name: vestingData?.filter((el: any) => el.id === e)[0]?.name,
+      vesting_type_id: e,
+    });
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Sales stage</p>
+          <p>Vesting type </p>
           <p>Token amount</p>
           <p>TGE amount</p>
           <p>Cliff (days)</p>
@@ -162,8 +196,21 @@ export default function ListAccountTokenomics(props: any) {
               field="name"
               onChange={handleChangeInputAdd}
             />
+
+            <ModalSaleStage
+              open={true}
+              status={true}
+              onClose={handleCloseVesting}
+              value={
+                fieldAddItem?.vesting_type_id
+                  ? fieldAddItem?.vesting_type_id
+                  : vestingData[0].id
+              }
+              data={vestingData}
+              onClickSelect={handleSelectVestingAdd}
+            />
             <InputTableEditDefault
-              width="204px"
+              width="100%"
               type="number"
               status={true}
               value={fieldAddItem?.token_amount ?? ""}
@@ -172,7 +219,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
-              width="190px"
+              width="100%"
               type="number"
               status={true}
               value={fieldAddItem?.tge_amount ?? ""}
@@ -181,7 +228,7 @@ export default function ListAccountTokenomics(props: any) {
               onChange={handleChangeInputAdd}
             />
             <InputTableEditDefault
-              width="117px"
+              width="100%"
               type="number"
               status={true}
               value={fieldAddItem?.cliff ?? ""}
@@ -214,7 +261,7 @@ export default function ListAccountTokenomics(props: any) {
           <div key={index} className={styles.tableBody}>
             <div className="content">
               <InputTableEditDefault
-                width="228px"
+                width="100%"
                 type="text"
                 status={isEdit === item.id}
                 defaultValue={item.name}
@@ -226,8 +273,20 @@ export default function ListAccountTokenomics(props: any) {
                 field="name"
                 onChange={handleChangeInputTable}
               />
+              <ModalSaleStage
+                open={openVestingOption}
+                status={isEdit === item.id}
+                onClose={handleCloseVesting}
+                value={
+                  isEdit === item.id
+                    ? editDataItem?.vesting_type_id
+                    : item?.vesting_type_id
+                }
+                data={vestingData}
+                onClickSelect={handleSelectVesting}
+              />
               <InputTableEditDefault
-                width="204px"
+                width="100%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.token_amount}
@@ -240,7 +299,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="190px"
+                width="100%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.tge_amount}
@@ -253,7 +312,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="117px"
+                width="100%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.cliff}
@@ -266,14 +325,15 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="190px"
+                width="100%"
                 type="number"
+                step="1"
                 status={isEdit === item.id}
                 defaultValue={item.linear_vesting}
                 value={
                   isEdit === item.id && !_.isEmpty(editDataItem)
-                    ? editDataItem.linear_vesting
-                    : item.linear_vesting
+                    ? _.toInteger(editDataItem.linear_vesting)
+                    : _.toInteger(item.linear_vesting)
                 }
                 field="linear_vesting"
                 onChange={handleChangeInputTable}

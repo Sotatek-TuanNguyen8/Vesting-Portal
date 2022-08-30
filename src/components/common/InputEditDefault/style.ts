@@ -3,8 +3,9 @@ import { makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: "16.67%",
+      width: "14.2%",
       display: "flex",
+      margin: "0 5px",
     },
     input: {
       height: 40,
