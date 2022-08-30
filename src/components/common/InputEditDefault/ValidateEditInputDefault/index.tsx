@@ -14,7 +14,7 @@ export default function TooltipValidateDefault(props: Props) {
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     // if (!defaultValue) return;
-    if (!value) {
+    if (!value && defaultValue) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
@@ -34,7 +34,7 @@ export default function TooltipValidateDefault(props: Props) {
     } else {
       return "";
     }
-  }, [defaultValue, field, value]);
+  }, [field, value]);
 
   const renderMsgValidateFullName = useCallback(() => {
     return (
@@ -55,7 +55,10 @@ export default function TooltipValidateDefault(props: Props) {
     switch (field) {
       case "name":
       case "email":
-      case "token_amount":
+      case "tge_amount":
+      case "tge_amount":
+      case "cliff":
+      case "linear_vesting":
       case "wallet_address":
         return renderMsgValidateFullName();
     }

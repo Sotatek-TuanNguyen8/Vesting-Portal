@@ -19,10 +19,10 @@ export const fetchInfoUser = createAsyncThunk(
   "user/fetchInfoUser",
   async (access_token: string, { rejectWithValue }) => {
     const response = await getInfoUser(access_token);
-    if (response.status >= 300) {
-      return rejectWithValue(response.error);
+    if (response?.error) {
+      return rejectWithValue(response?.error);
     }
-    return response.data;
+    return response?.data;
   }
 );
 
@@ -37,7 +37,7 @@ const initialState: userLogin = {
     role: "",
   },
   loading: false,
-  error: "",
+  error: {},
 };
 
 const authAction = createSlice({

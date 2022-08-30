@@ -17,20 +17,21 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         // justifyContent: "space-around",
         "& p": {
-          width: "20%",
+          width: "16%",
           fontSize: 16,
           fontWeight: 400,
+          marginLeft: "12px",
           "& img": {
             marginLeft: 20,
             cursor: "pointer",
           },
         },
-        "& p:first-child": {
-          paddingLeft: 20,
-        },
-        "& p:last-child": {
-          paddingTight: 20,
-        },
+        // "& p:first-child": {
+        //   paddingLeft: 20,
+        // },
+        // "& p:last-child": {
+        //   paddingTight: 20,
+        // },
       },
       // "& div:last-child": {
       //   // width: "100%",
@@ -48,16 +49,20 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
+        "& div:nth-child(2)": {
+          margin: "0 12px",
+        },
         "& .action": {
-          width: "16.67%",
+          width: "14.2%",
           display: "flex",
           alignItems: "center",
+          margin: "0 5px",
           "& img": {
             cursor: "pointer",
             marginLeft: 20,
             width: "20px",
             "&:last-child": {
-              width: "17px",
+              width: "17.65px",
             },
           },
         },
@@ -93,7 +98,7 @@ const useStyles = makeStyles((theme: Theme) => {
       flexDirection: "row",
     },
     action: {
-      width: "16.67%",
+      width: "14.2%",
       display: "flex",
       alignItems: "center",
       "& img": {

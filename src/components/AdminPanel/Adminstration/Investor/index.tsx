@@ -1,14 +1,16 @@
-import { Button } from "@mui/material";
 import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
-import { UploadRootIcon } from "../../../../assets/svgs";
-import { getListInvestor } from "../../../../service/admin.service";
+import {
+  getListInvestor,
+  getRootData,
+} from "../../../../service/admin.service";
 import { IListInvestor } from "../../../../utils";
 import { scrollIntoView } from "../../../../utils/common/fn";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import PaginationCustom from "../Pagination";
+import UpdateRoot from "../UpdateRoot";
 import ListAccountInvestor from "./ListAccountInvestor";
 import ModalAddNew from "./ModalAddNew";
 import useStyles from "./style";
@@ -32,7 +34,7 @@ export default function Investors() {
   const [valueInput, setValueInput] = useState<string>();
   const timeoutRef = useRef<any>(null);
   const scrollIntoViewRef = useRef<any>(null);
-
+  const [dataRoot, setDataRoot] = useState({});
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -44,13 +46,20 @@ export default function Investors() {
   const fetchListInvestors = useCallback(async () => {
     const res = await getListInvestor(
       query,
-      sessionStorage.getItem("access_token") as string
+      sessionStorage.getItem("access_token") as string,
     );
     if (res?.data) {
       setDataListInvestor(res?.data);
       setCount(res?.meta?.count);
     }
+    await checkRootData();
   }, [query]);
+
+  const checkRootData = async () => {
+    const res = await getRootData();
+    if (!res) return;
+    setDataRoot(res?.data);
+  };
 
   useEffect(() => {
     fetchListInvestors();
@@ -98,29 +107,14 @@ export default function Investors() {
         <div className={styles.container} onClick={() => setOpenFilter(false)}>
           <Administration active={"investor"} />
           <div className="listInvestor">
-            <div className="new">
-              <div>
+            <div className={styles.navTop}>
+              <div className="new">
                 <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
                 <p onClick={handleAddNew}>New</p>
               </div>
-              <div>
-                <Button
-                  variant="contained"
-                  sx={{
-                    background: "#BBBBBB",
-                    marginRight: "45px",
-                    fontSize: "400",
-                    fontWeight: "18px",
-                    color: "#E9E9F0",
-                    textTransform: "initial",
-                  }}
-                  // onClick={handleUpdateRoot}
-                >
-                  <UploadRootIcon style={{ marginRight: "3px" }} />
-                  Update Root
-                </Button>
-              </div>
+              <UpdateRoot checkRootData={dataRoot} />
             </div>
+
             <div className={styles.body} ref={scrollIntoViewRef}>
               <div className="search">
                 <img src="/images/iconSearch.svg" alt="" />

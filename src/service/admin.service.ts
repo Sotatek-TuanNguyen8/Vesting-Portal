@@ -80,3 +80,26 @@ export const deleteTokenomics = async (id: number) => {
   const { data } = await RequestAdmin.delete(`${serverEndpoint}/rounds/${id}`);
   return data;
 };
+
+export const uploadTokenomics = async (body: any) => {
+  const { data } = await RequestAdmin.post(
+    `${serverEndpoint}/rounds/uploads`,
+    body
+  );
+  return data;
+};
+
+export const getRootData = async () => {
+  const { data } = await RequestAdmin.get(`${serverEndpoint}/root-data`);
+  return data;
+};
+export const postGenerageData = async () => {
+  const { data } = await RequestAdmin.post(
+    `${serverEndpoint}/root-data/generate`
+  );
+  return data;
+};
+export const updateRoot = async () => {
+  const { data } = await RequestAdmin.patch(`${serverEndpoint}/root-data`, {});
+  return data;
+};
