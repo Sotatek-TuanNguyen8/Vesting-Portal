@@ -1,7 +1,9 @@
+import { Button } from "@mui/material";
 import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
+import { UploadRootIcon } from "../../../../assets/svgs";
 import { getListInvestor } from "../../../../service/admin.service";
 import { IListInvestor } from "../../../../utils";
 import { scrollIntoView } from "../../../../utils/common/fn";

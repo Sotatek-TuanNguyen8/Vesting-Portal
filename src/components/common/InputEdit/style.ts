@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "12.5%",
       display: "flex",
       flexDirection: "row",
+      fontFamily: "gibson",
     },
     input: {
       height: 40,
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) => {
       marginRight: 4,
       outline: "none",
       background: "none",
+      fontFamily: "gibson",
       "&::-webkit-outer-spin-button": {
         "-webkit-appearance": "none",
         margin: 0,
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: 16,
       fontWeight: 400,
       marginRight: 4,
+      fontFamily: "gibson",
       outline: "none",
       "&::-webkit-outer-spin-button": {
         "-webkit-appearance": "none",
@@ -63,6 +66,7 @@ const useStyles = makeStyles((theme: Theme) => {
       whiteSpace: "pre",
       overflow: "hidden",
       textOverflow: "ellipsis",
+      fontFamily: "gibson",
     },
     inputFullname: {
       height: 40,
@@ -70,6 +74,7 @@ const useStyles = makeStyles((theme: Theme) => {
       borderRadius: 5,
       padding: "0 20px",
       color: "#0A208F",
+      fontFamily: "gibson",
       backgroundColor: "#fff",
       width: "80%",
       fontSize: 16,
@@ -86,6 +91,7 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "100%",
       fontSize: 16,
       fontWeight: 400,
+      fontFamily: "gibson",
       paddingLeft: 20,
     },
     inputFullnameError: {
@@ -96,6 +102,7 @@ const useStyles = makeStyles((theme: Theme) => {
       color: "#0A208F",
       backgroundColor: "#fff",
       width: "80%",
+      fontFamily: "gibson",
       fontSize: 16,
       fontWeight: 400,
       outline: "none",
@@ -108,6 +115,7 @@ const useStyles = makeStyles((theme: Theme) => {
       color: "#0A208F",
       backgroundColor: "#fff",
       width: "80%",
+      fontFamily: "gibson",
       fontSize: 16,
       fontWeight: 400,
       display: "flex",
@@ -127,6 +135,10 @@ const useStyles = makeStyles((theme: Theme) => {
         backgroundColor: "#fff",
       },
     },
+    hiddenToken: {
+      color: "#0A208F",
+      fontFamily: "gibson",
+    },
     hiddenSaleStage: {
       display: "flex",
       alignItems: " center",
@@ -136,6 +148,7 @@ const useStyles = makeStyles((theme: Theme) => {
       borderRadius: 5,
       border: "none",
       outline: "none",
+      fontFamily: "gibson",
       backgroundColor: "#fff",
       width: "100%",
       fontSize: 16,

@@ -6,6 +6,10 @@ import {
   getListStage,
   updateInvestorNew,
 } from "../../../../../service/admin.service";
+import {
+  formatAmount,
+  format_thousands_decimal,
+} from "../../../../../utils/common/fn";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import ModalDelete from "../ModalDelete";
@@ -284,8 +288,14 @@ export default function ListAccountInvestor({
                 onClickSelect={handleSelect}
               />
 
-              <div className="tokensVested">{item?.tokensVested}</div>
-              <div className="tokensClaimed">{item?.claimed}</div>
+              <div className="tokensVested">
+                {item?.tokensVested
+                  ? format_thousands_decimal(item?.tokensVested)
+                  : ""}
+              </div>
+              <div className="tokensClaimed">
+                {item?.claimed ? format_thousands_decimal(item?.claimed) : ""}
+              </div>
 
               <div className="action">
                 {isEdit && item.investor_id === dataItem.investor_id ? (
