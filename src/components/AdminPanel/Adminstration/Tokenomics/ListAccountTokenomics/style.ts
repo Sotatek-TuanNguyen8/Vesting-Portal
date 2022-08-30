@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => {
         display: "flex",
         flexDirection: "row",
         "& div:first-child": {
-          paddingLeft: 20,
+          paddingLeft: 15,
         },
         "& .action": {
           width: "14.2%",
