@@ -55,7 +55,10 @@ export default function TooltipValidateDefault(props: Props) {
     switch (field) {
       case "name":
       case "email":
-      case "token_amount":
+      case "tge_amount":
+      case "tge_amount":
+      case "cliff":
+      case "linear_vesting":
       case "wallet_address":
         return renderMsgValidateFullName();
     }
