@@ -289,9 +289,10 @@ export default function ListAccountInvestor({
               />
 
               <div className="tokensVested">
-                {item?.tokensVested
+                {/* {item?.tokensVested
                   ? format_thousands_decimal(item?.tokensVested)
-                  : ""}
+                  : ""} */}
+                10
               </div>
               <div className="tokensClaimed">
                 {item?.claimed ? format_thousands_decimal(item?.claimed) : ""}

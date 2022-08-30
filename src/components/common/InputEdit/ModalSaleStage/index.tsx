@@ -16,25 +16,27 @@ export default function ModalSaleStage(props: ModalProps) {
   const styles = useStyles();
 
   return (
-    <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
-      {!status ? (
-        <span style={{ color: "#0A208F", fontSize: 16 }}>
-          {data?.filter((el) => el.id === Number(value))[0]?.name}
-        </span>
-      ) : (
-        <Select
-          value={Number(value)}
-          label="Age"
-          onChange={(e) => onClickSelect(e.target.value)}
-          disabled={!status}
-        >
-          {data.map((item) => (
-            <MenuItem key={item.id} value={item.id}>
-              {item.name}
-            </MenuItem>
-          ))}
-        </Select>
-      )}
+    <FormControl className={styles.container}>
+      <div className={status ? styles.wrapper : styles.wrapperEdit}>
+        {!status ? (
+          <span style={{ color: "#0A208F", fontSize: 16 }}>
+            {data?.filter((el) => el.id === Number(value))[0]?.name}
+          </span>
+        ) : (
+          <Select
+            value={Number(value)}
+            label="Age"
+            onChange={(e) => onClickSelect(e.target.value)}
+            disabled={!status}
+          >
+            {data.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
+      </div>
     </FormControl>
   );
 }
