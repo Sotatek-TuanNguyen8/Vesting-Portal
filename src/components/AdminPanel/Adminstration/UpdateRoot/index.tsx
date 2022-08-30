@@ -84,7 +84,7 @@ export default function UpdateRoot(props: any) {
     }
     setTimeout(() => {
       backToUpdate(false);
-    }, 3000);
+    }, 5000);
     setCheckClickFirst(false);
   };
   const updateRootApi = async () => {
