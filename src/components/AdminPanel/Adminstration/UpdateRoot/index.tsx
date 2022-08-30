@@ -108,6 +108,7 @@ export default function UpdateRoot(props: any) {
       setDisableGenerate(true);
     }
   }, [checkRootData]);
+
   return (
     <Button
       onClick={checkValueData}
@@ -119,6 +120,13 @@ export default function UpdateRoot(props: any) {
         fontWeight: "18px",
         color: "#E9E9F0",
         textTransform: "initial",
+        "&:hover": {
+          color: "#051C42",
+          backgroundColor: "#3FBCE9",
+          "& svg g path": {
+            fill: "#051C42",
+          },
+        },
       }}
       disabled={disableGenerate}
     >

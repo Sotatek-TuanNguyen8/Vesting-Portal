@@ -188,7 +188,7 @@ export default function ListAccountTokenomics(props: any) {
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault
-              width="100%"
+              width="80%"
               type="text"
               status={true}
               value={fieldAddItem?.name ?? ""}
@@ -261,7 +261,7 @@ export default function ListAccountTokenomics(props: any) {
           <div key={index} className={styles.tableBody}>
             <div className="content">
               <InputTableEditDefault
-                width="100%"
+                width="80%"
                 type="text"
                 status={isEdit === item.id}
                 defaultValue={item.name}
@@ -286,7 +286,7 @@ export default function ListAccountTokenomics(props: any) {
                 onClickSelect={handleSelectVesting}
               />
               <InputTableEditDefault
-                width="100%"
+                width="80%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.token_amount}
@@ -299,7 +299,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="100%"
+                width="80%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.tge_amount}
@@ -312,7 +312,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="100%"
+                width="80%"
                 type="number"
                 status={isEdit === item.id}
                 defaultValue={item.cliff}
@@ -325,7 +325,7 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
               />
               <InputTableEditDefault
-                width="100%"
+                width="80%"
                 type="number"
                 step="1"
                 status={isEdit === item.id}
