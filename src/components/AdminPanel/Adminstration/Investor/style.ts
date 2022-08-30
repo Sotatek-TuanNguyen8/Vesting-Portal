@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => {
           display: "flex",
           flexDirection: "row",
           height: 55,
-          borderBottom: "1px solid #BBBBBB",
+
           alignItems: "center",
           "& img": {
             cursor: "pointer",
@@ -56,6 +56,13 @@ const useStyles = makeStyles((theme: Theme) => {
           outline: "none",
         },
       },
+    },
+    navTop: {
+      display: "flex",
+      justifyContent: "space-between",
+      borderBottom: "1px solid #BBBBBB",
+      width: "100%",
+      alignItems: "center",
     },
   };
 });
