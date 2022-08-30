@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
-        "& div:nth-child(2)": {
-          margin: "0 12px",
-        },
+        // "& div:nth-child(2)": {
+        //   margin: "0 12px",
+        // },
         "& .action": {
           width: "14.2%",
           display: "flex",
