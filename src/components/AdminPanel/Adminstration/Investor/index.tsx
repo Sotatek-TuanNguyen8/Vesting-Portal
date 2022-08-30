@@ -46,7 +46,7 @@ export default function Investors() {
   const fetchListInvestors = useCallback(async () => {
     const res = await getListInvestor(
       query,
-      sessionStorage.getItem("access_token") as string,
+      sessionStorage.getItem("access_token") as string
     );
     if (res?.data) {
       setDataListInvestor(res?.data);

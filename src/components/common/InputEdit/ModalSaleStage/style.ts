@@ -3,8 +3,11 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
-    wrapper: {
+    container: {
       width: "12.5%",
+    },
+    wrapper: {
+      width: "90%",
       backgroundColor: "#fff",
       border: "1px solid #BBBBBB",
       borderRadius: 3,
@@ -37,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: 16,
         fontWeight: 400,
         cursor: "pointer",
+        width: "100%",
       },
     },
     wrapperEdit: {
