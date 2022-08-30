@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme: Theme) => {
       padding: "0px 16px",
       width: 260,
       boxShadow: "1px 1px 2px 1px rgba(0, 0, 0, 0.25)",
+      maxHeight: 700,
+      overflow: "auto",
       // position: "absolute",
     },
     action: {

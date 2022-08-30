@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) => {
       backgroundColor: "#E9E9F0",
       borderRight: "1px solid #BBBBBB",
       alignItems: "stretch",
-      minHeight: "91vh",
+      minHeight: "100vh",
+      overflow: "auto",
       "& .investorActive": {
         cursor: "pointer",
         display: "flex",
