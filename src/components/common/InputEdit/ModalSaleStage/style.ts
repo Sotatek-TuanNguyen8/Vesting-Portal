@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) => {
       borderRadius: 3,
       padding: "3px 10px",
       height: "100%",
+      fontFamily: "gibson",
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
       },
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme: Theme) => {
     wrapperEdit: {
       width: "12.5%",
       borderRadius: 3,
-      height: "100%",
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
       },
