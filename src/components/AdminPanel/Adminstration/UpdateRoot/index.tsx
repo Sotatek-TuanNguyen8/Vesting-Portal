@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import {
   getRootData,
   postGenerageData,
+  updateRoot,
 } from "../../../../service/admin.service";
 
 export default function UpdateRoot(props: any) {
@@ -27,7 +28,6 @@ export default function UpdateRoot(props: any) {
       let timeOut;
       const contract = await getContractConnect(abi, contractAddress);
       setLoadingTransaction(true);
-      console.log(value);
       try {
         await contract?.methods
           .updateRoot(`0x${value}`)
@@ -35,15 +35,12 @@ export default function UpdateRoot(props: any) {
             from: account,
           })
           .on("transactionHash", (hash: any) => {
-            console.log(hash);
-
             timeOut = setTimeout(() => {
               resolve({
                 time_out_update: true,
               });
             }, TRANSACTION_TIMEOUT);
           });
-        console.log(value);
       } catch (error: any) {
         reject(error);
       }
@@ -75,6 +72,7 @@ export default function UpdateRoot(props: any) {
           setActionRoot("Update");
           setDisableGenerate(false);
           toast.success("Successful transaction done");
+          await updateRootApi();
         } else {
           toast.error(
             "Transaction Pending. Please wait for transaction success and reload page",
@@ -89,11 +87,11 @@ export default function UpdateRoot(props: any) {
     }, 3000);
     setCheckClickFirst(false);
   };
-  //   const getDataRoot = async () => {
-  //     const res = await getRootData();
-  //     if (!res || res?.error) return;
-  //     return res;
-  //   };
+  const updateRootApi = async () => {
+    const res = await updateRoot();
+    if (!res || res?.error) return;
+    return res;
+  };
   const checkRoot = async () => {
     const res = await getRootData();
     // if (!res || res?.error) {

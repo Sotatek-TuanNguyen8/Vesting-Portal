@@ -126,7 +126,7 @@ export default function Tokenomics() {
                   />
                 </Button>
               </div>
-              <div>
+              <div className={styles.updateRoot}>
                 <UpdateRoot
                   variant="contained"
                   sx={{
