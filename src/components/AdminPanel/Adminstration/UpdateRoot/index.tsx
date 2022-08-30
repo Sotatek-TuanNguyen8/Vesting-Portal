@@ -106,13 +106,13 @@ export default function UpdateRoot(props: any) {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginRight: "60px" }}>
       <Button
         onClick={checkRoot}
         variant="contained"
         sx={{
           background: "#BBBBBB",
-          marginRight: "5px",
+          marginRight: !disableGenerate ? "5px" : "0",
           fontSize: "400",
           fontWeight: "18px",
           color: "#E9E9F0",
@@ -122,22 +122,23 @@ export default function UpdateRoot(props: any) {
         <UploadRootIcon style={{ marginRight: "3px" }} />
         Update Root
       </Button>
-      <Button
-        onClick={generateRootData}
-        disabled={disableGenerate}
-        variant="contained"
-        sx={{
-          background: "#BBBBBB",
-          marginRight: "45px",
-          fontSize: "400",
-          fontWeight: "18px",
-          color: "#E9E9F0",
-          textTransform: "initial",
-        }}
-      >
-        <UploadRootIcon style={{ marginRight: "3px" }} />
-        Generage Root
-      </Button>
+      {!disableGenerate && (
+        <Button
+          onClick={generateRootData}
+          disabled={disableGenerate}
+          variant="contained"
+          sx={{
+            background: "#BBBBBB",
+            fontSize: "400",
+            fontWeight: "18px",
+            color: "#E9E9F0",
+            textTransform: "initial",
+          }}
+        >
+          <UploadRootIcon style={{ marginRight: "3px" }} />
+          Generage Root
+        </Button>
+      )}
     </Box>
   );
 }

@@ -73,13 +73,17 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: "18px",
         color: "#051C42",
       },
-     
     },
     startTime: {
       fontSize: "18px",
       fontWeight: 400,
       color: "#051C42",
       margin: "0 45px",
+    },
+    updateRoot: {
+      "& .MuiButtonBase-root:hover": {
+        backgroundColor: "#3FBCE9 !important",
+      },
     },
   };
 });

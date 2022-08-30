@@ -5,13 +5,17 @@ import Administration from "..";
 import AdminPanel from "../..";
 import UpdateRoot from "../UpdateRoot";
 import { UploadIcon } from "../../../../assets/svgs";
-import { getDataTokenomics } from "../../../../service/admin.service";
+import {
+  getDataTokenomics,
+  uploadTokenomics,
+} from "../../../../service/admin.service";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
 import ListAccountTokenomics from "./ListAccountTokenomics";
 import useStyles from "./style";
 import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
 import { scrollIntoView } from "../../../../utils/common/fn";
+import { toast } from "react-toastify";
 
 export default function Tokenomics() {
   const styles = useStyles();
@@ -24,6 +28,7 @@ export default function Tokenomics() {
     page_number: 0,
     page_size: 10,
   });
+  const [csvValue, setCsvValue] = useState<any>("");
   const scrollIntoViewRef = useRef<any>(null);
 
   const handleAddNew = () => {
@@ -33,7 +38,7 @@ export default function Tokenomics() {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics(
       query,
-      sessionStorage.getItem("access_token") as string,
+      sessionStorage.getItem("access_token") as string
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
@@ -45,16 +50,33 @@ export default function Tokenomics() {
     getDataTable();
   }, [getDataTable]);
 
-  const handleUpdateCsv = (e: any) => {
+  const handleUpdateCsv = async (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
-    const fileReader = new FileReader();
-    if (file) {
-      fileReader.onload = (e: any) => {
-        const csvOutput = e.target.result;
-      };
-      fileReader.readAsText(file);
+    console.log("file", file);
+    const bytesToMegaBytes: any = file.size / 1024 ** 2;
+    console.log("bytesToMegaBytes", bytesToMegaBytes);
+
+    if (file.type === "text/csv") {
+      if (bytesToMegaBytes < 100) {
+        let formData = new FormData();
+        formData.append("file", file);
+        const data = await uploadTokenomics(formData);
+
+        if (data?.data) {
+          toast.success("Upload Successfully");
+        } else {
+          if (data?.error.statusCode === 400) {
+            toast.error("File format is not supported");
+          }
+        }
+      } else {
+        toast.error("File size exceeded alllowed limits (100MB)");
+      }
+    } else {
+      toast.error("File format is not supported");
     }
+    setCsvValue("");
   };
 
   return (
@@ -97,10 +119,10 @@ export default function Tokenomics() {
                   <p>Upload</p>
                   <input
                     hidden
-                    accept="'.csv"
                     multiple
                     type="file"
                     onChange={handleUpdateCsv}
+                    value={csvValue}
                   />
                 </Button>
               </div>

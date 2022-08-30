@@ -23,7 +23,7 @@ export default function TooltipValidateDefault(props: Props) {
     } else if (
       field === "email" &&
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
-        value,
+        value
       ) === false
     ) {
       return <p>Enter a valid email</p>;
@@ -34,7 +34,7 @@ export default function TooltipValidateDefault(props: Props) {
     } else {
       return "";
     }
-  }, [defaultValue, field, value]);
+  }, [field, value]);
 
   const renderMsgValidateFullName = useCallback(() => {
     return (
