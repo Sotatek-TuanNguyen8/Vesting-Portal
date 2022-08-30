@@ -1,4 +1,4 @@
 export * from "./types";
 export * from "./helpers";
-export * from "./chains";
+export * from "./chainID";
 export * from "./hooks/useMetaMask";

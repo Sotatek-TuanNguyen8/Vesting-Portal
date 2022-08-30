@@ -2,12 +2,11 @@ import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import * as React from "react";
 import { toast } from "react-toastify";
-import { CHAIN_ID_SUPPORT } from "../chains";
-import { chainIDS } from "../common/message-sign";
+import { CHAIN_ID_SUPPORT } from "../chainID";
 export const MetaMaskContext = React.createContext(null);
 
 export const injectedConnector = new InjectedConnector({
-  supportedChainIds: chainIDS,
+  // supportedChainIds: chainIDS,
 });
 
 export const MetaMaskProvider = ({ children }: any) => {

@@ -1,4 +1,7 @@
 import { Typography } from "@material-ui/core";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import { WrongNetwork } from "../WrongNetWork";
 import Allocation from "./allocation";
@@ -6,7 +9,14 @@ import useStyles from "./style";
 
 export default function ClaimPage() {
   const classes = useStyles();
-  const { wrongNetWork } = useMetaMask();
+  const { wrongNetWork, account } = useMetaMask();
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!account) return;
+    // dispatch(fetchInfoClaim("1"));
+  }, []);
+
   return (
     <div className={classes.claim}>
       {wrongNetWork && <WrongNetwork />}

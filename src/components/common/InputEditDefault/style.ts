@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
       backgroundColor: "#fff",
       fontSize: 16,
       fontWeight: 400,
+      fontFamily: "gibson",
       "&[type=number]": {
         "-moz-appearance": "textfield",
       },
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) => {
       backgroundColor: "#fff",
       fontSize: 16,
       fontWeight: 400,
+      fontFamily: "gibson",
     },
     inputFullname: {
       height: 40,
