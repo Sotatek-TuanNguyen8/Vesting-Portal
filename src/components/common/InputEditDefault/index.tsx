@@ -16,6 +16,13 @@ type InputProps = {
 export default function InputTableEditDefault(props: InputProps) {
   const { value, status, onChange, field, type, defaultValue, width } = props;
   const styles = useStyles();
+  const shortNumber = (string?: string) => {
+    if (string && string.length > 10) {
+      return (string.slice(0, 3) + "..." + string.slice(-4)).toLowerCase();
+    } else {
+      return string;
+    }
+  };
   return (
     <div className={styles.wrapper}>
       {status ? (
@@ -31,7 +38,10 @@ export default function InputTableEditDefault(props: InputProps) {
         />
       ) : (
         <p>
-          {value} {field === "tge_amount" && "%"}
+          {type === "number" && field !== "tge_amount"
+            ? shortNumber(value)
+            : value}{" "}
+          {field === "tge_amount" && "%"}
         </p>
       )}
       {status ? (

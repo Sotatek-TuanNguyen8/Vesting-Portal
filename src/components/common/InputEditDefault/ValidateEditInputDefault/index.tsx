@@ -30,8 +30,8 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>Enter a valid email</p>;
     } else if (field === "wallet_address" && !ethers.utils.isAddress(value)) {
       return <p>Enter a valid wallet address</p>;
-    } else if (type === "number" && toNumber(value) > 10000000) {
-      return <p>Token amount of this investor cannot exceed 10000000</p>;
+    } else if (type === "number" && toNumber(value) > 1000000) {
+      return <p>Token amount of this investor cannot exceed 1000000</p>;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
       return <p>Token amount of this investor cannot exceed 100%</p>;
     } else if (value === null && field === "vesting_type") {

@@ -102,13 +102,12 @@ export default function ListAccountTokenomics(props: any) {
     setFieldAddItem({});
   };
   const confirmAdd = async () => {
+    console.log(fieldAddItem);
     if (
       checkValidate(fieldAddItem.name, "text", "name") ||
       checkValidate(fieldAddItem.token_amount, "number", "token_amount") ||
       checkValidate(fieldAddItem.tge_amount, "number", "tge_amount") ||
-      checkValidate(fieldAddItem.cliff, "number", "cliff") ||
-      checkValidate(fieldAddItem.linear_vesting, "number", "linear_vesting") ||
-      checkValidate(fieldAddItem.vesting_type_id, "number", "vesting_type")
+      checkValidate(fieldAddItem.cliff, "number", "cliff")
     )
       return;
     if (openAdd) {
@@ -149,7 +148,7 @@ export default function ListAccountTokenomics(props: any) {
     if (specialChars.test(value) || !value) {
       return true;
     } else if (
-      (type === "number" && toNumber(value) > 10000000) ||
+      (type === "number" && toNumber(value) > 1000000) ||
       (type === "number" && toNumber(value) === 0)
     ) {
       return true;
