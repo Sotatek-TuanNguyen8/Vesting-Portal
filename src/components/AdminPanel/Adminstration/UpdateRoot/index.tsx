@@ -11,12 +11,13 @@ import {
   postGenerageData,
   updateRoot,
 } from "../../../../service/admin.service";
+import { Box } from "@material-ui/core";
 
 export default function UpdateRoot(props: any) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
   const [actionRoot, setActionRoot] = useState("Update");
-  const [disableGenerate, setDisableGenerate] = useState(false);
+  const [disableGenerate, setDisableGenerate] = useState(true);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
 
   const handleUpdate = async (
@@ -82,9 +83,6 @@ export default function UpdateRoot(props: any) {
         toast.warning("You denied the transaction");
       }
     }
-    setTimeout(() => {
-      backToUpdate(false);
-    }, 5000);
     setCheckClickFirst(false);
   };
   const updateRootApi = async () => {
@@ -94,17 +92,10 @@ export default function UpdateRoot(props: any) {
   };
   const checkRoot = async () => {
     const res = await getRootData();
-    // if (!res || res?.error) {
-    //   toast.error(res?.error.message);
-    //   return;
-    // }
-
-    if (res?.data) {
-      backToUpdate(true);
-      await generateRootData();
+    if (res?.data?.value && !res?.data?.is_updated) {
+      setDisableGenerate(false);
     } else {
-      backToUpdate(false);
-      return;
+      toast.warning("There is no update for now");
     }
   };
 
@@ -113,20 +104,40 @@ export default function UpdateRoot(props: any) {
     if (res?.data?.value && !res?.data?.is_updated)
       await handleUpdateRoot(res?.data?.value);
   };
-  const backToUpdate = (action: boolean) => {
-    if (action) {
-      setActionRoot("Generate");
-      setDisableGenerate(true);
-    } else {
-      setActionRoot("Update");
-      setDisableGenerate(false);
-    }
-  };
 
   return (
-    <Button {...props} onClick={checkRoot} disabled={disableGenerate}>
-      <UploadRootIcon style={{ marginRight: "3px" }} />
-      {actionRoot} Root
-    </Button>
+    <Box>
+      <Button
+        onClick={checkRoot}
+        variant="contained"
+        sx={{
+          background: "#BBBBBB",
+          marginRight: "5px",
+          fontSize: "400",
+          fontWeight: "18px",
+          color: "#E9E9F0",
+          textTransform: "initial",
+        }}
+      >
+        <UploadRootIcon style={{ marginRight: "3px" }} />
+        Update Root
+      </Button>
+      <Button
+        onClick={generateRootData}
+        disabled={disableGenerate}
+        variant="contained"
+        sx={{
+          background: "#BBBBBB",
+          marginRight: "45px",
+          fontSize: "400",
+          fontWeight: "18px",
+          color: "#E9E9F0",
+          textTransform: "initial",
+        }}
+      >
+        <UploadRootIcon style={{ marginRight: "3px" }} />
+        Generage Root
+      </Button>
+    </Box>
   );
 }

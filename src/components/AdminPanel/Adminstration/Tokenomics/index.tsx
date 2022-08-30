@@ -105,17 +105,7 @@ export default function Tokenomics() {
                 </Button>
               </div>
               <div>
-                <UpdateRoot
-                  variant="contained"
-                  sx={{
-                    background: "#BBBBBB",
-                    marginRight: "45px",
-                    fontSize: "400",
-                    fontWeight: "18px",
-                    color: "#E9E9F0",
-                    textTransform: "initial",
-                  }}
-                />
+                <UpdateRoot />
               </div>
             </div>
             <div className={styles.body} ref={scrollIntoViewRef}>

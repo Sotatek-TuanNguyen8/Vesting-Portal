@@ -102,17 +102,7 @@ export default function Investors() {
                 <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
                 <p onClick={handleAddNew}>New</p>
               </div>
-              <UpdateRoot
-                variant="contained"
-                sx={{
-                  background: "#BBBBBB",
-                  marginRight: "45px",
-                  fontSize: "400",
-                  fontWeight: "18px",
-                  color: "#E9E9F0",
-                  textTransform: "initial",
-                }}
-              />
+              <UpdateRoot />
             </div>
 
             <div className={styles.body} ref={scrollIntoViewRef}>
