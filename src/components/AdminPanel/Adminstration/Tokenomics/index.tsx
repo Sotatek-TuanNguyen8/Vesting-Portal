@@ -15,6 +15,7 @@ import useStyles from "./style";
 import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
 import { scrollIntoView } from "../../../../utils/common/fn";
+import { toast } from "react-toastify";
 
 export default function Tokenomics() {
   const styles = useStyles();
@@ -37,7 +38,7 @@ export default function Tokenomics() {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics(
       query,
-      sessionStorage.getItem("access_token") as string,
+      sessionStorage.getItem("access_token") as string
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
@@ -49,7 +50,7 @@ export default function Tokenomics() {
     getDataTable();
   }, [getDataTable]);
 
-  const handleUpdateCsv = (e: any) => {
+  const handleUpdateCsv = async (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
     console.log("file", file);
