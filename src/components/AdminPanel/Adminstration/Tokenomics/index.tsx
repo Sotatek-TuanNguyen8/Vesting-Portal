@@ -33,6 +33,7 @@ export default function Tokenomics({}: Props) {
     page_number: 0,
     page_size: 10,
   });
+  const [csvValue, setCsvValue] = useState<any>("");
 
   const handleAddNew = () => {
     setOpen(true);
@@ -138,6 +139,7 @@ export default function Tokenomics({}: Props) {
     } else {
       toast.error("File format is not supported");
     }
+    setCsvValue("");
   };
 
   return (
@@ -183,6 +185,7 @@ export default function Tokenomics({}: Props) {
                     multiple
                     type="file"
                     onChange={handleUpdateCsv}
+                    value={csvValue}
                   />
                 </Button>
               </div>
