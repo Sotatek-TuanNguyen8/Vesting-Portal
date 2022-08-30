@@ -38,7 +38,6 @@ export default function ListAccountTokenomics(props: any) {
   };
   const handleEdit = (e: any, id: any) => {
     setIsEdit(id);
-    console.log(e);
     setEditDataItem({
       name: e.name,
       token_amount: e.token_amount,
@@ -55,7 +54,8 @@ export default function ListAccountTokenomics(props: any) {
       checkValidate(editDataItem.token_amount, "number", "token_amount") ||
       checkValidate(editDataItem.tge_amount, "number", "tge_amount") ||
       checkValidate(editDataItem.cliff, "number", "cliff") ||
-      checkValidate(editDataItem.linear_vesting, "number", "linear_vesting")
+      checkValidate(editDataItem.linear_vesting, "number", "linear_vesting") ||
+      checkValidate(editDataItem.vesting_type_id, "number", "vesting_type")
     )
       return;
 
@@ -107,7 +107,8 @@ export default function ListAccountTokenomics(props: any) {
       checkValidate(fieldAddItem.token_amount, "number", "token_amount") ||
       checkValidate(fieldAddItem.tge_amount, "number", "tge_amount") ||
       checkValidate(fieldAddItem.cliff, "number", "cliff") ||
-      checkValidate(fieldAddItem.linear_vesting, "number", "linear_vesting")
+      checkValidate(fieldAddItem.linear_vesting, "number", "linear_vesting") ||
+      checkValidate(fieldAddItem.vesting_type_id, "number", "vesting_type")
     )
       return;
     if (openAdd) {
@@ -153,6 +154,8 @@ export default function ListAccountTokenomics(props: any) {
     ) {
       return true;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
+      return true;
+    } else if (field === "vesting_type" && value === null) {
       return true;
     } else {
       return false;
@@ -220,7 +223,10 @@ export default function ListAccountTokenomics(props: any) {
                   ? fieldAddItem?.vesting_type_id
                   : vestingData[0].id
               }
+              field={"vesting_type"}
+              type={"select"}
               data={vestingData}
+              defaultValue=""
               onClickSelect={handleSelectVestingAdd}
             />
             <InputTableEditDefault
@@ -298,6 +304,13 @@ export default function ListAccountTokenomics(props: any) {
                 }
                 data={vestingData}
                 onClickSelect={handleSelectVesting}
+                field={"vesting_type"}
+                type={"select"}
+                defaultValue={
+                  isEdit === item.id
+                    ? editDataItem?.vesting_type_id
+                    : item?.vesting_type_id
+                }
               />
               <InputTableEditDefault
                 width="80%"

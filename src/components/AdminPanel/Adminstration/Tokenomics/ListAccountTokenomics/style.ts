@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         // justifyContent: "space-around",
         "& p": {
-          width: "16%",
+          width: "14.2%",
           fontSize: 16,
           fontWeight: 400,
           // marginLeft: "12px",
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => {
           width: "14.2%",
           display: "flex",
           alignItems: "center",
-          margin: "0 5px",
+          // margin: "0 5px",
           "& img": {
             cursor: "pointer",
             marginLeft: 20,

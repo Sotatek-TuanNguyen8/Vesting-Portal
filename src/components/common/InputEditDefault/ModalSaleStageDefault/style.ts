@@ -4,13 +4,12 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: "10%",
+      width: "80%",
       backgroundColor: "#fff",
       border: "1px solid #BBBBBB",
       borderRadius: 3,
       padding: "3px 10px",
-      marginRight: "40px",
-      height: "100%",
+      height: "auto",
       fontFamily: "gibson",
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     wrapperEdit: {
-      width: "14.2%",
+      width: "80%",
       borderRadius: 3,
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
@@ -58,6 +57,11 @@ const useStyles = makeStyles((theme: Theme) => {
         fontWeight: 400,
         cursor: "pointer",
       },
+    },
+    wrap: {
+      width: "14.2%",
+      display: "flex",
+      alignItems: "center",
     },
   };
 });
