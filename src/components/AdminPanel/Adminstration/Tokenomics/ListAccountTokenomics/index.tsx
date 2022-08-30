@@ -188,7 +188,7 @@ export default function ListAccountTokenomics(props: any) {
         <div className={styles.addWrap}>
           <div className={styles.content}>
             <InputTableEditDefault
-              width="228px"
+              width="100%"
               type="text"
               status={true}
               value={fieldAddItem?.name ?? ""}

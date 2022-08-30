@@ -16,7 +16,7 @@ export default function UpdateRoot(props: any) {
   const { checkRootData } = props;
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
-  const [disableGenerate, setDisableGenerate] = useState(true);
+  const [disableGenerate, setDisableGenerate] = useState(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
 
   const handleUpdate = async (
@@ -54,6 +54,7 @@ export default function UpdateRoot(props: any) {
 
   const handleUpdateRoot = async (valueRoot: string) => {
     setCheckClickFirst(true);
+    setDisableGenerate(true);
     let checkNetwork = wrongNetWork;
     if (wrongNetWork) {
       const switchError = await switchNetwork();
@@ -69,7 +70,6 @@ export default function UpdateRoot(props: any) {
         );
 
         if (!time_out_update) {
-          setDisableGenerate(false);
           toast.success("Successful transaction done");
           await updateRootApi();
         } else {
@@ -79,6 +79,7 @@ export default function UpdateRoot(props: any) {
         }
       } catch (error) {
         toast.warning("You denied the transaction");
+        setDisableGenerate(false);
       }
     }
     setCheckClickFirst(false);
@@ -88,23 +89,28 @@ export default function UpdateRoot(props: any) {
     if (!res || res?.error) return;
     return res;
   };
-  useEffect(() => {
-    if (checkRootData?.data?.value && !checkRootData?.data?.is_updated) {
-      setDisableGenerate(false);
-    } else {
-      setDisableGenerate(true);
+  const checkValueData = async () => {
+    if (!checkRootData?.value && !checkRootData?.is_updated) {
+      await generateRootData();
+    } else if (checkRootData?.value && !checkRootData?.is_updated) {
+      await handleUpdateRoot(checkRootData?.value);
     }
-  }, [checkRootData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
 
   const generateRootData = async () => {
     const res = await postGenerageData();
     if (res?.data?.value && !res?.data?.is_updated)
       await handleUpdateRoot(res?.data?.value);
   };
-
+  useEffect(() => {
+    if (checkRootData?.is_updated) {
+      setDisableGenerate(true);
+    }
+  }, [checkRootData]);
   return (
     <Button
-      onClick={generateRootData}
+      onClick={checkValueData}
       variant="contained"
       sx={{
         background: "#BBBBBB",
