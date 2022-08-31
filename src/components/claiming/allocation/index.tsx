@@ -11,12 +11,12 @@ import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
+import moment from "moment";
 
 type Props = {};
 const data = [
   {
     name: "18",
-    value: 123,
   },
   {
     name: "19",
@@ -48,6 +48,21 @@ interface ITokenInfo {
   decimals: number;
 }
 
+const fakeData = [
+  {
+    date: "2022-06-20",
+    value: 400,
+  },
+  {
+    date: "2022-07-02",
+    value: 300,
+  },
+  {
+    date: "2022-06-29",
+    value: 500,
+  },
+];
+
 export default function Allocation({}: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
@@ -56,6 +71,31 @@ export default function Allocation({}: Props) {
   const [infoToken, setInfoToken] = useState<ITokenInfo>();
   const infoClaim = useSelector((s: any) => s.claimAction.data);
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleLineChart = () => {
+    const b = fakeData.sort(function (a, b) {
+      return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+    });
+
+    console.log("maxDate", b);
+
+    const listDate = Array.from(Array(7).keys())?.map((el) =>
+      moment(b[0]?.date).subtract(el, "d").format("YYYY-MM-DD")
+    );
+
+    const a: any = {};
+
+    let test: any = listDate.map((value, index) => {
+      return { ...a, date: value };
+    });
+    test = [...fakeData, ...test];
+
+    console.log("listDate", test);
+
+    // const
+  };
+
+  handleLineChart();
 
   useEffect(() => {
     (async () => {
