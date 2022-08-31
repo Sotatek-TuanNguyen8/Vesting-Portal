@@ -53,32 +53,7 @@ const LineChart = ({ data, width, height }: any) => {
     });
   };
 
-  // useEffect(() => {
-  //   const tooltip = document.querySelector<HTMLElement>(
-  //     ".recharts-tooltip-wrapper",
-  //   );
-  //   if (!tooltip) return;
-  //   // Init tooltip values
-  //   const tooltipHeight = tooltip.getBoundingClientRect().height;
-  //   const tooltipWidth = tooltip.getBoundingClientRect().width;
-  //   const spaceForLittleTriangle = 20;
-
-  //   // Rewrite tooltip styles
-  //   tooltip.setAttribute(
-  //     "style",
-  //     `
-  //    transform: translate(${positionTooltip?.x}px, ${positionTooltip?.y}px);
-  //   pointer-events: none;  position: absolute;
-  //   top: -${tooltipHeight + spaceForLittleTriangle}px;
-  //   left: -${tooltipWidth / 2}px;
-  //   opacity: ${positionTooltip?.show ? "1" : 0};
-  //   transition: all 400ms ease 0s;
-  // `,
-  //   );
-  // }, [positionTooltip]);
-
   return (
-    // <ResponsiveContainer width={700} height={500}>
     <AreaChart
       data={data}
       width={width}
@@ -151,6 +126,21 @@ const LineChart = ({ data, width, height }: any) => {
           strokeWidth: 7,
           r: 12,
           className: "boxShadow",
+          onMouseEnter: (data, position: any) => {
+            setPositionTooltip({
+              x: position?.cx,
+              y: position?.cy,
+              width: 100,
+              height: 100,
+              show: true,
+            });
+          },
+          onMouseOut: () => {
+            setPositionTooltip({
+              ...positionTooltip,
+              show: false,
+            });
+          },
         }}
         dot={{
           fill: "#FFFFFF",
