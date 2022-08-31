@@ -1,21 +1,27 @@
 import { Typography } from "@material-ui/core";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
+import { useCallback, useEffect, useState } from "react";
+import { getListJoinClaim } from "../../service/claim.service";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import { WrongNetwork } from "../WrongNetWork";
-import Allocation from "./allocation";
+import Allocation, { IDataClaim } from "./allocation";
 import useStyles from "./style";
 
 export default function ClaimPage() {
   const classes = useStyles();
-  const { wrongNetWork, account } = useMetaMask();
-  const dispatch = useDispatch<AppDispatch>();
+  const { wrongNetWork } = useMetaMask();
+  const [listClaim, setListClaim] = useState<IDataClaim[]>([]);
+
+  const fetchListJoinClaim = useCallback(async () => {
+    const res = await getListJoinClaim();
+    if (res?.data) {
+      setListClaim(res.data);
+    } else {
+    }
+  }, []);
 
   useEffect(() => {
-    if (!account) return;
-    // dispatch(fetchInfoClaim("1"));
-  }, []);
+    fetchListJoinClaim();
+  }, [fetchListJoinClaim]);
 
   return (
     <div className={classes.claim}>
@@ -29,7 +35,13 @@ export default function ClaimPage() {
         into your preferred wallet.
       </p>
       <div>
-        <Allocation />
+        {listClaim?.map((el, index) => (
+          <Allocation
+            dataClaim={el}
+            key={index}
+            fetchListJoinClaim={fetchListJoinClaim}
+          />
+        ))}
       </div>
     </div>
   );

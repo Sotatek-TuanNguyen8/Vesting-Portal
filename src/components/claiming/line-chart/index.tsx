@@ -15,7 +15,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className={style.customTooltip}>
         <p className={style.valueTooltip}>{payload[0].value}</p>
-        {/* <p className={style.labelTooltip}>{payload[0].name}</p> */}
       </div>
     );
   }

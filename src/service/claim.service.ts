@@ -1,10 +1,16 @@
+import { IClaim } from "../components/claiming/allocation";
 import Request from "./request/Request";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
 
-interface IGetInfoClaim {}
+export const getInfoClaim = async (id: number) => {
+  const { data } = await Request.get(
+    `${serverEndpoint}/rounds/${id}/claim-token-info`
+  );
+  return data;
+};
 
-export const getInfoClaim = async (body: IGetInfoClaim) => {
-  const { data } = await Request.post(`${serverEndpoint}`, body);
+export const getListJoinClaim = async () => {
+  const { data } = await Request.get(`${serverEndpoint}/rounds/joined`);
   return data;
 };

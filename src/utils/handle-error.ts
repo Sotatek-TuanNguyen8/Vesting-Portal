@@ -11,9 +11,9 @@ export const handleErrorUtil = (response: AxiosResponse<any>) => {
   const { status } = response;
   if (status >= 500) {
     toast.error("Server error");
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.href = "/sign-in";
+    // localStorage.clear();
+    // sessionStorage.clear();
+    // window.location.href = "/sign-in";
     return;
   }
   switch (status) {
@@ -32,11 +32,11 @@ export const handleErrorUtilAdmin = (response: AxiosResponse<any>) => {
   const { status } = response;
   if (status >= 500) {
     toast.error("Server error");
-    localStorage.clear();
-    sessionStorage.clear();
-    if (window.location.pathname !== "/admin-panel") {
-      window.location.href = "/admin-panel";
-    }
+    // localStorage.clear();
+    // sessionStorage.clear();
+    // if (window.location.pathname !== "/admin-panel") {
+    //   window.location.href = "/admin-panel";
+    // }
     return;
   }
   switch (status) {
