@@ -13,11 +13,20 @@ type ModalProps = {
   defaultValue?: string;
   field?: string;
   type?: string;
+  active?: boolean;
 };
 
 export default function ModalSaleStageDefault(props: ModalProps) {
-  const { value, status, onClickSelect, data, defaultValue, field, type } =
-    props;
+  const {
+    value,
+    status,
+    onClickSelect,
+    data,
+    defaultValue,
+    field,
+    type,
+    active,
+  } = props;
   const styles = useStyles();
 
   return (
@@ -42,7 +51,7 @@ export default function ModalSaleStageDefault(props: ModalProps) {
           </Select>
         )}
       </FormControl>
-      {status ? (
+      {status && active ? (
         <TooltipValidateDefault
           value={value}
           field={field}

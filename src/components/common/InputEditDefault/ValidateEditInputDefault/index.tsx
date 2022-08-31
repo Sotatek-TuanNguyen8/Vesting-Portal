@@ -8,14 +8,15 @@ type Props = {
   field?: string;
   defaultValue?: string;
   type?: string | undefined;
+  active?: boolean;
 };
 export default function TooltipValidateDefault(props: Props) {
-  const { value, field, defaultValue, type } = props;
+  const { value, field, defaultValue, type, active } = props;
   const styles = useStyles();
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     // if (!defaultValue) return;
-    if (!value && defaultValue) {
+    if ((!value && defaultValue) || (!value && active)) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
@@ -30,7 +31,11 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>Enter a valid email</p>;
     } else if (field === "wallet_address" && !ethers.utils.isAddress(value)) {
       return <p>Enter a valid wallet address</p>;
-    } else if (type === "number" && toNumber(value) > 1000000) {
+    } else if (
+      type === "number" &&
+      toNumber(value) > 1000000 &&
+      field !== "tge_amount"
+    ) {
       return <p>Token amount of this investor cannot exceed 1000000</p>;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
       return <p>Token amount of this investor cannot exceed 100%</p>;
@@ -53,7 +58,11 @@ export default function TooltipValidateDefault(props: Props) {
         {renderMsgErrer() ? (
           <>
             <img src="/images/iconTooltip.svg" alt="" />
-            <div className="onHoverTooltip">{renderMsgErrer()}</div>
+            <div
+              className={type === "select" ? "selectHover" : "onHoverTooltip"}
+            >
+              {renderMsgErrer()}
+            </div>
           </>
         ) : (
           ""
