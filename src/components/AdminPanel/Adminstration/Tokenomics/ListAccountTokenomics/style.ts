@@ -17,10 +17,10 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         // justifyContent: "space-around",
         "& p": {
-          width: "16%",
+          width: "14.2%",
           fontSize: 16,
           fontWeight: 400,
-          marginLeft: "12px",
+          // marginLeft: "12px",
           "& img": {
             marginLeft: 20,
             cursor: "pointer",
@@ -49,14 +49,14 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         display: "flex",
         flexDirection: "row",
-        "& div:nth-child(2)": {
-          margin: "0 12px",
-        },
+        // "& div:nth-child(2)": {
+        //   margin: "0 12px",
+        // },
         "& .action": {
           width: "14.2%",
           display: "flex",
           alignItems: "center",
-          margin: "0 5px",
+          // margin: "0 5px",
           "& img": {
             cursor: "pointer",
             marginLeft: 20,

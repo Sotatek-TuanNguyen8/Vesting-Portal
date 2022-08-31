@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadRootIcon } from "../../../../assets/svgs";
 import { getContractConnect } from "../../../../service/web";
 import useMetaMask from "../../../../utils/hooks/useMetaMask";
@@ -10,7 +10,6 @@ import {
   postGenerageData,
   updateRoot,
 } from "../../../../service/admin.service";
-import { Box } from "@material-ui/core";
 
 export default function UpdateRoot(props: any) {
   const { checkRootData } = props;
@@ -106,8 +105,11 @@ export default function UpdateRoot(props: any) {
   useEffect(() => {
     if (checkRootData?.is_updated) {
       setDisableGenerate(true);
+    } else {
+      setDisableGenerate(false);
     }
   }, [checkRootData]);
+
   return (
     <Button
       onClick={checkValueData}
@@ -119,6 +121,18 @@ export default function UpdateRoot(props: any) {
         fontWeight: "18px",
         color: "#E9E9F0",
         textTransform: "initial",
+       
+        "&:hover": {
+          color: "#051C42",
+          backgroundColor: "#3FBCE9",
+          transition: " all 0.8s ease",
+
+          "& svg g path": {
+            fill: "#051C42",
+            transition: " all 0.8s ease",
+            
+          },
+        },
       }}
       disabled={disableGenerate}
     >

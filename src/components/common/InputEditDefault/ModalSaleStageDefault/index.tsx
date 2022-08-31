@@ -1,5 +1,6 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
+import TooltipValidateDefault from "../ValidateEditInputDefault";
 import useStyles from "./style";
 
 type ModalProps = {
@@ -9,19 +10,23 @@ type ModalProps = {
   status: boolean;
   onClickSelect: (value: any) => void;
   data: IData[];
+  defaultValue?: string;
+  field?: string;
+  type?: string;
 };
 
-export default function ModalSaleStage(props: ModalProps) {
-  const { value, status, onClickSelect, data } = props;
+export default function ModalSaleStageDefault(props: ModalProps) {
+  const { value, status, onClickSelect, data, defaultValue, field, type } =
+    props;
   const styles = useStyles();
 
   return (
-    <FormControl className={styles.container}>
-      <div className={status ? styles.wrapper : styles.wrapperEdit}>
+    <div className={styles.wrap}>
+      <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
         {!status ? (
-          <span style={{ color: "#0A208F", fontSize: 16 }}>
+          <p style={{ color: "#0A208F", fontSize: 16 }}>
             {data?.filter((el) => el.id === Number(value))[0]?.name}
-          </span>
+          </p>
         ) : (
           <Select
             value={Number(value)}
@@ -36,7 +41,17 @@ export default function ModalSaleStage(props: ModalProps) {
             ))}
           </Select>
         )}
-      </div>
-    </FormControl>
+      </FormControl>
+      {status ? (
+        <TooltipValidateDefault
+          value={value}
+          field={field}
+          defaultValue={defaultValue}
+          type={type}
+        />
+      ) : (
+        ""
+      )}
+    </div>
   );
 }

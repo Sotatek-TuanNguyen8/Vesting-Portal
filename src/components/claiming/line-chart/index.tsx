@@ -53,7 +53,6 @@ const LineChart = ({ data, width, height }: any) => {
   };
 
   return (
-    // <ResponsiveContainer width={700} height={500}>
     <AreaChart
       data={data}
       width={width}
@@ -126,6 +125,21 @@ const LineChart = ({ data, width, height }: any) => {
           strokeWidth: 7,
           r: 12,
           className: "boxShadow",
+          onMouseEnter: (data, position: any) => {
+            setPositionTooltip({
+              x: position?.cx,
+              y: position?.cy,
+              width: 100,
+              height: 100,
+              show: true,
+            });
+          },
+          onMouseOut: () => {
+            setPositionTooltip({
+              ...positionTooltip,
+              show: false,
+            });
+          },
         }}
         dot={{
           fill: "#FFFFFF",
