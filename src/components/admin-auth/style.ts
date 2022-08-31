@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) => {
       padding: " 0 27px 0px 19px  !important",
       marginTop: "82px !importain",
     },
+    metaMaskIcon: {
+      margin: "10px 0",
+    },
     main: {
       width: "100%",
       margin: "0px auto",

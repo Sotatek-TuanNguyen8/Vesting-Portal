@@ -120,7 +120,6 @@ export default function AdminAuthPage() {
                         transition: (theme) =>
                           theme.transitions.create("background-color"),
                         "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
-                        "& > img": { mb: 2 },
                       }}
                       key={type}
                       // @ts-ignore
@@ -137,6 +136,7 @@ export default function AdminAuthPage() {
                         {label}
                       </Typography>
                       <img
+                        className={classes.metaMaskIcon}
                         src={`/images/${type}.svg`}
                         alt={type}
                         width={60}

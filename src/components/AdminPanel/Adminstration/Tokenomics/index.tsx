@@ -40,7 +40,7 @@ export default function Tokenomics() {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics(
       query,
-      sessionStorage.getItem("access_token") as string,
+      sessionStorage.getItem("access_token") as string
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
