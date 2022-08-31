@@ -1,16 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getInfoClaim } from "../../service/claim.service";
 
+interface IGetInfoClaim {
+  proof: string[];
+  vesting_duration: string;
+  cliff_duration: string;
+  start_time: string;
+  tge: string;
+  vesting_type: number;
+  allocation_token: string;
+}
 interface infoClaim {
-  data: {};
+  data: IGetInfoClaim;
   loading: boolean;
   error: any;
 }
 
 export const fetchInfoClaim = createAsyncThunk(
   "user/fetchInfoClaim",
-  async (access_token: string, { rejectWithValue }) => {
-    const response = await getInfoClaim({});
+  async (id: number, { rejectWithValue }) => {
+    const response = await getInfoClaim(id);
     if (response?.error) {
       return rejectWithValue(response.error);
     }
@@ -19,7 +28,15 @@ export const fetchInfoClaim = createAsyncThunk(
 );
 
 const initialState: infoClaim = {
-  data: {},
+  data: {
+    proof: [],
+    vesting_duration: "",
+    cliff_duration: "",
+    start_time: "",
+    tge: "",
+    vesting_type: 0,
+    allocation_token: "",
+  },
   loading: false,
   error: "",
 };

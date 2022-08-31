@@ -40,7 +40,7 @@ export default function Tokenomics() {
   const getDataTable = useCallback(async () => {
     const renderData = await getDataTokenomics(
       query,
-      sessionStorage.getItem("access_token") as string,
+      sessionStorage.getItem("access_token") as string
     );
     if (!renderData) return;
     setDataTable(renderData?.data.rounds);
@@ -62,9 +62,7 @@ export default function Tokenomics() {
   const handleUpdateCsv = async (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
-    console.log("file", file);
     const bytesToMegaBytes: any = file.size / 1024 ** 2;
-    console.log("bytesToMegaBytes", bytesToMegaBytes);
 
     if (file.type === "text/csv") {
       if (bytesToMegaBytes < 100) {

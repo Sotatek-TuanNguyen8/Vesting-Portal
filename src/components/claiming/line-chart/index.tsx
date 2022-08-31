@@ -15,7 +15,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className={style.customTooltip}>
         <p className={style.valueTooltip}>{payload[0].value}</p>
-        {/* <p className={style.labelTooltip}>{payload[0].name}</p> */}
       </div>
     );
   }
@@ -52,30 +51,6 @@ const LineChart = ({ data, width, height }: any) => {
       show: false,
     });
   };
-
-  // useEffect(() => {
-  //   const tooltip = document.querySelector<HTMLElement>(
-  //     ".recharts-tooltip-wrapper",
-  //   );
-  //   if (!tooltip) return;
-  //   // Init tooltip values
-  //   const tooltipHeight = tooltip.getBoundingClientRect().height;
-  //   const tooltipWidth = tooltip.getBoundingClientRect().width;
-  //   const spaceForLittleTriangle = 20;
-
-  //   // Rewrite tooltip styles
-  //   tooltip.setAttribute(
-  //     "style",
-  //     `
-  //    transform: translate(${positionTooltip?.x}px, ${positionTooltip?.y}px);
-  //   pointer-events: none;  position: absolute;
-  //   top: -${tooltipHeight + spaceForLittleTriangle}px;
-  //   left: -${tooltipWidth / 2}px;
-  //   opacity: ${positionTooltip?.show ? "1" : 0};
-  //   transition: all 400ms ease 0s;
-  // `,
-  //   );
-  // }, [positionTooltip]);
 
   return (
     // <ResponsiveContainer width={700} height={500}>
