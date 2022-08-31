@@ -22,7 +22,6 @@ export default function Tokenomics() {
   const styles = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [dataTable, setDataTable] = useState<Array<any>>([]);
-
   const [startTimeData, setStartTimeData] = useState<number | null>(null);
   const [dataRoot, setDataRoot] = useState({});
   const [count, setCount] = useState<number>(1);
@@ -62,9 +61,7 @@ export default function Tokenomics() {
   const handleUpdateCsv = async (e: any) => {
     e.preventDefault();
     const file = e.target.files[0];
-    console.log("file", file);
     const bytesToMegaBytes: any = file.size / 1024 ** 2;
-    console.log("bytesToMegaBytes", bytesToMegaBytes);
 
     if (file.type === "text/csv") {
       if (bytesToMegaBytes < 100) {

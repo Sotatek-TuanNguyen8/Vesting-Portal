@@ -5,7 +5,6 @@ const useStyles = makeStyles((theme: Theme) => {
     wrapper: {
       width: "14.2%",
       display: "flex",
-      margin: "0 5px",
     },
     input: {
       height: 40,
