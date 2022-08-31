@@ -5,9 +5,9 @@ import useStyles from "./style";
 
 type Props = {
   value: string;
-  field: string;
-  defaultValue: string;
-  type?: string;
+  field?: string;
+  defaultValue?: string;
+  type?: string | undefined;
 };
 export default function TooltipValidateDefault(props: Props) {
   const { value, field, defaultValue, type } = props;
@@ -19,7 +19,7 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
-    } else if (value.length > 255) {
+    } else if (value?.length > 255) {
       return <p>Enter less than 255 characters</p>;
     } else if (
       field === "email" &&
@@ -30,8 +30,18 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>Enter a valid email</p>;
     } else if (field === "wallet_address" && !ethers.utils.isAddress(value)) {
       return <p>Enter a valid wallet address</p>;
-    } else if (type === "number" && toNumber(value) > 10000000) {
-      return <p>Token amount of this investor cannot exceed 10000000</p>;
+    } else if (type === "number" && toNumber(value) > 1000000) {
+      return <p>Token amount of this investor cannot exceed 1000000</p>;
+    } else if (field === "tge_amount" && toNumber(value) > 100) {
+      return <p>Token amount of this investor cannot exceed 100%</p>;
+    } else if (value === null && field === "vesting_type") {
+      return <p>Please select option</p>;
+    } else if (
+      type === "number" &&
+      toNumber(value) === 0 &&
+      defaultValue !== ""
+    ) {
+      return <p>Input value must be than 0</p>;
     } else {
       return "";
     }
@@ -61,6 +71,7 @@ export default function TooltipValidateDefault(props: Props) {
       case "cliff":
       case "linear_vesting":
       case "wallet_address":
+      case "vesting_type":
         return renderMsgValidateFullName();
     }
   }, [field, renderMsgValidateFullName]);

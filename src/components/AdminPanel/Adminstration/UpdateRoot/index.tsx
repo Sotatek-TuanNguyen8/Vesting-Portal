@@ -105,6 +105,8 @@ export default function UpdateRoot(props: any) {
   useEffect(() => {
     if (checkRootData?.is_updated) {
       setDisableGenerate(true);
+    } else {
+      setDisableGenerate(false);
     }
   }, [checkRootData]);
 
@@ -119,11 +121,16 @@ export default function UpdateRoot(props: any) {
         fontWeight: "18px",
         color: "#E9E9F0",
         textTransform: "initial",
+       
         "&:hover": {
           color: "#051C42",
           backgroundColor: "#3FBCE9",
+          transition: " all 0.8s ease",
+
           "& svg g path": {
             fill: "#051C42",
+            transition: " all 0.8s ease",
+            
           },
         },
       }}
