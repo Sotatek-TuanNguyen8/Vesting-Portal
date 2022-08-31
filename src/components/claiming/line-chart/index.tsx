@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className={style.customTooltip}>
         <p className={style.valueTooltip}>{payload[0].value}</p>
-        <p className={style.labelTooltip}>{payload[0].name}</p>
+        {/* <p className={style.labelTooltip}>{payload[0].name}</p> */}
       </div>
     );
   }
@@ -33,7 +33,6 @@ const LineChart = ({ data, width, height }: any) => {
   const [activeTooltip, setActiveTooltip] = useState(0);
 
   const onMouseMov = (hoveredData: any) => {
-    debugger;
     setPositionTooltip({
       x: hoveredData?.points[activeTooltip]?.x,
       y: hoveredData?.points[activeTooltip]?.y,
@@ -105,7 +104,7 @@ const LineChart = ({ data, width, height }: any) => {
         cursor={false}
         position={{
           x: positionTooltip.x - 50,
-          y: positionTooltip.y - 110,
+          y: positionTooltip.y - 90,
         }}
         wrapperStyle={{
           opacity: positionTooltip?.show ? "1" : 0,
