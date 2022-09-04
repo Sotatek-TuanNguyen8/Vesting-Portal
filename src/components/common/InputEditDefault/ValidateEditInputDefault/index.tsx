@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { isNumber, toNumber } from "lodash";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import useStyles from "./style";
 
 type Props = {
@@ -13,10 +13,15 @@ type Props = {
 export default function TooltipValidateDefault(props: Props) {
   const { value, field, defaultValue, type, active } = props;
   const styles = useStyles();
+  const [getError, setGetError] = useState({});
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     // if (!defaultValue) return;
-    if ((!value && defaultValue) || (!value && active)) {
+    if (
+      (!value && defaultValue) ||
+      (!value && active) ||
+      (toNumber(value) === 0 && active)
+    ) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;

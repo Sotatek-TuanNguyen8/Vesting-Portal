@@ -132,6 +132,7 @@ export default function ListAccountTokenomics(props: any) {
   };
 
   const handleCloseAdd = () => {
+    setShowErrorMsgAdd(false);
     setAdd(false);
     setFieldAddItem({});
   };
