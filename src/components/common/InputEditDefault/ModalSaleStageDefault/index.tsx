@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
 import TooltipValidateDefault from "../ValidateEditInputDefault";
@@ -28,10 +29,15 @@ export default function ModalSaleStageDefault(props: ModalProps) {
     active,
   } = props;
   const styles = useStyles();
-
+  const [activeError, setActiveError] = useState(false);
   return (
     <div className={styles.wrap}>
-      <FormControl className={status ? styles.wrapper : styles.wrapperEdit}>
+      <FormControl
+        className={status ? styles.wrapper : styles.wrapperEdit}
+        style={{
+          border: `1px solid  ${active && activeError && "#F44336"}`,
+        }}
+      >
         {!status ? (
           <p style={{ color: "#0A208F", fontSize: 16 }}>
             {data?.filter((el) => el.id === Number(value))[0]?.name}
@@ -57,6 +63,7 @@ export default function ModalSaleStageDefault(props: ModalProps) {
           field={field}
           defaultValue={defaultValue}
           type={type}
+          setActiveError={setActiveError}
         />
       ) : (
         ""

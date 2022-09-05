@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { isNumber, toNumber } from "lodash";
-import { useCallback } from "react";
+import _, { isNumber, toNumber } from "lodash";
+import { useCallback, useState } from "react";
 import useStyles from "./style";
 
 type Props = {
@@ -9,14 +9,18 @@ type Props = {
   defaultValue?: string;
   type?: string | undefined;
   active?: boolean;
+  setActiveError: (value: boolean) => void;
 };
 export default function TooltipValidateDefault(props: Props) {
-  const { value, field, defaultValue, type, active } = props;
+  const { value, field, defaultValue, type, active, setActiveError } = props;
   const styles = useStyles();
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     // if (!defaultValue) return;
-    if ((!value && defaultValue) || (!value && active)) {
+    if (
+      (!value && defaultValue) ||
+      (!value && active) 
+    ) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
@@ -33,18 +37,17 @@ export default function TooltipValidateDefault(props: Props) {
       return <p>Enter a valid wallet address</p>;
     } else if (
       type === "number" &&
-      toNumber(value) > 1000000 &&
+      _.toNumber(value) > 1000000 &&
       field !== "tge_amount"
     ) {
       return <p>Token amount of this investor cannot exceed 1000000</p>;
-    } else if (field === "tge_amount" && toNumber(value) > 100) {
+    } else if (field === "tge_amount" && _.toNumber(value) > 100) {
       return <p>Token amount of this investor cannot exceed 100%</p>;
     } else if (value === null && field === "vesting_type") {
       return <p>Please select option</p>;
     } else if (
       type === "number" &&
-      toNumber(value) === 0 &&
-      defaultValue !== ""
+      _.toNumber(value) <= 0 
     ) {
       return <p>Input value must be than 0</p>;
     } else {
@@ -53,6 +56,11 @@ export default function TooltipValidateDefault(props: Props) {
   }, [field, value]);
 
   const renderMsgValidateFullName = useCallback(() => {
+    if (renderMsgErrer()) {
+      setActiveError(true);
+    } else {
+      setActiveError(false);
+    }
     return (
       <>
         {renderMsgErrer() ? (
