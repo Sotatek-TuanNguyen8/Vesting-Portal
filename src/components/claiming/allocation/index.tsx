@@ -181,7 +181,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       listData.reverse();
       setLineChartData(listData);
     } else {
-      toast.error("Error");
+      toast.error(res.error.message);
     }
   };
 
