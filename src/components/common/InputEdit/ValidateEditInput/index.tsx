@@ -122,7 +122,7 @@ export default function TooltipValidate(props: Props) {
     }
   }, [defaultValue, field, renderMsgErrorInput]);
 
-  const renderMsgValidateFullName = useCallback(() => {
+  const renderMsgValidate = useCallback(() => {
     return (
       <>
         {renderMsgError() ? (
@@ -143,9 +143,11 @@ export default function TooltipValidate(props: Props) {
       case "email":
       case "wallet_address":
       case "allocation_token":
-        return renderMsgValidateFullName();
+        return renderMsgValidate();
+      default:
+        return null;
     }
-  }, [field, renderMsgValidateFullName]);
+  }, [field, renderMsgValidate]);
 
   return <div className={styles.wrapper}>{renderTooltipValidate()}</div>;
 }
