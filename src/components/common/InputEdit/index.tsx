@@ -1,9 +1,6 @@
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-import {
-  formatAmount,
-  format_thousands_decimal,
-} from "../../../utils/common/fn";
+import { format_thousands_decimal } from "../../../utils/common/fn";
 import useStyles from "./style";
 import TooltipValidate from "./ValidateEditInput";
 

@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) => {
         "-webkit-appearance": "none",
         margin: 0,
       },
+      "&:focus": {
+        outline: "none",
+      },
     },
     hiddenInput: {
       height: 40,

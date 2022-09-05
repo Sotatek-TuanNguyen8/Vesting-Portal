@@ -74,11 +74,11 @@ export default function ListAccountTokenomics(props: any) {
     // return;
     const res = await editTableTokenimics(data.id, {
       name: editDataItem.name,
-      token_amount: toNumber(editDataItem.token_amount),
-      tge_amount: toNumber(editDataItem.tge_amount),
-      cliff: toNumber(editDataItem.cliff),
-      linear_vesting: toNumber(editDataItem.linear_vesting),
-      vesting_type_id: toNumber(editDataItem.vesting_type_id),
+      token_amount: _.toNumber(editDataItem.token_amount),
+      tge_amount: _.toNumber(editDataItem.tge_amount),
+      cliff: _.toNumber(editDataItem.cliff),
+      linear_vesting: _.toNumber(editDataItem.linear_vesting),
+      vesting_type_id: _.toNumber(editDataItem.vesting_type_id),
     });
     if (!res) return;
     if (res?.error && res?.error?.message) {
@@ -114,6 +114,7 @@ export default function ListAccountTokenomics(props: any) {
       });
     }
   };
+
   const handleChangeInputAdd = (e: any, field: any) => {
     const check = /^(\d+(\.\d{0,4})?|\.?\d{0,4})$/;
     if (field === "cliff" || field === "linear_vesting") {
@@ -126,12 +127,13 @@ export default function ListAccountTokenomics(props: any) {
     } else {
       setFieldAddItem({
         ...fieldAddItem,
-        [field]: field === "name" ? e : toNumber(e),
+        [field]: e,
       });
     }
   };
 
   const handleCloseAdd = () => {
+    setShowErrorMsgAdd(false);
     setAdd(false);
     setFieldAddItem({});
   };
@@ -150,12 +152,12 @@ export default function ListAccountTokenomics(props: any) {
     setShowErrorMsgAdd(false);
     if (openAdd) {
       const res = await addTokenomics({
-        cliff: fieldAddItem.cliff,
-        linear_vesting: fieldAddItem.linear_vesting,
+        cliff: _.toNumber(fieldAddItem.cliff),
+        linear_vesting: _.toNumber(fieldAddItem.linear_vesting),
         name: fieldAddItem.name,
-        tge_amount: fieldAddItem.tge_amount,
-        token_amount: fieldAddItem.token_amount,
-        vesting_type_id: fieldAddItem.vesting_type_id,
+        tge_amount: _.toNumber(fieldAddItem.tge_amount),
+        token_amount: _.toNumber(fieldAddItem.token_amount),
+        vesting_type_id: _.toNumber(fieldAddItem.vesting_type_id),
       });
       if (!res) return;
       if (res?.error && res?.error?.message) {
@@ -188,7 +190,7 @@ export default function ListAccountTokenomics(props: any) {
       return true;
     } else if (
       (type === "number" && toNumber(value) > 1000000) ||
-      (type === "number" && toNumber(value) === 0)
+      (type === "number" && toNumber(value) <= 0)
     ) {
       return true;
     } else if (field === "tge_amount" && toNumber(value) > 100) {

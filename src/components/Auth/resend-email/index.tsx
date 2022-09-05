@@ -12,7 +12,7 @@ export default function ResendEmailPage() {
   const classes = useStyles();
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState<number>();
-  let [counter, setCounter] = useState<any>(0);
+  let [counter, setCounter] = useState<any>(-1);
   const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
   const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
@@ -26,7 +26,7 @@ export default function ResendEmailPage() {
     if (!userData?.verifyAt) {
       setCounter(60);
     } else {
-      const time = moment.now() - userData?.verifyAt / 1000;
+      const time = Math.floor((Date.now() - userData?.verifyAt) / 1000);
       if (time > 60) {
         setCounter(0);
       } else {
@@ -36,6 +36,7 @@ export default function ResendEmailPage() {
   }, [userData?.isVerify, navigate, userData?.verifyAt]);
 
   useLayoutEffect(() => {
+    if (counter < 0) return;
     const interval = setInterval(function () {
       counter--;
       if (counter <= 0) {

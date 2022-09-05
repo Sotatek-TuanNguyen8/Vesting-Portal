@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useStyles from "./style";
 import TooltipValidateDefault from "./ValidateEditInputDefault";
 
@@ -17,6 +18,7 @@ type InputProps = {
 export default function InputTableEditDefault(props: InputProps) {
   const { value, status, onChange, field, type, defaultValue, width, active } =
     props;
+  const [activeError, setActiveError] = useState(false);
   const styles = useStyles();
   const shortNumber = (string?: string) => {
     if (string && string.length > 10) {
@@ -25,7 +27,7 @@ export default function InputTableEditDefault(props: InputProps) {
       return string;
     }
   };
-    
+
   return (
     <div className={styles.wrapper}>
       {status ? (
@@ -36,7 +38,10 @@ export default function InputTableEditDefault(props: InputProps) {
           className={` ${!status ? styles.hiddenInput : styles.input} `}
           value={value}
           disabled={!status}
-          style={{ width: width ? width : "200px" }}
+          style={{
+            width: width ? width : "200px",
+            border: `1px solid  ${activeError && active && "#F44336"}`,
+          }}
           onChange={(e) => onChange(e.target.value, field)}
         />
       ) : (
@@ -54,6 +59,7 @@ export default function InputTableEditDefault(props: InputProps) {
           defaultValue={defaultValue}
           type={type}
           active={active}
+          setActiveError={setActiveError}
         />
       ) : (
         ""

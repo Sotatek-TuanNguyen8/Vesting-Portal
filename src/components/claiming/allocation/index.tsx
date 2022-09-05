@@ -1,6 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
@@ -20,12 +20,20 @@ type Props = {
 };
 
 export interface IDataClaim {
-  claimed: string;
+  claimed: number;
   id: number;
   stage_name: string;
   total_amount: string;
   vesting_type: string;
   vesting_type_id: number;
+  available_to_claim: string;
+  cliff: number;
+  linear_vesting: any;
+  next_unlock_in: number;
+  tge: string;
+  tge_claimed: string;
+  token_pending: string;
+  token_vested: string;
 }
 
 export interface IClaim {
@@ -37,34 +45,17 @@ export interface IClaim {
   vesting_duration: any;
 }
 
+interface ITokenInfo {
+  decimals: string;
+  symbol: string;
+}
+
 export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
-  const [availableClaim, setAvailableClaim] = useState<number>(0);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const infoClaimError = useSelector((s: any) => s.claimAction.error);
-  const [lineChartData, setLineChartData] = useState<any>();
-
-  const getAvailableClaim = useCallback(async () => {
-    if (!account || !dataClaim?.vesting_type_id) return;
-    const contract = await getContractConnect(
-      ClaimABI,
-      process.env.REACT_APP_CONTRACT_PROXY as string
-    );
-    const res = await contract?.methods
-      .claimableToken(account, dataClaim.vesting_type_id)
-      .call();
-    setAvailableClaim(Number(res[0]));
-  }, [account, dataClaim.vesting_type_id]);
-
-  useEffect(() => {
-    getAvailableClaim();
-  }, [getAvailableClaim]);
-
-  useEffect(() => {
-    handleLineChart();
-  }, [dataClaim]);
 
   const handleClaim = async (
     abi: any,
@@ -113,9 +104,15 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           time_out_claim: false,
         });
       } else {
+        setLoadingTransaction(false);
+        toast.error(`Not ready to claim round ${dataClaim?.stage_name}`);
       }
     });
   };
+
+  useEffect(() => {
+    handleLineChart();
+  }, [dataClaim]);
 
   const handleClaimToken = async () => {
     setLoadingTransaction(true);
@@ -192,32 +189,39 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       {infoClaimData && (
         <div className={classes.allocation}>
           <Typography variant="h5">
-            {_.upperCase(dataClaim.stage_name)}
+            {_.upperCase(dataClaim?.stage_name)}
           </Typography>
           <p className={classes.text}>View Instructions</p>
           <div className={classes.container}>
             <div className={classes.info}>
               <div className={classes.tokenType}>
                 <div className="label">Vesting Type</div>
-                <div className="content">{dataClaim.vesting_type}</div>
+                <div className="content">{dataClaim?.vesting_type}</div>
               </div>
               <div className={classes.tokenType}>
                 <div className="label">Total Amount</div>
                 <div className="content">
-                  {format_thousands_decimal(dataClaim.total_amount)}
+                  {format_thousands_decimal(dataClaim?.total_amount)}
                 </div>
               </div>
               <div className={classes.tokenType}>
                 <div className="label">Next Unlock In</div>
-                <div className="content">17 Days</div>
+                <div className="content">
+                  {dataClaim?.next_unlock_in}{" "}
+                  {dataClaim?.next_unlock_in === 1 ? "Day" : "Days"}
+                </div>
               </div>
               <div className={classes.tokenType}>
                 <div className="label">Tokens Vested</div>
-                <div className="content">0 FLD</div>
+                <div className="content">
+                  {format_thousands_decimal(dataClaim?.token_vested)} FLD
+                </div>
               </div>
               <div className={classes.tokenType}>
                 <div className="label">Tokens Pending</div>
-                <div className="content">500,000 FLD</div>
+                <div className="content">
+                  {format_thousands_decimal(dataClaim?.token_pending)} FLD
+                </div>
               </div>
               <div className={classes.tokenType}>
                 <div className="label">Tokens Claimed</div>
@@ -229,13 +233,16 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
               <div className={classes.tokenType}>
                 <div className="label">Available to Claim</div>
                 <div className="content">
-                  {format_thousands_decimal(availableClaim)} FLD
+                  {format_thousands_decimal(dataClaim?.available_to_claim)} FLD
                 </div>
               </div>
 
               <div style={{ width: "100%", height: 62, marginTop: 20 }}>
                 <Button
-                  disabled={loadingTransaction || availableClaim <= 0}
+                  disabled={
+                    loadingTransaction ||
+                    Number(dataClaim?.available_to_claim) <= 0
+                  }
                   onClick={() => handleClaimToken()}
                 >
                   CLAIM
