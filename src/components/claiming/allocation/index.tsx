@@ -1,52 +1,23 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
-import { getInfoClaim } from "../../../service/claim.service";
+import { getInfoClaim, getClaimList } from "../../../service/claim.service";
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
+import moment from "moment";
 
 type Props = {
   dataClaim: IDataClaim;
   key: number;
   fetchListJoinClaim: () => void;
 };
-const data = [
-  {
-    name: "18",
-    value: 500,
-  },
-  {
-    name: "19",
-    value: 600,
-  },
-  {
-    name: "20",
-    value: 700,
-  },
-  {
-    name: "21",
-    value: 1405,
-  },
-  {
-    name: "22",
-    value: 1200,
-  },
-  {
-    name: "23",
-    value: 1100,
-  },
-  {
-    name: "24",
-    value: 900,
-  },
-];
 
 export interface IDataClaim {
   claimed: number;
@@ -85,6 +56,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const infoClaimError = useSelector((s: any) => s.claimAction.error);
+  const [lineChartData, setLineChartData] = useState<any>();
 
   const handleClaim = async (
     abi: any,
@@ -139,6 +111,10 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     });
   };
 
+  useEffect(() => {
+    handleLineChart();
+  }, [dataClaim]);
+
   const handleClaimToken = async () => {
     setLoadingTransaction(true);
     if (wrongNetWork) {
@@ -165,6 +141,48 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       }
     }
     setLoadingTransaction(false);
+  };
+
+  const handleLineChart = async () => {
+    const res = await getClaimList(dataClaim.id);
+
+    if (res.data) {
+      const clone = res.data
+        .sort(function (a: any, b: any) {
+          return (
+            new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
+          );
+        })
+        .map((el: any, index: number) => {
+          return {
+            value: el.amount,
+            name: moment(el.created_at).format("YYYY-MM-DD"),
+          };
+        });
+
+      const listDate = Array.from(Array(7).keys())?.map((el) => {
+        return {
+          name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
+          value: 0,
+        };
+      });
+
+      const listData = _.uniqBy([...clone, ...listDate], "name")
+        .sort(function (a: any, b: any) {
+          return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+        })
+        .map((el: any) => {
+          const date = moment(el.name).date();
+          return { name: date, value: el.value };
+        });
+
+      listData.length = 7;
+
+      listData.reverse();
+      setLineChartData(listData);
+    } else {
+      toast.error(res.error.message);
+    }
   };
 
   return (
@@ -235,7 +253,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             <div className={classes.lineChart}>
               <div className="labelY">CLAIMED TOKENS</div>
               <div>
-                <LineChart data={data} width={700} height={500} />
+                <LineChart data={lineChartData} width={700} height={500} />
                 <p className="labelX">DAYS</p>
               </div>
             </div>
