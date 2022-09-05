@@ -12,9 +12,11 @@ type InputProps = {
   step?: number | string | undefined;
   min?: number | string;
   title?: string;
+  active?: boolean;
 };
 export default function InputTableEditDefault(props: InputProps) {
-  const { value, status, onChange, field, type, defaultValue, width } = props;
+  const { value, status, onChange, field, type, defaultValue, width, active } =
+    props;
   const styles = useStyles();
   const shortNumber = (string?: string) => {
     if (string && string.length > 10) {
@@ -23,6 +25,7 @@ export default function InputTableEditDefault(props: InputProps) {
       return string;
     }
   };
+    
   return (
     <div className={styles.wrapper}>
       {status ? (
@@ -44,12 +47,13 @@ export default function InputTableEditDefault(props: InputProps) {
           {field === "tge_amount" && "%"}
         </p>
       )}
-      {status ? (
+      {status && active ? (
         <TooltipValidateDefault
           value={value}
           field={field}
           defaultValue={defaultValue}
           type={type}
+          active={active}
         />
       ) : (
         ""

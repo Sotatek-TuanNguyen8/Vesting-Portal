@@ -3,10 +3,11 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
-    seed: {
+    allocation: {
       width: "100%",
       padding: "19px 38px",
       background: " #FFFFFF",
+      marginTop: 60,
     },
     text: {
       marginTop: 24,
