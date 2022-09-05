@@ -1,6 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
@@ -56,6 +56,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const infoClaimError = useSelector((s: any) => s.claimAction.error);
+  const [lineChartData, setLineChartData] = useState<any>();
 
   const handleClaim = async (
     abi: any,
