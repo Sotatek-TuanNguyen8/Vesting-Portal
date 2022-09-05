@@ -111,6 +111,7 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "inline-block",
       "& .MuiTypography-subtitle1": {
         fontWeight: 300,
+        color: "#474747",
       },
       "& .textSignUp": {
         color: "#3fbce9",
