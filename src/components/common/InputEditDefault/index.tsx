@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import useStyles from "./style";
 import TooltipValidateDefault from "./ValidateEditInputDefault";
 
@@ -13,12 +14,13 @@ type InputProps = {
   step?: number | string | undefined;
   min?: number | string;
   title?: string;
-  active?: boolean;
+  active: boolean;
 };
 export default function InputTableEditDefault(props: InputProps) {
   const { value, status, onChange, field, type, defaultValue, width, active } =
     props;
   const [activeError, setActiveError] = useState(false);
+
   const styles = useStyles();
   const shortNumber = (string?: string) => {
     if (string && string.length > 10) {
@@ -27,6 +29,12 @@ export default function InputTableEditDefault(props: InputProps) {
       return string;
     }
   };
+
+  useEffect(() => {
+    if (!status) {
+      setActiveError(false);
+    }
+  }, [status]);
 
   return (
     <div className={styles.wrapper}>
@@ -38,9 +46,10 @@ export default function InputTableEditDefault(props: InputProps) {
           className={` ${!status ? styles.hiddenInput : styles.input} `}
           value={value}
           disabled={!status}
+          min="0"
           style={{
             width: width ? width : "200px",
-            border: `1px solid  ${activeError && active && "#F44336"}`,
+            border: `1px solid  ${activeError && "#F44336"}`,
           }}
           onChange={(e) => onChange(e.target.value, field)}
         />
@@ -52,7 +61,7 @@ export default function InputTableEditDefault(props: InputProps) {
           {field === "tge_amount" && "%"}
         </p>
       )}
-      {status && active ? (
+      {status ? (
         <TooltipValidateDefault
           value={value}
           field={field}

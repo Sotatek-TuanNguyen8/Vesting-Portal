@@ -12,10 +12,13 @@ import {
 } from "../../../../../service/admin.service";
 import { IData } from "../../Investor/ListAccountInvestor/ModalFilterSaleStage";
 import ModalSaleStageDefault from "../../../../common/InputEditDefault/ModalSaleStageDefault";
+import { useDispatch } from "react-redux";
+import { setmsgErrTokenAmountEdit } from "../../../../../store/action";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd, dataTable, renderTable } = props;
   const styles = useStyles();
+  const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
   const [openDeleteStatus, setOpenDeleteStatus] = useState<boolean>(false);
   const [editDataItem, setEditDataItem] = useState<any | undefined | never>({
@@ -39,6 +42,8 @@ export default function ListAccountTokenomics(props: any) {
   const [openVestingOption, setOpenVestingOption] = useState<boolean>(false);
   const [showErrorMsgEdit, setShowErrorMsgEdit] = useState<boolean>(false);
   const [showErrorMsgAdd, setShowErrorMsgAdd] = useState<boolean>(false);
+  const [showErrorMsgTokenAmount, setShowErrorMsgTokenAmount] =
+    useState<boolean>(false);
   const getListVesting = async () => {
     const res = await getListVestingType();
     if (res?.data) {
@@ -60,7 +65,7 @@ export default function ListAccountTokenomics(props: any) {
   const handleSaveEdit = async (data: any) => {
     if (
       checkValidate(editDataItem.name, "text", "name") ||
-      checkValidate(editDataItem.token_amount, "number", "token_amount") ||
+      // checkValidate(editDataItem.token_amount, "number", "token_amount") ||
       checkValidate(editDataItem.tge_amount, "number", "tge_amount") ||
       checkValidate(editDataItem.cliff, "number", "cliff") ||
       checkValidate(editDataItem.linear_vesting, "number", "linear_vesting") ||
@@ -82,8 +87,8 @@ export default function ListAccountTokenomics(props: any) {
     });
     if (!res) return;
     if (res?.error && res?.error?.message) {
-      toast.error(res?.error?.message);
-      return;
+      setShowErrorMsgTokenAmount(true);
+      return dispatch(setmsgErrTokenAmountEdit(res?.error?.message));
     } else {
       toast.success("Update Successfully");
       setIsEdit(null);
@@ -92,6 +97,7 @@ export default function ListAccountTokenomics(props: any) {
   };
 
   const handleCancel = () => {
+    dispatch(setmsgErrTokenAmountEdit(""));
     setShowErrorMsgEdit(false);
     setEditDataItem({});
     setIsEdit(null);
@@ -99,6 +105,7 @@ export default function ListAccountTokenomics(props: any) {
   };
 
   const handleChangeInputTable = (e: any, field: any) => {
+    dispatch(setmsgErrTokenAmountEdit(""));
     const check = /^(\d+(\.\d{0,4})?|\.?\d{0,4})$/;
     if (field === "cliff" || field === "linear_vesting") {
       if (check.test(e)) {
@@ -140,7 +147,7 @@ export default function ListAccountTokenomics(props: any) {
   const confirmAdd = async () => {
     if (
       checkValidate(fieldAddItem.name, "text", "name") ||
-      checkValidate(fieldAddItem.token_amount, "number", "token_amount") ||
+      // checkValidate(fieldAddItem.token_amount, "number", "token_amount") ||
       checkValidate(fieldAddItem.tge_amount, "number", "tge_amount") ||
       checkValidate(fieldAddItem.cliff, "number", "cliff") ||
       checkValidate(fieldAddItem.linear_vesting, "number", "linear_vesting")
@@ -188,10 +195,7 @@ export default function ListAccountTokenomics(props: any) {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if ((specialChars.test(value) && type !== "number") || !value) {
       return true;
-    } else if (
-      (type === "number" && toNumber(value) > 1000000) ||
-      (type === "number" && toNumber(value) <= 0)
-    ) {
+    } else if (field === "token_amount" && showErrorMsgTokenAmount === true) {
       return true;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
       return true;

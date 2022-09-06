@@ -30,13 +30,17 @@ export default function ModalSaleStageDefault(props: ModalProps) {
   } = props;
   const styles = useStyles();
   const [activeError, setActiveError] = useState(false);
+
   return (
     <div className={styles.wrap}>
       <FormControl
-        className={status ? styles.wrapper : styles.wrapperEdit}
-        style={{
-          border: `1px solid  ${active && activeError && "#F44336"}`,
-        }}
+        className={
+          status
+            ? active && activeError
+              ? styles.wrapperError
+              : styles.wrapper
+            : styles.wrapperEdit
+        }
       >
         {!status ? (
           <p style={{ color: "#0A208F", fontSize: 16 }}>
@@ -57,7 +61,7 @@ export default function ModalSaleStageDefault(props: ModalProps) {
           </Select>
         )}
       </FormControl>
-      {status && active ? (
+      {status ? (
         <TooltipValidateDefault
           value={value}
           field={field}

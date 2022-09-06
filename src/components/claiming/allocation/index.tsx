@@ -45,11 +45,6 @@ export interface IClaim {
   vesting_duration: any;
 }
 
-interface ITokenInfo {
-  decimals: string;
-  symbol: string;
-}
-
 export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
@@ -138,44 +133,68 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     setLoadingTransaction(false);
   };
 
+  const isEmpty = (v: any) => {
+    return Object.keys(v).length === 0;
+  };
+
   const handleLineChart = useCallback(async () => {
     const res = await getClaimList(dataClaim.id);
     if (res.data) {
-      const clone = res.data
-        .sort(function (a: any, b: any) {
-          return (
-            new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
-          );
-        })
-        .map((el: any, index: number) => {
+      if (!isEmpty(res.data)) {
+        const clone = res.data
+          .sort(function (a: any, b: any) {
+            return (
+              new Date(b.created_at).valueOf() -
+              new Date(a.created_at).valueOf()
+            );
+          })
+          .map((el: any, index: number) => {
+            return {
+              value: el.amount,
+              name: moment(el.created_at).format("YYYY-MM-DD"),
+            };
+          });
+
+        const listDate = Array.from(Array(7).keys())?.map((el) => {
           return {
-            value: el.amount,
-            name: moment(el.created_at).format("YYYY-MM-DD"),
+            name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
+            value: 0,
           };
         });
 
-      const listDate = Array.from(Array(7).keys())?.map((el) => {
-        return {
-          name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
-          value: 0,
-        };
-      });
+        const listData = _.uniqBy([...clone, ...listDate], "name")
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
 
-      const listData = _.uniqBy([...clone, ...listDate], "name")
-        .sort(function (a: any, b: any) {
-          return new Date(b.name).valueOf() - new Date(a.name).valueOf();
-        })
-        .map((el: any) => {
-          const date = moment(el.name).date();
-          return { name: date, value: el.value };
-        });
+        listData.length = 7;
 
-      listData.length = 7;
-
-      listData.reverse();
-      setLineChartData(listData);
+        listData.reverse();
+        setLineChartData(listData);
+      } else {
+        const listDate = Array.from(Array(7).keys())
+          ?.map((el) => {
+            return {
+              name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
+              value: 0,
+            };
+          })
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
+        listDate.reverse();
+        setLineChartData(listDate);
+      }
     } else {
-      toast.error(res.error.message);
+      toast.error(res?.error.message);
     }
   }, [dataClaim.id]);
 
