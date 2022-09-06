@@ -192,10 +192,11 @@ export default function ListAccountTokenomics(props: any) {
   }, []);
 
   const checkValidate = (value: any, type: string, field: string) => {
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    if ((specialChars.test(value) && type !== "number") || !value) {
-      return true;
-    } else if (field === "token_amount" && showErrorMsgTokenAmount === true) {
+    // const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    // if ((specialChars.test(value) && type !== "number") || !value) {
+    //   return true;
+    // } else
+    if (field === "token_amount" && showErrorMsgTokenAmount === true) {
       return true;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
       return true;

@@ -22,11 +22,11 @@ export default function InputTableEditDefault(props: InputProps) {
   const [activeError, setActiveError] = useState(false);
 
   const styles = useStyles();
-  const shortNumber = (string?: string) => {
-    if (string && string.length > 10) {
-      return (string.slice(0, 3) + "..." + string.slice(-4)).toLowerCase();
+  const shortNumber = (value?: string) => {
+    if (value && value.length > 10) {
+      return (value.slice(0, 3) + "..." + value.slice(-4)).toLowerCase();
     } else {
-      return string;
+      return value;
     }
   };
 
@@ -53,11 +53,22 @@ export default function InputTableEditDefault(props: InputProps) {
           }}
           onChange={(e) => onChange(e.target.value, field)}
         />
+      ) : value.length > 10 ? (
+        type === "number" && field !== "tge_amount" ? (
+          <div className={styles.hoverTokenAmount}>
+            <p>{shortNumber(value)}</p>
+            <div className="valueTokenAmount">
+              <p>{value}</p>
+            </div>
+          </div>
+        ) : (
+          <p>
+            {value} {field === "tge_amount" && "%"}
+          </p>
+        )
       ) : (
         <p>
-          {type === "number" && field !== "tge_amount"
-            ? shortNumber(value)
-            : value}{" "}
+          {type === "number" && field !== "tge_amount" ? value : value}{" "}
           {field === "tge_amount" && "%"}
         </p>
       )}
