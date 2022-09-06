@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { format_thousands_decimal } from "../../../utils/common/fn";
 import useStyles from "./style";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -14,7 +15,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className={style.customTooltip}>
-        <p className={style.valueTooltip}>{payload[0].value}</p>
+        <p className={style.valueTooltip}>
+          {format_thousands_decimal(payload[0].value)}
+        </p>
       </div>
     );
   }
@@ -103,8 +106,8 @@ const LineChart = ({ data, width, height }: any) => {
         filterNull={true}
         cursor={false}
         position={{
-          x: positionTooltip.x - 50,
-          y: positionTooltip.y - 90,
+          x: positionTooltip.x - 70,
+          y: positionTooltip.y - 100,
         }}
         wrapperStyle={{
           opacity: positionTooltip?.show ? "1" : 0,
