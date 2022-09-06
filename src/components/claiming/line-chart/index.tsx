@@ -77,11 +77,11 @@ const LineChart = ({ data, width, height }: any) => {
           fontSize: 12,
           color: "#82828E",
         }}
+        dy={12}
       />
       <YAxis
         tickLine={false}
         axisLine={false}
-        // ticks={[0, 20, 40, 60, 80, 100, 120]}
         tick={{
           fontFamily: "gibson",
           fontWeight: 300,
@@ -89,6 +89,7 @@ const LineChart = ({ data, width, height }: any) => {
           color: "#82828E",
         }}
         tickSize={2}
+        dx={-12}
       />
       <defs>
         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
