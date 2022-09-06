@@ -14,3 +14,8 @@ export const getListJoinClaim = async () => {
   const { data } = await Request.get(`${serverEndpoint}/rounds/joined`);
   return data;
 };
+
+export const getClaimList = async (id: number) => {
+  const { data } = await Request.get(`${serverEndpoint}/rounds/${id}/claimed`);
+  return data;
+};
