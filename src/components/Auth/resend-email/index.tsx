@@ -1,5 +1,4 @@
 import { Button, Typography } from "@material-ui/core";
-import moment from "moment";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -59,7 +58,7 @@ export default function ResendEmailPage() {
 
   const handleResendEmail = async () => {
     setIsClickFirst(true);
-    setCounter(new Number(60));
+    setCounter(60);
     const res = await resendEmailAuth({ email: email as string });
     if (res?.data) {
       toast.success("Successfully! Please check email");

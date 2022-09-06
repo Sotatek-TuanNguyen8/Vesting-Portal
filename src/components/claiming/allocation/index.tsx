@@ -1,6 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
@@ -55,7 +55,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
-  const infoClaimError = useSelector((s: any) => s.claimAction.error);
   const [lineChartData, setLineChartData] = useState<any>();
 
   const handleClaim = async (
@@ -111,10 +110,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     });
   };
 
-  useEffect(() => {
-    handleLineChart();
-  }, [dataClaim]);
-
   const handleClaimToken = async () => {
     setLoadingTransaction(true);
     if (wrongNetWork) {
@@ -143,9 +138,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     setLoadingTransaction(false);
   };
 
-  const handleLineChart = async () => {
+  const handleLineChart = useCallback(async () => {
     const res = await getClaimList(dataClaim.id);
-
     if (res.data) {
       const clone = res.data
         .sort(function (a: any, b: any) {
@@ -183,7 +177,11 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     } else {
       toast.error(res.error.message);
     }
-  };
+  }, [dataClaim.id]);
+
+  useEffect(() => {
+    handleLineChart();
+  }, [handleLineChart]);
 
   return (
     <>

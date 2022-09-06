@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => {
       marginBottom: 5,
       justifyContent: "space-between",
       "& .label": {
-        fontWeight: 500,
+        fontWeight: 400,
         fontSize: 20,
         lineHeight: "20px",
         color: "#0A208F",
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .content": {
         fontSize: 20,
         lineHeight: "26px",
+        fontWeight: 400,
         color: "#676767",
       },
     },
