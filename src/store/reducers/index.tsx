@@ -6,6 +6,7 @@ import resendEmail from "./../action/resend-email";
 import statusEmailEditAction from "./../action/statusEditEmail";
 import statusFullNameEditAction from "./../action/statusEditFullName";
 import statusTokenAmountEditAction from "./../action/statusEditTokenAmount";
+import msgErrTokenAmountEditAction from "./../action/msgErrorToken";
 
 export interface IAction<T> extends ReduxAction {
   payload?: T;
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   statusEmailEditAction,
   statusWalletEditAction,
   statusTokenAmountEditAction,
+  msgErrTokenAmountEditAction,
 });
 
 const rootReducer = (state: any, action: IAction<any>) => {
