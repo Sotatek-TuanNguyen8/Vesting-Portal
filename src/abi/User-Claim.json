@@ -288,11 +288,6 @@
       },
       {
         "internalType": "uint256",
-        "name": "_merkleTreeClaimed",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_totalVestingAmount",
         "type": "uint256"
       },
