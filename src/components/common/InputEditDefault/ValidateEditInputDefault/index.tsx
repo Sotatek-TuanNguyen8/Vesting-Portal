@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
-import _, { isNumber, toNumber } from "lodash";
-import { useCallback, useState } from "react";
+import _ from "lodash";
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
 import useStyles from "./style";
 
 type Props = {
@@ -14,46 +14,34 @@ type Props = {
 export default function TooltipValidateDefault(props: Props) {
   const { value, field, defaultValue, type, active, setActiveError } = props;
   const styles = useStyles();
+
+  const msgErrTokenAmount = useSelector(
+    (state: any) => state.msgErrTokenAmountEditAction.msgErrTokenAmount
+  );
+
   const renderMsgErrer = useCallback(() => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    // if (!defaultValue) return;
-    if (
-      (!value && defaultValue) ||
-      (!value && active) 
-    ) {
+
+    if ((!value && defaultValue) || (!value && active)) {
       return <p>This field is required</p>;
     } else if (field === "name" && specialChars.test(value)) {
       return <p>Special characters are not allowed</p>;
     } else if (value?.length > 255) {
       return <p>Enter less than 255 characters</p>;
-    } else if (
-      field === "email" &&
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
-        value,
-      ) === false
-    ) {
-      return <p>Enter a valid email</p>;
-    } else if (field === "wallet_address" && !ethers.utils.isAddress(value)) {
-      return <p>Enter a valid wallet address</p>;
-    } else if (
-      type === "number" &&
-      _.toNumber(value) > 1000000 &&
-      field !== "tge_amount"
-    ) {
-      return <p>Token amount of this investor cannot exceed 1000000</p>;
+    } else if (field === "token_amount" && !!msgErrTokenAmount) {
+      return <p>{msgErrTokenAmount}</p>;
     } else if (field === "tge_amount" && _.toNumber(value) > 100) {
       return <p>Token amount of this investor cannot exceed 100%</p>;
-    } else if (value === null && field === "vesting_type") {
+    } else if (!value && field === "vesting_type") {
       return <p>Please select option</p>;
-    } else if (
-      type === "number" &&
-      _.toNumber(value) <= 0 
-    ) {
-      return <p>Input value must be than 0</p>;
-    } else {
+    }
+    // else if (type === "number" && _.toNumber(value) <= 0) {
+    //   return <p>Input value must be than 0</p>;
+    // }
+    else {
       return "";
     }
-  }, [field, value]);
+  }, [active, defaultValue, field, msgErrTokenAmount, value]);
 
   const renderMsgValidateFullName = useCallback(() => {
     if (renderMsgErrer()) {
@@ -77,17 +65,14 @@ export default function TooltipValidateDefault(props: Props) {
         )}
       </>
     );
-  }, [renderMsgErrer]);
+  }, [renderMsgErrer, setActiveError, type]);
 
   const renderTooltipValidate = useCallback(() => {
     switch (field) {
       case "name":
-      case "email":
       case "tge_amount":
       case "token_amount":
-      case "cliff":
       case "linear_vesting":
-      case "wallet_address":
       case "vesting_type":
         return renderMsgValidateFullName();
     }
