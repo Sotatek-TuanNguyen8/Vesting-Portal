@@ -17,6 +17,7 @@ import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { authService } from "../../../service";
 import { signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
+import Loading from "../../common/Loading";
 import useStyles from "./style";
 
 interface SignUpForm {
@@ -32,7 +33,7 @@ export default function SignUpPage() {
   const dispatch = useDispatch();
   const [stylePassWord, setStylePassWord] = useState<number>(0);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { control, handleSubmit, watch, setError, setValue } =
     useForm<SignUpForm>({
@@ -56,7 +57,7 @@ export default function SignUpPage() {
         message: "Passwords do not match",
       });
     } else {
-      setIsClickFirst(true);
+      setIsLoading(true);
       const response = await authService.signUp({
         full_name: data.full_name.trim(),
         password: data.password.trim(),
@@ -75,7 +76,7 @@ export default function SignUpPage() {
         dispatch(signUpResendSuccess({ email: data.email, type: "sign-up" }));
         navigate("/resend-email");
       }
-      setIsClickFirst(false);
+      setIsLoading(false);
     }
   };
 
@@ -114,6 +115,7 @@ export default function SignUpPage() {
 
   return (
     <AuthLayout>
+      <Loading open={isLoading} />
       <form
         onSubmit={handleSubmit((data) => handleSingUp(data))}
         className={classes.form}
@@ -320,7 +322,7 @@ number and special character."
         <Button
           type="submit"
           className={classes.btnSingUp}
-          disabled={isClickFirst}
+          disabled={isLoading}
         >
           SIGN UP
         </Button>

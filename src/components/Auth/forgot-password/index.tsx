@@ -8,6 +8,7 @@ import { RoundCancelIcon } from "../../../assets/svgs";
 import { forgotPWlAuth } from "../../../service";
 import { FORGOT_PASSWORD } from "../../../utils/common/message-sign";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
+import Loading from "../../common/Loading";
 import { LayoutPass } from "../../layouts/LayoutPass";
 import useStyles from "./style";
 
@@ -25,6 +26,7 @@ export default function ForgotPasswordPage() {
   const [checkConnect, setCheckConnect] = useState<boolean>(false);
   const [email, setEmail] = useState<string>();
   const watchEmail = watch("email");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { account, connect, getSignature } = useMetaMask();
   const { library } = useWeb3React();
@@ -57,6 +59,7 @@ export default function ForgotPasswordPage() {
   const handleForgot = async (data: { email: string }) => {
     setIsClickFirst(true);
     setMessError("");
+    setIsLoading(true);
     const res = await forgotPWlAuth({
       email: data.email,
     });
@@ -75,10 +78,12 @@ export default function ForgotPasswordPage() {
         setIsClickFirst(false);
       }
     }
+    setIsLoading(false);
   };
 
   return (
     <LayoutPass>
+      <Loading open={isLoading} />
       <div className={classes.forgot}>
         <Typography variant="h5" className={classes.title}>
           Forgot Password

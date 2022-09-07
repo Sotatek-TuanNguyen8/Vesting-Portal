@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { confirmEmailAuth } from "../../../service";
+import Loading from "../../common/Loading";
 import useStyles from "./style";
 
 export default function EmailConfirmPage() {
@@ -17,6 +18,7 @@ export default function EmailConfirmPage() {
   const [isVerified, setIsVerified] = useState<boolean>(false);
   const [isNotEmailVerified, setIsNotEmailVerified] = useState<boolean>(false);
   const [notUser, setNotUser] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -29,6 +31,7 @@ export default function EmailConfirmPage() {
 
   const confirmEmail = useCallback(async () => {
     if (!email && !code) return;
+    setIsLoading(true);
     const res = await confirmEmailAuth({
       email: email as string,
       code: code as string,
@@ -42,12 +45,12 @@ export default function EmailConfirmPage() {
         setIsNotEmailVerified(true);
       } else if (res?.error?.statusCode === 406) {
         setIsNotEmailVerified(false);
-        return;
       } else {
         toast.error(res?.error.message);
         setNotUser(true);
       }
     }
+    setIsLoading(false);
   }, [code, email]);
 
   useEffect(() => {
@@ -56,6 +59,7 @@ export default function EmailConfirmPage() {
 
   return (
     <AuthLayout isTab={false}>
+      <Loading open={isLoading} />
       {!notUser && isVerified ? (
         <div className={classes.container}>
           <Typography variant="h5">Thank you for registering</Typography>
