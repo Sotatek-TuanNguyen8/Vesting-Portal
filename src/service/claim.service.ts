@@ -1,4 +1,3 @@
-import { IClaim } from "../components/claiming/allocation";
 import Request from "./request/Request";
 
 const serverEndpoint = process.env.REACT_APP_API_BASE_URL;

@@ -1,6 +1,6 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
@@ -45,17 +45,11 @@ export interface IClaim {
   vesting_duration: any;
 }
 
-interface ITokenInfo {
-  decimals: string;
-  symbol: string;
-}
-
 export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
-  const infoClaimError = useSelector((s: any) => s.claimAction.error);
   const [lineChartData, setLineChartData] = useState<any>();
 
   const handleClaim = async (
@@ -111,10 +105,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     });
   };
 
-  useEffect(() => {
-    handleLineChart();
-  }, [dataClaim]);
-
   const handleClaimToken = async () => {
     setLoadingTransaction(true);
     if (wrongNetWork) {
@@ -143,13 +133,12 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     setLoadingTransaction(false);
   };
 
-  const handleLineChart = async () => {
+  const isEmpty = (v: any) => {
+    return Object.keys(v).length === 0;
+  };
+
+  const handleLineChart = useCallback(async () => {
     const res = await getClaimList(dataClaim.id);
-
-    const isEmpty = (v: any) => {
-      return Object.keys(v).length === 0;
-    };
-
     if (res.data) {
       if (!isEmpty(res.data)) {
         const clone = res.data
@@ -203,13 +192,15 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           });
         listDate.reverse();
         setLineChartData(listDate);
-
-        console.log("listDate", listDate);
       }
     } else {
       toast.error(res?.error.message);
     }
-  };
+  }, [dataClaim.id]);
+
+  useEffect(() => {
+    handleLineChart();
+  }, [handleLineChart]);
 
   return (
     <>
@@ -228,7 +219,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
               <div className={classes.tokenType}>
                 <div className="label">Total Amount</div>
                 <div className="content">
-                  {format_thousands_decimal(dataClaim?.total_amount)}
+                  {format_thousands_decimal(dataClaim?.total_amount)} FLD
                 </div>
               </div>
               <div className={classes.tokenType}>
@@ -268,7 +259,9 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                 <Button
                   disabled={
                     loadingTransaction ||
-                    Number(dataClaim?.available_to_claim) <= 0
+                    Number(
+                      format_thousands_decimal(dataClaim?.available_to_claim)
+                    ) <= 0
                   }
                   onClick={() => handleClaimToken()}
                 >
