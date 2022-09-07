@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .label": {
         fontWeight: 400,
         fontSize: 20,
-        lineHeight: "20px",
+        lineHeight: "26px",
         color: "#0A208F",
       },
       "& .content": {
