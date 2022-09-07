@@ -2,6 +2,7 @@ import { Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { getListJoinClaim } from "../../service/claim.service";
 import useMetaMask from "../../utils/hooks/useMetaMask";
+import Loading from "../common/Loading";
 import { WrongNetwork } from "../WrongNetWork";
 import Allocation, { IDataClaim } from "./allocation";
 import useStyles from "./style";
@@ -10,13 +11,16 @@ export default function ClaimPage() {
   const classes = useStyles();
   const { wrongNetWork } = useMetaMask();
   const [listClaim, setListClaim] = useState<IDataClaim[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchListJoinClaim = useCallback(async () => {
+    setIsLoading(true);
     const res = await getListJoinClaim();
     if (res?.data) {
       setListClaim(res.data);
     } else {
     }
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -25,6 +29,7 @@ export default function ClaimPage() {
 
   return (
     <div className={classes.claim}>
+      <Loading open={isLoading} />
       {wrongNetWork && <WrongNetwork />}
       <Typography variant="h5">CLAIMING</Typography>
       <p className={classes.desc}>

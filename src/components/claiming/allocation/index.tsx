@@ -1,17 +1,18 @@
 import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
-import { useState, useEffect, useCallback } from "react";
+import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
-import { getInfoClaim, getClaimList } from "../../../service/claim.service";
+import { getClaimList, getInfoClaim } from "../../../service/claim.service";
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
+import Loading from "../../common/Loading";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
-import moment from "moment";
 
 type Props = {
   dataClaim: IDataClaim;
@@ -141,6 +142,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   };
 
   const handleLineChart = useCallback(async () => {
+    setLoadingTransaction(true);
     const res = await getClaimList(dataClaim.id);
     if (res.data) {
       if (!isEmpty(res.data)) {
@@ -199,6 +201,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     } else {
       toast.error(res?.error.message);
     }
+    setLoadingTransaction(false);
   }, [dataClaim.id]);
 
   useEffect(() => {
@@ -207,6 +210,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
 
   return (
     <>
+      <Loading open={loadingTransaction} />
       {infoClaimData && (
         <div className={classes.allocation}>
           <Typography variant="h5">

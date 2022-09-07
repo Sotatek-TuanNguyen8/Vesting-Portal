@@ -13,6 +13,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { resetPWlAuth } from "../../../service";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
+import Loading from "../../common/Loading";
 import { LayoutPass } from "../../layouts/LayoutPass";
 import useStyles from "./style";
 
@@ -34,7 +35,7 @@ export default function ResetPasswordPage() {
   const watchPassword = watch("password");
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -62,7 +63,7 @@ export default function ResetPasswordPage() {
         message: "Passwords do not match",
       });
     } else {
-      setIsClickFirst(true);
+      setIsLoading(true);
       const res = await resetPWlAuth({
         email: email as string,
         token: token as string,
@@ -73,7 +74,7 @@ export default function ResetPasswordPage() {
       } else {
         setIsSuccess(false);
       }
-      setIsClickFirst(false);
+      setIsLoading(false);
     }
   };
 
@@ -91,6 +92,7 @@ export default function ResetPasswordPage() {
 
   return (
     <LayoutPass>
+      <Loading open={isLoading} />
       <div className={classes.reset}>
         <Typography variant="h5" className={classes.title}>
           Reset Password
@@ -257,7 +259,7 @@ number and special character."
               <button
                 type="submit"
                 className="btnContinue"
-                disabled={isClickFirst}
+                disabled={isLoading}
               >
                 Continue
               </button>
