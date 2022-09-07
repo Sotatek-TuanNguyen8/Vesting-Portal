@@ -49,7 +49,7 @@ export default function Investors() {
       sessionStorage.getItem("access_token") as string
     );
     if (res?.data) {
-      setDataListInvestor(res?.data);
+      setDataListInvestor(res?.data?.investors);
       setCount(res?.meta?.count);
     }
     await checkRootData();
