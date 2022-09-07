@@ -20,13 +20,15 @@ export default function TooltipValidateDefault(props: Props) {
   );
 
   const renderMsgErrer = useCallback(() => {
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    // const specialChars = /[]/;
 
     if ((!value && defaultValue) || (!value && active)) {
       return <p>This field is required</p>;
-    } else if (field === "name" && specialChars.test(value)) {
-      return <p>Special characters are not allowed</p>;
-    } else if (value?.length > 255) {
+    }
+    //  else if (field === "name" && specialChars.test(value)) {
+    //   return <p>Special characters are not allowed</p>;
+    // }
+    else if (value?.length > 255) {
       return <p>Enter less than 255 characters</p>;
     } else if (field === "token_amount" && !!msgErrTokenAmount) {
       return <p>{msgErrTokenAmount}</p>;

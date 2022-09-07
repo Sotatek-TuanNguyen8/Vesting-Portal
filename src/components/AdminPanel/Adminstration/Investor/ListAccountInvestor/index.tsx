@@ -70,7 +70,7 @@ export default function ListAccountInvestor({
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
   const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
-  const [idDelete, SetIdDelete] = useState<number>();
+  const [idDelete, setIdDelete] = useState<number>();
   const [data, setData] = useState<IData[]>([]);
 
   const getList = async () => {
@@ -112,7 +112,7 @@ export default function ListAccountInvestor({
 
   const handleDelete = (e: any) => {
     setOpenModalDelete(true);
-    SetIdDelete(e.investor_id);
+    setIdDelete(e.investor_id);
   };
 
   const handleEdit = async (e: any) => {
@@ -218,7 +218,7 @@ export default function ListAccountInvestor({
           </div>
           <p>Tokens vested</p>
           <p>Tokens claimed</p>
-          <p></p>
+          <p style={{ width: "9%" }}></p>
         </div>
         <div className={styles.border}></div>
       </div>

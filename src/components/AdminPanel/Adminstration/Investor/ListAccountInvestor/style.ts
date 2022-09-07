@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         // justifyContent: "space-around",
         "& p": {
-          width: "12.5%",
+          width: "13%",
           fontSize: 16,
           fontWeight: 400,
           "& img": {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => {
           paddingLeft: 20,
         },
         "& p:last-child": {
-          paddingTight: 20,
+          paddingRight: 20,
         },
       },
       // "& div:last-child": {
@@ -51,19 +51,19 @@ const useStyles = makeStyles((theme: Theme) => {
         flexDirection: "row",
         alignItems: "center",
         "& .tokensClaimed": {
-          width: "12.5%",
+          width: "13%",
           display: "flex",
           alignItems: "center",
           color: "#0A208F",
         },
         "& .tokensVested": {
-          width: "12.5%",
+          width: "13%",
           display: "flex",
           color: "#0A208F",
           alignItems: "center",
         },
         "& .action": {
-          width: "12.5%",
+          width: "9%",
           display: "flex",
           alignItems: "center",
           "& img": {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     saleStage: {
       position: "relative",
-      width: "12.5%",
+      width: "13%",
       fontSize: 16,
       fontWeight: 400,
       margin: "16px 0px",

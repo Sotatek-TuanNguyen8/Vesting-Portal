@@ -42,6 +42,7 @@ export default function ListAccountTokenomics(props: any) {
   const [openVestingOption, setOpenVestingOption] = useState<boolean>(false);
   const [showErrorMsgEdit, setShowErrorMsgEdit] = useState<boolean>(false);
   const [showErrorMsgAdd, setShowErrorMsgAdd] = useState<boolean>(false);
+  const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
   const [showErrorMsgTokenAmount, setShowErrorMsgTokenAmount] =
     useState<boolean>(false);
   const getListVesting = async () => {
@@ -106,6 +107,7 @@ export default function ListAccountTokenomics(props: any) {
 
   const handleChangeInputTable = (e: any, field: any) => {
     dispatch(setmsgErrTokenAmountEdit(""));
+    setOnChangeInput(true);
     const check = /^(\d+(\.\d{0,4})?|\.?\d{0,4})$/;
     if (field === "cliff" || field === "linear_vesting") {
       if (check.test(e)) {
@@ -192,10 +194,11 @@ export default function ListAccountTokenomics(props: any) {
   }, []);
 
   const checkValidate = (value: any, type: string, field: string) => {
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    if ((specialChars.test(value) && type !== "number") || !value) {
-      return true;
-    } else if (field === "token_amount" && showErrorMsgTokenAmount === true) {
+    // const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    // if ((specialChars.test(value) && type !== "number") || !value) {
+    //   return true;
+    // } else
+    if (field === "token_amount" && showErrorMsgTokenAmount === true) {
       return true;
     } else if (field === "tge_amount" && toNumber(value) > 100) {
       return true;
@@ -241,7 +244,7 @@ export default function ListAccountTokenomics(props: any) {
           <p>TGE amount</p>
           <p>Cliff (days)</p>
           <p>Linear vesting (days)</p>
-          <p></p>
+          <p style={{ width: "10%" }}></p>
         </div>
         <div className={styles.border}></div>
       </div>

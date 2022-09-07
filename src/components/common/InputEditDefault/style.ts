@@ -3,7 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: "14.2%",
+      width: "15%",
       display: "flex",
       color: "#0A208F",
     },
@@ -103,6 +103,45 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "100%",
       fontSize: 16,
       fontWeight: 400,
+    },
+    hoverTokenAmount: {
+      position: "relative",
+      cursor: "pointer",
+      "&> .valueTokenAmount": {
+        position: "absolute",
+        visibility: "hidden",
+        color: "white",
+        opacity: 0,
+        fontWeight: 400,
+        fontSize: 14,
+        minWidth: 100,
+        backgroundColor: "#3FBCE9",
+        borderRadius: 5,
+        padding: "0 12px",
+        top: "80%",
+        left: 0,
+        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+        transition: "all 200ms",
+        zIndex: 3,
+        "&> p": {
+          // opacity: 0.7,
+        },
+        " &::after": {
+          content: '""',
+          position: "absolute",
+          display: "block",
+          backgroundColor: "#3FBCE9",
+          left: 10,
+          top: -9,
+          width: 10,
+          height: 10,
+          clipPath: "polygon(50% 20%, 0% 100%, 100% 100%)",
+        },
+      },
+      "&:hover > .valueTokenAmount": {
+        visibility: "visible",
+        opacity: 1,
+      },
     },
   };
 });
