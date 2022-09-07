@@ -4,10 +4,10 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     customTooltip: {
-      maxWidth: "250px",
+      minWidth: 140,
       position: "relative",
-      padding: "6px 41px",
-      borderRadius: "20px",
+      padding: "10px 12px",
+      borderRadius: "25px",
       background: " linear-gradient(92.15deg, #E7D4FF 0.76%, #ABFBFD 100.94%)",
       color: "#474747",
       border: "none",

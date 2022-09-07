@@ -219,7 +219,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
               <div className={classes.tokenType}>
                 <div className="label">Total Amount</div>
                 <div className="content">
-                  {format_thousands_decimal(dataClaim?.total_amount)}
+                  {format_thousands_decimal(dataClaim?.total_amount)} FLD
                 </div>
               </div>
               <div className={classes.tokenType}>
@@ -259,7 +259,9 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                 <Button
                   disabled={
                     loadingTransaction ||
-                    Number(dataClaim?.available_to_claim) <= 0
+                    Number(
+                      format_thousands_decimal(dataClaim?.available_to_claim)
+                    ) <= 0
                   }
                   onClick={() => handleClaimToken()}
                 >
