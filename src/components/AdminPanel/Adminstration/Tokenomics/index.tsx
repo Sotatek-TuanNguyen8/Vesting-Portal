@@ -23,8 +23,9 @@ export default function Tokenomics() {
   const [open, setOpen] = useState<boolean>(false);
   const [dataTable, setDataTable] = useState<Array<any>>([]);
   const [startTimeData, setStartTimeData] = useState<number | null>(null);
-  const [dataRoot, setDataRoot] = useState({});
+  const [dataRoot, setDataRoot] = useState<any>();
   const [count, setCount] = useState<number>(1);
+  const [isFixed, setIsFixed] = useState<boolean>(true);
   const [query, setQuery] = useState<IListTokenomic>({
     page_number: 0,
     page_size: 10,
@@ -53,6 +54,13 @@ export default function Tokenomics() {
     if (!res) return;
     setDataRoot(res?.data);
   };
+
+  useEffect(() => {
+    if (!startTimeData || !dataRoot) return;
+    if (startTimeData - Date.now() / 1000 && dataRoot?.is_send_sc) {
+      setIsFixed(false);
+    }
+  }, [dataRoot, startTimeData]);
 
   useEffect(() => {
     getDataTable();
@@ -93,46 +101,48 @@ export default function Tokenomics() {
           <Administration active={"tokenomics"} />
           <div className="listInvestor">
             <div className={styles.featureWrap}>
-              <div className="d-flex">
-                <div className="new" onClick={handleAddNew}>
-                  <img src="/images/iconAdd.svg" alt="" />
-                  <p>New</p>
-                </div>
-                <Button
-                  className={styles.featureUPload}
-                  variant="outlined"
-                  component="label"
-                  sx={{
-                    border: "none",
-                    alignItems: "center",
-                    marginLeft: "90px",
-                    padding: "0",
-                    fontFamily: "gibson",
-                    "& p": {
-                      fontWeight: 400,
-                      fontSize: "18px",
-                      color: "#051C42",
-                      margin: "0 0 0 5px",
-                      textTransform: "initial",
-                    },
-                    "&:hover": {
-                      backgroundColor: "transparent",
+              {isFixed && (
+                <div className="d-flex">
+                  <div className="new" onClick={handleAddNew}>
+                    <img src="/images/iconAdd.svg" alt="" />
+                    <p>New</p>
+                  </div>
+                  <Button
+                    className={styles.featureUPload}
+                    variant="outlined"
+                    component="label"
+                    sx={{
                       border: "none",
-                    },
-                  }}
-                >
-                  <UploadIcon />
-                  <p>Upload</p>
-                  <input
-                    hidden
-                    multiple
-                    type="file"
-                    onChange={handleUpdateCsv}
-                    value={csvValue}
-                  />
-                </Button>
-              </div>
-              <div>
+                      alignItems: "center",
+                      marginLeft: "90px",
+                      padding: "0",
+                      fontFamily: "gibson",
+                      "& p": {
+                        fontWeight: 400,
+                        fontSize: "18px",
+                        color: "#051C42",
+                        margin: "0 0 0 5px",
+                        textTransform: "initial",
+                      },
+                      "&:hover": {
+                        backgroundColor: "transparent",
+                        border: "none",
+                      },
+                    }}
+                  >
+                    <UploadIcon />
+                    <p>Upload</p>
+                    <input
+                      hidden
+                      multiple
+                      type="file"
+                      onChange={handleUpdateCsv}
+                      value={csvValue}
+                    />
+                  </Button>
+                </div>
+              )}
+              <div className={styles.updateRoot}>
                 <UpdateRoot checkRootData={dataRoot} />
               </div>
             </div>
@@ -150,6 +160,7 @@ export default function Tokenomics() {
                 dataTable={dataTable}
                 setDataTable={setDataTable}
                 renderTable={getDataTable}
+                isFixed={isFixed}
               />
             </div>
             {count > 10 && (

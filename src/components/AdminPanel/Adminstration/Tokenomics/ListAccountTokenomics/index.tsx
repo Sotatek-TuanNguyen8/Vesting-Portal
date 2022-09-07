@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { setmsgErrTokenAmountEdit } from "../../../../../store/action";
 
 export default function ListAccountTokenomics(props: any) {
-  const { openAdd, setAdd, dataTable, renderTable } = props;
+  const { openAdd, setAdd, dataTable, renderTable, isFixed } = props;
   const styles = useStyles();
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState<boolean | null>(null);
@@ -42,7 +42,7 @@ export default function ListAccountTokenomics(props: any) {
   const [openVestingOption, setOpenVestingOption] = useState<boolean>(false);
   const [showErrorMsgEdit, setShowErrorMsgEdit] = useState<boolean>(false);
   const [showErrorMsgAdd, setShowErrorMsgAdd] = useState<boolean>(false);
-  const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
+  // const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
   const [showErrorMsgTokenAmount, setShowErrorMsgTokenAmount] =
     useState<boolean>(false);
   const getListVesting = async () => {
@@ -51,6 +51,7 @@ export default function ListAccountTokenomics(props: any) {
       setVestingData(res?.data);
     }
   };
+
   const handleEdit = (e: any, id: any) => {
     setIsEdit(id);
     setEditDataItem({
@@ -107,7 +108,7 @@ export default function ListAccountTokenomics(props: any) {
 
   const handleChangeInputTable = (e: any, field: any) => {
     dispatch(setmsgErrTokenAmountEdit(""));
-    setOnChangeInput(true);
+    // setOnChangeInput(true);
     const check = /^(\d+(\.\d{0,4})?|\.?\d{0,4})$/;
     if (field === "cliff" || field === "linear_vesting") {
       if (check.test(e)) {
@@ -424,39 +425,41 @@ export default function ListAccountTokenomics(props: any) {
                 onChange={handleChangeInputTable}
                 active={showErrorMsgEdit}
               />
-              <div className="action">
-                {isEdit !== item.id ? (
-                  <>
-                    <img
-                      onClick={() => {
-                        handleDelete(item.id, item.investor_count);
-                      }}
-                      src="/images/iconDelete.svg"
-                      alt=""
-                    />
-                    <img
-                      onClick={() => handleEdit(item, item?.id)}
-                      src="/images/iconEdit.svg"
-                      alt=""
-                    />
-                  </>
-                ) : (
-                  <>
-                    <img
-                      onClick={() => {
-                        handleSaveEdit(item);
-                      }}
-                      src="/images/iconSuccess.svg"
-                      alt=""
-                    />
-                    <img
-                      onClick={() => handleCancel()}
-                      src="/images/iconCancel.svg"
-                      alt=""
-                    />
-                  </>
-                )}
-              </div>
+              {isFixed && (
+                <div className="action">
+                  {isEdit !== item.id ? (
+                    <>
+                      <img
+                        onClick={() => {
+                          handleDelete(item.id, item.investor_count);
+                        }}
+                        src="/images/iconDelete.svg"
+                        alt=""
+                      />
+                      <img
+                        onClick={() => handleEdit(item, item?.id)}
+                        src="/images/iconEdit.svg"
+                        alt=""
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        onClick={() => {
+                          handleSaveEdit(item);
+                        }}
+                        src="/images/iconSuccess.svg"
+                        alt=""
+                      />
+                      <img
+                        onClick={() => handleCancel()}
+                        src="/images/iconCancel.svg"
+                        alt=""
+                      />
+                    </>
+                  )}
+                </div>
+              )}
             </div>
             <div className={styles.border}></div>
           </div>
