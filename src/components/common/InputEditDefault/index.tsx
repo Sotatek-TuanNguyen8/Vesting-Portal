@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { format_thousands_decimal } from "../../../utils/common/fn";
 import useStyles from "./style";
 import TooltipValidateDefault from "./ValidateEditInputDefault";
 
@@ -58,7 +59,7 @@ export default function InputTableEditDefault(props: InputProps) {
           <div className={styles.hoverTokenAmount}>
             <p>{shortNumber(value)}</p>
             <div className="valueTokenAmount">
-              <p>{value}</p>
+              <p>{format_thousands_decimal(value)}</p>
             </div>
           </div>
         ) : (
@@ -68,7 +69,9 @@ export default function InputTableEditDefault(props: InputProps) {
         )
       ) : (
         <p>
-          {type === "number" && field !== "tge_amount" ? value : value}{" "}
+          {type === "number" && field !== "tge_amount"
+            ? format_thousands_decimal(value)
+            : value}{" "}
           {field === "tge_amount" && "%"}
         </p>
       )}

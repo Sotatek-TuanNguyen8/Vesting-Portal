@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     container: {
-      width: "12.5%",
+      width: "13%",
     },
     wrapper: {
       width: "90%",
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     wrapperEdit: {
-      width: "12.5%",
+      width: "94%",
       borderRadius: 3,
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",

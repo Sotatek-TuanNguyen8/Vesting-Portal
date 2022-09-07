@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     wrap: {
-      width: "14.2%",
+      width: "15%",
       display: "flex",
       alignItems: "center",
     },

@@ -3,7 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: "12.5%",
+      width: "13%",
       display: "flex",
       flexDirection: "row",
       fontFamily: "gibson",
