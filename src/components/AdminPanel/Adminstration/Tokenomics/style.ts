@@ -81,9 +81,10 @@ const useStyles = makeStyles((theme: Theme) => {
       margin: "0 45px",
     },
     updateRoot: {
-      "& .MuiButtonBase-root:hover": {
-        backgroundColor: "#3FBCE9 !important",
-      },
+      margin: "10px 30px",
+      width: "100%",
+      display: "flex",
+      justifyContent: "flex-end",
     },
   };
 });
