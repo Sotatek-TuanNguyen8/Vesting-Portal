@@ -43,6 +43,7 @@ export interface IClaim {
   start_time: string;
   tge: number;
   vesting_duration: any;
+  investor_id: string;
 }
 
 export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
@@ -68,11 +69,13 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           vesting_duration,
           start_time,
           vesting_type,
+          investor_id,
         } = res.data;
         const contract = await getContractConnect(abi, contractAddress);
         try {
           await contract?.methods
             .claimToken(
+              investor_id,
               vesting_type,
               allocation_token,
               tge,
