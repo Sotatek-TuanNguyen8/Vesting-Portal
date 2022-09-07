@@ -159,6 +159,7 @@ export default function ListAccountTokenomics(props: any) {
       return;
     }
 
+    //
     setShowErrorMsgAdd(false);
     if (openAdd) {
       const res = await addTokenomics({
