@@ -23,6 +23,7 @@ type Props = {
   count: number;
   isOpenFilter: boolean;
   setOpenFilter: (value: boolean) => void;
+  isFixed: boolean;
 };
 
 const dataItemDefault = {
@@ -43,11 +44,14 @@ export default function ListAccountInvestor({
   count,
   isOpenFilter,
   setOpenFilter,
+  isFixed,
 }: Props) {
   const styles = useStyles();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
+
+  console.log(isFixed);
 
   const statusEditFullName = useSelector(
     (state: any) => state.statusFullNameEditAction.statusFullName
@@ -273,6 +277,7 @@ export default function ListAccountInvestor({
                 }
                 field="allocation_token"
                 onChange={handleChangeInputTable}
+                isFixed={isFixed}
               />
 
               <ModalSaleStage
@@ -286,6 +291,7 @@ export default function ListAccountInvestor({
                 }
                 data={data}
                 onClickSelect={handleSelect}
+                isFixed={isFixed}
               />
 
               <div className="tokensVested">

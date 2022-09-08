@@ -12,6 +12,7 @@ import {
 } from "../../../../../service/admin.service";
 import useStyles from "./style";
 import { Dialog } from "@material-ui/core";
+import Loading from "../../../../common/Loading";
 
 type Props = {
   open: boolean;
@@ -27,10 +28,10 @@ export default function ModalConfirmUpdateRoot({
   setDisableGenerate,
 }: Props) {
   //   const { checkRootData, open, onClose } = props;
-  const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
   //   const [disableGenerate, setDisableGenerate] = useState(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
   const styles = useStyles();
 
@@ -42,7 +43,6 @@ export default function ModalConfirmUpdateRoot({
     return new Promise(async (resolve, reject) => {
       let timeOut;
       const contract = await getContractConnect(abi, contractAddress);
-      setLoadingTransaction(true);
       try {
         await contract?.methods
           .updateRoot(`0x${value}`)
@@ -63,7 +63,6 @@ export default function ModalConfirmUpdateRoot({
       resolve({
         time_out_update: false,
       });
-      setLoadingTransaction(false);
     });
   };
 
@@ -71,6 +70,8 @@ export default function ModalConfirmUpdateRoot({
     setIsConfirm(true);
     setCheckClickFirst(true);
     setDisableGenerate(true);
+    setIsLoading(true);
+    onClose();
     let checkNetwork = wrongNetWork;
     if (wrongNetWork) {
       const switchError = await switchNetwork();
@@ -99,7 +100,7 @@ export default function ModalConfirmUpdateRoot({
       }
     }
     setCheckClickFirst(false);
-    onClose();
+    setIsLoading(false);
   };
   const updateRootApi = async () => {
     const res = await updateRoot();
@@ -133,23 +134,27 @@ export default function ModalConfirmUpdateRoot({
   };
 
   return (
-    <Dialog
-      className={styles.container}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <div className={styles.content}>
-        <p>Are you sure you want to update root?</p>
-      </div>
-      <div className={styles.textContent}>
-        <button onClick={handleClickCancel} className={styles.btnCancel}>
-          Cancel
-        </button>
+    <>
+      <Loading open={isLoading} />
 
-        <button onClick={handleConfirm} className={styles.btnConfirm}>
-          Confirm
-        </button>
-      </div>
-    </Dialog>
+      <Dialog
+        className={styles.container}
+        aria-labelledby="simple-dialog-title"
+        open={open}
+      >
+        <div className={styles.content}>
+          <p>Are you sure you want to update root?</p>
+        </div>
+        <div className={styles.textContent}>
+          <button onClick={handleClickCancel} className={styles.btnCancel}>
+            Cancel
+          </button>
+
+          <button onClick={handleConfirm} className={styles.btnConfirm}>
+            Confirm
+          </button>
+        </div>
+      </Dialog>
+    </>
   );
 }
