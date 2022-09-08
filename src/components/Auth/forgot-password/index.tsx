@@ -93,7 +93,7 @@ export default function ForgotPasswordPage() {
           <div>
             <div className={classes.verification}>
               A verification email has been sent to this email address{" "}
-              {watchEmail}. Please verify it.
+              <span>{watchEmail}</span>. Please verify it.
             </div>
             <Link to="/sign-in" className={classes.actionOK}>
               OK
