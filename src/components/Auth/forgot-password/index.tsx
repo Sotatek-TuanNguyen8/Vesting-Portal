@@ -3,7 +3,6 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { RoundCancelIcon } from "../../../assets/svgs";
 import { forgotPWlAuth } from "../../../service";
 import { FORGOT_PASSWORD } from "../../../utils/common/message-sign";
@@ -92,8 +91,8 @@ export default function ForgotPasswordPage() {
         {isSendEmail ? (
           <div>
             <div className={classes.verification}>
-              A verification email has been sent to this email address{" "}
-              <span>{watchEmail}</span>. Please verify it.
+              A password recovery email has been sent to this email address{" "}
+              <span>{watchEmail}</span>.
             </div>
             <Link to="/sign-in" className={classes.actionOK}>
               OK
