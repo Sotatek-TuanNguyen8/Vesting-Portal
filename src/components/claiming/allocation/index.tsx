@@ -93,12 +93,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         listData.reverse();
         setLineChartData(listData);
       } else {
-        const listData = listDate.map((el: any) => {
-          const date = moment(el.name).date();
-          return { name: date, value: el.value };
-        });
-        listData.reverse();
-        setLineChartData(listData);
+        listDate.reverse();
+        setLineChartData(listDate);
       }
     } else {
       toast.error(res?.error.message);
