@@ -281,6 +281,7 @@
   },
   {
     "inputs": [
+      { "internalType": "uint32", "name": "_id", "type": "uint32" },
       {
         "internalType": "uint256",
         "name": "_allocationType",
@@ -308,7 +309,7 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_user", "type": "address" },
+      { "internalType": "uint32", "name": "_id", "type": "uint32" },
       {
         "internalType": "uint256",
         "name": "_allocationType",
@@ -456,11 +457,12 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint32", "name": "", "type": "uint32" },
       { "internalType": "uint256", "name": "", "type": "uint256" }
     ],
     "name": "userVestingSchedule",
     "outputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
       {
         "internalType": "uint256",
         "name": "totalVestingAmount",
@@ -473,6 +475,7 @@
         "name": "merkleTreeClaimed",
         "type": "uint256"
       },
+      { "internalType": "uint32", "name": "id", "type": "uint32" },
       { "internalType": "uint32", "name": "start", "type": "uint32" },
       { "internalType": "uint32", "name": "cliff", "type": "uint32" },
       { "internalType": "uint32", "name": "duration", "type": "uint32" },

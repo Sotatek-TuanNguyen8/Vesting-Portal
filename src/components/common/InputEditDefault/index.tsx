@@ -30,7 +30,6 @@ export default function InputTableEditDefault(props: InputProps) {
       return value;
     }
   };
-  //
   useEffect(() => {
     if (!status) {
       setActiveError(false);

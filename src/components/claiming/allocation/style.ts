@@ -2,6 +2,8 @@ import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
+  const custom = theme.breakpoints.down(1440);
+  const lg = theme.breakpoints.down(1024);
   return {
     allocation: {
       width: "100%",
@@ -22,9 +24,23 @@ const useStyles = makeStyles((theme: Theme) => {
       alignItems: "flex-start",
       justifyContent: "space-between",
       gap: "0px 108px",
+      [custom]: {
+        gap: "0px 20px",
+      },
+      [lg]: {
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "50px 20px",
+      },
     },
     info: {
       width: "40%",
+      [custom]: {
+        width: "30%",
+      },
+      [lg]: {
+        width: "100%",
+      },
       "& .MuiButtonBase-root": {
         height: 62,
         width: 227,
@@ -47,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .label": {
         fontWeight: 400,
         fontSize: 20,
-        lineHeight: "20px",
+        lineHeight: "26px",
         color: "#0A208F",
       },
       "& .content": {
@@ -61,6 +77,10 @@ const useStyles = makeStyles((theme: Theme) => {
       width: "60%",
       display: "flex",
       alignItems: "center",
+      maxHeight: "100%",
+      [lg]: {
+        width: "100%",
+      },
       "& .labelY": {
         fontWeight: 250,
         fontSize: 12,
@@ -75,6 +95,10 @@ const useStyles = makeStyles((theme: Theme) => {
         textAlign: "center",
         paddingBottom: 30,
       },
+    },
+    boxLineChart: {
+      height: "100%",
+      width: "100%",
     },
   };
 });

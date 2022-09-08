@@ -4,7 +4,7 @@ import urlImage from "../../../assets/svgs/background/layout.png";
 
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
-  const tablet = theme.breakpoints.down("md");
+  const custom = theme.breakpoints.down(1200);
 
   return {
     main: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => {
         padding: "0px 60px",
         paddingBottom: 200,
       },
-      [tablet]: {
+      [custom]: {
         padding: "0px 20px",
       },
     },

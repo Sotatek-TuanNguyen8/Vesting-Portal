@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { resendEmailAuth } from "../../../service";
+import Loading from "../../common/Loading";
 import useStyles from "./style";
 
 export default function ResendEmailPage() {
@@ -13,9 +14,9 @@ export default function ResendEmailPage() {
   const [countdown, setCountdown] = useState<number>();
   let [counter, setCounter] = useState<any>(-1);
   const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
-  const [isClickFirst, setIsClickFirst] = useState<boolean>(false);
   const userData = useSelector((s: any) => s.authAction.data);
   const { email, type } = useSelector((state: any) => state.resendEmail);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (userData?.isVerify) {
@@ -57,7 +58,7 @@ export default function ResendEmailPage() {
   }, [navigate, email]);
 
   const handleResendEmail = async () => {
-    setIsClickFirst(true);
+    setIsLoading(true);
     setCounter(60);
     const res = await resendEmailAuth({ email: email as string });
     if (res?.data) {
@@ -70,11 +71,12 @@ export default function ResendEmailPage() {
         toast.error(res?.error?.details);
       }
     }
-    setIsClickFirst(false);
+    setIsLoading(false);
   };
 
   return (
     <AuthLayout isTab={false}>
+      <Loading open={isLoading} />
       {isEmailVerify ? (
         <div className={classes.container}>
           <Typography variant="h5">Email has already been verified</Typography>
@@ -100,7 +102,7 @@ export default function ResendEmailPage() {
           <Button
             onClick={handleResendEmail}
             className={classes.btnResend}
-            disabled={!countdown || Number(countdown || 0) > 0 || isClickFirst}
+            disabled={!countdown || Number(countdown || 0) > 0 || isLoading}
           >
             RESEND VERIFICATION
           </Button>

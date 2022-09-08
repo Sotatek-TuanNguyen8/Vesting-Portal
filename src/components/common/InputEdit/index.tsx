@@ -14,6 +14,7 @@ type InputProps = {
   tokenAmountInvalid?: boolean;
   msgTokenAmount?: string;
   onChange: (e: any, field: any) => void;
+  isFixed?: boolean;
 };
 export default function InputTableEdit(props: InputProps) {
   const {
@@ -26,6 +27,7 @@ export default function InputTableEdit(props: InputProps) {
     isDuplicateWallet,
     tokenAmountInvalid,
     msgTokenAmount,
+    isFixed,
   } = props;
   const styles = useStyles();
 
@@ -97,7 +99,7 @@ export default function InputTableEdit(props: InputProps) {
       case "allocation_token":
         return (
           <>
-            {!status || !defaultValue ? (
+            {!status || !defaultValue || !isFixed ? (
               <span className={styles.hiddenToken}>
                 {format_thousands_decimal(value)}
               </span>
