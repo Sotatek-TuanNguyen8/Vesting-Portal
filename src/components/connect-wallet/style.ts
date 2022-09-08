@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: 14,
       lineHeight: "18.2px",
       fontWeight: 400,
+      marginLeft: 3,
     },
   };
 });
