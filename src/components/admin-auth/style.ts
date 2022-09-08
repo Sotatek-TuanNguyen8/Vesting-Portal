@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "flex",
       gap: 8,
       opacity: 1,
+      "&p": {
+        fontFamily: "gibson",
+        fontSize: "14px",
+        fontWeight: 400,
+        lineHeight: "18.2px",
+      },
     },
     unActive: {
       display: "flex",

@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme: Theme) => {
         color: "#050025",
       },
     },
+    error: {
+      fontFamily: "gibson",
+      fontSize: 14,
+      lineHeight: "18.2px",
+      fontWeight: 400,
+    },
   };
 });
 

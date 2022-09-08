@@ -151,7 +151,7 @@ export default function ConnectWalletPage() {
                 sx={{ display: "flex", alignItems: "center" }}
               >
                 <Error width={16} height={16} style={{ marginRight: "5px" }} />{" "}
-                {errorCheckAddress}
+                <span className={classes.error}>{errorCheckAddress}</span>
               </Typography>
             )}
             <Box
