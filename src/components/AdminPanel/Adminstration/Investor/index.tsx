@@ -73,6 +73,7 @@ export default function Investors() {
   const renderOpenModalAddNew = () => (
     <ModalAddNew
       open={open}
+      setOpen={setOpen}
       onClose={handleClose}
       fetchListInvestors={fetchListInvestors}
     />
