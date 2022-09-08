@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) => {
       lineHeight: "26px",
       textAlign: "center",
       color: "#051c42",
-      padding: "76px 80px 57px",
+      padding: "76px 60px 57px",
       borderBottom: "2px solid #e9e9f0",
       "& span": {
         color: "#0A208F",
