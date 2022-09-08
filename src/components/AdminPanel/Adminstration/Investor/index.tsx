@@ -34,7 +34,8 @@ export default function Investors() {
   const [valueInput, setValueInput] = useState<string>();
   const timeoutRef = useRef<any>(null);
   const scrollIntoViewRef = useRef<any>(null);
-  const [dataRoot, setDataRoot] = useState({});
+  const [dataRoot, setDataRoot] = useState<any>();
+  const [timeStartDate, setTimeStartDate] = useState<any>();
   const [count, setCount] = useState<number>(1);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
@@ -50,6 +51,7 @@ export default function Investors() {
     );
     if (res?.data) {
       setDataListInvestor(res?.data?.investors);
+      setTimeStartDate(res?.data?.start_vesting_time);
       setCount(res?.meta?.count);
     }
     await checkRootData();
