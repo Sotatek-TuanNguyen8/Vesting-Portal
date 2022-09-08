@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from "@material-ui/core";
 
-const useStyles = makeStyles((theme: Theme) => {
+const useStyles = makeStyles((theme: any) => {
   return {
     drawer: {
       position: "relative",
@@ -64,8 +64,9 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     active: {
-      fontWeight: 600,
-      color: " #051c42",
+      // fontWeight: "600 !important",
+      color: "#051c42 !important",
+      backgroundColor: "rgb(206 206 206 / 50%) !important",
     },
   };
 });
