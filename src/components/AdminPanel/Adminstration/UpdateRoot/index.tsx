@@ -22,23 +22,23 @@ export default function UpdateRoot(props: any) {
         onClick={checkValueData}
         variant="contained"
         sx={{
-          background: "#BBBBBB",
+          background: "#3FBCE9",
           marginRight: "60px",
           fontSize: "400",
           fontWeight: "18px",
           color: "#E9E9F0",
           textTransform: "initial",
 
-          "&:hover": {
-            color: "#051C42",
-            backgroundColor: "#3FBCE9",
-            transition: " all 0.8s ease",
+          // "&:hover": {
+          //   color: "#051C42",
+          //   backgroundColor: "#3FBCE9",
+          //   transition: " all 0.8s ease",
 
-            "& svg g path": {
-              fill: "#051C42",
-              transition: " all 0.8s ease",
-            },
-          },
+          //   "& svg g path": {
+          //     fill: "#051C42",
+          //     transition: " all 0.8s ease",
+          //   },
+          // },
         }}
         disabled={disableGenerate}
       >

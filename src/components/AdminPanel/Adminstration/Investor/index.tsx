@@ -37,6 +37,8 @@ export default function Investors() {
   const [dataRoot, setDataRoot] = useState<any>();
   const [timeStartDate, setTimeStartDate] = useState<any>();
   const [count, setCount] = useState<number>(1);
+  const [isFixed, setIsFixed] = useState<boolean>(true);
+  const [startTimeData, setStartTimeData] = useState<number | null>(null);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
     stages_id: [],
@@ -53,6 +55,7 @@ export default function Investors() {
       setDataListInvestor(res?.data?.investors);
       setTimeStartDate(res?.data?.start_vesting_time);
       setCount(res?.meta?.count);
+      setStartTimeData(res?.data?.start_vesting_time);
     }
     await checkRootData();
   }, [query]);
@@ -102,6 +105,14 @@ export default function Investors() {
     setQuery({ ...query, search: "", page_number: 0 });
   };
 
+  useEffect(() => {
+    if (!startTimeData || !dataRoot) return;
+
+    if (startTimeData - Date.now() / 1000 < 0 && dataRoot?.is_send_sc) {
+      setIsFixed(false);
+    }
+  }, [dataRoot, startTimeData]);
+
   return (
     <div>
       <AdminLayout>
@@ -141,6 +152,7 @@ export default function Investors() {
                 count={count}
                 isOpenFilter={openFilter}
                 setOpenFilter={(value) => setOpenFilter(value)}
+                isFixed={isFixed}
               />
               {count > 10 && (
                 <PaginationCustom
