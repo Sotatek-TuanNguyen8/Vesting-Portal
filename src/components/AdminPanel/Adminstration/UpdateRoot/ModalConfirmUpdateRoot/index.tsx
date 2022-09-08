@@ -145,15 +145,10 @@ export default function ModalConfirmUpdateRoot({
         <button onClick={handleClickCancel} className={styles.btnCancel}>
           Cancel
         </button>
-        {isConfirm ? (
-          <button onClick={handleConfirm} className={styles.btnConfirm}>
-            Confirm
-          </button>
-        ) : (
-          <button style={{ opacity: 0.7 }} className={styles.btnConfirm}>
-            Confirm
-          </button>
-        )}
+
+        <button onClick={handleConfirm} className={styles.btnConfirm}>
+          Confirm
+        </button>
       </div>
     </Dialog>
   );
