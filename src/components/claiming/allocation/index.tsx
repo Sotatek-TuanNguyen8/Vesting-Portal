@@ -278,7 +278,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             </div>
             <div className={classes.lineChart}>
               <div className="labelY">CLAIMED TOKENS</div>
-              <div>
+              <div className={classes.boxLineChart}>
                 <LineChart data={lineChartData} width={700} height={500} />
                 <p className="labelX">DAYS</p>
               </div>
