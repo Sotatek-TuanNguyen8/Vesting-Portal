@@ -21,7 +21,7 @@ export const Header = ({ isNav = false }: Props) => {
     return pathname === value && "active";
   };
 
-  const isMobile = useMediaQuery("(max-width: 1200px)");
+  const isMobile = useMediaQuery("(max-width: 1000px)");
 
   const openNavMobile = () => {
     setNavMobile(true);
@@ -64,9 +64,7 @@ export const Header = ({ isNav = false }: Props) => {
 
       {!isNav && <UserConnect />}
 
-      {navMobile && isMobile && (
-        <NavMobile open={navMobile} handleClose={closeNavMobile} />
-      )}
+      {isMobile && <NavMobile open={navMobile} handleClose={closeNavMobile} />}
       {/* <Button onClick={connect}>Connect Wallet</Button> */}
     </div>
   );

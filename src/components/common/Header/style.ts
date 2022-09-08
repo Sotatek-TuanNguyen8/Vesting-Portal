@@ -2,6 +2,7 @@ import { makeStyles, Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
+  const custom = theme.breakpoints.down(1360);
 
   return {
     header: {
@@ -9,6 +10,11 @@ const useStyles = makeStyles((theme: Theme) => {
       alignItems: "center",
       justifyContent: "space-between",
       padding: "45px 0px",
+      "& svg:first-child": {
+        [custom]: {
+          width: 150,
+        },
+      },
 
       "& .MuiButtonBase-root": {
         padding: "22px 37px",
@@ -43,7 +49,9 @@ const useStyles = makeStyles((theme: Theme) => {
       lineHeight: "23px",
       color: "#051c42",
       borderRadius: 22,
-
+      [custom]: {
+        width: 500,
+      },
       "& .item": {
         cursor: "pointer",
       },

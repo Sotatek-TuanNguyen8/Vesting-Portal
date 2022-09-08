@@ -1,9 +1,11 @@
 import { Drawer, List, ListItem } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-import { AvatarDefault } from "../../../../assets/svgs";
+import { AvatarDefault, Close } from "../../../../assets/svgs";
+import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import useStyles from "./style";
 type Props = {
   open: boolean;
@@ -19,12 +21,13 @@ export default function NavMobile({ open, handleClose }: Props) {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
+  const userData = useSelector((s: any) => s.authAction.data);
 
   const listMenu: IListItem[] = [
-    { label: "STAKING/LP", href: "" },
-    { label: "CLAIMING", href: "" },
-    { label: "ADD LIQUIDITY", href: "" },
-    { label: "LEND", href: "" },
+    { label: "STAKING/LP", href: "/1" },
+    { label: "CLAIMING", href: "/" },
+    { label: "ADD LIQUIDITY", href: "/2" },
+    { label: "LEND", href: "/3" },
   ];
 
   const isActive = (href: string) => {
@@ -40,13 +43,17 @@ export default function NavMobile({ open, handleClose }: Props) {
         className={classes.drawer}
       >
         <div className={classes.iconClose} onClick={handleClose}>
-          <img src="/images/icons/close.svg" alt="icon_close" />
+          <Close />
         </div>
         <div className={classes.info}>
           <AvatarDefault style={{ marginRight: 30 }} />
           <div className="boxInfo">
-            <p>Matias</p>
-            <span>FWRF134...526</span>
+            {userData?.fullName && <p>{userData?.fullName}</p>}
+            {userData?.metamaskAddress && (
+              <span>
+                {convertTextAddressWallet(4, 4, userData?.metamaskAddress)}
+              </span>
+            )}
           </div>
         </div>
         <List>
