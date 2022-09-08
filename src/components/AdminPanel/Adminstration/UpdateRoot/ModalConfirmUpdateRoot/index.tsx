@@ -30,6 +30,7 @@ export default function ModalConfirmUpdateRoot({
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
   //   const [disableGenerate, setDisableGenerate] = useState(false);
+  const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
   const styles = useStyles();
 
@@ -67,6 +68,7 @@ export default function ModalConfirmUpdateRoot({
   };
 
   const handleUpdateRoot = async (valueRoot: string) => {
+    setIsConfirm(true);
     setCheckClickFirst(true);
     setDisableGenerate(true);
     let checkNetwork = wrongNetWork;
@@ -143,9 +145,15 @@ export default function ModalConfirmUpdateRoot({
         <button onClick={handleClickCancel} className={styles.btnCancel}>
           Cancel
         </button>
-        <button onClick={handleConfirm} className={styles.btnConfirm}>
-          Confirm
-        </button>
+        {isConfirm ? (
+          <button onClick={handleConfirm} className={styles.btnConfirm}>
+            Confirm
+          </button>
+        ) : (
+          <button style={{ opacity: 0.7 }} className={styles.btnConfirm}>
+            Confirm
+          </button>
+        )}
       </div>
     </Dialog>
   );

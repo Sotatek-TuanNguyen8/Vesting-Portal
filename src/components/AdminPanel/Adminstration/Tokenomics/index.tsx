@@ -57,7 +57,9 @@ export default function Tokenomics() {
 
   useEffect(() => {
     if (!startTimeData || !dataRoot) return;
-    if (startTimeData - Date.now() / 1000 && dataRoot?.is_send_sc) {
+    console.log();
+
+    if (startTimeData - Date.now() / 1000 < 0 && dataRoot?.is_send_sc) {
       setIsFixed(false);
     }
   }, [dataRoot, startTimeData]);
