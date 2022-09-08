@@ -12,6 +12,7 @@ import {
 } from "../../../../../utils/common/fn";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
+import Loading from "../../../../common/Loading";
 import ModalDelete from "../ModalDelete";
 import FilterAdmin, { IData } from "./ModalFilterSaleStage";
 import useStyles from "./style";
@@ -51,8 +52,6 @@ export default function ListAccountInvestor({
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
 
-  console.log(isFixed);
-
   const statusEditFullName = useSelector(
     (state: any) => state.statusFullNameEditAction.statusFullName
   );
@@ -75,6 +74,7 @@ export default function ListAccountInvestor({
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
   const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
   const [idDelete, setIdDelete] = useState<number>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<IData[]>([]);
 
   const getList = async () => {
@@ -125,6 +125,7 @@ export default function ListAccountInvestor({
   };
 
   const handleSave = useCallback(async () => {
+    setIsLoading(true);
     const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
       wallet_address: dataItem?.wallet_address,
       allocation_token: Number(dataItem?.allocation_token),
@@ -147,6 +148,7 @@ export default function ListAccountInvestor({
       setIsEdit(false);
     }
     fetchListInvestors();
+    setIsLoading(false);
   }, [dataItem, fetchListInvestors]);
 
   const handleCancel = (e: any) => {
@@ -192,6 +194,7 @@ export default function ListAccountInvestor({
 
   return (
     <div className={styles.container}>
+      <Loading open={isLoading} />
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Full Name</p>
@@ -278,6 +281,7 @@ export default function ListAccountInvestor({
                 field="allocation_token"
                 onChange={handleChangeInputTable}
                 isFixed={isFixed}
+                hasProof={item.has_proof}
               />
 
               <ModalSaleStage
@@ -292,6 +296,7 @@ export default function ListAccountInvestor({
                 data={data}
                 onClickSelect={handleSelect}
                 isFixed={isFixed}
+                hasProof={item.has_proof}
               />
 
               <div className="tokensVested">

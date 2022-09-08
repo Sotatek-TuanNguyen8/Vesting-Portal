@@ -9,17 +9,24 @@ type ModalProps = {
   status: boolean;
   onClickSelect: (value: any) => void;
   data: IData[];
-  isFixed?: boolean;
+  isFixed: boolean;
+  hasProof: boolean;
 };
 
 export default function ModalSaleStage(props: ModalProps) {
-  const { value, status, onClickSelect, data, isFixed } = props;
+  const { value, status, onClickSelect, data, isFixed, hasProof } = props;
   const styles = useStyles();
 
   return (
     <FormControl className={styles.container}>
-      <div className={status && isFixed ? styles.wrapper : styles.wrapperEdit}>
-        {!status || !isFixed ? (
+      <div
+        className={
+          (status && !hasProof) || (status && isFixed)
+            ? styles.wrapper
+            : styles.wrapperEdit
+        }
+      >
+        {!status || (!isFixed && hasProof) ? (
           <span style={{ color: "#0A208F", fontSize: 16 }}>
             {data?.filter((el) => el.id === Number(value))[0]?.name}
           </span>
