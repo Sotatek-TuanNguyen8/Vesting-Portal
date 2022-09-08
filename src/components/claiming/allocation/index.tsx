@@ -58,6 +58,13 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     setLoadingTransaction(true);
     const res = await getClaimList(dataClaim.id);
     if (res.data) {
+      const listDate = Array.from(Array(7).keys())?.map((el) => {
+        return {
+          name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
+          value: 0,
+        };
+      });
+
       if (!isEmpty(res.data)) {
         const clone = res.data
           .sort(function (a: any, b: any) {
@@ -73,13 +80,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             };
           });
 
-        const listDate = Array.from(Array(7).keys())?.map((el) => {
-          return {
-            name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
-            value: 0,
-          };
-        });
-
         const listData = _.uniqBy([...clone, ...listDate], "name")
           .sort(function (a: any, b: any) {
             return new Date(b.name).valueOf() - new Date(a.name).valueOf();
@@ -90,26 +90,15 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           });
 
         listData.length = 7;
-
         listData.reverse();
         setLineChartData(listData);
       } else {
-        const listDate = Array.from(Array(7).keys())
-          ?.map((el) => {
-            return {
-              name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
-              value: 0,
-            };
-          })
-          .sort(function (a: any, b: any) {
-            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
-          })
-          .map((el: any) => {
-            const date = moment(el.name).date();
-            return { name: date, value: el.value };
-          });
-        listDate.reverse();
-        setLineChartData(listDate);
+        const listData = listDate.map((el: any) => {
+          const date = moment(el.name).date();
+          return { name: date, value: el.value };
+        });
+        listData.reverse();
+        setLineChartData(listData);
       }
     } else {
       toast.error(res?.error.message);
