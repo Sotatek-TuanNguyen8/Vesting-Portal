@@ -6,6 +6,19 @@ const useStyles = makeStyles((theme: Theme) => {
   const tablet = theme.breakpoints.down("md");
 
   return {
+    expired: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 630,
+      maxHeight: 247,
+      background: "#ffffff",
+      filter: "drop-shadow(6px 6px 15px rgba(0, 0, 0, 0.161))",
+      margin: "0px auto",
+      padding: "24px 0px",
+      borderRadius: 8,
+    },
     reset: {
       position: "absolute",
       top: "50%",
@@ -192,14 +205,15 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center",
-      height: "260px",
       "& .MuiTypography-h5": {
         textAlign: "center",
         fontSize: 28,
         fontWeight: 400,
         lineHeight: "36px",
-        marginBottom: 62,
+        paddingBottom: 50,
+        paddingTop: 40,
+        borderBottom: "2px solid #E9E9F0",
+        width: "100%",
       },
       [tablet]: {
         marginTop: 110,
@@ -212,15 +226,15 @@ const useStyles = makeStyles((theme: Theme) => {
         },
       },
       "& .MuiButtonBase-root": {
-        fontWeight: 700,
-        width: 197,
-        borderRadius: 9999,
+        fontWeight: 600,
+        width: 146,
+        borderRadius: 10,
         padding: "16px 0px",
-        height: 62,
+        height: 45,
+        marginTop: 28,
       },
       "& .MuiButton-label ": {
-        fontWeight: 700,
-        textTransform: "uppercase",
+        fontWeight: 600,
       },
     },
     content: {
