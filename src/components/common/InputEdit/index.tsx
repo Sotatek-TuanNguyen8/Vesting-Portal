@@ -15,6 +15,7 @@ type InputProps = {
   msgTokenAmount?: string;
   onChange: (e: any, field: any) => void;
   isFixed?: boolean;
+  hasProof?: boolean;
 };
 export default function InputTableEdit(props: InputProps) {
   const {
@@ -28,6 +29,7 @@ export default function InputTableEdit(props: InputProps) {
     tokenAmountInvalid,
     msgTokenAmount,
     isFixed,
+    hasProof,
   } = props;
   const styles = useStyles();
 
@@ -99,7 +101,7 @@ export default function InputTableEdit(props: InputProps) {
       case "allocation_token":
         return (
           <>
-            {!status || !defaultValue || !isFixed ? (
+            {!status || !defaultValue || (!isFixed && hasProof) ? (
               <span className={styles.hiddenToken}>
                 {format_thousands_decimal(value)}
               </span>
@@ -125,6 +127,8 @@ export default function InputTableEdit(props: InputProps) {
   }, [
     defaultValue,
     field,
+    hasProof,
+    isFixed,
     onChange,
     status,
     statusEditEmail,

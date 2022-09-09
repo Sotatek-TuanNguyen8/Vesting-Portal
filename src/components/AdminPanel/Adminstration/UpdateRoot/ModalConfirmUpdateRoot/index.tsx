@@ -1,18 +1,16 @@
-import { Button } from "@mui/material";
+import { Dialog } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { UploadRootIcon } from "../../../../../assets/svgs";
-import { getContractConnect } from "../../../../../service/web";
-import useMetaMask from "../../../../../utils/hooks/useMetaMask";
-import { TRANSACTION_TIMEOUT } from "../../../../web3/connector";
-import ClaimABI from "../../../../../abi/User-Claim.json";
 import { toast } from "react-toastify";
+import ClaimABI from "../../../../../abi/User-Claim.json";
 import {
   postGenerageData,
   updateRoot,
 } from "../../../../../service/admin.service";
-import useStyles from "./style";
-import { Dialog } from "@material-ui/core";
+import { getContractConnect } from "../../../../../service/web";
+import useMetaMask from "../../../../../utils/hooks/useMetaMask";
 import Loading from "../../../../common/Loading";
+import { TRANSACTION_TIMEOUT } from "../../../../web3/connector";
+import useStyles from "./style";
 
 type Props = {
   open: boolean;
@@ -29,7 +27,6 @@ export default function ModalConfirmUpdateRoot({
 }: Props) {
   //   const { checkRootData, open, onClose } = props;
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
-  //   const [disableGenerate, setDisableGenerate] = useState(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
