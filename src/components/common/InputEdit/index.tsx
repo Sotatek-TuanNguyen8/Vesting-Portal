@@ -127,6 +127,7 @@ export default function InputTableEdit(props: InputProps) {
   }, [
     defaultValue,
     field,
+    hasProof,
     isFixed,
     onChange,
     status,
