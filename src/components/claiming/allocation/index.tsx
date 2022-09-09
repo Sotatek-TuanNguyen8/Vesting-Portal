@@ -86,7 +86,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           })
           .map((el: any) => {
             const date = moment(el.name).date();
-            return { name: date, value: el.value };
+            return { name: date, value: parseFloat(el.value) };
           });
 
         listData.length = 7;
