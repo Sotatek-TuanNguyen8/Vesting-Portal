@@ -243,7 +243,7 @@ export default function ListAccountTokenomics(props: any) {
           <p>Sales stage</p>
           <p>Vesting type </p>
           <p>Token amount</p>
-          <p>TGE amount</p>
+          <p>TGE %</p>
           <p>Cliff (days)</p>
           <p>Linear vesting (days)</p>
           <p style={{ width: "10%" }}></p>
