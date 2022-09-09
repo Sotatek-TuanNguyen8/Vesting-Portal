@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
-import { resetPWlAuth } from "../../../service";
+import { checkTokenValid, resetPWlAuth } from "../../../service";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import Loading from "../../common/Loading";
 import { LayoutPass } from "../../layouts/LayoutPass";
@@ -25,6 +25,7 @@ interface ResetPasswordForm {
 export default function ResetPasswordPage() {
   const classes = useStyles();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isCheckTokenValid, setIsCheckTokenValid] = useState<boolean>(false);
   const { control, handleSubmit, watch, setError, setValue } = useForm({
     defaultValues: {
       password: "",
@@ -43,12 +44,27 @@ export default function ResetPasswordPage() {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
+  const checkValidToken = async (token: string, email: string) => {
+    const res = await checkTokenValid({
+      email,
+      token,
+      module: "ForgetPassword",
+    });
+    if (res?.data) {
+      setIsCheckTokenValid(false);
+    } else {
+      setIsCheckTokenValid(true);
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const emailParams = params.get("email");
     const tokenParams = params.get("token");
     if (!emailParams || !tokenParams) {
       navigate("/sign-in");
+    } else {
+      checkValidToken(tokenParams, emailParams);
     }
   }, [navigate]);
 
@@ -97,8 +113,17 @@ export default function ResetPasswordPage() {
         <Typography variant="h5" className={classes.title}>
           Reset Password
         </Typography>
+        {isCheckTokenValid ? (
+          <div className={classes.container}>
+            <Typography variant="h5">
+              Reset password link has been expired.
+            </Typography>
 
-        {isSuccess ? (
+            <Link to="/sign-in">
+              <Button>Back to Log in</Button>
+            </Link>
+          </div>
+        ) : isSuccess ? (
           <div className={classes.pwChange}>
             <div className="content">
               <p>Password Changed!</p>
