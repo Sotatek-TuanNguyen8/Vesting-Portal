@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Administration from "..";
 import AdminPanel from "../..";
@@ -9,6 +8,7 @@ import {
 import { IListInvestor } from "../../../../utils";
 import { scrollIntoView } from "../../../../utils/common/fn";
 import AdminLayout from "../../../admin-auth/layoutAdmin/index";
+import Loading from "../../../common/Loading";
 import PaginationCustom from "../Pagination";
 import UpdateRoot from "../UpdateRoot";
 import ListAccountInvestor from "./ListAccountInvestor";
@@ -35,10 +35,10 @@ export default function Investors() {
   const timeoutRef = useRef<any>(null);
   const scrollIntoViewRef = useRef<any>(null);
   const [dataRoot, setDataRoot] = useState<any>();
-  const [timeStartDate, setTimeStartDate] = useState<any>();
   const [count, setCount] = useState<number>(1);
   const [isFixed, setIsFixed] = useState<boolean>(true);
   const [startTimeData, setStartTimeData] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<IListInvestor>({
     search: "",
     stages_id: [],
@@ -47,17 +47,18 @@ export default function Investors() {
   });
 
   const fetchListInvestors = useCallback(async () => {
+    setIsLoading(true);
     const res = await getListInvestor(
       query,
       sessionStorage.getItem("access_token") as string
     );
     if (res?.data) {
       setDataListInvestor(res?.data?.investors);
-      setTimeStartDate(res?.data?.start_vesting_time);
       setCount(res?.meta?.count);
       setStartTimeData(res?.data?.start_vesting_time);
     }
     await checkRootData();
+    setIsLoading(false);
   }, [query]);
 
   const checkRootData = async () => {
@@ -117,6 +118,7 @@ export default function Investors() {
   return (
     <div>
       <AdminLayout>
+        <Loading open={isLoading} />
         <AdminPanel />
         <div className={styles.container} onClick={() => setOpenFilter(false)}>
           <Administration active={"investor"} />

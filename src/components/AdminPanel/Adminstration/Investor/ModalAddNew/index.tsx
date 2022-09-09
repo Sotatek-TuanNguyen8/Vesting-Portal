@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import { useRef, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { createInvestorNew } from "../../../../../service/admin.service";
-import Loading from "../../../../common/Loading";
 import useStyles from "./style";
 
 type Props = {
@@ -75,7 +74,6 @@ export default function ModalAddNew({
 
   return (
     <>
-      <Loading open={isLoading} />
       <Dialog
         className={styles.container}
         aria-labelledby="simple-dialog-title"
@@ -116,7 +114,7 @@ export default function ModalAddNew({
             <button onClick={handleClickCancel} className={styles.btnCancel}>
               Cancel
             </button>
-            {msgErrRequied || msgErrInvalid || msgErrDuplicate ? (
+            {msgErrRequied || msgErrInvalid || msgErrDuplicate || isLoading ? (
               <button className={styles.btnCreateDisable}>Create</button>
             ) : (
               <button onClick={handleClickCreate} className={styles.btnCreate}>

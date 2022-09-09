@@ -6,10 +6,7 @@ import {
   getListStage,
   updateInvestorNew,
 } from "../../../../../service/admin.service";
-import {
-  formatAmount,
-  format_thousands_decimal,
-} from "../../../../../utils/common/fn";
+import { format_thousands_decimal } from "../../../../../utils/common/fn";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import Loading from "../../../../common/Loading";
