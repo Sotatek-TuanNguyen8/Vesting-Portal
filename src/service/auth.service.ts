@@ -7,7 +7,7 @@ import {
   singUpBody,
   updateWallet,
 } from "../utils";
-import { loginWallet } from "./../utils/types/index";
+import { ICheckTokenValid, loginWallet } from "./../utils/types/index";
 import Request from "./request/Request";
 import RequestAdmin from "./request/RequestAdmin";
 
@@ -71,6 +71,14 @@ export const getInfoUser = async (access_token: string) => {
     `${serverEndpoint}/users/me`,
     {},
     access_token
+  );
+  return data;
+};
+
+export const checkTokenValid = async (body: ICheckTokenValid) => {
+  const { data } = await Request.post(
+    `${serverEndpoint}/auth/check-token-valid`,
+    body
   );
   return data;
 };

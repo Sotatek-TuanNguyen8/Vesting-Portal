@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
+  const tablet = theme.breakpoints.down("md");
+
   return {
     reset: {
       position: "absolute",
@@ -184,6 +186,50 @@ const useStyles = makeStyles((theme: Theme) => {
           lineHeight: "18px",
           cursor: "pointer",
         },
+      },
+    },
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "260px",
+      "& .MuiTypography-h5": {
+        textAlign: "center",
+        fontSize: 28,
+        fontWeight: 400,
+        lineHeight: "36px",
+        marginBottom: 62,
+      },
+      [tablet]: {
+        marginTop: 110,
+      },
+
+      [mobile]: {
+        marginTop: 108,
+        "& .MuiTypography-h5": {
+          width: 175,
+        },
+      },
+      "& .MuiButtonBase-root": {
+        fontWeight: 700,
+        width: 197,
+        borderRadius: 9999,
+        padding: "16px 0px",
+        height: 62,
+      },
+      "& .MuiButton-label ": {
+        fontWeight: 700,
+        textTransform: "uppercase",
+      },
+    },
+    content: {
+      maxWidth: 446,
+      textAlign: "center",
+      fontSize: 18,
+      margin: "36px 0px 36px 0px",
+      [mobile]: {
+        margin: "16px 0px 40px 0px",
       },
     },
   };

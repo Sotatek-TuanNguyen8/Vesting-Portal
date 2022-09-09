@@ -51,8 +51,6 @@ export default function ListAccountInvestor({
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
 
-  console.log(isFixed);
-
   const statusEditFullName = useSelector(
     (state: any) => state.statusFullNameEditAction.statusFullName
   );
