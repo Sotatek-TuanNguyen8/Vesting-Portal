@@ -17,6 +17,7 @@ import PaginationCustom from "../Pagination/index";
 import { IListTokenomic } from "../../../../utils/types/index";
 import { scrollIntoView } from "../../../../utils/common/fn";
 import { toast } from "react-toastify";
+import Loading from "../../../common/Loading";
 
 export default function Tokenomics() {
   const styles = useStyles();
@@ -26,6 +27,7 @@ export default function Tokenomics() {
   const [dataRoot, setDataRoot] = useState<any>();
   const [count, setCount] = useState<number>(1);
   const [isFixed, setIsFixed] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [query, setQuery] = useState<IListTokenomic>({
     page_number: 0,
     page_size: 10,
@@ -38,6 +40,7 @@ export default function Tokenomics() {
   };
 
   const getDataTable = useCallback(async () => {
+    setIsLoading(true);
     const renderData = await getDataTokenomics(
       query,
       sessionStorage.getItem("access_token") as string
@@ -47,6 +50,7 @@ export default function Tokenomics() {
     setStartTimeData(renderData?.data?.start_time);
     setCount(renderData?.meta?.count);
     await checkRootData();
+    setIsLoading(false);
   }, [query]);
 
   const checkRootData = async () => {
@@ -97,6 +101,7 @@ export default function Tokenomics() {
   return (
     <div>
       <AdminLayout>
+        <Loading open={isLoading} />
         <AdminPanel />
         <div className={styles.container}>
           <Administration active={"tokenomics"} />

@@ -27,7 +27,6 @@ export default function ModalConfirmUpdateRoot({
 }: Props) {
   //   const { checkRootData, open, onClose } = props;
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
-  //   const [disableGenerate, setDisableGenerate] = useState(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
