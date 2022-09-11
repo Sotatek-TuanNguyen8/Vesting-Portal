@@ -22,7 +22,7 @@ export default function TooltipValidateDefault(props: Props) {
   const renderMsgErrer = useCallback(() => {
     // const specialChars = /[]/;
 
-    if ((!value && defaultValue) || (!value && active)) {
+    if (((!value && defaultValue) || (!value && active)) && field === "name") {
       return <p>This field is required</p>;
     }
     //  else if (field === "name" && specialChars.test(value)) {
