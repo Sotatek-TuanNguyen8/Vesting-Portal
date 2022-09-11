@@ -73,6 +73,7 @@ export default function ListAccountInvestor({
   const [idDelete, setIdDelete] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<IData[]>([]);
+  const [dataFilter, setDataFilter] = useState<any>();
 
   const getList = async () => {
     const res = await getListStage();
@@ -178,6 +179,7 @@ export default function ListAccountInvestor({
   };
 
   const handleSelect = (e: any) => {
+    setTokenAmountInvalid(false);
     setDataItem({
       ...dataItem,
       stage_name: data?.filter((el) => el.id === e)[0]?.name,
@@ -186,6 +188,7 @@ export default function ListAccountInvestor({
   };
 
   const handleFilter = (data: string[]) => {
+    setDataFilter(data);
     onFilter(data);
   };
 
@@ -200,14 +203,25 @@ export default function ListAccountInvestor({
           <p>Token amount</p>
           <div className={styles.saleStage}>
             Sale stage
-            <img
-              onClick={(e) => {
-                handleClickFilter();
-                e.stopPropagation();
-              }}
-              src="/images/iconFilter.svg"
-              alt=""
-            />
+            {dataFilter?.length > 0 ? (
+              <img
+                onClick={(e) => {
+                  handleClickFilter();
+                  e.stopPropagation();
+                }}
+                src="/images/iconFilted.svg"
+                alt=""
+              />
+            ) : (
+              <img
+                onClick={(e) => {
+                  handleClickFilter();
+                  e.stopPropagation();
+                }}
+                src="/images/iconFilter.svg"
+                alt=""
+              />
+            )}
             <div
               className="modalSaleStage"
               onClick={(e) => e.stopPropagation()}
@@ -333,11 +347,19 @@ export default function ListAccountInvestor({
                   </>
                 ) : (
                   <>
-                    <img
-                      onClick={() => handleDelete(item)}
-                      src="/images/iconDelete.svg"
-                      alt=""
-                    />
+                    {isFixed || !item?.has_proof ? (
+                      <img
+                        onClick={() => handleDelete(item)}
+                        src="/images/iconDelete.svg"
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src="/images/iconDelete.svg"
+                        alt=""
+                        style={{ opacity: 0 }}
+                      />
+                    )}
                     <img
                       onClick={() => handleEdit(item)}
                       src="/images/iconEdit.svg"
