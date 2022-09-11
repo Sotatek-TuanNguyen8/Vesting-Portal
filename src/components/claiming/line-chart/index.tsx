@@ -11,21 +11,8 @@ import {
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useStyles from "./style";
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  const style = useStyles();
-  if (active && payload && payload.length) {
-    return (
-      <div className={style.customTooltip}>
-        <p className={style.valueTooltip}>
-          {format_thousands_decimal(payload[0].value)}
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
-
 const LineChart = ({ data, width, height }: any) => {
+  const style = useStyles();
   const [positionTooltip, setPositionTooltip] = useState({
     x: 0,
     y: 0,
@@ -34,15 +21,92 @@ const LineChart = ({ data, width, height }: any) => {
     show: false,
   });
   const [activeTooltip, setActiveTooltip] = useState(0);
+  const [activeLeftTooltip, setActiveLeftTooltip] = useState(false);
+  const [activeRightTooltip, setActiveRightTooltip] = useState(false);
+
+  const handleClassName: any = () => {
+    if (activeLeftTooltip) {
+      return style.customLeftTooltip;
+    } else {
+      if (activeRightTooltip) {
+        return style.customRightTooltip;
+      } else {
+        return style.customTooltip;
+      }
+    }
+  };
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className={handleClassName()}>
+          <p className={style.valueTooltip}>
+            {format_thousands_decimal(payload[0].value)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const onMouseMov = (hoveredData: any) => {
-    setPositionTooltip({
-      x: hoveredData?.points[activeTooltip]?.x,
-      y: hoveredData?.points[activeTooltip]?.y,
-      width: hoveredData?.width,
-      height: hoveredData?.height,
-      show: true,
-    });
+    switch (activeTooltip) {
+      case 0:
+        setPositionTooltip({
+          x: hoveredData?.points[activeTooltip]?.x + 90,
+          y: hoveredData?.points[activeTooltip]?.y,
+          width: hoveredData?.width,
+          height: hoveredData?.height,
+          show: true,
+        });
+        setActiveLeftTooltip(true);
+        setActiveRightTooltip(false);
+        break;
+      case 1:
+        setPositionTooltip({
+          x: hoveredData?.points[activeTooltip]?.x + 50,
+          y: hoveredData?.points[activeTooltip]?.y,
+          width: hoveredData?.width,
+          height: hoveredData?.height,
+          show: true,
+        });
+        setActiveLeftTooltip(true);
+        setActiveRightTooltip(false);
+        break;
+      case 5:
+        setPositionTooltip({
+          x: hoveredData?.points[activeTooltip]?.x - 50,
+          y: hoveredData?.points[activeTooltip]?.y,
+          width: hoveredData?.width,
+          height: hoveredData?.height,
+          show: true,
+        });
+        setActiveLeftTooltip(false);
+        setActiveRightTooltip(true);
+        break;
+      case 6:
+        setPositionTooltip({
+          x: hoveredData?.points[activeTooltip]?.x - 90,
+          y: hoveredData?.points[activeTooltip]?.y,
+          width: hoveredData?.width,
+          height: hoveredData?.height,
+          show: true,
+        });
+        setActiveLeftTooltip(false);
+        setActiveRightTooltip(true);
+        break;
+      default:
+        setPositionTooltip({
+          x: hoveredData?.points[activeTooltip]?.x,
+          y: hoveredData?.points[activeTooltip]?.y,
+          width: hoveredData?.width,
+          height: hoveredData?.height,
+          show: true,
+        });
+        setActiveLeftTooltip(false);
+        setActiveRightTooltip(false);
+        break;
+    }
   };
 
   const handleActiveTooltip = (data: any) => {
@@ -95,6 +159,7 @@ const LineChart = ({ data, width, height }: any) => {
           }}
           tickSize={2}
           dx={-12}
+          width={105}
         />
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -131,14 +196,64 @@ const LineChart = ({ data, width, height }: any) => {
             strokeWidth: 7,
             r: 12,
             className: "boxShadow",
-            onMouseEnter: (data, position: any) => {
-              setPositionTooltip({
-                x: position?.cx + 8,
-                y: position?.cy,
-                width: 100,
-                height: 100,
-                show: true,
-              });
+            onMouseEnter: (data: any, position: any) => {
+              switch (activeTooltip) {
+                case 0:
+                  setPositionTooltip({
+                    x: position?.cx + 90,
+                    y: position?.cy,
+                    width: 100,
+                    height: 100,
+                    show: true,
+                  });
+                  setActiveLeftTooltip(true);
+                  setActiveRightTooltip(false);
+                  break;
+                case 1:
+                  setPositionTooltip({
+                    x: position?.cx + 50,
+                    y: position?.cy,
+                    width: 100,
+                    height: 100,
+                    show: true,
+                  });
+                  setActiveLeftTooltip(true);
+                  setActiveRightTooltip(false);
+                  break;
+                case 5:
+                  setPositionTooltip({
+                    x: position?.cx - 50,
+                    y: position?.cy,
+                    width: 100,
+                    height: 100,
+                    show: true,
+                  });
+                  setActiveLeftTooltip(false);
+                  setActiveRightTooltip(true);
+                  break;
+                case 6:
+                  setPositionTooltip({
+                    x: position?.cx - 90,
+                    y: position?.cy,
+                    width: 100,
+                    height: 100,
+                    show: true,
+                  });
+                  setActiveLeftTooltip(false);
+                  setActiveRightTooltip(true);
+                  break;
+                default:
+                  setPositionTooltip({
+                    x: position?.cx + 8,
+                    y: position?.cy,
+                    width: 100,
+                    height: 100,
+                    show: true,
+                  });
+                  setActiveLeftTooltip(false);
+                  setActiveRightTooltip(false);
+                  break;
+              }
             },
             onMouseOut: () => {
               setPositionTooltip({
