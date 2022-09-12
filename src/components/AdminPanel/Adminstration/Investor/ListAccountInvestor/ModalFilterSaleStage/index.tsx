@@ -51,7 +51,7 @@ export default function FilterAdmin({ open, onClose, onFilter, data }: Props) {
               <button
                 onClick={handleFilter}
                 className="btn btnApply"
-                disabled={dataList?.length <= 0}
+                // disabled={dataList?.length <= 0}
               >
                 Apply
               </button>
