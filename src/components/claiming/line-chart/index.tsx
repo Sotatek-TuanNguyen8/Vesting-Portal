@@ -123,6 +123,7 @@ const LineChart = ({ data, width, height }: any) => {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <AreaChart
+        className={style.areaChart}
         data={data}
         width={width}
         height={height}
@@ -160,6 +161,7 @@ const LineChart = ({ data, width, height }: any) => {
           tickSize={2}
           dx={-12}
           width={105}
+          padding={{ top: 20 }}
         />
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
