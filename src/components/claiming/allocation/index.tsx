@@ -65,7 +65,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         };
       });
 
-      if (isEmpty(res.data)) {
+      if (!isEmpty(res.data)) {
         const clone = res.data
           .sort(function (a: any, b: any) {
             return (
