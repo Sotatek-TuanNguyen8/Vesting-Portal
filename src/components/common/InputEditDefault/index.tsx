@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useStyles from "./style";
 import TooltipValidateDefault from "./ValidateEditInputDefault";

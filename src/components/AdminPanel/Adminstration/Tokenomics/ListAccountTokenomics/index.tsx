@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import _, { toNumber } from "lodash";
 import InputTableEditDefault from "../../../../common/InputEditDefault";
@@ -14,6 +14,7 @@ import { IData } from "../../Investor/ListAccountInvestor/ModalFilterSaleStage";
 import ModalSaleStageDefault from "../../../../common/InputEditDefault/ModalSaleStageDefault";
 import { useDispatch } from "react-redux";
 import { setmsgErrTokenAmountEdit } from "../../../../../store/action";
+import Loading from "../../../../common/Loading";
 
 export default function ListAccountTokenomics(props: any) {
   const { openAdd, setAdd, dataTable, renderTable, isFixed } = props;
@@ -43,6 +44,7 @@ export default function ListAccountTokenomics(props: any) {
   const [showErrorMsgEdit, setShowErrorMsgEdit] = useState<boolean>(false);
   const [showErrorMsgAdd, setShowErrorMsgAdd] = useState<boolean>(false);
   // const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showErrorMsgTokenAmount, setShowErrorMsgTokenAmount] =
     useState<boolean>(false);
   const getListVesting = async () => {
@@ -79,6 +81,7 @@ export default function ListAccountTokenomics(props: any) {
     setShowErrorMsgEdit(false);
 
     // return;
+    setIsLoading(true);
     const res = await editTableTokenimics(data.id, {
       name: editDataItem.name,
       token_amount: _.toNumber(editDataItem.token_amount),
@@ -96,15 +99,16 @@ export default function ListAccountTokenomics(props: any) {
       setIsEdit(null);
       await renderTable();
     }
+    setIsLoading(false);
   };
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     dispatch(setmsgErrTokenAmountEdit(""));
     setShowErrorMsgEdit(false);
     setEditDataItem({});
     setIsEdit(null);
     setOpenVestingOption(false);
-  };
+  }, [dispatch]);
 
   const handleChangeInputTable = (e: any, field: any) => {
     dispatch(setmsgErrTokenAmountEdit(""));
@@ -190,7 +194,7 @@ export default function ListAccountTokenomics(props: any) {
     if (openAdd) {
       handleCancel();
     }
-  }, [openAdd]);
+  }, [handleCancel, openAdd]);
   useEffect(() => {
     getListVesting();
   }, []);
@@ -238,15 +242,16 @@ export default function ListAccountTokenomics(props: any) {
 
   return (
     <div className={styles.container}>
+      <Loading open={isLoading} />
       <div className={styles.tableHeader}>
         <div className="header">
           <p>Sales stage</p>
           <p>Vesting type </p>
           <p>Token amount</p>
-          <p>TGE amount</p>
+          <p>TGE %</p>
           <p>Cliff (days)</p>
           <p>Linear vesting (days)</p>
-          <p style={{ width: "10%" }}></p>
+          {isFixed && <p style={{ width: "10%" }}></p>}
         </div>
         <div className={styles.border}></div>
       </div>

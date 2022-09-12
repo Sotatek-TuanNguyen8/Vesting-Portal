@@ -3,7 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     wrapper: {
-      width: "15%",
+      width: "16.66%",
       display: "flex",
       color: "#0A208F",
     },

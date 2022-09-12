@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme: Theme) => {
         position: "absolute",
         visibility: "hidden",
         color: "#051C42",
+        minWidth: 180,
         opacity: 0,
         fontWeight: 400,
         fontSize: 14,
-        width: 220,
         height: 44,
         backgroundColor: "#F44336",
         borderRadius: 10,
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) => {
         // borderRadius: 10,
         "&> p": {
           padding: "0px 12px",
-          margin: "5px 0",
+          whiteSpace: "pre",
+          // margin: "5px 0",
         },
         " &::after": {
           content: '""',

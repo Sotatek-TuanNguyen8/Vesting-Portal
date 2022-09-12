@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) => {
       margin: "auto",
       "& .MuiPaper-root": {
         width: 409,
-        height: 223,
+        minHeight: 223,
+        padding: "20px 0",
         backgroundColor: "#fff",
         display: "flex",
         alignItems: "center",
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     title: {
-      padding: "14px 0px",
+      paddingBottom: 14,
       display: "flex",
       justifyContent: "flex-start",
       fontSize: 20,

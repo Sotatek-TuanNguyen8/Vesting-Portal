@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
         display: "flex",
         flexDirection: "row",
         "& p": {
-          width: "15%",
+          width: "16.66%",
           fontSize: 16,
           fontWeight: 400,
           // marginLeft: "12px",
@@ -59,9 +59,9 @@ const useStyles = makeStyles((theme: Theme) => {
           "& img": {
             cursor: "pointer",
             marginLeft: 20,
-            width: "20px",
+            // width: "20px",
             "&:last-child": {
-              width: "17.65px",
+              // width: "17.65px",
             },
           },
         },
