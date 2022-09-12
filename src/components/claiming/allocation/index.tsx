@@ -65,7 +65,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         };
       });
 
-      if (!isEmpty(res.data)) {
+      if (isEmpty(res.data)) {
         const clone = res.data
           .sort(function (a: any, b: any) {
             return (
@@ -93,8 +93,11 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         listData.reverse();
         setLineChartData(listData);
       } else {
-        listDate.reverse();
-        setLineChartData(listDate);
+        const listData = listDate.reverse().map((el: any) => {
+          const date = moment(el.name).date();
+          return { name: date, value: parseFloat(el.value) };
+        });
+        setLineChartData(listData);
       }
     } else {
       toast.error(res?.error.message);
