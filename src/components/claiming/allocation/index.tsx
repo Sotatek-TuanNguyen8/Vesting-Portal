@@ -65,7 +65,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         };
       });
 
-      if (isEmpty(res.data)) {
+      if (!isEmpty(res.data)) {
         const clone = res.data
           .sort(function (a: any, b: any) {
             return (
@@ -88,6 +88,16 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             const date = moment(el.name).date();
             return { name: date, value: parseFloat(el.value) };
           });
+
+        if (listData[0].value === 0) {
+          const lastValue: any = listData.find((el) => el.value !== 0);
+
+          listData.map((el, index) => {
+            if (index < listData.findIndex((el) => el.value !== 0)) {
+              return (el.value = lastValue.value);
+            }
+          });
+        }
 
         listData.length = 7;
         listData.reverse();
