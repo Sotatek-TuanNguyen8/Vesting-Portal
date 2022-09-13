@@ -68,6 +68,7 @@ export default function ListAccountInvestor({
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
+  // const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
   const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
   const [idDelete, setIdDelete] = useState<number>();
@@ -135,7 +136,7 @@ export default function ListAccountInvestor({
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
       toast.success("Update Successfully");
-    } else if (dataUpdate?.status === 400) {
+    } else if (dataUpdate?.status === 400 || dataUpdate?.status === 405) {
       setDuplicateWallet(true);
     } else if (dataUpdate?.status === 409) {
       setDuplicateEmail(true);
