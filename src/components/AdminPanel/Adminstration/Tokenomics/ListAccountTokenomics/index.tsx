@@ -90,6 +90,7 @@ export default function ListAccountTokenomics(props: any) {
       linear_vesting: _.toNumber(editDataItem.linear_vesting),
       vesting_type_id: _.toNumber(editDataItem.vesting_type_id),
     });
+    setIsLoading(false);
     if (!res) return;
     if (res?.error && res?.error?.message) {
       setShowErrorMsgTokenAmount(true);
@@ -99,7 +100,6 @@ export default function ListAccountTokenomics(props: any) {
       setIsEdit(null);
       await renderTable();
     }
-    setIsLoading(false);
   };
 
   const handleCancel = useCallback(() => {
