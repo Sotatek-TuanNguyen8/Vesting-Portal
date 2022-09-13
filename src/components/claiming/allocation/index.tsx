@@ -89,6 +89,16 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             return { name: date, value: parseFloat(el.value) };
           });
 
+        let count: number = 0;
+        listData.reverse().map((el, index) => {
+          if (el.value !== 0) {
+            count = el.value;
+          } else {
+            el.value = count;
+          }
+        });
+
+        listData.reverse();
         listData.length = 7;
         listData.reverse();
         setLineChartData(listData);
