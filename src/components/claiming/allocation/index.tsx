@@ -93,8 +93,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         listData.reverse().map((el, index) => {
           if (el.value !== 0) {
             count = el.value;
-          }
-          if (el.value === 0) {
+          } else {
             el.value = count;
           }
         });
