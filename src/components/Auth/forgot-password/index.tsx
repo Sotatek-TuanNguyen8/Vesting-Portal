@@ -44,7 +44,7 @@ export default function ForgotPasswordPage() {
           FORGOT_PASSWORD
         );
         if (response?.error) {
-          setMessError("Email and Wallet address do not match");
+          setMessError(response?.error?.details);
         } else {
           setMessError("");
           setIsSendEmail(true);
