@@ -59,7 +59,7 @@ export default function ResendEmailPage() {
 
   const handleResendEmail = async () => {
     setIsLoading(true);
-    setCounter(60);
+    setCounter(new Number(60));
     const res = await resendEmailAuth({ email: email as string });
     if (res?.data) {
       toast.success("Successfully! Please check email");
