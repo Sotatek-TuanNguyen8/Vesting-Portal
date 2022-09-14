@@ -35,6 +35,8 @@ export default function Tokenomics() {
   const [csvValue, setCsvValue] = useState<any>("");
   const scrollIntoViewRef = useRef<any>(null);
 
+  const fetchListInvestors = () => {};
+
   const handleAddNew = () => {
     setOpen(true);
   };
@@ -149,7 +151,10 @@ export default function Tokenomics() {
                 </div>
               )}
               <div className={styles.updateRoot}>
-                <UpdateRoot checkRootData={dataRoot} />
+                <UpdateRoot
+                  fetchListInvestors={fetchListInvestors}
+                  checkRootData={dataRoot}
+                />
               </div>
             </div>
             <div className={styles.body} ref={scrollIntoViewRef}>

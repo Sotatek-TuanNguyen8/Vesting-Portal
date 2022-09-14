@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
+import { SocketProvider } from "./components/hooks/useSocket";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./store";
@@ -22,28 +23,30 @@ const getLibrary = (provider: any): Web3Provider => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <MetaMaskProvider>
-          <Provider store={store}>
-            <ThemeProvider theme={theme}>
-              <App />
-              <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-            </ThemeProvider>
-          </Provider>
-        </MetaMaskProvider>
-      </Web3ReactProvider>
-    </BrowserRouter>
+    <SocketProvider>
+      <BrowserRouter>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <MetaMaskProvider>
+            <Provider store={store}>
+              <ThemeProvider theme={theme}>
+                <App />
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+              </ThemeProvider>
+            </Provider>
+          </MetaMaskProvider>
+        </Web3ReactProvider>
+      </BrowserRouter>
+    </SocketProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
