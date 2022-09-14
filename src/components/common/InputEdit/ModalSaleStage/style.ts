@@ -5,15 +5,56 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     container: {
       width: "13%",
+      display: "flex",
+      flexDirection: "row",
     },
     wrapper: {
-      width: "90%",
+      width: "80%",
       backgroundColor: "#fff",
       border: "1px solid #BBBBBB",
       borderRadius: 3,
       padding: "3px 10px",
       height: "100%",
       fontFamily: "gibson",
+      marginRight: 4,
+      "& .MuiInputBase-root.Mui-disabled": {
+        height: "100%",
+      },
+      "& .MuiInput-underline.Mui-disabled:before": {
+        display: "none",
+      },
+      "& .MuiInput-underline:before": {
+        border: "none",
+        display: "none",
+      },
+      "& .MuiInput-underline:after": {
+        display: "none",
+      },
+
+      "& .MuiPaper-root .MuiMenu-paper .MuiPopover-paper .MuiPaper-elevation8 .MuiPaper-rounded":
+        {
+          height: "100%",
+          minWidth: "214px !important",
+          top: "372px !important",
+          left: "890px !important",
+        },
+      "& div": {
+        color: "#0A208F",
+        fontSize: 16,
+        fontWeight: 400,
+        cursor: "pointer",
+        width: "100%",
+      },
+    },
+    wrapperError: {
+      width: "80%",
+      backgroundColor: "#fff",
+      border: "1px solid red",
+      borderRadius: 3,
+      padding: "3px 10px",
+      height: "100%",
+      fontFamily: "gibson",
+      marginRight: 4,
       "& .MuiInputBase-root.Mui-disabled": {
         height: "100%",
       },

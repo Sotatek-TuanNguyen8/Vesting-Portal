@@ -12,11 +12,12 @@ import useStyles from "./style";
 type Props = {
   value: string;
   field: string;
-  defaultValue: string;
+  defaultValue?: string;
   isDuplicateEmail?: boolean;
   isDuplicateWallet?: boolean;
   tokenAmountInvalid?: boolean;
   msgTokenAmount?: string;
+  showMsgErrSaleStage?: boolean;
 };
 export default function TooltipValidate(props: Props) {
   const {
@@ -27,6 +28,7 @@ export default function TooltipValidate(props: Props) {
     isDuplicateWallet,
     isDuplicateEmail,
     msgTokenAmount,
+    showMsgErrSaleStage,
   } = props;
   const styles = useStyles();
 
@@ -92,6 +94,12 @@ export default function TooltipValidate(props: Props) {
     }
   }, [dispatch, msgTokenAmount, tokenAmountInvalid]);
 
+  const renderMsgErrorSaleStage = useCallback(() => {
+    if (showMsgErrSaleStage) {
+      return <p>Same sale stage cannot be selected to same wallet address</p>;
+    }
+  }, [showMsgErrSaleStage]);
+
   const renderMsgErrorInput = useCallback(() => {
     switch (field) {
       case "full_name":
@@ -102,6 +110,8 @@ export default function TooltipValidate(props: Props) {
         return renderMsgErrorWallet();
       case "allocation_token":
         return renderMsgErrorInvalidToken();
+      case "sale_stage":
+        return renderMsgErrorSaleStage();
       default:
         return null;
     }
@@ -110,11 +120,12 @@ export default function TooltipValidate(props: Props) {
     renderMsgErrorEmail,
     renderMsgErrorFullName,
     renderMsgErrorInvalidToken,
+    renderMsgErrorSaleStage,
     renderMsgErrorWallet,
   ]);
 
   const renderMsgError = useCallback(() => {
-    if (!defaultValue) return;
+    if (!defaultValue && field !== "sale_stage") return;
     if (field) {
       return renderMsgErrorInput();
     } else {
@@ -143,6 +154,7 @@ export default function TooltipValidate(props: Props) {
       case "email":
       case "wallet_address":
       case "allocation_token":
+      case "sale_stage":
         return renderMsgValidate();
       default:
         return null;

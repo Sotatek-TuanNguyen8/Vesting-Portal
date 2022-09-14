@@ -68,7 +68,8 @@ export default function ListAccountInvestor({
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
-  // const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
+  const [showMsgErrSaleStage, setShowMsgErrSaleStage] =
+    useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
   const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
   const [idDelete, setIdDelete] = useState<number>();
@@ -136,13 +137,15 @@ export default function ListAccountInvestor({
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
       toast.success("Update Successfully");
-    } else if (dataUpdate?.status === 400 || dataUpdate?.status === 405) {
+    } else if (dataUpdate?.status === 405) {
       setDuplicateWallet(true);
-    } else if (dataUpdate?.status === 409) {
-      setDuplicateEmail(true);
     } else if (dataUpdate?.status === 406) {
+      setDuplicateEmail(true);
+    } else if (dataUpdate?.status === 400) {
       setTokenAmountInvalid(true);
       setMsgTokenAmount(dataUpdate?.data?.error.message);
+    } else if (dataUpdate?.status === 409) {
+      setShowMsgErrSaleStage(true);
     } else {
       setIsEdit(false);
     }
@@ -155,12 +158,14 @@ export default function ListAccountInvestor({
     setDuplicateWallet(false);
     setDuplicateEmail(false);
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
   };
 
   const handleChangeInputTable = (e: any, field: number) => {
     setDuplicateWallet(false);
     setDuplicateEmail(false);
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setDataItem({
       ...dataItem,
       [field]: e,
@@ -181,6 +186,7 @@ export default function ListAccountInvestor({
 
   const handleSelect = (e: any) => {
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setDataItem({
       ...dataItem,
       stage_name: data?.filter((el) => el.id === e)[0]?.name,
@@ -309,6 +315,8 @@ export default function ListAccountInvestor({
                 onClickSelect={handleSelect}
                 isFixed={isFixed}
                 hasProof={item.has_proof}
+                field="sale_stage"
+                showMsgErrSaleStage={showMsgErrSaleStage}
               />
 
               <div className="tokensVested">
@@ -326,7 +334,8 @@ export default function ListAccountInvestor({
                     {statusEditFullName ||
                     statusEditEmail ||
                     statusEditWallet ||
-                    statusEditTokenAmount ? (
+                    statusEditTokenAmount ||
+                    showMsgErrSaleStage ? (
                       <img
                         // onClick={handleSave}
                         src="/images/iconSuccess.svg"
