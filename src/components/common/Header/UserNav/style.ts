@@ -1,6 +1,8 @@
 import { makeStyles, Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
+  const custom = theme.breakpoints.down(1360);
+
   return {
     container: {
       display: "flex !important",
@@ -9,6 +11,14 @@ const useStyles = makeStyles((theme: Theme) => {
         width: 62,
         height: 62,
         marginRight: 30,
+      },
+
+      "& svg:first-child": {
+        marginRight: 30,
+        [custom]: {
+          width: 50,
+          marginRight: 12,
+        },
       },
     },
     dropMenu: {
@@ -22,7 +32,9 @@ const useStyles = makeStyles((theme: Theme) => {
         justifyContent: "space-between",
         color: "#303030",
         marginRight: 80,
-
+        [custom]: {
+          marginRight: 30,
+        },
         "& p": {
           margin: 0,
           fontSize: 26,

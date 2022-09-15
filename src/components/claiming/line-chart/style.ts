@@ -3,6 +3,59 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
+    areaChart: {
+      "&  .recharts-cartesian-grid-horizontal line:last-child": {
+        strokeOpacity: 0,
+      },
+    },
+    customLeftTooltip: {
+      minWidth: 140,
+      position: "relative",
+      padding: "10px 12px",
+      borderRadius: "25px",
+      background: " linear-gradient(92.15deg, #E7D4FF 0.76%, #ABFBFD 100.94%)",
+      color: "#474747",
+      border: "none",
+      fontWeight: 400,
+      fontFamily: "gibson",
+      textAlign: "center",
+      "&:after": {
+        content: '""',
+        position: "absolute",
+        height: 0,
+        width: 0,
+        bottom: "-10px",
+        left: "25%",
+        transform: "translateX(-50%)",
+        borderStyle: "solid",
+        borderWidth: "10px 20px 0 0px",
+        borderColor: "#ABFBFD transparent    transparent   transparent",
+      },
+    },
+    customRightTooltip: {
+      minWidth: 140,
+      position: "relative",
+      padding: "10px 12px",
+      borderRadius: "25px",
+      background: " linear-gradient(92.15deg, #E7D4FF 0.76%, #ABFBFD 100.94%)",
+      color: "#474747",
+      border: "none",
+      fontWeight: 400,
+      fontFamily: "gibson",
+      textAlign: "center",
+      "&:after": {
+        content: '""',
+        position: "absolute",
+        height: 0,
+        width: 0,
+        bottom: "-10px",
+        left: "70%",
+        transform: "rotate(180deg)",
+        borderStyle: "solid",
+        borderWidth: "    10px  0px  0px   20px ",
+        borderColor: " transparent   transparent   transparent #ABFBFD",
+      },
+    },
     customTooltip: {
       minWidth: 140,
       position: "relative",
@@ -24,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) => {
         transform: "translateX(-50%)",
         borderStyle: "solid",
         borderWidth: "10px 20px 0 0px",
-        borderColor: " #ABFBFD transparent transparent transparent",
+        borderColor: "#ABFBFD transparent transparent transparent",
       },
     },
     valueTooltip: {

@@ -148,6 +148,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       if (!time_out_claim) {
         toast.success("Successful transaction done");
         fetchListJoinClaim();
+        handleLineChart();
       } else {
         toast.error(
           "Transaction Pending. Please wait for transaction success and reload page"

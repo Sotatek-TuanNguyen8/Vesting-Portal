@@ -67,3 +67,9 @@ export interface IListTokenomic {
   page_number: number;
   page_size: number;
 }
+
+export interface ICheckTokenValid {
+  email: string;
+  token: string;
+  module: string;
+}

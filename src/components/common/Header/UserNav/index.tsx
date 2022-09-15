@@ -7,13 +7,8 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import {
-  ArrowDown,
-  AvatarDefault,
-  Disconnect,
-  Logout,
-} from "../../../../assets/svgs";
+import { useNavigate } from "react-router-dom";
+import { ArrowDown, AvatarDefault, Logout } from "../../../../assets/svgs";
 import { setUser } from "../../../../store/action";
 import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import { setLocalStorage } from "../../../hooks";
@@ -24,8 +19,6 @@ export default function UserNav() {
   const userData = useSelector((s: any) => s.authAction.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname } = location;
   const classes = useStyles();
 
   const handleClose = () => {
@@ -45,7 +38,7 @@ export default function UserNav() {
 
   return (
     <div className={classes.container}>
-      <AvatarDefault style={{ marginRight: 30 }} />
+      <AvatarDefault />
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           {userData?.fullName && <p>{userData?.fullName}</p>}
