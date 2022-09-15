@@ -88,19 +88,6 @@ export default function ListAccountInvestor({
     getList();
   }, []);
 
-  const shortenAddress = (
-    string?: string,
-    start?: number,
-    end?: number
-  ): string => {
-    if (typeof string !== "string") return "";
-    return (
-      string.slice(0, start || 7) +
-      "..." +
-      string.slice(-(end || 6))
-    ).toLowerCase();
-  };
-
   const renderOpenModalDelete = () => (
     <ModalDelete
       open={openModalDelete}
@@ -281,7 +268,7 @@ export default function ListAccountInvestor({
                 value={
                   isEdit && item.investor_id === dataItem.investor_id
                     ? dataItem.wallet_address
-                    : shortenAddress(item?.wallet_address, 4, 4)
+                    : item?.wallet_address
                 }
                 field="wallet_address"
                 onChange={handleChangeInputTable}
