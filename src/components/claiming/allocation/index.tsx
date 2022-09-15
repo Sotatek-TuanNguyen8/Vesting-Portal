@@ -114,6 +114,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
               from: account,
             })
             .on("transactionHash", async () => {
+              setIsClaming(true);
+              setLoadingTransaction(false);
               await postStatusClaim(dataClaim.investor_id);
               timeOut = setTimeout(() => {
                 resolve({
@@ -302,7 +304,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                   // className={classes.btnClaim}
                 >
                   <div className={classes.btnClaim}>
-                    {isClaming ? "CLAIMING" : "CLAIM"}
+                    {isClaming ? "" : "CLAIM"}
                     {isClaming && <div className={style.loader}></div>}
                   </div>
                 </Button>
