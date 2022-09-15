@@ -13,12 +13,11 @@ import {
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
-import { SocketEvent } from "../../../utils/types/socket";
 import Loading from "../../common/Loading";
-import { useSocket } from "../../hooks/useSocket";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
+import style from "./style.module.css";
 
 type Props = {
   dataClaim: IDataClaim;
@@ -62,6 +61,14 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const [lineChartData, setLineChartData] = useState<any>();
   const [isClaming, setIsClaming] = useState<boolean>(false);
+
+  const getDataLineChart = useCallback(async () => {
+    await getClaimList(dataClaim.id);
+  }, [dataClaim.is_claiming]);
+
+  useEffect(() => {
+    getDataLineChart();
+  }, [getDataLineChart]);
 
   useEffect(() => {
     if (!dataClaim) return;
@@ -221,7 +228,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       toast.error(res?.error.message);
     }
     setLoadingTransaction(false);
-  }, [dataClaim.id]);
+  }, [dataClaim.id, dataClaim.is_claiming]);
 
   useEffect(() => {
     handleLineChart();
@@ -291,8 +298,12 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                     ) <= 0
                   }
                   onClick={() => handleClaimToken()}
+                  // className={classes.btnClaim}
                 >
-                  {isClaming ? "CLAIMING" : "CLAIM"}
+                  <div className={classes.btnClaim}>
+                    {isClaming ? "CLAIMING" : "CLAIM"}
+                    {isClaming && <div className={style.loader}></div>}
+                  </div>
                 </Button>
               </div>
             </div>

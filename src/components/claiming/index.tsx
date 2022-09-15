@@ -27,6 +27,8 @@ export default function ClaimPage() {
     };
   }, []);
 
+  console.log(listClaim);
+
   const fetchListJoinClaim = useCallback(async () => {
     setIsLoading(true);
     const res = await getListJoinClaim();
