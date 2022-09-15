@@ -98,9 +98,11 @@ export default function InputTableEdit(props: InputProps) {
         ) : (
           <div className={styles.email}>
             <p className="formatEmail">{value}</p>
-            <div className="valueEmail">
-              <p>{value}</p>
-            </div>
+            {value && (
+              <div className="valueEmail">
+                <p>{value}</p>
+              </div>
+            )}
           </div>
         );
       case "wallet_address":
@@ -120,9 +122,11 @@ export default function InputTableEdit(props: InputProps) {
         ) : (
           <div className={styles.email}>
             <p className="formatEmail">{shortenAddress(value, 4, 4)}</p>
-            <div className="valueEmail">
-              <p>{value}</p>
-            </div>
+            {value && (
+              <div className="valueEmail">
+                <p>{value}</p>
+              </div>
+            )}
           </div>
         );
       case "allocation_token":

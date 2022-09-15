@@ -13,12 +13,11 @@ import {
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
-import { SocketEvent } from "../../../utils/types/socket";
 import Loading from "../../common/Loading";
-import { useSocket } from "../../hooks/useSocket";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
+import style from "./style.module.css";
 
 type Props = {
   dataClaim: IDataClaim;
@@ -63,6 +62,14 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [lineChartData, setLineChartData] = useState<any>();
   const [isClaming, setIsClaming] = useState<boolean>(false);
 
+  const getDataLineChart = useCallback(async () => {
+    await getClaimList(dataClaim.id);
+  }, [dataClaim.is_claiming]);
+
+  useEffect(() => {
+    getDataLineChart();
+  }, [getDataLineChart]);
+
   useEffect(() => {
     if (!dataClaim) return;
     if (dataClaim.is_claiming === 1) {
@@ -71,71 +78,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       setIsClaming(false);
     }
   }, [dataClaim]);
-
-  const handleLineChart = useCallback(async () => {
-    setLoadingTransaction(true);
-    const res = await getClaimList(dataClaim.id);
-    if (res.data) {
-      const listDate = Array.from(Array(7).keys())?.map((el) => {
-        return {
-          name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
-          value: 0,
-        };
-      });
-
-      if (!isEmpty(res.data)) {
-        const clone = res.data
-          .sort(function (a: any, b: any) {
-            return (
-              new Date(b.created_at).valueOf() -
-              new Date(a.created_at).valueOf()
-            );
-          })
-          .map((el: any, index: number) => {
-            return {
-              value: el.amount,
-              name: moment(el.created_at).format("YYYY-MM-DD"),
-            };
-          });
-
-        const listData = _.uniqBy([...clone, ...listDate], "name")
-          .sort(function (a: any, b: any) {
-            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
-          })
-          .map((el: any) => {
-            const date = moment(el.name).date();
-            return { name: date, value: parseFloat(el.value) };
-          });
-
-        let count: number = 0;
-        listData.reverse().map((el, index) => {
-          if (el.value !== 0) {
-            count = el.value;
-          } else {
-            el.value = count;
-          }
-        });
-
-        listData.reverse();
-        listData.length = 7;
-        listData.reverse();
-        setLineChartData(listData);
-      } else {
-        const listData = listDate.reverse().map((el: any) => {
-          const date = moment(el.name).date();
-          return { name: date, value: parseFloat(el.value) };
-        });
-        setLineChartData(listData);
-      }
-    } else {
-      toast.error(res?.error.message);
-    }
-    setLoadingTransaction(false);
-  }, [dataClaim.id]);
-
-  useEffect(() => {
-    handleLineChart();
-  }, [handleLineChart]);
 
   const handleClaim = async (
     abi: any,
@@ -226,6 +168,73 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     return Object.keys(v).length === 0;
   };
 
+  const handleLineChart = useCallback(async () => {
+    setLoadingTransaction(true);
+    const res = await getClaimList(dataClaim.id);
+    if (res.data) {
+      if (!isEmpty(res.data)) {
+        const clone = res.data
+          .sort(function (a: any, b: any) {
+            return (
+              new Date(b.created_at).valueOf() -
+              new Date(a.created_at).valueOf()
+            );
+          })
+          .map((el: any, index: number) => {
+            return {
+              value: el.amount,
+              name: moment(el.created_at).format("YYYY-MM-DD"),
+            };
+          });
+
+        const listDate = Array.from(Array(7).keys())?.map((el) => {
+          return {
+            name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
+            value: 0,
+          };
+        });
+
+        const listData = _.uniqBy([...clone, ...listDate], "name")
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
+
+        listData.length = 7;
+
+        listData.reverse();
+        setLineChartData(listData);
+      } else {
+        const listDate = Array.from(Array(7).keys())
+          ?.map((el) => {
+            return {
+              name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
+              value: 0,
+            };
+          })
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
+        listDate.reverse();
+        setLineChartData(listDate);
+      }
+    } else {
+      toast.error(res?.error.message);
+    }
+    setLoadingTransaction(false);
+  }, [dataClaim.id, dataClaim.is_claiming]);
+
+  useEffect(() => {
+    handleLineChart();
+  }, [handleLineChart]);
+
   return (
     <>
       <Loading open={loadingTransaction} />
@@ -290,8 +299,12 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                     ) <= 0
                   }
                   onClick={() => handleClaimToken()}
+                  // className={classes.btnClaim}
                 >
-                  {isClaming ? "CLAIMING" : "CLAIM"}
+                  <div className={classes.btnClaim}>
+                    {isClaming ? "CLAIMING" : "CLAIM"}
+                    {isClaming && <div className={style.loader}></div>}
+                  </div>
                 </Button>
               </div>
             </div>
