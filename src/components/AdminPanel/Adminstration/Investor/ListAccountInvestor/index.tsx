@@ -107,6 +107,10 @@ export default function ListAccountInvestor({
   };
 
   const handleEdit = async (e: any) => {
+    setDuplicateWallet(false);
+    setDuplicateEmail(false);
+    setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setIsEdit(true);
     setDataItem(e);
   };
