@@ -18,3 +18,10 @@ export const getClaimList = async (id: number) => {
   const { data } = await Request.get(`${serverEndpoint}/rounds/${id}/claimed`);
   return data;
 };
+
+export const postStatusClaim = async (id: number) => {
+  const { data } = await Request.patch(
+    `${serverEndpoint}/rounds/investor/${id}/update-claim-status`
+  );
+  return data;
+};

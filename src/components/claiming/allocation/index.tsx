@@ -5,11 +5,17 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
-import { getClaimList, getInfoClaim } from "../../../service/claim.service";
+import {
+  getClaimList,
+  getInfoClaim,
+  postStatusClaim,
+} from "../../../service/claim.service";
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
+import { SocketEvent } from "../../../utils/types/socket";
 import Loading from "../../common/Loading";
+import { useSocket } from "../../hooks/useSocket";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
@@ -29,12 +35,14 @@ export interface IDataClaim {
   vesting_type_id: number;
   available_to_claim: string;
   cliff: number;
+  is_claiming: number;
   linear_vesting: any;
   next_unlock_in: number;
   tge: string;
   tge_claimed: string;
   token_pending: string;
   token_vested: string;
+  investor_id: number;
 }
 
 export interface IClaim {
@@ -53,6 +61,16 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const [lineChartData, setLineChartData] = useState<any>();
+  const [isClaming, setIsClaming] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!dataClaim) return;
+    if (dataClaim.is_claiming === 1) {
+      setIsClaming(true);
+    } else {
+      setIsClaming(false);
+    }
+  }, [dataClaim]);
 
   const handleClaim = async (
     abi: any,
@@ -88,7 +106,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             .send({
               from: account,
             })
-            .on("transactionHash", () => {
+            .on("transactionHash", async () => {
+              await postStatusClaim(dataClaim.investor_id);
               timeOut = setTimeout(() => {
                 resolve({
                   time_out_claim: true,
@@ -266,13 +285,14 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                 <Button
                   disabled={
                     loadingTransaction ||
+                    isClaming ||
                     Number(
                       format_thousands_decimal(dataClaim?.available_to_claim)
                     ) <= 0
                   }
                   onClick={() => handleClaimToken()}
                 >
-                  CLAIM
+                  {isClaming ? "CLAIMING" : "CLAIM"}
                 </Button>
               </div>
             </div>

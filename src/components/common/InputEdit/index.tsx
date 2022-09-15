@@ -49,6 +49,19 @@ export default function InputTableEdit(props: InputProps) {
     (state: any) => state.statusTokenAmountEditAction.statusTokenAmount
   );
 
+  const shortenAddress = (
+    string?: string,
+    start?: number,
+    end?: number
+  ): string => {
+    if (typeof string !== "string") return "";
+    return (
+      string.slice(0, start || 7) +
+      "..." +
+      string.slice(-(end || 6))
+    ).toLowerCase();
+  };
+
   const renderInputField = useCallback(() => {
     switch (field) {
       case "full_name":
@@ -69,7 +82,7 @@ export default function InputTableEdit(props: InputProps) {
           </>
         );
       case "email":
-        return (
+        return status && defaultValue ? (
           <input
             className={` ${
               !status || !defaultValue
@@ -82,9 +95,16 @@ export default function InputTableEdit(props: InputProps) {
             disabled={!status || !defaultValue}
             onChange={(e) => onChange(e.target.value, field)}
           />
+        ) : (
+          <div className={styles.email}>
+            <p className="formatEmail">{value}</p>
+            <div className="valueEmail">
+              <p>{value}</p>
+            </div>
+          </div>
         );
       case "wallet_address":
-        return (
+        return status && defaultValue ? (
           <input
             className={` ${
               !status || !defaultValue
@@ -97,6 +117,13 @@ export default function InputTableEdit(props: InputProps) {
             disabled={!status || !defaultValue}
             onChange={(e) => onChange(e.target.value, field)}
           />
+        ) : (
+          <div className={styles.email}>
+            <p className="formatEmail">{shortenAddress(value, 4, 4)}</p>
+            <div className="valueEmail">
+              <p>{value}</p>
+            </div>
+          </div>
         );
       case "allocation_token":
         return (
@@ -135,6 +162,7 @@ export default function InputTableEdit(props: InputProps) {
     statusEditFullName,
     statusEditTokenAmount,
     statusEditWallet,
+    styles.email,
     styles.hiddenInput,
     styles.hiddenInputFullname,
     styles.hiddenToken,
