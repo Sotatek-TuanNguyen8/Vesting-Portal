@@ -128,7 +128,7 @@ export default function ListAccountInvestor({
     if (dataUpdate?.status === 200) {
       setIsEdit(false);
       toast.success("Update Successfully");
-    } else if (dataUpdate?.status === 405) {
+    } else if (dataUpdate?.status === 405 || dataUpdate?.status === 410) {
       setDuplicateWallet(true);
     } else if (dataUpdate?.status === 406) {
       setDuplicateEmail(true);
