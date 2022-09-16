@@ -60,10 +60,12 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const [lineChartData, setLineChartData] = useState<any>();
+  const [dataClaimed, setDataClaimed] = useState<any>();
   const [isClaming, setIsClaming] = useState<boolean>(false);
 
   const getDataLineChart = useCallback(async () => {
-    await getClaimList(dataClaim.id);
+    const res = await getClaimList(dataClaim.id);
+    setDataClaimed(res);
   }, [dataClaim.is_claiming]);
 
   useEffect(() => {
@@ -170,11 +172,11 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   };
 
   const handleLineChart = useCallback(async () => {
-    setLoadingTransaction(true);
-    const res = await getClaimList(dataClaim.id);
-    if (res.data) {
-      if (!isEmpty(res.data)) {
-        const clone = res.data
+    // setLoadingTransaction(true);
+    // const res = await getClaimList(dataClaim.id);
+    if (dataClaimed.data) {
+      if (!isEmpty(dataClaimed.data)) {
+        const clone = dataClaimed.data
           .sort(function (a: any, b: any) {
             return (
               new Date(b.created_at).valueOf() -
@@ -227,9 +229,9 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         setLineChartData(listDate);
       }
     } else {
-      toast.error(res?.error.message);
+      toast.error(dataClaimed?.error.message);
     }
-    setLoadingTransaction(false);
+    // setLoadingTransaction(false);
   }, [dataClaim.id, dataClaim.is_claiming]);
 
   useEffect(() => {
