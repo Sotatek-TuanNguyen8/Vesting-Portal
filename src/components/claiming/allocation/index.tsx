@@ -148,7 +148,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         process.env.REACT_APP_CONTRACT_PROXY as string
       );
       if (!time_out_claim) {
-        toast.success("Successful transaction done");
         fetchListJoinClaim();
         handleLineChart();
       } else {

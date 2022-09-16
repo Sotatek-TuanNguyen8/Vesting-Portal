@@ -1,5 +1,6 @@
 import { Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getListJoinClaim } from "../../service/claim.service";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import { SocketEvent } from "../../utils/types/socket";
@@ -21,13 +22,12 @@ export default function ClaimPage() {
     socket.emit("identity", localStorage.getItem("access_token"));
     registerListener(SocketEvent.Claim_success, async (data) => {
       await fetchListJoinClaim();
+      toast.success("FLD Tokens Successfully Claimed");
     });
     return () => {
       unregisterListener(SocketEvent.Claim_success, () => {});
     };
   }, []);
-
-  console.log(listClaim);
 
   const fetchListJoinClaim = useCallback(async () => {
     setIsLoading(true);
