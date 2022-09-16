@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import AuthLayout from "..";
 import { ToolTipIcon, Visibility, VisibilityOff } from "../../../assets/svgs";
 import { authService } from "../../../service";
-import { signUpResendSuccess } from "../../../store/action";
+import { resetUser, signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import Loading from "../../common/Loading";
 import useStyles from "./style";
@@ -73,7 +73,10 @@ export default function SignUpPage() {
           toast.error(response?.error?.message);
         }
       } else {
-        dispatch(signUpResendSuccess({ email: data.email, type: "sign-up" }));
+        await dispatch(
+          signUpResendSuccess({ email: data.email, type: "sign-up" })
+        );
+        await dispatch(resetUser());
         navigate("/resend-email");
       }
       setIsLoading(false);

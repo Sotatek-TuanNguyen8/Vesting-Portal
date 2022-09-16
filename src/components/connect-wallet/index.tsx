@@ -23,7 +23,6 @@ export default function ConnectWalletPage() {
   const { getSignature, connect, account } = useMetaMask();
   const { library } = useWeb3React();
   const userData = useSelector((s: any) => s.authAction.data);
-  const state = useSelector((s: any) => s.authAction);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);

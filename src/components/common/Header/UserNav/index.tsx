@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, AvatarDefault, Logout } from "../../../../assets/svgs";
-import { setUser } from "../../../../store/action";
+import { resetUser } from "../../../../store/action";
 import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
@@ -29,8 +29,8 @@ export default function UserNav() {
     setAnchorEl(e.currentTarget);
   };
 
-  const handleLogout = () => {
-    dispatch(setUser({}));
+  const handleLogout = async () => {
+    await dispatch(resetUser());
     setLocalStorage("access_token", "");
     setLocalStorage("refresh_token", "");
     navigate("/sign-in");
@@ -69,19 +69,14 @@ export default function UserNav() {
         anchorEl={anchorEl}
         className={classes.menu}
       >
-        <MenuItem
-          onClick={() => {
-            handleLogout();
-          }}
-        >
+        <MenuItem>
           <ListItemIcon>
             <Logout />
           </ListItemIcon>
           <ListItemText
             primary="Log out"
             onClick={() => {
-              localStorage.removeItem("access_token");
-              navigate("/sign-in");
+              handleLogout();
             }}
           />
         </MenuItem>

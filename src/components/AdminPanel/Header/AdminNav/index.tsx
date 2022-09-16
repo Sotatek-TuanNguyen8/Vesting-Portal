@@ -6,12 +6,13 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
 import useStyles from "./style";
 import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import { convertTextAddressWallet } from "../../../../utils/common/fn";
+import { resetUser } from "../../../../store/action";
 
 export default function UserNavAdmin() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,6 +20,7 @@ export default function UserNavAdmin() {
   const navigate = useNavigate();
   const classes = useStyles();
   const { account } = useMetaMask();
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -74,8 +76,9 @@ export default function UserNavAdmin() {
           </ListItemIcon>
           <ListItemText
             primary="Log out"
-            onClick={() => {
+            onClick={async () => {
               localStorage.removeItem("access_token");
+              await dispatch(resetUser());
             }}
           />
         </MenuItem>
