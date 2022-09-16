@@ -1,13 +1,16 @@
 import _ from "lodash";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { AppRouter } from "./routes";
-import { routeSupported, routeAdminSupported } from "./utils/types/route";
+import { resetUser } from "./store/action";
+import { routeAdminSupported, routeSupported } from "./utils/types/route";
 
 const App = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const windowObj: any = window;
@@ -18,6 +21,7 @@ const App = () => {
           return el === pathname;
         }) !== -1
       ) {
+        dispatch(resetUser());
         localStorage.removeItem("access_token");
         navigate("/sign-in");
       }
@@ -33,7 +37,7 @@ const App = () => {
     });
 
     windowObj?.ethereum?.on("networkChanged", (chainId: string) => {});
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   return <AppRouter></AppRouter>;
 };

@@ -47,6 +47,17 @@ const authAction = createSlice({
     setUser: (state, action) => {
       state.data = action.payload;
     },
+    resetUser: (state) => {
+      state.data = {
+        id: 0,
+        fullName: "",
+        email: "",
+        verifyAt: "",
+        isVerify: false,
+        metamaskAddress: "",
+        role: "",
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchInfoUser.pending, (state) => {
@@ -72,4 +83,4 @@ const authAction = createSlice({
 });
 
 export default authAction.reducer;
-export const { setUser } = authAction.actions;
+export const { setUser, resetUser } = authAction.actions;

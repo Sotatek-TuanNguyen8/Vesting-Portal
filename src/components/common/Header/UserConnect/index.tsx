@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, AvatarDefault, Logout } from "../../../../assets/svgs";
-import { setUser } from "../../../../store/action";
+import { resetUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
 
@@ -28,8 +28,8 @@ export default function UserConnect() {
     setAnchorEl(e.currentTarget);
   };
 
-  const handleLogout = () => {
-    dispatch(setUser({}));
+  const handleLogout = async () => {
+    await dispatch(resetUser());
     setLocalStorage("access_token", "");
     setLocalStorage("refresh_token", "");
     navigate("/sign-in");
