@@ -61,7 +61,7 @@ export const SocketProvider: React.FC<{ children: any }> = ({ children }) => {
   useEffect(() => {
     socket
       .connect()
-      .on("connect_error", (error) => {
+      .on("connect_error", (error: any) => {
         setError(error);
       })
       .on("disconnect", () => {
