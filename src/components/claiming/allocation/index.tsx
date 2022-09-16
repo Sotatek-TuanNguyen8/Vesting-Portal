@@ -63,14 +63,14 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [dataClaimed, setDataClaimed] = useState<any>();
   const [isClaming, setIsClaming] = useState<boolean>(false);
 
-  const getDataLineChart = useCallback(async () => {
-    const res = await getClaimList(dataClaim.id);
-    setDataClaimed(res);
-  }, [dataClaim.is_claiming]);
+  // const getDataLineChart = useCallback(async () => {}, [dataClaim.is_claiming]);
 
   useEffect(() => {
-    getDataLineChart();
-  }, [getDataLineChart]);
+    (async () => {
+      const res = await getClaimList(dataClaim.id);
+      setDataClaimed(res);
+    })();
+  }, [dataClaim.id, dataClaim.is_claiming]);
 
   useEffect(() => {
     if (!dataClaim) return;
@@ -232,7 +232,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
       toast.error(dataClaimed?.error.message);
     }
     // setLoadingTransaction(false);
-  }, [dataClaim.id, dataClaim.is_claiming]);
+  }, [dataClaim.id, dataClaim.is_claiming, dataClaimed]);
 
   useEffect(() => {
     handleLineChart();
