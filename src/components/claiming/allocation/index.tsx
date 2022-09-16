@@ -5,7 +5,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
-import { getClaimList, getInfoClaim } from "../../../service/claim.service";
+import {
+  getClaimList,
+  getInfoClaim,
+  postStatusClaim,
+} from "../../../service/claim.service";
 import { getContractConnect } from "../../../service/web";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
@@ -13,6 +17,7 @@ import Loading from "../../common/Loading";
 import { TRANSACTION_TIMEOUT } from "../../web3/connector";
 import LineChart from "../line-chart";
 import useStyles from "./style";
+import style from "./style.module.css";
 
 type Props = {
   dataClaim: IDataClaim;
@@ -29,12 +34,14 @@ export interface IDataClaim {
   vesting_type_id: number;
   available_to_claim: string;
   cliff: number;
+  is_claiming: number;
   linear_vesting: any;
   next_unlock_in: number;
   tge: string;
   tge_claimed: string;
   token_pending: string;
   token_vested: string;
+  investor_id: number;
 }
 
 export interface IClaim {
@@ -53,71 +60,26 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
   const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const [lineChartData, setLineChartData] = useState<any>();
+  const [dataClaimed, setDataClaimed] = useState<any>();
+  const [isClaming, setIsClaming] = useState<boolean>(false);
 
-  const handleLineChart = useCallback(async () => {
-    setLoadingTransaction(true);
-    const res = await getClaimList(dataClaim.id);
-    if (res.data) {
-      const listDate = Array.from(Array(7).keys())?.map((el) => {
-        return {
-          name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
-          value: 0,
-        };
-      });
-
-      if (!isEmpty(res.data)) {
-        const clone = res.data
-          .sort(function (a: any, b: any) {
-            return (
-              new Date(b.created_at).valueOf() -
-              new Date(a.created_at).valueOf()
-            );
-          })
-          .map((el: any, index: number) => {
-            return {
-              value: el.amount,
-              name: moment(el.created_at).format("YYYY-MM-DD"),
-            };
-          });
-
-        const listData = _.uniqBy([...clone, ...listDate], "name")
-          .sort(function (a: any, b: any) {
-            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
-          })
-          .map((el: any) => {
-            const date = moment(el.name).date();
-            return { name: date, value: parseFloat(el.value) };
-          });
-
-        let count: number = 0;
-        listData.reverse().map((el, index) => {
-          if (el.value !== 0) {
-            count = el.value;
-          } else {
-            el.value = count;
-          }
-        });
-
-        listData.reverse();
-        listData.length = 7;
-        listData.reverse();
-        setLineChartData(listData);
-      } else {
-        const listData = listDate.reverse().map((el: any) => {
-          const date = moment(el.name).date();
-          return { name: date, value: parseFloat(el.value) };
-        });
-        setLineChartData(listData);
-      }
-    } else {
-      toast.error(res?.error.message);
-    }
-    setLoadingTransaction(false);
-  }, [dataClaim.id]);
+  // const getDataLineChart = useCallback(async () => {}, [dataClaim.is_claiming]);
 
   useEffect(() => {
-    handleLineChart();
-  }, [handleLineChart]);
+    (async () => {
+      const res = await getClaimList(dataClaim.id);
+      setDataClaimed(res);
+    })();
+  }, [dataClaim.id, dataClaim.is_claiming]);
+
+  useEffect(() => {
+    if (!dataClaim) return;
+    if (dataClaim.is_claiming === 1) {
+      setIsClaming(true);
+    } else {
+      setIsClaming(false);
+    }
+  }, [dataClaim]);
 
   const handleClaim = async (
     abi: any,
@@ -153,7 +115,10 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             .send({
               from: account,
             })
-            .on("transactionHash", () => {
+            .on("transactionHash", async () => {
+              setIsClaming(true);
+              setLoadingTransaction(false);
+              await postStatusClaim(dataClaim.investor_id);
               timeOut = setTimeout(() => {
                 resolve({
                   time_out_claim: true,
@@ -185,7 +150,6 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         process.env.REACT_APP_CONTRACT_PROXY as string
       );
       if (!time_out_claim) {
-        toast.success("Successful transaction done");
         fetchListJoinClaim();
         handleLineChart();
       } else {
@@ -206,6 +170,73 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const isEmpty = (v: any) => {
     return Object.keys(v).length === 0;
   };
+
+  const handleLineChart = useCallback(async () => {
+    // setLoadingTransaction(true);
+    // const res = await getClaimList(dataClaim.id);
+    if (dataClaimed.data) {
+      if (!isEmpty(dataClaimed.data)) {
+        const clone = dataClaimed.data
+          .sort(function (a: any, b: any) {
+            return (
+              new Date(b.created_at).valueOf() -
+              new Date(a.created_at).valueOf()
+            );
+          })
+          .map((el: any, index: number) => {
+            return {
+              value: el.amount,
+              name: moment(el.created_at).format("YYYY-MM-DD"),
+            };
+          });
+
+        const listDate = Array.from(Array(7).keys())?.map((el) => {
+          return {
+            name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
+            value: 0,
+          };
+        });
+
+        const listData = _.uniqBy([...clone, ...listDate], "name")
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
+
+        listData.length = 7;
+
+        listData.reverse();
+        setLineChartData(listData);
+      } else {
+        const listDate = Array.from(Array(7).keys())
+          ?.map((el) => {
+            return {
+              name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
+              value: 0,
+            };
+          })
+          .sort(function (a: any, b: any) {
+            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
+          })
+          .map((el: any) => {
+            const date = moment(el.name).date();
+            return { name: date, value: el.value };
+          });
+        listDate.reverse();
+        setLineChartData(listDate);
+      }
+    } else {
+      toast.error(dataClaimed?.error.message);
+    }
+    // setLoadingTransaction(false);
+  }, [dataClaim.id, dataClaim.is_claiming, dataClaimed]);
+
+  useEffect(() => {
+    handleLineChart();
+  }, [handleLineChart]);
 
   return (
     <>
@@ -265,13 +296,18 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
                 <Button
                   disabled={
                     loadingTransaction ||
+                    isClaming ||
                     Number(
                       format_thousands_decimal(dataClaim?.available_to_claim)
                     ) <= 0
                   }
                   onClick={() => handleClaimToken()}
+                  // className={classes.btnClaim}
                 >
-                  CLAIM
+                  <div className={classes.btnClaim}>
+                    {isClaming ? "" : "CLAIM"}
+                    {isClaming && <div className={style.loader}></div>}
+                  </div>
                 </Button>
               </div>
             </div>

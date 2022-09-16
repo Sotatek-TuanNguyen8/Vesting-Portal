@@ -1,8 +1,11 @@
 import { Typography } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getListJoinClaim } from "../../service/claim.service";
 import useMetaMask from "../../utils/hooks/useMetaMask";
+import { SocketEvent } from "../../utils/types/socket";
 import Loading from "../common/Loading";
+import { useSocket } from "../hooks/useSocket";
 import { WrongNetwork } from "../WrongNetWork";
 import Allocation, { IDataClaim } from "./allocation";
 import useStyles from "./style";
@@ -12,6 +15,19 @@ export default function ClaimPage() {
   const { wrongNetWork } = useMetaMask();
   const [listClaim, setListClaim] = useState<IDataClaim[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { socket, registerListener, unregisterListener } = useSocket();
+
+  useEffect(() => {
+    socket.emit("identity", localStorage.getItem("access_token"));
+    registerListener(SocketEvent.Claim_success, async (data) => {
+      await fetchListJoinClaim();
+      toast.success("FLD Tokens Successfully Claimed");
+    });
+    return () => {
+      unregisterListener(SocketEvent.Claim_success, () => {});
+    };
+  }, []);
 
   const fetchListJoinClaim = useCallback(async () => {
     setIsLoading(true);

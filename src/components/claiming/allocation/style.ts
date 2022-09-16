@@ -19,6 +19,13 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: 20,
       lineHeight: "26px",
     },
+    btnClaim: {
+      display: "flex",
+      flexDirection: "row",
+      "&> div": {
+        marginLeft: 4,
+      },
+    },
     container: {
       display: "flex",
       alignItems: "flex-start",

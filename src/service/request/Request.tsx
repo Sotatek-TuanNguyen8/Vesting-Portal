@@ -61,7 +61,7 @@ class Request {
     return this.instance.put(url, data);
   };
 
-  patch = (url: string, data: object) => {
+  patch = (url: string, data?: object) => {
     return this.instance.patch(url, data);
   };
 

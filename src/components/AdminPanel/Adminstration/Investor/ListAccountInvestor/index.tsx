@@ -11,6 +11,7 @@ import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import Loading from "../../../../common/Loading";
 import ModalDelete from "../ModalDelete";
+import ModalConfirmEdit from "./ModalConfirmEdit";
 import FilterAdmin, { IData } from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
@@ -66,9 +67,12 @@ export default function ListAccountInvestor({
   );
 
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
+  const [openModalConfirmEdit, setOpenModalConfirmEdit] =
+    useState<boolean>(false);
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
-  // const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
+  const [showMsgErrSaleStage, setShowMsgErrSaleStage] =
+    useState<boolean>(false);
   const [tokenAmountInvalid, setTokenAmountInvalid] = useState<boolean>(false);
   const [msgTokenAmount, setMsgTokenAmount] = useState<string>("");
   const [idDelete, setIdDelete] = useState<number>();
@@ -87,19 +91,6 @@ export default function ListAccountInvestor({
     getList();
   }, []);
 
-  const shortenAddress = (
-    string?: string,
-    start?: number,
-    end?: number
-  ): string => {
-    if (typeof string !== "string") return "";
-    return (
-      string.slice(0, start || 7) +
-      "..." +
-      string.slice(-(end || 6))
-    ).toLowerCase();
-  };
-
   const renderOpenModalDelete = () => (
     <ModalDelete
       open={openModalDelete}
@@ -108,6 +99,26 @@ export default function ListAccountInvestor({
       fetchListInvestors={fetchListInvestors}
     />
   );
+
+  const renderOpenModalConfirmEdit = () => (
+    <ModalConfirmEdit
+      open={openModalConfirmEdit}
+      onClose={handleCloseConfirmEdit}
+      id={idDelete}
+      fetchListInvestors={fetchListInvestors}
+      dataItem={dataItem}
+      setIsEdit={setIsEdit}
+      setDuplicateWallet={setDuplicateWallet}
+      setDuplicateEmail={setDuplicateEmail}
+      setTokenAmountInvalid={setTokenAmountInvalid}
+      setMsgTokenAmount={setMsgTokenAmount}
+      setShowMsgErrSaleStage={setShowMsgErrSaleStage}
+    />
+  );
+
+  const handleCloseConfirmEdit = () => {
+    setOpenModalConfirmEdit(false);
+  };
 
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
@@ -119,48 +130,63 @@ export default function ListAccountInvestor({
   };
 
   const handleEdit = async (e: any) => {
+    setDuplicateWallet(false);
+    setDuplicateEmail(false);
+    setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setIsEdit(true);
     setDataItem(e);
   };
 
-  const handleSave = useCallback(async () => {
-    setIsLoading(true);
-    const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
-      wallet_address: dataItem?.wallet_address,
-      allocation_token: Number(dataItem?.allocation_token),
-      stage_id: dataItem?.stage_id,
-      full_name: dataItem?.full_name,
-      email: dataItem?.email,
-    });
+  const handleSave = useCallback(
+    async (item: any) => {
+      if (item > 1) {
+        setOpenModalConfirmEdit(true);
+      } else {
+        setIsLoading(true);
+        const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
+          wallet_address: dataItem?.wallet_address,
+          allocation_token: Number(dataItem?.allocation_token),
+          stage_id: dataItem?.stage_id,
+          full_name: dataItem?.full_name,
+          email: dataItem?.email,
+        });
 
-    if (dataUpdate?.status === 200) {
-      setIsEdit(false);
-      toast.success("Update Successfully");
-    } else if (dataUpdate?.status === 400 || dataUpdate?.status === 405) {
-      setDuplicateWallet(true);
-    } else if (dataUpdate?.status === 409) {
-      setDuplicateEmail(true);
-    } else if (dataUpdate?.status === 406) {
-      setTokenAmountInvalid(true);
-      setMsgTokenAmount(dataUpdate?.data?.error.message);
-    } else {
-      setIsEdit(false);
-    }
-    fetchListInvestors();
-    setIsLoading(false);
-  }, [dataItem, fetchListInvestors]);
+        if (dataUpdate?.status === 200) {
+          setIsEdit(false);
+          toast.success("Update Successfully");
+        } else if (dataUpdate?.status === 405 || dataUpdate?.status === 410) {
+          setDuplicateWallet(true);
+        } else if (dataUpdate?.status === 406) {
+          setDuplicateEmail(true);
+        } else if (dataUpdate?.status === 400) {
+          setTokenAmountInvalid(true);
+          setMsgTokenAmount(dataUpdate?.data?.error.message);
+        } else if (dataUpdate?.status === 409) {
+          setShowMsgErrSaleStage(true);
+        } else {
+          setIsEdit(false);
+        }
+        fetchListInvestors();
+        setIsLoading(false);
+      }
+    },
+    [dataItem, fetchListInvestors]
+  );
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
     setDuplicateWallet(false);
     setDuplicateEmail(false);
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
   };
 
   const handleChangeInputTable = (e: any, field: number) => {
     setDuplicateWallet(false);
     setDuplicateEmail(false);
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setDataItem({
       ...dataItem,
       [field]: e,
@@ -181,6 +207,7 @@ export default function ListAccountInvestor({
 
   const handleSelect = (e: any) => {
     setTokenAmountInvalid(false);
+    setShowMsgErrSaleStage(false);
     setDataItem({
       ...dataItem,
       stage_name: data?.filter((el) => el.id === e)[0]?.name,
@@ -275,7 +302,7 @@ export default function ListAccountInvestor({
                 value={
                   isEdit && item.investor_id === dataItem.investor_id
                     ? dataItem.wallet_address
-                    : shortenAddress(item?.wallet_address, 4, 4)
+                    : item?.wallet_address
                 }
                 field="wallet_address"
                 onChange={handleChangeInputTable}
@@ -309,6 +336,8 @@ export default function ListAccountInvestor({
                 onClickSelect={handleSelect}
                 isFixed={isFixed}
                 hasProof={item.has_proof}
+                field="sale_stage"
+                showMsgErrSaleStage={showMsgErrSaleStage}
               />
 
               <div className="tokensVested">
@@ -326,7 +355,8 @@ export default function ListAccountInvestor({
                     {statusEditFullName ||
                     statusEditEmail ||
                     statusEditWallet ||
-                    statusEditTokenAmount ? (
+                    statusEditTokenAmount ||
+                    showMsgErrSaleStage ? (
                       <img
                         // onClick={handleSave}
                         src="/images/iconSuccess.svg"
@@ -335,7 +365,7 @@ export default function ListAccountInvestor({
                       />
                     ) : (
                       <img
-                        onClick={handleSave}
+                        onClick={() => handleSave(item.round_count)}
                         src="/images/iconSuccess.svg"
                         alt=""
                       />
@@ -367,6 +397,7 @@ export default function ListAccountInvestor({
                       alt=""
                     />
                     {renderOpenModalDelete()}
+                    {renderOpenModalConfirmEdit()}
                   </>
                 )}
               </div>

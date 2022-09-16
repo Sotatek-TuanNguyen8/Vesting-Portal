@@ -17,6 +17,7 @@ type Props = {
   onClose: () => void;
   checkRootData: any;
   setDisableGenerate: any;
+  fetchListInvestors: () => void;
 };
 
 export default function ModalConfirmUpdateRoot({
@@ -24,6 +25,7 @@ export default function ModalConfirmUpdateRoot({
   onClose,
   checkRootData,
   setDisableGenerate,
+  fetchListInvestors,
 }: Props) {
   //   const { checkRootData, open, onClose } = props;
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
@@ -86,6 +88,7 @@ export default function ModalConfirmUpdateRoot({
         if (!time_out_update) {
           toast.success("Successful transaction done");
           await updateRootApi();
+          await fetchListInvestors();
         } else {
           toast.error(
             "Transaction Pending. Please wait for transaction success and reload page"

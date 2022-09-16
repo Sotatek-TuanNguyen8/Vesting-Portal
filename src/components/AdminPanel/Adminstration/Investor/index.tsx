@@ -128,7 +128,10 @@ export default function Investors() {
                 <img onClick={handleAddNew} src="/images/iconAdd.svg" alt="" />
                 <p onClick={handleAddNew}>New</p>
               </div>
-              <UpdateRoot checkRootData={dataRoot} />
+              <UpdateRoot
+                checkRootData={dataRoot}
+                fetchListInvestors={fetchListInvestors}
+              />
             </div>
 
             <div className={styles.body} ref={scrollIntoViewRef}>

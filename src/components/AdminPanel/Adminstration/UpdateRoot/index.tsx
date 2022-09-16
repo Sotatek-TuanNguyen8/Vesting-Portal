@@ -3,8 +3,15 @@ import { useState } from "react";
 import { UploadRootIcon } from "../../../../assets/svgs";
 import ModalConfirmUpdateRoot from "./ModalConfirmUpdateRoot";
 
-export default function UpdateRoot(props: any) {
-  const { checkRootData } = props;
+type Props = {
+  checkRootData: any;
+  fetchListInvestors: () => void;
+};
+
+export default function UpdateRoot({
+  checkRootData,
+  fetchListInvestors,
+}: Props) {
   const [disableGenerate, setDisableGenerate] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -50,6 +57,7 @@ export default function UpdateRoot(props: any) {
         open={open}
         onClose={handleCloseModal}
         setDisableGenerate={setDisableGenerate}
+        fetchListInvestors={fetchListInvestors}
       />
     </>
   );
