@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: 12,
         lineHeight: "12px",
         color: "#82828E",
+        marginRight: -16,
       },
       "& .labelX": {
         fontWeight: 250,
