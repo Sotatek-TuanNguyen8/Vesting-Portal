@@ -11,6 +11,7 @@ import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
 import Loading from "../../../../common/Loading";
 import ModalDelete from "../ModalDelete";
+import ModalConfirmEdit from "./ModalConfirmEdit";
 import FilterAdmin, { IData } from "./ModalFilterSaleStage";
 import useStyles from "./style";
 
@@ -66,6 +67,8 @@ export default function ListAccountInvestor({
   );
 
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
+  const [openModalConfirmEdit, setOpenModalConfirmEdit] =
+    useState<boolean>(false);
   const [duplicateEmail, setDuplicateEmail] = useState<boolean>(false);
   const [duplicateWallet, setDuplicateWallet] = useState<boolean>(false);
   const [showMsgErrSaleStage, setShowMsgErrSaleStage] =
@@ -97,6 +100,26 @@ export default function ListAccountInvestor({
     />
   );
 
+  const renderOpenModalConfirmEdit = () => (
+    <ModalConfirmEdit
+      open={openModalConfirmEdit}
+      onClose={handleCloseConfirmEdit}
+      id={idDelete}
+      fetchListInvestors={fetchListInvestors}
+      dataItem={dataItem}
+      setIsEdit={setIsEdit}
+      setDuplicateWallet={setDuplicateWallet}
+      setDuplicateEmail={setDuplicateEmail}
+      setTokenAmountInvalid={setTokenAmountInvalid}
+      setMsgTokenAmount={setMsgTokenAmount}
+      setShowMsgErrSaleStage={setShowMsgErrSaleStage}
+    />
+  );
+
+  const handleCloseConfirmEdit = () => {
+    setOpenModalConfirmEdit(false);
+  };
+
   const handleCloseModalDelete = () => {
     setOpenModalDelete(false);
   };
@@ -115,34 +138,41 @@ export default function ListAccountInvestor({
     setDataItem(e);
   };
 
-  const handleSave = useCallback(async () => {
-    setIsLoading(true);
-    const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
-      wallet_address: dataItem?.wallet_address,
-      allocation_token: Number(dataItem?.allocation_token),
-      stage_id: dataItem?.stage_id,
-      full_name: dataItem?.full_name,
-      email: dataItem?.email,
-    });
+  const handleSave = useCallback(
+    async (item: any) => {
+      if (item > 1) {
+        setOpenModalConfirmEdit(true);
+      } else {
+        setIsLoading(true);
+        const dataUpdate = await updateInvestorNew(dataItem.investor_id, {
+          wallet_address: dataItem?.wallet_address,
+          allocation_token: Number(dataItem?.allocation_token),
+          stage_id: dataItem?.stage_id,
+          full_name: dataItem?.full_name,
+          email: dataItem?.email,
+        });
 
-    if (dataUpdate?.status === 200) {
-      setIsEdit(false);
-      toast.success("Update Successfully");
-    } else if (dataUpdate?.status === 405 || dataUpdate?.status === 410) {
-      setDuplicateWallet(true);
-    } else if (dataUpdate?.status === 406) {
-      setDuplicateEmail(true);
-    } else if (dataUpdate?.status === 400) {
-      setTokenAmountInvalid(true);
-      setMsgTokenAmount(dataUpdate?.data?.error.message);
-    } else if (dataUpdate?.status === 409) {
-      setShowMsgErrSaleStage(true);
-    } else {
-      setIsEdit(false);
-    }
-    fetchListInvestors();
-    setIsLoading(false);
-  }, [dataItem, fetchListInvestors]);
+        if (dataUpdate?.status === 200) {
+          setIsEdit(false);
+          toast.success("Update Successfully");
+        } else if (dataUpdate?.status === 405 || dataUpdate?.status === 410) {
+          setDuplicateWallet(true);
+        } else if (dataUpdate?.status === 406) {
+          setDuplicateEmail(true);
+        } else if (dataUpdate?.status === 400) {
+          setTokenAmountInvalid(true);
+          setMsgTokenAmount(dataUpdate?.data?.error.message);
+        } else if (dataUpdate?.status === 409) {
+          setShowMsgErrSaleStage(true);
+        } else {
+          setIsEdit(false);
+        }
+        fetchListInvestors();
+        setIsLoading(false);
+      }
+    },
+    [dataItem, fetchListInvestors]
+  );
 
   const handleCancel = (e: any) => {
     setIsEdit(false);
@@ -335,7 +365,7 @@ export default function ListAccountInvestor({
                       />
                     ) : (
                       <img
-                        onClick={handleSave}
+                        onClick={() => handleSave(item.round_count)}
                         src="/images/iconSuccess.svg"
                         alt=""
                       />
@@ -367,6 +397,7 @@ export default function ListAccountInvestor({
                       alt=""
                     />
                     {renderOpenModalDelete()}
+                    {renderOpenModalConfirmEdit()}
                   </>
                 )}
               </div>

@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) => {
       backgroundImage: `url(${urlImage})`,
       backgroundSize: "cover",
       height: "100%",
+      backgroundAttachment: "fixed",
       minHeight: "100vh",
       backgroundRepeat: "no-repeat",
       [mobile]: {
