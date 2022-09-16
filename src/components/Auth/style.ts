@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     container: {
       backgroundImage: `url(${urlImage})`,
-      backgroundSize: "inherit",
+
+      backgroundAttachment: "fixed",
+      backgroundSize: "cover",
       height: "100%",
       minHeight: "100vh",
       backgroundRepeat: "no-repeat",
@@ -37,7 +39,8 @@ const useStyles = makeStyles((theme: Theme) => {
 
       [tablet]: {
         backgroundImage: `url(${urlImage})`,
-        backgroundSize: "inherit",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
         backgroundRepeat: "no-repeat",
         height: 250,
         textAlign: "center",
