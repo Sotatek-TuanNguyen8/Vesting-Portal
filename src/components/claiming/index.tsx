@@ -25,6 +25,7 @@ export default function ClaimPage() {
       toast.success("FLD Tokens Successfully Claimed");
     });
     return () => {
+      socket.disconnect();
       unregisterListener(SocketEvent.Claim_success, () => {});
     };
   }, []);

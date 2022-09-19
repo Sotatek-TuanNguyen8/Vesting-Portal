@@ -174,7 +174,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const handleLineChart = useCallback(async () => {
     // setLoadingTransaction(true);
     // const res = await getClaimList(dataClaim.id);
-    if (dataClaimed.data) {
+    if (dataClaimed?.data) {
       const listDate = Array.from(Array(7).keys())?.map((el) => {
         return {
           name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
@@ -182,8 +182,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         };
       });
 
-      if (!isEmpty(dataClaimed.data)) {
-        const clone = dataClaimed.data
+      if (!isEmpty(dataClaimed?.data)) {
+        const clone = dataClaimed?.data
           .sort(function (a: any, b: any) {
             return (
               new Date(b.created_at).valueOf() -
