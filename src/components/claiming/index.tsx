@@ -25,8 +25,8 @@ export default function ClaimPage() {
       toast.success("FLD Tokens Successfully Claimed");
     });
     return () => {
-      // socket.disconnect();
       unregisterListener(SocketEvent.Claim_success, () => {});
+      // socket.disconnect();
     };
   }, []);
 
@@ -42,7 +42,7 @@ export default function ClaimPage() {
 
   useEffect(() => {
     fetchListJoinClaim();
-  }, [fetchListJoinClaim]);
+  }, []);
 
   return (
     <div className={classes.claim}>
