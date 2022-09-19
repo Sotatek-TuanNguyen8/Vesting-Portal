@@ -42,7 +42,7 @@ export default function ClaimPage() {
 
   useEffect(() => {
     fetchListJoinClaim();
-  }, []);
+  }, [fetchListJoinClaim]);
 
   return (
     <div className={classes.claim}>
