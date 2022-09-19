@@ -175,6 +175,13 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     // setLoadingTransaction(true);
     // const res = await getClaimList(dataClaim.id);
     if (dataClaimed.data) {
+      const listDate = Array.from(Array(7).keys())?.map((el) => {
+        return {
+          name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
+          value: 0,
+        };
+      });
+
       if (!isEmpty(dataClaimed.data)) {
         const clone = dataClaimed.data
           .sort(function (a: any, b: any) {
@@ -190,43 +197,34 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
             };
           });
 
-        const listDate = Array.from(Array(7).keys())?.map((el) => {
-          return {
-            name: moment(clone[0].name).subtract(el, "d").format("YYYY-MM-DD"),
-            value: 0,
-          };
-        });
-
         const listData = _.uniqBy([...clone, ...listDate], "name")
           .sort(function (a: any, b: any) {
             return new Date(b.name).valueOf() - new Date(a.name).valueOf();
           })
           .map((el: any) => {
             const date = moment(el.name).date();
-            return { name: date, value: el.value };
+            return { name: date, value: parseFloat(el.value) };
           });
 
-        listData.length = 7;
+        let count: number = 0;
+        listData.reverse().map((el, index) => {
+          if (el.value !== 0) {
+            count = el.value;
+          } else {
+            el.value = count;
+          }
+        });
 
+        listData.reverse();
+        listData.length = 7;
         listData.reverse();
         setLineChartData(listData);
       } else {
-        const listDate = Array.from(Array(7).keys())
-          ?.map((el) => {
-            return {
-              name: moment(Date()).subtract(el, "d").format("YYYY-MM-DD"),
-              value: 0,
-            };
-          })
-          .sort(function (a: any, b: any) {
-            return new Date(b.name).valueOf() - new Date(a.name).valueOf();
-          })
-          .map((el: any) => {
-            const date = moment(el.name).date();
-            return { name: date, value: el.value };
-          });
-        listDate.reverse();
-        setLineChartData(listDate);
+        const listData = listDate.reverse().map((el: any) => {
+          const date = moment(el.name).date();
+          return { name: date, value: parseFloat(el.value) };
+        });
+        setLineChartData(listData);
       }
     } else {
       toast.error(dataClaimed?.error.message);
