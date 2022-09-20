@@ -30,18 +30,6 @@ or
     yarn
 ```
 
-## IDE
-
-- Extensions:
-
-  - Bracket Pair Colorizer (to protect your eyes)
-  - ESLint
-  - npm
-  - npm Intellisense
-  - MUI CSS Intellisense
-
-```
-
 When you're preparing for develop a new feature:
 
 - SHOULD
@@ -81,14 +69,15 @@ When you're working on your feature branch and **want to get code of another** f
 
 - SHOULD:
 - rebase your branch to head of `develop` branch
+
 ```
 
 git rebase develop
 
 ```
+
 - NOT RECOMMENDED:
 - if the another feature branch has not finished yet, you should not rebase your current branch to the head of that branch. If you have to do so, please make sure that it's the last choice.
-
 
 ### Creating a new component
 
@@ -107,10 +96,6 @@ git rebase develop
 - create a brand new **folder** in `/components`, name it by a noun, and short;
 - create a brand new file (.ts) in that new folder, name it by concating the folder name and "`Slice`" suffix;
 
-### Linter
-
-You SHOULDN'T disable any linters in `/src` folders
-
 ### Font
 
 Use gibson, sans-serif font family
@@ -127,7 +112,5 @@ Use gibson, sans-serif font family
 
 - Setup environment: `.env` file
 - The build folder is ready to be deployed. You may serve it with a static server.
-
-```
 
 ```
