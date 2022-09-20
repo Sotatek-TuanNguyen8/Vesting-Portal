@@ -1,11 +1,10 @@
 # Development Guideline
 
-## How to read this guideline
+## Evironment
 
-- Developers should do if encounter: SHOULD;
-- Developers should not do if encounter: SHOULDN'T, NOT RECOMMENDED;
-- Developers have to do if encounter: HAVE TO;
-- This guideline has not finished yet and may change in the future.
+```
+Node version: 16.15.1
+```
 
 ## Setup
 
@@ -16,6 +15,9 @@ After cloning:
 ```
     npm i
     npm start
+or
+    yarn
+    yarn start
 ```
 
 After pulling:
@@ -24,24 +26,13 @@ After pulling:
 
 ```
     npm i
+or
+    yarn
 ```
 
 ## IDE
 
-### **Ideas**: your feeling, your comfort
-
-You can use any IDE you like, but if you use Visual Studio Code, please consider the following things:
-
 - Extensions:
-
-  - Pretier (for formating), with config (to avoid git tracking annoying changes):
-
-  ```
-  print width: 100
-  tab width: 4
-  semi: true
-  bracket spacing: true
-  ```
 
   - Bracket Pair Colorizer (to protect your eyes)
   - ESLint
@@ -50,14 +41,6 @@ You can use any IDE you like, but if you use Visual Studio Code, please consider
   - MUI CSS Intellisense
 
 ```
-
-## Git flow
-
-### **Ideas**:
-
-- to reduce conflicts AMAP
-
-### **Actions**:
 
 When you're preparing for develop a new feature:
 
@@ -106,57 +89,12 @@ git rebase develop
 - NOT RECOMMENDED:
 - if the another feature branch has not finished yet, you should not rebase your current branch to the head of that branch. If you have to do so, please make sure that it's the last choice.
 
-## Conventions
-
-### Naming
-
-- SHOULD:
-- add "`T`" prefix if your type is gonna be exported:
-```
-
-export type TAppContext = {...}
-
-```
-- add "`I`" prefix if your interface is gonna be exported:
-```
-
-export interface IWallet {...}
-
-```
-- add "`rf`" prefix if your variable is a `ref`:
-```
-
-const rfIsUnmounted = useRef<boolean>(false);
-
-```
-- add "`glb`" prefix if your variable is global:
-```
-
-- add "`b`" prefix if your variable is boolean, but not do it with function name:
-
-```
-
-const [bActivated, setActivated] = useState<boolean>();
-
-```
-
-- add "`handle`" prefix to event handler function name:
-
-```
-
-const handleOnModalSubmitBtnClicked = useCallback(...);
-
-```
 
 ### Creating a new component
 
 - HAVE TO:
 - create a brand new file (.tsx) in `/components`, name it clearly
 - if the component has it's own props, declare & define the component Props type, and do NOT export it
-
-```
-
-type Props = React.BaseHTMLAttributes<HTMLDivElement> & {...};
 
 ```
 
@@ -168,12 +106,6 @@ type Props = React.BaseHTMLAttributes<HTMLDivElement> & {...};
 - HAVE TO:
 - create a brand new **folder** in `/components`, name it by a noun, and short;
 - create a brand new file (.ts) in that new folder, name it by concating the folder name and "`Slice`" suffix;
-
-### Creating a new action of a slice
-
-- HAVE TO:
-- create a brand new file (.ts) in `/components/yourSlice/`, name it by a verb, and short;
-- export the action's domains and import it into your slice.
 
 ### Linter
 
