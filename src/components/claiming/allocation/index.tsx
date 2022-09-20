@@ -150,8 +150,8 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
         process.env.REACT_APP_CONTRACT_PROXY as string
       );
       if (!time_out_claim) {
-        fetchListJoinClaim();
-        handleLineChart();
+        // fetchListJoinClaim();
+        // handleLineChart();
       } else {
         toast.error(
           "Transaction Pending. Please wait for transaction success and reload page"
