@@ -8,10 +8,11 @@ import React, {
 import { Socket, io } from "socket.io-client";
 import { SocketEvent } from "../../utils/types/socket";
 
-const socket = io(process.env.REACT_APP_SOCKET_URL as any, {
+const socket = io(process.env.REACT_APP_SOCKET_URL!, {
   forceNew: true,
   autoConnect: false,
   transports: ["websocket"],
+  reconnection: false,
 });
 type UnregisterFunc = () => void;
 type CallbackFunc = (...args: any[]) => any;
@@ -45,7 +46,7 @@ export const SocketProvider: React.FC<{ children: any }> = ({ children }) => {
       socket.on(forEvent, callback);
 
       return () => {
-        socket.off(forEvent, callback);
+        socket.off(forEvent);
       };
     },
     []
@@ -53,7 +54,7 @@ export const SocketProvider: React.FC<{ children: any }> = ({ children }) => {
 
   const unregisterListener = useCallback(
     (forEvent: SocketEvent, callback?: (...args: any[]) => any) => {
-      socket.off(forEvent, callback);
+      socket.off(forEvent);
     },
     []
   );
@@ -69,6 +70,7 @@ export const SocketProvider: React.FC<{ children: any }> = ({ children }) => {
       })
       .on("connect", () => {
         setStatus("connected");
+        // socket.emit("identity", localStorage.getItem("access_token"));
       });
     return () => {
       socket.disconnect();
