@@ -28,7 +28,7 @@ class Request {
 
     instance.interceptors.response.use(
       function (response: any) {
-        return handleErrorUtil(response);
+        return response;
       },
       function (error: any) {
         if (error.response) {

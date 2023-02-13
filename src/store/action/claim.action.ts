@@ -19,9 +19,9 @@ interface infoClaim {
 export const fetchInfoClaim = createAsyncThunk(
   "user/fetchInfoClaim",
   async (id: number, { rejectWithValue }) => {
-    const response = await getInfoClaim(id);
-    if (response?.error) {
-      return rejectWithValue(response.error);
+    const [response, error] = await getInfoClaim(id);
+    if (error) {
+      return rejectWithValue(error.error);
     }
     return response?.data;
   }

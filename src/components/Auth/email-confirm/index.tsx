@@ -32,16 +32,16 @@ export default function EmailConfirmPage() {
   const confirmEmail = useCallback(async () => {
     if (!email && !code) return;
     setIsLoading(true);
-    const res = await confirmEmailAuth({
+    const [res, error] = await confirmEmailAuth({
       email: email as string,
       code: code as string,
     });
     setNotUser(false);
-    if (res?.data) {
+    if (res) {
       setIsVerified(true);
     } else {
       setIsVerified(false);
-      if (res?.error?.statusCode === 400) {
+      if (error?.error?.statusCode === 400) {
         setIsNotEmailVerified(true);
       } else if (res?.error?.statusCode === 406) {
         setIsNotEmailVerified(false);

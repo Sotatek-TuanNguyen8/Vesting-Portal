@@ -1,12 +1,12 @@
 import { Typography } from "@material-ui/core";
-import { useCallback, useEffect, useState, useLayoutEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getListJoinClaim } from "../../service/claim.service";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import { SocketEvent } from "../../utils/types/socket";
+import { WrongNetwork } from "../WrongNetWork";
 import Loading from "../common/Loading";
 import { useSocket } from "../hooks/useSocket";
-import { WrongNetwork } from "../WrongNetWork";
 import Allocation, { IDataClaim } from "./allocation";
 import useStyles from "./style";
 
@@ -30,7 +30,7 @@ export default function ClaimPage() {
 
   useEffect(() => {
     fetchListJoinClaim();
-  }, []);
+  }, [fetchListJoinClaim]);
 
   useEffect(() => {
     socket.emit("identity", localStorage.getItem("access_token"));
@@ -41,7 +41,7 @@ export default function ClaimPage() {
     return () => {
       unregisterListener(SocketEvent.Claim_success, () => {});
     };
-  }, []);
+  }, [fetchListJoinClaim, registerListener, socket, unregisterListener]);
 
   return (
     <div className={classes.claim}>

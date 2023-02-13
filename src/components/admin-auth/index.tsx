@@ -23,7 +23,7 @@ export default function AdminAuthPage() {
     (async () => {
       const signature = await getSignature(CONNECT_WALLET_ADMIN, library);
       if (signature) {
-        const res = await loginAdmin(
+        await loginAdmin(
           {
             signature: signature,
             wallet_address: account,
@@ -63,7 +63,7 @@ export default function AdminAuthPage() {
     windowObj?.ethereum?.on("accountsChanged", (accounts: string[]) => {
       setErrorLogin(false);
     });
-  }, [navigate]);
+  }, []);
 
   const handleConnectWallet = async () => {
     setErrorLogin(false);
@@ -109,10 +109,7 @@ export default function AdminAuthPage() {
                   </p>
                 </div>
 
-                {[
-                  ["metamask", "Metamask"],
-                  //   ["coinbase", "Coinbase Wallet"],
-                ].map(([type, label]) => (
+                {[["metamask", "Metamask"]].map(([type, label]) => (
                   <div key={type} className={classes.container}>
                     <ButtonBase
                       className={classes.Wallet}
@@ -122,7 +119,6 @@ export default function AdminAuthPage() {
                         "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
                       }}
                       key={type}
-                      // @ts-ignore
                       onClick={handleConnectWallet}
                     >
                       <Typography

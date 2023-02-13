@@ -1,10 +1,10 @@
 import { Button, Typography } from "@material-ui/core";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import AuthLayout from "..";
 import { resendEmailAuth } from "../../../service";
+import { useAppSelector } from "../../../store/reducers";
+import DefaultLayout from "../../common/DefaultLayout";
 import Loading from "../../common/Loading";
 import useStyles from "./style";
 
@@ -14,8 +14,8 @@ export default function ResendEmailPage() {
   const [countdown, setCountdown] = useState<number>();
   let [counter, setCounter] = useState<any>(-1);
   const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
-  const userData = useSelector((s: any) => s.authAction.data);
-  const { email, type } = useSelector((state: any) => state.resendEmail);
+  const userData = useAppSelector((s) => s.authReducer.data);
+  const { email, type } = useAppSelector((state) => state.resendEmailReducer);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ResendEmailPage() {
     if (!userData?.verifyAt) {
       setCounter(60);
     } else {
-      const time = Math.floor((Date.now() - userData?.verifyAt) / 1000);
+      const time = Math.floor((Date.now() - Number(userData?.verifyAt)) / 1000);
       if (time > 60) {
         setCounter(0);
       } else {
@@ -59,60 +59,65 @@ export default function ResendEmailPage() {
 
   const handleResendEmail = async () => {
     setIsLoading(true);
+    // eslint-disable-next-line no-new-wrappers
     setCounter(new Number(60));
-    const res = await resendEmailAuth({ email: email as string });
-    if (res?.data) {
+    const [res, error] = await resendEmailAuth({ email: email as string });
+    if (res) {
       toast.success("Successfully! Please check email");
     } else {
-      if (res?.error?.statusCode === 406) {
+      if (error.error.statusCode === 406) {
         setIsEmailVerify(true);
       } else {
         setIsEmailVerify(false);
-        toast.error(res?.error?.details);
+        toast.error(res.error.details);
       }
     }
     setIsLoading(false);
   };
 
   return (
-    <AuthLayout isTab={false}>
-      <Loading open={isLoading} />
-      {isEmailVerify ? (
-        <div className={classes.container}>
-          <Typography variant="h5">Email has already been verified</Typography>
-          <p className={classes.content}>
-            The email address has already been verified successfully. Click the
-            button below to login.
-          </p>
-          <Link to="/sign-in">
-            <Button>LOG IN</Button>
-          </Link>
-        </div>
-      ) : (
-        <div className={classes.container}>
-          <Typography variant="h5">
-            {type === "sign-up"
-              ? "Thank you for registering."
-              : "Email has not been verified."}
-          </Typography>
-          <p className={classes.content}>
-            An email has been sent to activate your account. Please click the
-            link to activate your account.
-          </p>
-          <Button
-            onClick={handleResendEmail}
-            className={classes.btnResend}
-            disabled={!countdown || Number(countdown || 0) > 0 || isLoading}
-          >
-            RESEND VERIFICATION
-          </Button>
-          <div className={classes.countdown}>
-            {!countdown ||
-              (Number(countdown || 0) > 0 &&
-                `00:${("0" + countdown).slice(-2)}`)}
+    <DefaultLayout>
+      <div className={classes.resendEmail}>
+        <Loading open={isLoading} />
+        {isEmailVerify ? (
+          <div className={classes.container}>
+            <Typography variant="h5">
+              Email has already been verified
+            </Typography>
+            <p className={classes.content}>
+              The email address has already been verified successfully. Click
+              the button below to login.
+            </p>
+            <Link to="/sign-in">
+              <Button>Log In</Button>
+            </Link>
           </div>
-        </div>
-      )}
-    </AuthLayout>
+        ) : (
+          <div className={classes.container}>
+            <Typography variant="h5">
+              {type === "sign-up"
+                ? "Thank you for registering."
+                : "Email has not been verified."}
+            </Typography>
+            <p className={classes.content}>
+              An email has been sent to activate your account. Please click the
+              link to activate your account.
+            </p>
+            <button
+              onClick={handleResendEmail}
+              className={classes.btnResend}
+              disabled={!countdown || Number(countdown || 0) > 0 || isLoading}
+            >
+              Resend Verification
+            </button>
+            <div className={classes.countdown}>
+              {!countdown ||
+                (Number(countdown || 0) > 0 &&
+                  `00:${("0" + countdown).slice(-2)}`)}
+            </div>
+          </div>
+        )}
+      </div>
+    </DefaultLayout>
   );
 }
