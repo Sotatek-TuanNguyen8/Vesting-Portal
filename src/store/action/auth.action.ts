@@ -10,7 +10,6 @@ interface userLogin {
     isVerify: boolean;
     metamaskAddress: string;
     role: string;
-    isEnable2FA: boolean;
   };
   loading: boolean;
   error: any;
@@ -19,11 +18,11 @@ interface userLogin {
 export const fetchInfoUser = createAsyncThunk(
   "user/fetchInfoUser",
   async (access_token: string, { rejectWithValue }) => {
-    const [response, error] = await getInfoUser(access_token);
-    if (error) {
-      return rejectWithValue(error.error);
+    const response = await getInfoUser(access_token);
+    if (response?.error) {
+      return rejectWithValue(response?.error);
     }
-    return response.data;
+    return response?.data;
   }
 );
 
@@ -36,7 +35,6 @@ const initialState: userLogin = {
     isVerify: false,
     metamaskAddress: "",
     role: "",
-    isEnable2FA: false,
   },
   loading: false,
   error: {},
@@ -58,7 +56,6 @@ const authAction = createSlice({
         isVerify: false,
         metamaskAddress: "",
         role: "",
-        isEnable2FA: false,
       };
     },
   },
@@ -75,7 +72,6 @@ const authAction = createSlice({
         isVerify: action.payload.is_verified,
         metamaskAddress: action.payload.wallet,
         role: action.payload.role,
-        isEnable2FA: action.payload.is_enable_2FA,
       };
       state.loading = false;
     });

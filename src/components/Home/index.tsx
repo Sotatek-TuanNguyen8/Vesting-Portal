@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../store";
 import { fetchInfoUser, signUpResendSuccess } from "../../store/action";
-import { useAppDispatch, useAppSelector } from "../../store/reducers";
 import useMetaMask from "../../utils/hooks/useMetaMask";
 import ClaimPage from "../claiming";
 import InvestorUserLayout from "../layouts/InvestorUserLayout";
+type Props = {};
 
-export default function HomePage() {
+export default function HomePage({}: Props) {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const userData = useAppSelector((s) => s.authReducer.data);
+  const dispatch = useDispatch<AppDispatch>();
+  const userData = useSelector((s: any) => s.authAction.data);
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
   const { account } = useMetaMask();
 
@@ -24,7 +26,6 @@ export default function HomePage() {
         setCheckFetchData(true);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
   useEffect(() => {

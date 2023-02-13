@@ -1,5 +1,4 @@
-export const CHAIN_ID_SUPPORT = process.env
-  .REACT_APP_CHAIN_ID_SUPPORT as string;
+export const CHAIN_ID_SUPPORT = "4";
 
 export const chainIDS = [
   1, // mainnet

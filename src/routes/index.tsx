@@ -1,16 +1,16 @@
 import { Route, Routes } from "react-router-dom";
-import Investors from "../components/AdminPanel/Administration/Investor";
-import Tokenomics from "../components/AdminPanel/Administration/Tokenomics";
+import AdminAuthPage from "../components/admin-auth";
+import Investors from "../components/AdminPanel/Adminstration/Investor";
+import Tokenomics from "../components/AdminPanel/Adminstration/Tokenomics";
 import EmailConfirmPage from "../components/Auth/email-confirm";
 import ForgotPasswordPage from "../components/Auth/forgot-password";
 import ResendEmailPage from "../components/Auth/resend-email";
 import ResetPasswordPage from "../components/Auth/reset-password";
 import SignInPage from "../components/Auth/sign-in";
 import SignUpPage from "../components/Auth/sign-up";
-import GoogleAuthentication from "../components/GoogleAuthentication";
-import HomePage from "../components/Home";
 import NotFoundPage from "../components/common/NotFound";
 import ConnectWalletPage from "../components/connect-wallet";
+import HomePage from "../components/Home";
 
 export const AppRouter = () => {
   return (
@@ -25,8 +25,7 @@ export const AppRouter = () => {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/admin-panel/investor" element={<Investors />} />
       <Route path="/admin-panel/tokenomics" element={<Tokenomics />} />
-      <Route path="/google-authentication" element={<GoogleAuthentication />} />
-      {/* <Route path="/admin-panel" element={<AdminAuthPage />} /> */}
+      <Route path="/admin-panel" element={<AdminAuthPage />} />
       <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );

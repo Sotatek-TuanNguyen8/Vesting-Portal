@@ -21,22 +21,18 @@ export const validatePassWord = (value: string) => {
   //eslint-disable-line
   if (value.length < 8) return 0;
   if (
-    // eslint-disable-next-line no-useless-escape
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/])[A-Za-z\d`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]{8,}$/g.test(
       value
     )
   ) {
     return 3;
   } else if (
-    // eslint-disable-next-line no-useless-escape
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*?[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/])[a-zA-Z`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]{8,}$/g.test(
       value
     ) ||
-    // eslint-disable-next-line no-useless-escape
     /^(?=.*[A-Z])(?=.*\d)(?=.*?[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/])[A-Z\d`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]{8,}$/g.test(
       value
     ) ||
-    // eslint-disable-next-line no-useless-escape
     /^(?=.*[a-z])(?=.*\d)(?=.*?[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/])[a-z\d`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]{8,}$/g.test(
       value
     ) ||

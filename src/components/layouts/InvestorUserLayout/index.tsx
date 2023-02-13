@@ -1,20 +1,15 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
-import DefaultLayout from "../../common/DefaultLayout";
+import { Header } from "../../common/Header";
 import useStyles from "./style";
 
 type Props = {
   children?: ReactNode;
   isNav?: boolean;
-  notShowInfo?: boolean;
 };
 
-export default function InvestorUserLayout({
-  children,
-  isNav = false,
-  notShowInfo,
-}: Props) {
+export default function InvestorUserLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const classes = useStyles();
   const { account } = useMetaMask();
@@ -28,8 +23,11 @@ export default function InvestorUserLayout({
   }, [account, navigate]);
 
   return (
-    <DefaultLayout notShowInfo={notShowInfo}>
-      <div className={classes.main}>{children}</div>
-    </DefaultLayout>
+    <div className={classes.main}>
+      <div className={classes.box}>
+        <Header isNav={isNav} />
+        {children}
+      </div>
+    </div>
   );
 }

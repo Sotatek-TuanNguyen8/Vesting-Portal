@@ -2,6 +2,7 @@ import { Button, Typography } from "@material-ui/core";
 import _ from "lodash";
 import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ClaimABI from "../../../abi/User-Claim.json";
 import {
@@ -10,7 +11,6 @@ import {
   postStatusClaim,
 } from "../../../service/claim.service";
 import { getContractConnect } from "../../../service/web";
-import { useAppSelector } from "../../../store/reducers";
 import { format_thousands_decimal } from "../../../utils/common/fn";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
 import Loading from "../../common/Loading";
@@ -58,7 +58,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
   const classes = useStyles();
   const { switchNetwork, wrongNetWork, account } = useMetaMask();
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
-  const infoClaimData = useAppSelector((s) => s.claimReducer.data);
+  const infoClaimData = useSelector((s: any) => s.claimAction.data);
   const [lineChartData, setLineChartData] = useState<any>();
   const [dataClaimed, setDataClaimed] = useState<any>();
   const [isClaming, setIsClaming] = useState<boolean>(false);
@@ -207,8 +207,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
           });
 
         let count: number = 0;
-        // eslint-disable-next-line array-callback-return
-        listData.reverse().map((el) => {
+        listData.reverse().map((el, index) => {
           if (el.value !== 0) {
             count = el.value;
           } else {
@@ -230,7 +229,7 @@ export default function Allocation({ dataClaim, fetchListJoinClaim }: Props) {
     } else {
       toast.error(dataClaimed?.error.message);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // setLoadingTransaction(false);
   }, [dataClaim.id, dataClaim.is_claiming, dataClaimed]);
 
   useEffect(() => {

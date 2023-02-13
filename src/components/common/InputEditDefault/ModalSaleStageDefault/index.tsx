@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import { IData } from "../../../AdminPanel/Administration/Investor/ListAccountInvestor/ModalFilterSaleStage";
+import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
 import TooltipValidateDefault from "../ValidateEditInputDefault";
 import useStyles from "./style";
 

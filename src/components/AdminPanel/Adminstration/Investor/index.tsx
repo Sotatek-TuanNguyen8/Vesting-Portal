@@ -48,11 +48,11 @@ export default function Investors() {
 
   const fetchListInvestors = useCallback(async () => {
     setIsLoading(true);
-    const [res] = await getListInvestor(
+    const res = await getListInvestor(
       query,
       sessionStorage.getItem("access_token") as string
     );
-    if (res) {
+    if (res?.data) {
       setDataListInvestor(res?.data?.investors);
       setCount(res?.meta?.count);
       setStartTimeData(res?.data?.start_vesting_time);
@@ -109,6 +109,7 @@ export default function Investors() {
 
   useEffect(() => {
     if (!startTimeData || !dataRoot) return;
+
     if (startTimeData - Date.now() / 1000 < 0 && dataRoot?.is_send_sc) {
       setIsFixed(false);
     }

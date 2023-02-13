@@ -36,28 +36,10 @@ const custom: ThemeDesignColors = {
 export const theme = createTheme({
   custom,
   palette: {
-    primary: { main: "#02092B", dark: "#171F3F" },
-    common: { white: "#ffffff", black: "#000000" },
+    primary,
+    common,
     secondary: {
-      main: "#3FBCE9",
-      light: "#27FFFF ",
-      dark: "#0A208F",
-    },
-    background: {
-      default: "#030B33",
-      paper: "#051C42",
-    },
-    text: {
-      primary: "#D9E5FF",
-      secondary: "#F2F2F2",
-      hint: "#061250 ",
-      disabled: "#AFC3FC",
-    },
-    action: {
-      active: "#36BBEB",
-    },
-    info: {
-      main: "#D9E5FF",
+      main: "#ffffff",
     },
   },
   shape: {
@@ -179,14 +161,6 @@ export const theme = createTheme({
         fontSize: 18,
         fontWeight: 250,
         lineHeight: "18px",
-      },
-      underline: {
-        "&:before": {
-          borderBottom: "2px solid #D9E5FF",
-        },
-        "&:after": {
-          borderBottom: "2px solid #27FFFF",
-        },
       },
     },
     MuiFormLabel: {

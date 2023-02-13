@@ -1,10 +1,12 @@
 import { useMediaQuery } from "@material-ui/core";
+import clsx from "clsx";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { LogoHeader } from "../../../assets/svgs";
-import NavbarAction from "./NavbarAction";
-import NavbarRoute from "./NavbarRoute";
+import { Link, useLocation } from "react-router-dom";
+import { Logo, MenuMobile } from "../../../assets/svgs";
+import NavMobile from "./NavMobile";
 import useStyles from "./style";
+import UserConnect from "./UserConnect";
+import UserNav from "./UserNav";
 type Props = {
   isNav?: boolean;
 };
@@ -13,7 +15,6 @@ export const Header = ({ isNav = false }: Props) => {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
-
   const [navMobile, setNavMobile] = useState<boolean>(false);
 
   const isActive = (value: string) => {
@@ -32,19 +33,8 @@ export const Header = ({ isNav = false }: Props) => {
 
   return (
     <div className={classes.header}>
-      <p className={classes.headerContent}>
-        📖 December Market Recap and what’s to come 🔥 Read the full report here
-        👉 Read here 🔥
-      </p>
-      <div className={classes.nav}>
-        <LogoHeader />
-        <div className={classes.navLink}>
-          <NavbarRoute />
-          <NavbarAction />
-        </div>
-      </div>
-
-      {/* {isNav && (
+      <Logo />
+      {isNav && (
         <>
           {isMobile ? (
             <div onClick={openNavMobile}>
@@ -74,7 +64,7 @@ export const Header = ({ isNav = false }: Props) => {
 
       {!isNav && <UserConnect />}
 
-      {isMobile && <NavMobile open={navMobile} handleClose={closeNavMobile} />} */}
+      {isMobile && <NavMobile open={navMobile} handleClose={closeNavMobile} />}
       {/* <Button onClick={connect}>Connect Wallet</Button> */}
     </div>
   );

@@ -1,7 +1,10 @@
 import { Dialog } from "@material-ui/core";
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import { updateInvestorNew } from "../../../../../../service/admin.service";
+import {
+  deleteInvestor,
+  updateInvestorNew,
+} from "../../../../../../service/admin.service";
 import Loading from "../../../../../common/Loading";
 import useStyles from "./style";
 
@@ -67,7 +70,6 @@ export default function ModalConfirmEdit({
     }
     fetchListInvestors();
     setIsLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchListInvestors, id, onClose]);
 
   return (

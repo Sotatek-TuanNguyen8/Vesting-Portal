@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     areaChart: {
-      width: 938,
       "&  .recharts-cartesian-grid-horizontal line:last-child": {
         strokeOpacity: 0,
       },

@@ -48,6 +48,7 @@ export default function ModalAddNew({
   const checkWalletInvestor = useCallback(async () => {
     setIsLoading(true);
     const data = await createInvestorNew({ wallet_address: value });
+
     if (data?.status === 201) {
       fetchListInvestors();
       onClose();

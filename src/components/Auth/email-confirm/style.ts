@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => {
       maxWidth: 446,
       textAlign: "center",
       fontSize: 18,
-      margin: "32px 0px 32px 0px",
+      margin: "36px 0px 36px 0px",
       [mobile]: {
         margin: "16px 0px 40px 0px",
       },

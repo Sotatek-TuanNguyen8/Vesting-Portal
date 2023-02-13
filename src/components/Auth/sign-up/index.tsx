@@ -19,7 +19,6 @@ import { resetUser, signUpResendSuccess } from "../../../store/action";
 import { removeMark, validatePassWord } from "../../../utils/common/fn";
 import Loading from "../../common/Loading";
 import useStyles from "./style";
-import DefaultLayout from "../../common/DefaultLayout";
 
 interface SignUpForm {
   full_name: string;
@@ -36,14 +35,15 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { control, handleSubmit, watch, setError } = useForm<SignUpForm>({
-    defaultValues: {
-      full_name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-    },
-  });
+  const { control, handleSubmit, watch, setError, setValue } =
+    useForm<SignUpForm>({
+      defaultValues: {
+        full_name: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+      },
+    });
   const watchPassword = watch("password");
 
   useEffect(() => {
@@ -58,20 +58,19 @@ export default function SignUpPage() {
       });
     } else {
       setIsLoading(true);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [res, error] = await authService.signUp({
+      const response = await authService.signUp({
         full_name: data.full_name.trim(),
         password: data.password.trim(),
         email: data.email.trim(),
       });
-      if (error) {
-        if (error?.error?.statusCode === 409) {
+      if (response?.error) {
+        if (response?.error?.statusCode === 409) {
           setError("email", {
             type: "conflict",
             message: "Email has already been taken",
           });
         } else {
-          toast.error(error?.error?.message);
+          toast.error(response?.error?.message);
         }
       } else {
         await dispatch(
@@ -87,25 +86,25 @@ export default function SignUpPage() {
   const onChangeName = (e: any) => {
     const { value } = e.target;
     if (!value.toString().startsWith(" ")) {
-      return e.target.value.replace("  ", " ");
+      setValue("full_name", e.target.value.replace("  ", " "));
     }
   };
 
   const onChangePassWork = (e: any) => {
     if (!/\s+/g.test(e.target.value)) {
-      return e.target.value;
+      setValue("password", e.target.value);
     }
   };
 
   const onChangeConfirmPassWork = (e: any) => {
     if (!/\s+/g.test(e.target.value)) {
-      return e.target.value;
+      setValue("confirm_password", e.target.value);
     }
   };
 
   const onChangeEmail = (e: any) => {
     if (!/\s+/g.test(e.target.value)) {
-      return e.target.value;
+      setValue("email", e.target.value);
     }
   };
 
@@ -118,239 +117,227 @@ export default function SignUpPage() {
   }, [navigate]);
 
   return (
-    <DefaultLayout>
-      <AuthLayout>
-        <Loading open={isLoading} />
-        <form
-          onSubmit={handleSubmit((data) => handleSingUp(data))}
-          className={classes.form}
-        >
-          <div className={classes.inputForm}>
-            <Controller
-              control={control}
-              name="full_name"
-              rules={{
-                required: "This field is required",
-                maxLength: {
-                  value: 255,
-                  message: "Enter less than 255 characters",
-                },
-                pattern: {
-                  value: /^[a-zA-Z]+[ ]*(([a-zA-Z ])+[a-zA-Z]*)*$/g,
-                  message: "Special characters are not allowed",
-                },
-              }}
-              render={({
-                field: { value, onChange, ref },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <TextField
-                      id="full-name"
-                      onChange={(e) => onChange(onChangeName(e))}
-                      inputRef={ref}
-                      value={removeMark(value)}
-                      error={!!error?.message}
-                      label="Full Name"
-                    />
-                    {error && error.message && (
-                      <p className={classes.inputError}>{error.message}</p>
-                    )}
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div className={classes.inputForm}>
-            <Controller
-              control={control}
-              name="email"
-              rules={{
-                required: "This field is required",
-                pattern: {
-                  value:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g,
-                  message: "Enter a valid email",
-                },
-              }}
-              render={({
-                field: { value, onChange, ref },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <TextField
-                      id="email"
-                      onChange={(e) => onChange(onChangeEmail(e))}
-                      value={value.trim()}
-                      inputRef={ref}
-                      error={!!error?.message}
-                      label="Email"
-                      autoComplete="off"
-                    />
-                    {error && error.message && (
-                      <p className={classes.inputError}>{error.message}</p>
-                    )}
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div className={classes.inputForm}>
-            <Controller
-              control={control}
-              name="password"
-              rules={{
-                required: "This field is required",
-                minLength: {
-                  value: 8,
-                  message: "Minimum is 8 characters",
-                },
-              }}
-              render={({
-                field: { value, onChange, ref },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <TextField
-                      id="adornment-password"
-                      type={showPassword ? "text" : "password"}
-                      value={removeMark(value)}
-                      autoComplete="off"
-                      onChange={(e) => onChange(onChangePassWork(e))}
-                      inputRef={ref}
-                      label="Password"
-                      error={!!error?.message}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={() => setShowPassword((prev) => !prev)}
-                            >
-                              {showPassword ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    {error && error.message && (
-                      <p className={classes.inputErrorPass}>{error.message}</p>
-                    )}
-                    {watchPassword.length >= 8 && (
-                      <div className={classes.passwordLength}>
-                        <div
-                          className={
-                            stylePassWord === 1
-                              ? "weak"
-                              : stylePassWord === 2
-                              ? "normal"
-                              : "strong"
-                          }
-                        >
-                          <div className="line"></div>
-                        </div>
-                        <div
-                          className={clsx(
-                            stylePassWord < 2
-                              ? "default"
-                              : stylePassWord === 2
-                              ? "normal"
-                              : "strong"
-                          )}
-                        >
-                          <div className="line"></div>
-                        </div>
-                        <div
-                          className={clsx(
-                            stylePassWord < 3 ? "default" : "strong"
-                          )}
-                        >
-                          <div className="line"></div>
-                        </div>
+    <AuthLayout>
+      <Loading open={isLoading} />
+      <form
+        onSubmit={handleSubmit((data) => handleSingUp(data))}
+        className={classes.form}
+      >
+        <div className={classes.inputForm}>
+          <Controller
+            control={control}
+            name="full_name"
+            rules={{
+              required: "This field is required",
+              maxLength: {
+                value: 255,
+                message: "Enter less than 255 characters",
+              },
+              pattern: {
+                value: /^[a-zA-Z]+[ ]*(([a-zA-Z ])+[a-zA-Z]*)*$/g,
+                message: "Special characters are not allowed",
+              },
+            }}
+            render={({
+              field: { value, onChange, ref },
+              fieldState: { error },
+            }) => {
+              return (
+                <>
+                  <TextField
+                    id="full-name"
+                    onChange={onChangeName}
+                    inputRef={ref}
+                    value={removeMark(value)}
+                    error={!!error?.message}
+                    label="Full Name"
+                  />
+                  {error && error.message && (
+                    <p className={classes.inputError}>{error.message}</p>
+                  )}
+                </>
+              );
+            }}
+          />
+        </div>
+        <div className={classes.inputForm}>
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              required: "This field is required",
+              pattern: {
+                value:
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g,
+                message: "Enter a valid email",
+              },
+            }}
+            render={({
+              field: { value, onChange, ref },
+              fieldState: { error },
+            }) => {
+              return (
+                <>
+                  <TextField
+                    id="email"
+                    onChange={onChangeEmail}
+                    value={value.trim()}
+                    inputRef={ref}
+                    error={!!error?.message}
+                    label="Email"
+                    autoComplete="off"
+                  />
+                  {error && error.message && (
+                    <p className={classes.inputError}>{error.message}</p>
+                  )}
+                </>
+              );
+            }}
+          />
+        </div>
+        <div className={classes.inputForm}>
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: "This field is required",
+              minLength: {
+                value: 8,
+                message: "Minimum is 8 characters",
+              },
+            }}
+            render={({
+              field: { value, onChange, ref },
+              fieldState: { error },
+            }) => {
+              return (
+                <>
+                  <TextField
+                    id="adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    value={removeMark(value)}
+                    autoComplete="off"
+                    onChange={onChangePassWork}
+                    label="Password"
+                    error={!!error?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {error && error.message && (
+                    <p className={classes.inputErrorPass}>{error.message}</p>
+                  )}
+                  {watchPassword.length >= 8 && (
+                    <div className={classes.passwordLength}>
+                      <div
+                        className={
+                          stylePassWord === 1
+                            ? "weak"
+                            : stylePassWord === 2
+                            ? "normal"
+                            : "strong"
+                        }
+                      >
+                        <div className="line"></div>
                       </div>
-                    )}
-                    <Tooltip
-                      title="Your password must be 8 characters minimum and
+                      <div
+                        className={clsx(
+                          stylePassWord < 2
+                            ? "default"
+                            : stylePassWord === 2
+                            ? "normal"
+                            : "strong"
+                        )}
+                      >
+                        <div className="line"></div>
+                      </div>
+                      <div
+                        className={clsx(
+                          stylePassWord < 3 ? "default" : "strong"
+                        )}
+                      >
+                        <div className="line"></div>
+                      </div>
+                    </div>
+                  )}
+                  <Tooltip
+                    title="Your password must be 8 characters minimum and
 should contain lowercase letter, uppercase letter, 
 number and special character."
-                      arrow
-                    >
-                      <span style={{ marginTop: 20, display: "inline-block" }}>
-                        <ToolTipIcon />
-                      </span>
-                    </Tooltip>
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div className={classes.inputForm}>
-            <Controller
-              control={control}
-              name="confirm_password"
-              render={({
-                field: { value, onChange, ref },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <TextField
-                      id="adornment-confirm-password"
-                      type={showPassword ? "text" : "password"}
-                      value={removeMark(value)}
-                      onChange={(e) => onChange(onChangeConfirmPassWork(e))}
-                      label="Confirm Password"
-                      error={!!error?.message}
-                      innerRef={ref}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle confirm password visibility"
-                              onClick={() => setShowPassword((prev) => !prev)}
-                            >
-                              {showPassword ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    {error && error.message && (
-                      <p className={classes.inputError}>{error.message}</p>
-                    )}
-                  </>
-                );
-              }}
-            />
-          </div>
-          <button
-            type="submit"
-            className={classes.btnSignUp}
-            disabled={isLoading}
-          >
-            Sign Up
-          </button>
-          <div className={classes.footer}>
-            <Typography variant="subtitle1">
-              Already have an account?{" "}
-              <Link to="/sign-in" className="textSignUp">
-                Login
-              </Link>
-            </Typography>
-          </div>
-        </form>
-      </AuthLayout>
-    </DefaultLayout>
+                    arrow
+                  >
+                    <span style={{ marginTop: 20, display: "inline-block" }}>
+                      <ToolTipIcon />
+                    </span>
+                  </Tooltip>
+                </>
+              );
+            }}
+          />
+        </div>
+        <div className={classes.inputForm}>
+          <Controller
+            control={control}
+            name="confirm_password"
+            render={({
+              field: { value, onChange, ref },
+              fieldState: { error },
+            }) => {
+              return (
+                <>
+                  <TextField
+                    id="adornment-confirm-password"
+                    type={showPassword ? "text" : "password"}
+                    value={removeMark(value)}
+                    onChange={onChangeConfirmPassWork}
+                    label="Confirm Password"
+                    error={!!error?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle confirm password visibility"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {error && error.message && (
+                    <p className={classes.inputError}>{error.message}</p>
+                  )}
+                </>
+              );
+            }}
+          />
+        </div>
+        <Button
+          type="submit"
+          className={classes.btnSingUp}
+          disabled={isLoading}
+        >
+          SIGN UP
+        </Button>
+        <div className={classes.footer}>
+          <Typography variant="subtitle1">
+            Already have an account?{" "}
+            <Link to="/sign-in" className="textSignUp">
+              Login
+            </Link>
+          </Typography>
+        </div>
+      </form>
+    </AuthLayout>
   );
 }

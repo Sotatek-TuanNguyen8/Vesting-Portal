@@ -3,41 +3,35 @@ import { makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
   const custom = theme.breakpoints.down(1360);
-  const custom2 = theme.breakpoints.down(1700);
-  const custom3 = theme.breakpoints.down(1512);
-  const custom4 = theme.breakpoints.down(1340);
-  const custom5 = theme.breakpoints.down(1090);
 
   return {
     header: {
       display: "flex",
       alignItems: "center",
-      flexDirection: "column",
-
+      justifyContent: "space-between",
+      padding: "45px 0px",
       "& svg:first-child": {
         [custom]: {
           width: 150,
         },
-        [custom5]: {
-          width: 80,
-          margin: "0px 20px",
-        },
+      },
+
+      "& .MuiButtonBase-root": {
+        padding: "22px 37px",
+        color: "#fff",
+        fontWeight: 600,
+        fontSize: 18,
+        lineHeight: "18px",
+        backgroundColor: "#3fbce9",
+        borderRadius: 52,
+        width: 227,
+      },
+      "& > div:last-child": {
+        display: "none",
       },
       [mobile]: {
         padding: "20px 0px",
       },
-    },
-    headerContent: {
-      height: 50,
-      backgroundColor: theme.palette.background.paper,
-      color: theme.palette.common.white,
-      margin: 0,
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      lineHeight: "18px",
-      fontSize: 18,
     },
     logo: {
       [mobile]: {
@@ -47,15 +41,16 @@ const useStyles = makeStyles((theme: Theme) => {
     nav: {
       display: "flex",
       alignItems: "center",
-      height: 65,
-      backgroundColor: theme.palette.background.paper,
-      width: "100%",
-      padding: "0px 50px",
-      [custom3]: {
-        padding: "0px 20px",
-      },
-      [custom4]: {
-        padding: "0px",
+      width: 543,
+      justifyContent: "space-between",
+      padding: "20px 33px 12px",
+      backgroundColor: "#ffffff",
+      fontSize: 18,
+      lineHeight: "23px",
+      color: "#051c42",
+      borderRadius: 22,
+      [custom]: {
+        width: 500,
       },
       "& .item": {
         cursor: "pointer",
@@ -66,20 +61,6 @@ const useStyles = makeStyles((theme: Theme) => {
         fontWeight: 600,
         color: "#051c42",
         paddingBottom: 2,
-      },
-    },
-    navLink: {
-      display: "flex",
-      alignItems: "center",
-      width: "100%",
-      justifyContent: "space-between",
-      [custom2]: {
-        justifyContent: "flex-start",
-        columnGap: "150px",
-      },
-      [custom3]: {
-        justifyContent: "space-between",
-        columnGap: "0px",
       },
     },
   };

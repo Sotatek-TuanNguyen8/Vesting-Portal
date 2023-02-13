@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme: Theme) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      margin: "100px auto",
       "& .MuiButton-containedSizeSmall": {
         height: 62,
         borderRadius: 100,
@@ -18,14 +17,11 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     inputForm: {
-      marginBottom: 33.5,
+      marginBottom: 32,
       width: 440,
       position: "relative",
       [mobile]: {
         width: "100%",
-      },
-      "& .MuiInputLabel-root": {
-        fontWeight: 300,
       },
       "& .MuiFormControl-root": {
         width: "100%",
@@ -38,7 +34,6 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .MuiFilledInput-input": {
         padding: "8px 0px",
       },
-
       "& .MuiInputBase-input": {
         padding: "3px 0px",
       },
@@ -47,15 +42,6 @@ const useStyles = makeStyles((theme: Theme) => {
       },
       "& .MuiInputLabel-formControl": {
         transform: "translate(0, 0) scale(1)",
-      },
-      "& .MuiFormLabel-root.Mui-focused": {
-        color: theme.palette.secondary.light,
-      },
-      "& .MuiIconButton-label": {
-        "& svg": {
-          filter:
-            "invert(83%) sepia(22%) saturate(497%) hue-rotate(195deg) brightness(104%) contrast(104%)",
-        },
       },
     },
     inputError: {
@@ -79,25 +65,21 @@ const useStyles = makeStyles((theme: Theme) => {
         display: "flex",
         alignItems: "center",
         "& p": {
-          margin: 0,
           marginLeft: 20,
           fontSize: 16,
           lineHeight: "20px",
-          color: theme.palette.text.secondary,
+          color: "#4d4f5c",
           [mobile]: {
             marginLeft: 10,
             fontSize: 14,
             lineHeight: "18PX",
           },
         },
-        "& input": {
-          cursor: "pointer",
-        },
       },
       "& .forgot": {
         fontSize: 16,
         lineHeight: "21px",
-        color: theme.palette.text.secondary,
+        color: "#949494",
         cursor: "pointer",
         [mobile]: {
           fontSize: 14,
@@ -118,29 +100,21 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     btnLogin: {
-      marginTop: "219px",
-      marginBottom: "40px",
-      borderRadius: 10,
-      width: 230,
-      height: 50,
-      backgroundColor: theme.palette.secondary.light,
-      color: theme.palette.primary.main,
-      border: "none",
-      fontSize: 16,
-      cursor: "pointer",
+      marginTop: "18px !important",
+      marginBottom: "50px !important",
       [mobile]: {
-        marginTop: "193px",
-        marginBottom: "32px",
+        marginTop: "193px !important",
+        marginBottom: "32px !important",
       },
     },
     footer: {
       display: "inline-block",
       "& .MuiTypography-subtitle1": {
         fontWeight: 300,
-        color: theme.palette.text.secondary,
+        color: "#474747",
       },
       "& .textSignUp": {
-        color: theme.palette.secondary.light,
+        color: "#3fbce9",
         cursor: "pointer",
       },
     },

@@ -3,25 +3,26 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => {
   const mobile = theme.breakpoints.down("sm");
+  const tablet = theme.breakpoints.down("md");
   const xl = theme.breakpoints.down("xl");
   return {
-    resendEmail: {
-      display: "flex",
-      justifyContent: "center",
-      width: "100%",
-      marginTop: 439,
-    },
     container: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      marginTop: 250,
       [xl]: {
+        marginTop: 150,
         "& .MuiTypography-h5": {
           textAlign: "center",
-          color: theme.palette.text.primary,
         },
       },
+      [tablet]: {
+        marginTop: 110,
+      },
+
       [mobile]: {
+        marginTop: 108,
         "& .MuiTypography-h5": {
           width: 175,
         },
@@ -41,22 +42,12 @@ const useStyles = makeStyles((theme: Theme) => {
       maxWidth: 393,
       textAlign: "center",
       fontSize: 18,
-      margin: "32px 0px 32px 0px",
-      color: theme.palette.text.primary,
+      margin: "36px 0px 36px 0px",
       [mobile]: {
         margin: "16px 0px 40px 0px",
       },
     },
-    btnResend: {
-      marginTop: 7,
-      borderRadius: 10,
-      width: 230,
-      height: 50,
-      backgroundColor: theme.palette.secondary.light,
-      color: theme.palette.primary.main,
-      border: "none",
-      fontSize: 16,
-    },
+    btnResend: {},
     countdown: {
       fontSize: 18,
       lineHeight: "23px",

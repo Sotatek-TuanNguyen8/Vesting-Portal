@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useCallback } from "react";
-import { useAppSelector } from "../../../../store/reducers";
+import { useSelector } from "react-redux";
 import useStyles from "./style";
 
 type Props = {
@@ -15,8 +15,8 @@ export default function TooltipValidateDefault(props: Props) {
   const { value, field, defaultValue, type, active, setActiveError } = props;
   const styles = useStyles();
 
-  const msgErrTokenAmount = useAppSelector(
-    (state) => state.msgErrTokenAmountEditReducer.msgErrTokenAmount
+  const msgErrTokenAmount = useSelector(
+    (state: any) => state.msgErrTokenAmountEditAction.msgErrTokenAmount
   );
 
   const renderMsgErrer = useCallback(() => {

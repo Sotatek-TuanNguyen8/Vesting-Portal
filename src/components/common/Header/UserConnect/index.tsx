@@ -6,17 +6,16 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, AvatarDefault, Logout } from "../../../../assets/svgs";
 import { resetUser } from "../../../../store/action";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
-import { useAppSelector } from "../../../../store/reducers";
 
 export default function UserConnect() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const userData = useAppSelector((s) => s.authReducer.data);
+  const userData = useSelector((s: any) => s.authAction.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();

@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { useAppSelector } from "../../../store/reducers";
+import { useSelector } from "react-redux";
 import { format_thousands_decimal } from "../../../utils/common/fn";
-import TooltipValidate from "./ValidateEditInput";
 import useStyles from "./style";
+import TooltipValidate from "./ValidateEditInput";
 
 type InputProps = {
   value: any;
@@ -33,20 +33,20 @@ export default function InputTableEdit(props: InputProps) {
   } = props;
   const styles = useStyles();
 
-  const statusEditFullName = useAppSelector(
-    (state) => state.statusFullNameEditReducer.statusFullName
+  const statusEditFullName = useSelector(
+    (state: any) => state.statusFullNameEditAction.statusFullName
   );
 
-  const statusEditEmail = useAppSelector(
-    (state) => state.statusEmailEditReducer.statusEmail
+  const statusEditEmail = useSelector(
+    (state: any) => state.statusEmailEditAction.statusEmail
   );
 
-  const statusEditWallet = useAppSelector(
-    (state) => state.statusWalletEditReducer.statusWallet
+  const statusEditWallet = useSelector(
+    (state: any) => state.statusWalletEditAction.statusWallet
   );
 
-  const statusEditTokenAmount = useAppSelector(
-    (state) => state.statusTokenAmountEditReducer.statusTokenAmount
+  const statusEditTokenAmount = useSelector(
+    (state: any) => state.statusTokenAmountEditAction.statusTokenAmount
   );
 
   const shortenAddress = (

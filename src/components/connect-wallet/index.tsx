@@ -1,15 +1,16 @@
 import { Box, ButtonBase, Container, Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Error } from "../../assets/svgs";
 import { updateWalletAuth } from "../../service";
+import { AppDispatch } from "../../store";
 import {
   fetchInfoUser,
   setUser,
   signUpResendSuccess,
 } from "../../store/action";
-import { useAppDispatch, useAppSelector } from "../../store/reducers";
 import { scrollIntoView } from "../../utils/common/fn";
 import { CONNECT_WALLET } from "../../utils/common/message-sign";
 import useMetaMask from "../../utils/hooks/useMetaMask";
@@ -21,9 +22,9 @@ export default function ConnectWalletPage() {
   const navigate = useNavigate();
   const { getSignature, connect, account } = useMetaMask();
   const { library } = useWeb3React();
-  const userData = useAppSelector((s) => s.authReducer.data);
+  const userData = useSelector((s: any) => s.authAction.data);
   const [errorCheckAddress, setErrorCheckAddress] = useState("");
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [checkFetchData, setCheckFetchData] = useState<boolean>(false);
   const [checkConnect, setCheckConnect] = useState<boolean>(false);
   const elRef = useRef(null);
@@ -34,11 +35,11 @@ export default function ConnectWalletPage() {
       if (!userData?.metamaskAddress) {
         const signature = await getSignature(CONNECT_WALLET, library);
         if (signature) {
-          const [res] = await updateWalletAuth({
+          const res = await updateWalletAuth({
             signature: signature,
             wallet_address: account,
           });
-          if (res) {
+          if (res?.data) {
             dispatch(setUser({ ...userData, metamaskAddress: account }));
             navigate("/");
           } else {
@@ -72,7 +73,6 @@ export default function ConnectWalletPage() {
         setCheckFetchData(true);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, navigate, localStorage.getItem("access_token")]);
 
   useEffect(() => {
@@ -98,20 +98,19 @@ export default function ConnectWalletPage() {
     setErrorCheckAddress("");
     if (!account) {
       await connect();
-    } else {
-      const accountWallet = localStorage.getItem("accounts");
-      if (userData?.metamaskAddress) {
-        if (
-          accountWallet?.toLowerCase() ===
-          userData?.metamaskAddress?.toLowerCase()
-        ) {
-          navigate("/");
-        } else {
-          setErrorCheckAddress("Email and Wallet address do not match");
-        }
+    }
+    const accountWallet = localStorage.getItem("accounts");
+    if (userData?.metamaskAddress) {
+      if (
+        accountWallet?.toLowerCase() ===
+        userData?.metamaskAddress?.toLowerCase()
+      ) {
+        navigate("/");
       } else {
-        setCheckConnect(true);
+        setErrorCheckAddress("Email and Wallet address do not match");
       }
+    } else {
+      setCheckConnect(true);
     }
   };
 
@@ -121,21 +120,30 @@ export default function ConnectWalletPage() {
 
   return (
     <div ref={elRef}>
-      <InvestorUserLayout isNav={false} notShowInfo={true}>
+      <InvestorUserLayout isNav={false}>
         <Container
           maxWidth="lg"
           sx={{ margin: "auto" }}
           className={classes.container}
         >
-          <Box width="fit-content" className="boxConnect">
-            <Typography variant="h4" pb={5}>
-              Connect Your Vesting Wallet
+          <Box
+            width="fit-content"
+            sx={{
+              background:
+                " linear-gradient(134.72deg, #F3E8FF -2.3%, #FCFEFF 32.48%, #E8F9FF 100%)",
+              borderRadius: "25px",
+              minWidth: "546px",
+              padding: "28px 45px",
+              margin: "auto",
+              minHeight: 530,
+            }}
+          >
+            <Typography variant="h4" color="#0A208F" pb={5}>
+              Connect Wallet
             </Typography>
-            <span>
-              Please choose the wallet below that you confirmed for Vesting.
-            </span>
             {errorCheckAddress && (
               <Typography
+                // variant="subtitle1"
                 color="#F44336"
                 fontSize={"14px!important"}
                 pb={2}
@@ -152,7 +160,10 @@ export default function ConnectWalletPage() {
               }}
               className={classes.box}
             >
-              {[["metamask", "Metamask"]].map(([type, label]) => (
+              {[
+                ["metamask", "Metamask"],
+                //   ["coinbase", "Coinbase Wallet"],
+              ].map(([type, label]) => (
                 <ButtonBase
                   className={classes.buttonWallet}
                   sx={{
@@ -162,9 +173,19 @@ export default function ConnectWalletPage() {
                     "& > img": { mb: 2 },
                   }}
                   key={type}
+                  // @ts-ignore
                   onClick={handleConnectWallet}
                 >
-                  <Typography variant="body1">{label}</Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: "18px",
+                      fonColor: "#050025",
+                      fontWeight: "500!important",
+                    }}
+                  >
+                    {label}
+                  </Typography>
                   <img
                     src={`/images/${type}.svg`}
                     alt={type}

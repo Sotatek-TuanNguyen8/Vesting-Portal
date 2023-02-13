@@ -16,4 +16,3 @@ export { ReactComponent as AvatarDefault } from "./avatarDefault.svg";
 export { ReactComponent as UploadIcon } from "./upload_icon.svg";
 export { ReactComponent as UploadRootIcon } from "./upload_root.svg";
 export { ReactComponent as IconCloseBlue } from "./closeBlue.svg";
-export { ReactComponent as LogoHeader } from "./logoHeader.svg";

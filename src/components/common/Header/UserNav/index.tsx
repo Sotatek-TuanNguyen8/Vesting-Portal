@@ -5,21 +5,18 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, AvatarDefault, Logout } from "../../../../assets/svgs";
-import { RULE } from "../../../../classes/authen";
 import { resetUser } from "../../../../store/action";
-import { useAppSelector } from "../../../../store/reducers";
 import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import { setLocalStorage } from "../../../hooks";
 import useStyles from "./style";
 
 export default function UserNav() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const userData = useAppSelector((s) => s.authReducer.data);
+  const userData = useSelector((s: any) => s.authAction.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
@@ -72,19 +69,6 @@ export default function UserNav() {
         anchorEl={anchorEl}
         className={classes.menu}
       >
-        {userData.role === RULE.admin && (
-          <MenuItem>
-            <ListItemIcon>
-              <AdminPanelSettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Admin Panel"
-              onClick={() => {
-                navigate("/admin-panel/investor");
-              }}
-            />
-          </MenuItem>
-        )}
         <MenuItem>
           <ListItemIcon>
             <Logout />

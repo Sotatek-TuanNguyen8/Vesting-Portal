@@ -6,9 +6,10 @@ import useMetaMask from "../../../utils/hooks/useMetaMask";
 
 type Props = {
   children?: ReactNode;
+  isNav?: boolean;
 };
 
-export default function AdminLayout({ children }: Props) {
+export default function AdminLayout({ children, isNav = false }: Props) {
   const navigate = useNavigate();
   const { wrongNetWork } = useMetaMask();
   const styles = useStyles();

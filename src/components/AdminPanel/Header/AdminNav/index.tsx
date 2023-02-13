@@ -6,18 +6,17 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, Logout } from "../../../../assets/svgs";
-import { resetUser } from "../../../../store/action";
-import { useAppSelector } from "../../../../store/reducers";
-import { convertTextAddressWallet } from "../../../../utils/common/fn";
-import useMetaMask from "../../../../utils/hooks/useMetaMask";
 import useStyles from "./style";
+import useMetaMask from "../../../../utils/hooks/useMetaMask";
+import { convertTextAddressWallet } from "../../../../utils/common/fn";
+import { resetUser } from "../../../../store/action";
 
 export default function UserNavAdmin() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const userData = useAppSelector((s) => s.authReducer.data);
+  const userData = useSelector((s: any) => s.authAction.data);
   const navigate = useNavigate();
   const classes = useStyles();
   const { account } = useMetaMask();
@@ -39,11 +38,12 @@ export default function UserNavAdmin() {
 
   return (
     <div className={classes.container}>
+      {/* <img className={styles.avatar} /> */}
       <div onClick={handleClick} className={classes.dropMenu}>
         <div className="info">
           <img src="/images/avatar.svg" alt="" />
           <p>{convertTextAddressWallet(4, 4, account)}</p>
-          {userData && userData?.metamaskAddress && <span>FWRF134...526</span>}
+          {userData && userData?.metamaskAdress && <span>FWRF134...526</span>}
         </div>
         <ArrowDown />
       </div>

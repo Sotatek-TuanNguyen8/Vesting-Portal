@@ -7,8 +7,8 @@ import { RoundCancelIcon } from "../../../assets/svgs";
 import { forgotPWlAuth } from "../../../service";
 import { FORGOT_PASSWORD } from "../../../utils/common/message-sign";
 import useMetaMask from "../../../utils/hooks/useMetaMask";
-import DefaultLayout from "../../common/DefaultLayout";
 import Loading from "../../common/Loading";
+import { LayoutPass } from "../../layouts/LayoutPass";
 import useStyles from "./style";
 
 export default function ForgotPasswordPage() {
@@ -35,8 +35,7 @@ export default function ForgotPasswordPage() {
     (async () => {
       const signature = await getSignature(FORGOT_PASSWORD, library);
       if (signature) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [_, error] = await forgotPWlAuth(
+        const response = await forgotPWlAuth(
           {
             email,
             signature: signature,
@@ -44,8 +43,8 @@ export default function ForgotPasswordPage() {
           },
           FORGOT_PASSWORD
         );
-        if (error) {
-          setMessError(error?.error?.details);
+        if (response?.error) {
+          setMessError(response?.error?.details);
         } else {
           setMessError("");
           setIsSendEmail(true);
@@ -60,22 +59,21 @@ export default function ForgotPasswordPage() {
     setIsClickFirst(true);
     setMessError("");
     setIsLoading(true);
-    const [res, error] = await forgotPWlAuth({
+    const res = await forgotPWlAuth({
       email: data.email,
     });
-    if (res) {
+    if (res?.data) {
       setMessError("");
       setIsSendEmail(true);
     } else {
-      setIsLoading(false);
-      const { statusCode } = error?.error;
+      const { statusCode } = res?.error;
       if (statusCode === 406) {
         if (!account) {
           await connect();
         }
         setCheckConnect(true);
       } else {
-        setMessError(error?.error?.details);
+        setMessError(res?.error?.details);
         setIsClickFirst(false);
       }
     }
@@ -83,86 +81,84 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <DefaultLayout>
-      <>
-        <Loading open={isLoading} />
-        <div className={classes.forgot}>
-          <Typography variant="h5" className={classes.title}>
-            Forgot Password
-          </Typography>
+    <LayoutPass>
+      <Loading open={isLoading} />
+      <div className={classes.forgot}>
+        <Typography variant="h5" className={classes.title}>
+          Forgot Password
+        </Typography>
 
-          {isSendEmail ? (
-            <div>
-              <div className={classes.verification}>
-                A password recovery email has been sent to this email address{" "}
-                <span>{watchEmail}</span>
-              </div>
-              <Link to="/sign-in" className={classes.actionOK}>
-                OK
-              </Link>
+        {isSendEmail ? (
+          <div>
+            <div className={classes.verification}>
+              A password recovery email has been sent to this email address{" "}
+              <span>{watchEmail}</span>.
             </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit((data) => {
-                handleForgot(data);
-                setEmail(data.email);
-              })}
-            >
-              <div className={classes.inputForm}>
-                <InputLabel>
-                  Please enter the email you use to sign in.
-                </InputLabel>
-                <Controller
-                  control={control}
-                  name="email"
-                  render={({
-                    field: { value, onChange, ref },
-                    fieldState: { error },
-                  }) => {
-                    return (
-                      <>
-                        <TextField
-                          id="email"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          onChange={onChange}
-                          value={value.trim()}
-                          inputRef={ref}
-                          error={!!error?.message}
-                          placeholder="Email address"
-                        />
-                        {messError && (
-                          <div className={classes.inputError}>
-                            <RoundCancelIcon />
-                            <p>{messError}</p>
-                          </div>
-                        )}
-                      </>
-                    );
-                  }}
-                />
-              </div>
-              <div className={classes.action}>
-                <Link to="/sign-in" className="btnCancel">
-                  <span>Cancel</span>
-                </Link>
-                <button
-                  type="submit"
-                  className="btnContinue"
-                  disabled={
-                    !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
-                      watchEmail
-                    ) || isClickFirst
-                  }
-                >
-                  Continue
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-      </>
-    </DefaultLayout>
+            <Link to="/sign-in" className={classes.actionOK}>
+              OK
+            </Link>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit((data) => {
+              handleForgot(data);
+              setEmail(data.email);
+            })}
+          >
+            <div className={classes.inputForm}>
+              <InputLabel>
+                Please enter the email you use to sign in.
+              </InputLabel>
+              <Controller
+                control={control}
+                name="email"
+                render={({
+                  field: { value, onChange, ref },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <>
+                      <TextField
+                        id="email"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        onChange={onChange}
+                        value={value.trim()}
+                        inputRef={ref}
+                        error={!!error?.message}
+                        placeholder="Email address"
+                      />
+                      {messError && (
+                        <div className={classes.inputError}>
+                          <RoundCancelIcon />
+                          <p>{messError}</p>
+                        </div>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </div>
+            <div className={classes.action}>
+              <Link to="/sign-in" className="btnCancel">
+                <span>Cancel</span>
+              </Link>
+              <button
+                type="submit"
+                className="btnContinue"
+                disabled={
+                  !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(
+                    watchEmail
+                  ) || isClickFirst
+                }
+              >
+                Continue
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+    </LayoutPass>
   );
 }
