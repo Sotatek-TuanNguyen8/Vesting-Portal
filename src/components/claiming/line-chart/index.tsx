@@ -135,7 +135,7 @@ const LineChart = ({ data, width, height }: any) => {
         }}
         onMouseMove={handleActiveTooltip}
       >
-        <CartesianGrid vertical={false} stroke="rgba(130, 130, 142, 0.3)" />
+        <CartesianGrid vertical={false} height={0.2} />
         <XAxis
           dataKey="name"
           tickLine={false}
@@ -180,7 +180,7 @@ const LineChart = ({ data, width, height }: any) => {
           }}
           wrapperStyle={{
             opacity: positionTooltip?.show ? "1" : 0,
-            transition: " all 400ms ease 0s",
+            transition: "all 400ms ease 0s",
           }}
         />
 

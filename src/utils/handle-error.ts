@@ -22,9 +22,9 @@ export const handleErrorUtil = (response: AxiosResponse<any>) => {
       timeoutFlag = setTimeout(UnauthorizedCallback, 1500);
       localStorage.removeItem("access_token");
       window.location.href = "/sign-in";
-      return;
+      return Promise.reject(response);
     default:
-      return response;
+      return Promise.reject(response);
   }
 };
 

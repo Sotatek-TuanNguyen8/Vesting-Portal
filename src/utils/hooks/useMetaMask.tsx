@@ -67,7 +67,7 @@ export const MetaMaskProvider = ({ children }: any) => {
     try {
       await deactivate();
     } catch (error) {
-      console.log("Error on disconnecting: ", error);
+      toast.error("Disconnect error");
     }
   };
 
@@ -85,7 +85,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   };
 
   const switchNetwork = async () => {
-    if (chainId === Number(CHAIN_ID_SUPPORT)) return;
+    if (Number(chainId) === Number(CHAIN_ID_SUPPORT)) return;
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
@@ -99,19 +99,19 @@ export const MetaMaskProvider = ({ children }: any) => {
             params: [
               {
                 chainId: `0x${Number(CHAIN_ID_SUPPORT).toString(16)}`,
-                rpcUrls: ["https://rinkeby.infura.io/v3/"],
-                chainName: "Rinkeby",
+                rpcUrls: [process.env.REACT_APP_RPC as string],
+                chainName: process.env.REACT_APP_CHAIN_NAME as string,
                 nativeCurrency: {
-                  name: "Rinkeby Ether",
-                  symbol: "RIN",
+                  name: `${process.env.REACT_APP_CHAIN_NAME as string} Ether`,
+                  symbol: `${process.env.REACT_APP_CHAIN_NAME as string}ETH`,
                   decimals: 18,
                 },
-                blockExplorerUrls: ["https://rinkeby.etherscan.io"],
+                blockExplorerUrls: [process.env.REACT_APP_URL_SCAN as string],
               },
             ],
           });
         } catch (error: any) {
-          console.error("addNetwork", error);
+          toast.error("Add network error");
         }
       } else {
         toast.warning("You denied the switch network");
@@ -121,7 +121,7 @@ export const MetaMaskProvider = ({ children }: any) => {
   };
 
   const wrongNetWork =
-    chainId && Boolean(chainId?.toString() !== CHAIN_ID_SUPPORT);
+    chainId && Boolean(chainId?.toString() !== CHAIN_ID_SUPPORT.toString());
 
   const values: any = {
     isActive,

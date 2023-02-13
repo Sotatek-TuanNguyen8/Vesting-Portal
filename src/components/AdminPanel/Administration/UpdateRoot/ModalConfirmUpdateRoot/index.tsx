@@ -28,7 +28,9 @@ export default function ModalConfirmUpdateRoot({
   fetchListInvestors,
 }: Props) {
   //   const { checkRootData, open, onClose } = props;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [checkClickFirst, setCheckClickFirst] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { account, wrongNetWork, switchNetwork } = useMetaMask();
@@ -127,6 +129,7 @@ export default function ModalConfirmUpdateRoot({
     } else {
       setDisableGenerate(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkRootData]);
 
   const handleClickCancel = () => {

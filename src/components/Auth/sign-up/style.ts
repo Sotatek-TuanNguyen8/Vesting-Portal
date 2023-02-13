@@ -43,6 +43,18 @@ const useStyles = makeStyles((theme: Theme) => {
       "& .MuiInputLabel-formControl": {
         transform: "translate(0, 0) scale(1)",
       },
+      "& .MuiFormLabel-root.Mui-focused": {
+        color: theme.palette.secondary.light,
+      },
+      "& .MuiInputLabel-root": {
+        fontWeight: 300,
+      },
+      "& .MuiIconButton-label": {
+        "& svg": {
+          filter:
+            "invert(83%) sepia(22%) saturate(497%) hue-rotate(195deg) brightness(104%) contrast(104%)",
+        },
+      },
     },
     inputErrorPass: {
       margin: 0,
@@ -99,17 +111,25 @@ const useStyles = makeStyles((theme: Theme) => {
         },
       },
     },
-    btnSingUp: {
-      marginTop: "18px !important",
-      marginBottom: "50px !important",
+    btnSignUp: {
+      marginTop: "48px",
+      marginBottom: "40px",
+      borderRadius: 10,
+      width: 230,
+      height: 50,
+      backgroundColor: theme.palette.secondary.light,
+      color: theme.palette.primary.main,
+      border: "none",
+      cursor: "pointer",
+      fontSize: 16,
     },
     footer: {
       "& .MuiTypography-subtitle1": {
         fontWeight: 300,
-        color: "#474747",
+        color: theme.palette.text.secondary,
       },
       "& .textSignUp": {
-        color: "#3fbce9",
+        color: theme.palette.secondary.light,
         cursor: "pointer",
       },
     },

@@ -81,7 +81,7 @@ export const SocketProvider: React.FC<{ children: any }> = ({ children }) => {
     <IoContext.Provider
       value={{ socket, error, status, registerListener, unregisterListener }}
     >
-      {children}{" "}
+      {children}
     </IoContext.Provider>
   );
 };

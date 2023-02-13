@@ -1,10 +1,10 @@
 import { Drawer, List, ListItem } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
 import clsx from "clsx";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 import { AvatarDefault, Close } from "../../../../assets/svgs";
+import { useAppSelector } from "../../../../store/reducers";
 import { convertTextAddressWallet } from "../../../../utils/common/fn";
 import useStyles from "./style";
 type Props = {
@@ -21,7 +21,7 @@ export default function NavMobile({ open, handleClose }: Props) {
   const location = useLocation();
   const { pathname } = location;
   const classes = useStyles();
-  const userData = useSelector((s: any) => s.authAction.data);
+  const userData = useAppSelector((s) => s.authReducer.data);
 
   const listMenu: IListItem[] = [
     { label: "STAKING/LP", href: "/1" },

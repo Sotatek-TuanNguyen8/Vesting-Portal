@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => {
       transform: "translate(-50%, -50%)",
       width: 630,
       maxHeight: 247,
-      background: "#ffffff",
+      background: theme.palette.primary.dark,
       filter: "drop-shadow(6px 6px 15px rgba(0, 0, 0, 0.161))",
       margin: "0px auto",
       padding: "24px 0px",
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => {
       transform: "translate(-50%, -50%)",
       width: 630,
       minHeight: 350,
-      background: "#ffffff",
+      background: theme.palette.primary.dark,
       filter: "drop-shadow(6px 6px 15px rgba(0, 0, 0, 0.161))",
       margin: "0px auto",
       padding: "24px 0px",
@@ -34,9 +34,8 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     title: {
       paddingBottom: 16,
-      borderBottom: "2px solid #e9e9f0",
       fontWeight: 600,
-      color: "#0a208f",
+      color: theme.palette.text.secondary,
       padding: "0px 28px 16px",
     },
     form: {
@@ -78,6 +77,15 @@ const useStyles = makeStyles((theme: Theme) => {
       },
       "& .MuiInputLabel-formControl": {
         transform: "translate(0, 0) scale(1)",
+      },
+      "& .MuiFormLabel-root.Mui-focused": {
+        color: theme.palette.secondary.light,
+      },
+      "& .MuiIconButton-label": {
+        "& svg": {
+          filter:
+            "invert(83%) sepia(22%) saturate(497%) hue-rotate(195deg) brightness(104%) contrast(104%)",
+        },
       },
     },
     inputErrorPass: {
@@ -171,8 +179,7 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: 20,
         lineHeight: "26px",
         textAlign: "center",
-        color: "#051c42",
-        borderBottom: "2px solid #e9e9f0",
+        color: theme.palette.text.secondary,
         padding: "57px 100px",
         "& p ": {
           margin: 0,
@@ -189,15 +196,15 @@ const useStyles = makeStyles((theme: Theme) => {
         "& .MuiButtonBase-root": {
           width: 146,
           height: 45,
-          background: "#3fbce9",
           borderRadius: 10,
           border: "none",
-          color: "#fff",
           margin: "0px auto",
           fontWeight: 600,
           fontSize: 18,
           lineHeight: "18px",
           cursor: "pointer",
+          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.secondary.light,
         },
       },
     },
@@ -212,8 +219,8 @@ const useStyles = makeStyles((theme: Theme) => {
         lineHeight: "36px",
         paddingBottom: 50,
         paddingTop: 40,
-        borderBottom: "2px solid #E9E9F0",
         width: "100%",
+        color: theme.palette.text.secondary,
       },
       [tablet]: {
         marginTop: 110,
@@ -232,6 +239,8 @@ const useStyles = makeStyles((theme: Theme) => {
         padding: "16px 0px",
         height: 45,
         marginTop: 28,
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.light,
       },
       "& .MuiButton-label ": {
         fontWeight: 600,
@@ -241,7 +250,7 @@ const useStyles = makeStyles((theme: Theme) => {
       maxWidth: 446,
       textAlign: "center",
       fontSize: 18,
-      margin: "36px 0px 36px 0px",
+      margin: "32px 0px 32px 0px",
       [mobile]: {
         margin: "16px 0px 40px 0px",
       },

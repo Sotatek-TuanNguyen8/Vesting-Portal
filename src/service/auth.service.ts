@@ -15,72 +15,108 @@ const serverEndpoint = process.env.REACT_APP_API_BASE_URL;
 
 export const authService = {
   signUp: async (body: singUpBody) => {
-    const response = await Request.post(
-      `${serverEndpoint}/auth/register`,
-      body
-    );
-    return response.data;
+    try {
+      const { data } = await Request.post(
+        `${serverEndpoint}/auth/register`,
+        body
+      );
+      return [data, null];
+    } catch (error: any) {
+      return [null, error.data];
+    }
   },
 };
 
 export const loginAuth = async (body: loginBody) => {
-  const { data } = await Request.post(`${serverEndpoint}/auth/login`, body);
-  return data;
+  try {
+    const { data } = await Request.post(`${serverEndpoint}/auth/login`, body);
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const confirmEmailAuth = async (body: confirmEmailBody) => {
-  const { data } = await Request.post(
-    `${serverEndpoint}/auth/confirm-email`,
-    body
-  );
-  return data;
+  try {
+    const { data } = await Request.post(
+      `${serverEndpoint}/auth/confirm-email`,
+      body
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const resendEmailAuth = async (body: resendEmailBody) => {
-  const { data } = await Request.post(
-    `${serverEndpoint}/auth/re-send-confirm-email`,
-    body
-  );
-  return data;
+  try {
+    const { data } = await Request.post(
+      `${serverEndpoint}/auth/re-send-confirm-email`,
+      body
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const forgotPWlAuth = async (body: forgotPWBody, header?: string) => {
-  const { data } = await Request.post(
-    `${serverEndpoint}/auth/forgot-password`,
-    body,
-    header
-  );
-  return data;
+  try {
+    const { data } = await Request.post(
+      `${serverEndpoint}/auth/forgot-password`,
+      body,
+      header
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const resetPWlAuth = async (body: resetPWBody) => {
-  const { data } = await Request.post(
-    `${serverEndpoint}/auth/password-reset`,
-    body
-  );
-  return data;
+  try {
+    const { data } = await Request.post(
+      `${serverEndpoint}/auth/password-reset`,
+      body
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const updateWalletAuth = async (body: updateWallet) => {
-  const { data } = await Request.post(`${serverEndpoint}/users/wallet`, body);
-  return data;
+  try {
+    const { data } = await Request.post(`${serverEndpoint}/users/wallet`, body);
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const getInfoUser = async (access_token: string) => {
-  const { data } = await Request.get(
-    `${serverEndpoint}/users/me`,
-    {},
-    access_token
-  );
-  return data;
+  try {
+    const { data } = await Request.get(
+      `${serverEndpoint}/users/me`,
+      {},
+      access_token
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const checkTokenValid = async (body: ICheckTokenValid) => {
-  const { data } = await Request.post(
-    `${serverEndpoint}/auth/check-token-valid`,
-    body
-  );
-  return data;
+  try {
+    const { data } = await Request.post(
+      `${serverEndpoint}/auth/check-token-valid`,
+      body
+    );
+    return [data, null];
+  } catch (error: any) {
+    return [null, error.data];
+  }
 };
 
 export const loginAdmin = async (body: loginWallet, header?: string) => {

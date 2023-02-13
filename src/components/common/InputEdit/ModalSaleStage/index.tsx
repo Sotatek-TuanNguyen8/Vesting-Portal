@@ -1,5 +1,5 @@
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import { IData } from "../../../AdminPanel/Adminstration/Investor/ListAccountInvestor/ModalFilterSaleStage";
+import { IData } from "../../../AdminPanel/Administration/Investor/ListAccountInvestor/ModalFilterSaleStage";
 import TooltipValidate from "../ValidateEditInput";
 import useStyles from "./style";
 

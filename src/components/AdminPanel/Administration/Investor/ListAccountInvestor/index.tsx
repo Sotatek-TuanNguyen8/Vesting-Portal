@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { InInvestor } from "..";
 import {
   getListStage,
   updateInvestorNew,
 } from "../../../../../service/admin.service";
+import { useAppSelector } from "../../../../../store/reducers";
 import { format_thousands_decimal } from "../../../../../utils/common/fn";
 import InputTableEdit from "../../../../common/InputEdit";
 import ModalSaleStage from "../../../../common/InputEdit/ModalSaleStage";
@@ -50,20 +50,20 @@ export default function ListAccountInvestor({
   const [dataItem, setDataItem] = useState<any>(dataItemDefault);
   const [open, setOpen] = useState<boolean>(false);
 
-  const statusEditFullName = useSelector(
-    (state: any) => state.statusFullNameEditAction.statusFullName
+  const statusEditFullName = useAppSelector(
+    (state) => state.statusFullNameEditReducer.statusFullName
   );
 
-  const statusEditEmail = useSelector(
-    (state: any) => state.statusEmailEditAction.statusEmail
+  const statusEditEmail = useAppSelector(
+    (state) => state.statusEmailEditReducer.statusEmail
   );
 
-  const statusEditWallet = useSelector(
-    (state: any) => state.statusWalletEditAction.statusWallet
+  const statusEditWallet = useAppSelector(
+    (state) => state.statusWalletEditReducer.statusWallet
   );
 
-  const statusEditTokenAmount = useSelector(
-    (state: any) => state.statusTokenAmountEditAction.statusTokenAmount
+  const statusEditTokenAmount = useAppSelector(
+    (state) => state.statusTokenAmountEditReducer.statusTokenAmount
   );
 
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
